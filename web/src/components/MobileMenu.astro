@@ -92,23 +92,44 @@ const isCurrent = (href: string) =>
     });
 
     // Initialize the switch from localStorage (videos hidden by default).
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (hideVideosInput) {
-        hideVideosInput.checked = raw === null ? true : raw !== 'false';
+    function readPreference(): boolean {
+      try {
+        const raw = localStorage.getItem(KEY);
+        return raw === null ? true : raw !== 'false';
+      } catch {
+        return true;
       }
-    } catch {
-      /* storage blocked — the preference does not survive the session */
     }
+
+    function writePreference(value: boolean): void {
+      try {
+        localStorage.setItem(KEY, value ? 'true' : 'false');
+      } catch {
+        /* storage blocked */
+      }
+    }
+
+    const initial = readPreference();
+    if (hideVideosInput) hideVideosInput.checked = initial;
 
     if (hideVideosInput) {
       hideVideosInput.addEventListener('change', () => {
-        try {
-          localStorage.setItem(KEY, hideVideosInput.checked ? 'true' : 'false');
-        } catch {
-          /* storage blocked */
-        }
+        writePreference(hideVideosInput.checked);
+        window.dispatchEvent(new CustomEvent('mohakash:hide-videos-changed', { detail: { value: hideVideosInput.checked } }));
       });
     }
+
+    // Sync when the preference changes elsewhere.
+    window.addEventListener('mohakash:hide-videos-changed', (event) => {
+      const value = (event as CustomEvent).detail?.value;
+      if (typeof value === 'boolean' && hideVideosInput) {
+        hideVideosInput.checked = value;
+      }
+    });
+
+    // Sync the checkbox when the menu opens.
+    openButton.addEventListener('click', () => {
+      if (hideVideosInput) hideVideosInput.checked = readPreference();
+    }, { capture: true });
   }
 </script>

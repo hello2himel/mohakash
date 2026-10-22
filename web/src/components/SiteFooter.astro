@@ -8,10 +8,71 @@ import { NOT_AFFILIATED } from '../lib/site';
 <footer class="site-footer">
   <div class="site-footer__inner">
     <p class="site-footer__note">{NOT_AFFILIATED}</p>
-    <nav class="site-footer__links" aria-label="Footer">
-      <a href="/api">API docs</a>
-      <a href="/rights">Content rights</a>
-      <a href="/feed.xml">RSS</a>
-    </nav>
+    <div class="site-footer__controls">
+      <label class="footer-toggle" for="footer-hide-videos">
+        <span class="footer-toggle__label">Hide videos</span>
+        <input
+          class="footer-toggle__input"
+          id="footer-hide-videos"
+          type="checkbox"
+          role="switch"
+          checked
+        />
+        <span class="footer-toggle__track" aria-hidden="true">
+          <span class="footer-toggle__thumb"></span>
+        </span>
+      </label>
+      <nav class="site-footer__links" aria-label="Footer">
+        <a href="/api">API docs</a>
+        <a href="/rights">Content rights</a>
+        <a href="/feed.xml">RSS</a>
+      </nav>
+    </div>
   </div>
 </footer>
+
+<script>
+  const KEY = 'mohakash:v1:hide-videos';
+  const mobileToggle = document.getElementById('mobile-hide-videos') as HTMLInputElement | null;
+  const footerToggle = document.getElementById('footer-hide-videos') as HTMLInputElement | null;
+
+  function readPreference(): boolean {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw === null ? true : raw !== 'false';
+    } catch {
+      return true;
+    }
+  }
+
+  function writePreference(value: boolean): void {
+    try {
+      localStorage.setItem(KEY, value ? 'true' : 'false');
+    } catch {
+      /* storage blocked */
+    }
+  }
+
+  const initial = readPreference();
+  if (mobileToggle) mobileToggle.checked = initial;
+  if (footerToggle) footerToggle.checked = initial;
+
+  function onChange(value: boolean): void {
+    writePreference(value);
+    if (mobileToggle) mobileToggle.checked = value;
+    if (footerToggle) footerToggle.checked = value;
+    window.dispatchEvent(new CustomEvent('mohakash:hide-videos-changed', { detail: { value } }));
+  }
+
+  mobileToggle?.addEventListener('change', () => onChange(mobileToggle.checked));
+  footerToggle?.addEventListener('change', () => onChange(footerToggle.checked));
+
+  // Sync when the preference changes in the hamburger menu.
+  window.addEventListener('mohakash:hide-videos-changed', (event) => {
+    const value = (event as CustomEvent).detail?.value;
+    if (typeof value === 'boolean') {
+      if (mobileToggle) mobileToggle.checked = value;
+      if (footerToggle) footerToggle.checked = value;
+    }
+  });
+</script>
