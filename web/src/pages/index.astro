@@ -1,47 +1,63 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Banner from '../components/Banner.astro';
-import MediaFrame from '../components/MediaFrame.astro';
-import Skeleton from '../components/Skeleton.astro';
+import ExplanationDrawer from '../components/ExplanationDrawer.astro';
 import { SITE } from '../lib/site';
 ---
 
 <BaseLayout
   title={`${SITE.name} · Astronomy Picture of the Day`}
   description="Today's Astronomy Picture of the Day, read straight from the public JSON API. No accounts, no tracking."
+  variant="app"
+  mainClass="app-main app-main--today"
+  hideVideos
 >
-  <div class="page page--today" id="today-view">
-    <Banner id="today-banner" actionLabel="Retry" />
-
-    <section id="today-loading" aria-busy="true" aria-label="Loading today's picture">
-      <Skeleton variant="block" height="auto" class="skeleton--hero" />
-      <div class="stack-sm" style="margin-top: 24px;">
-        <Skeleton width="30%" />
-        <Skeleton variant="title" width="70%" />
-      </div>
-      <div class="stack-sm" style="margin-top: 24px;">
-        <Skeleton width="100%" />
-        <Skeleton width="90%" />
-      </div>
-    </section>
-
-    <section id="today-content" hidden>
-      <MediaFrame ratio="hero" id="today-frame" loading="eager" />
-
-      <div class="entry-meta" style="margin-top: 20px;">
-        <p class="entry-meta__line" id="today-date"></p>
-        <h1 class="page-title" id="today-title"></h1>
-        <p class="caption" id="today-sync"></p>
-      </div>
-
-      <div class="actions" id="today-actions" style="margin-top: 20px;"></div>
-      <p class="media-note" id="today-media-note" hidden></p>
-
-      <div class="prose" id="today-explanation" style="margin-top: 28px;"></div>
-    </section>
-
-    <div id="today-error" hidden></div>
+  <div class="banner" id="today-banner" role="status" hidden>
+    <p class="banner__message"></p>
+    <button class="btn btn--text banner__action" type="button" hidden>Try again</button>
   </div>
+
+  <a class="hero-frame" id="today-frame-link" href="/archive" aria-label="Open this entry">
+    <div class="media-frame" id="today-frame">
+      <div class="skeleton skeleton--fill" data-skeleton="frame" aria-hidden="true"></div>
+      <img class="media-frame__img" alt="" decoding="async" loading="eager" hidden />
+      <p class="media-frame__label" hidden></p>
+      <span class="media-frame__chip" hidden></span>
+      <div class="media-frame__glyph" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M10 8.5l6 3.5-6 3.5z"></path>
+        </svg>
+      </div>
+    </div>
+  </a>
+
+  <section class="panel" aria-labelledby="today-title">
+    <div class="panel__skeleton" data-skeleton="panel" aria-hidden="true">
+      <div class="skeleton skeleton--line" style="width: 32%"></div>
+      <div class="skeleton skeleton--title" style="width: 82%"></div>
+      <div class="skeleton skeleton--title" style="width: 56%"></div>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <div class="skeleton skeleton--button"></div>
+        <div class="skeleton skeleton--button"></div>
+        <div class="skeleton skeleton--button"></div>
+      </div>
+      <div class="skeleton skeleton--explanation"></div>
+    </div>
+
+    <div class="panel__content" id="today-content" hidden>
+      <p class="panel__meta" id="today-date"></p>
+      <h1 class="panel__title" id="today-title"></h1>
+      <div class="panel__actions" id="today-actions"></div>
+      <div class="panel__explanation" id="today-explanation"></div>
+      <button class="btn btn--text panel__more" type="button" data-drawer-trigger>
+        Read full explanation →
+      </button>
+    </div>
+  </section>
+
+  <div id="today-error" class="error-host" role="alert" hidden></div>
+
+  <ExplanationDrawer />
 </BaseLayout>
 
 <script src="../scripts/today.ts"></script>

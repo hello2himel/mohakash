@@ -36,6 +36,9 @@ object MohakashColors {
     /** Body copy. */
     val TextBody = Color(0xFFD3D8E3)
 
+    /** The three-line explanation preview on the Today screen. */
+    val TextPreview = Color(0xFFC5CBD9)
+
     /** Secondary text, captions, disabled states. */
     val TextMuted = Color(0xFFA3ABBD)
 

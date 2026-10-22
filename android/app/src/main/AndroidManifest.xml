@@ -40,7 +40,7 @@
             android:name=".wallpaper.MohakashWallpaperService"
             android:exported="true"
             android:label="@string/wallpaper_label"
-            android:permission="android.permission.WALLPAPER"
+            android:permission="android.permission.BIND_WALLPAPER"
             android:theme="@style/Theme.Mohakash.Wallpaper">
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />

@@ -11,6 +11,7 @@ import { formatDate } from './format';
 import { SITE } from './site';
 import type { ApodRecord } from './types';
 import { buildAction, el, renderProse } from './dom';
+import { mediaPresentation } from './media';
 
 export interface DrawerContent {
   record: ApodRecord;
@@ -21,7 +22,6 @@ export interface DrawerContent {
 type DrawerDialog = HTMLDialogElement & HTMLElement;
 
 let host: DrawerDialog | null = null;
-let panel: HTMLElement | null = null;
 let current: DrawerContent | null = null;
 
 function required<T extends HTMLElement>(selector: string): T {
@@ -69,12 +69,21 @@ function fill(content: DrawerContent): void {
 
   const footer = required<HTMLElement>('.drawer__footer');
   footer.replaceChildren();
-  if (record.media_type === 'image' && record.image_status === 'ok' && (record.hd_image_url || record.image_url)) {
+  const presentation = mediaPresentation(record);
+  if (presentation.kind === 'image' && (record.hd_image_url || record.image_url)) {
+    const save = buildAction({
+      label: 'Save HD image',
+      variant: 'primary',
+      href: record.hd_image_url ?? record.image_url ?? '',
+    });
+    if (save instanceof HTMLAnchorElement) save.setAttribute('download', '');
+    footer.append(save);
+  } else if (record.apod_url) {
     footer.append(
       buildAction({
-        label: 'Save HD image',
+        label: 'Watch on original page',
         variant: 'primary',
-        href: record.hd_image_url ?? record.image_url ?? '',
+        href: record.apod_url,
         external: true,
       }),
     );
@@ -103,7 +112,6 @@ export function initDrawer(): boolean {
   const node = document.getElementById('explanation-drawer');
   if (!node) return false;
   host = node as DrawerDialog;
-  panel = host.querySelector<HTMLElement>('.drawer__panel');
 
   host.addEventListener('close', () => {
     document.body.classList.remove('has-drawer-open');
@@ -112,7 +120,7 @@ export function initDrawer(): boolean {
   host.addEventListener('click', (event) => {
     // Clicks that land on the dialog box itself come from the scrim area —
     // the panel covers everything else.
-    if (event.target === host) host.close();
+    if (event.target === host && host) host.close();
   });
 
   host.querySelector<HTMLButtonElement>('[data-drawer-close]')?.addEventListener('click', () => {
@@ -125,7 +133,7 @@ export function initDrawer(): boolean {
       if (current) fill(current);
       document.body.classList.add('has-drawer-open');
       host.showModal();
-      panel?.focus();
+      // Let the native dialog put focus on its first control (the close button).
     });
   }
   return true;

@@ -119,13 +119,24 @@ export function countLabel(total: number): string {
  * Grid geometry for a fixed-height (no-scroll) archive page.
  *
  * Columns follow the container width with a minimum thumbnail of about
- * 200px: `columns = floor((width + gap) / (200 + gap))`. Rows fill the
- * remaining height with roughly square cells. Both are clamped to at least 1.
+ * 200px: `columns = floor((width + gap) / (200 + gap))`.
+ *
+ * Rows are derived from the remaining height. A card needs a 3:2 thumbnail
+ * (the tallest ratio the cards are designed around) plus the date/title block;
+ * at the reference 1440×900 that yields exactly 6 columns × 3 rows = 18 cards.
+ * Both values are clamped to at least 1.
  */
-export function gridGeometry(width: number, height: number, minThumb = 200, gap = 16): { columns: number; rows: number } {
+export function gridGeometry(
+  width: number,
+  height: number,
+  minThumb = 200,
+  gap = 16,
+): { columns: number; rows: number } {
   if (!(width > 0) || !(height > 0)) return { columns: 1, rows: 1 };
   const columns = Math.max(1, Math.floor((width + gap) / (minThumb + gap)));
-  const rows = Math.max(1, Math.floor((height + gap) / (Math.max(120, Math.floor(width / columns)) + gap)));
+  const columnWidth = (width - gap * (columns - 1)) / columns;
+  const cardHeight = Math.max(120, columnWidth * (2 / 3) + 46);
+  const rows = Math.max(1, Math.floor((height + gap) / (cardHeight + gap)));
   return { columns, rows };
 }
 

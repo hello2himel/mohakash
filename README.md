@@ -189,7 +189,7 @@ development the Astro dev server proxies `/api/apod/v1/*` to GitHub Pages (see
 | Route | Page |
 |---|---|
 | `/` | Today |
-| `/archive` | Archive (search, year filter, jump to date, load more) |
+| `/archive` | Archive (search, year filter, jump to date, paged grid, hide videos) |
 | `/archive/YYYY-MM-DD` | Entry detail |
 | `/api` | API documentation |
 | `/about` | About |

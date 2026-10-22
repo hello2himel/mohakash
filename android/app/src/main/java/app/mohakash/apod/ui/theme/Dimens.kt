@@ -48,6 +48,9 @@ object MohakashDimens {
     /** The height of the hero picture on the Today screen. */
     val TodayHeroHeight = 260.dp
 
+    /** The height of the hero picture on the Today screen while offline. */
+    val TodayOfflineHeroHeight = 240.dp
+
     /** The height of the hero picture on the detail screen. */
     val DetailHeroHeight = 280.dp
 
@@ -57,9 +60,21 @@ object MohakashDimens {
     /** The width of the wallpaper preview inside the sheet. */
     val WallpaperPreviewWidth = 96.dp
 
+    /** The radius of the wallpaper preview frame. */
+    val WallpaperPreviewRadius = 14.dp
+
     /** The gap between two chips. */
     val ChipGap = 8.dp
 
+    /** The visible height of a chip or a segment. */
+    val ChipHeight = 40.dp
+
     /** The gap between two list rows. */
     val ListRowGap = 14.dp
+
+    /** The radius of a banner. */
+    val BannerRadius = 12.dp
+
+    /** The radius of an archive thumbnail. */
+    val ThumbnailRadius = 8.dp
 }

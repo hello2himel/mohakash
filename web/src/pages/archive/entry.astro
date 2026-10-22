@@ -1,61 +1,71 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Banner from '../../components/Banner.astro';
-import MediaFrame from '../../components/MediaFrame.astro';
-import Skeleton from '../../components/Skeleton.astro';
+import ExplanationDrawer from '../../components/ExplanationDrawer.astro';
 ---
 
 <BaseLayout
   title="Entry · Mohakash"
   description="One Astronomy Picture of the Day: the picture, the explanation and the credit exactly as it was published."
+  variant="app"
+  mainClass="app-main app-main--entry"
+  hideVideos
 >
-  <div class="page page--entry" id="entry-view">
-    <Banner id="entry-banner" actionLabel="Retry" />
-
-    <nav class="breadcrumb" id="entry-breadcrumb" aria-label="Breadcrumb" hidden>
-      <a href="/archive">Archive</a>
-      <span aria-hidden="true">/</span>
-      <a href="/archive" id="entry-year-link">Year</a>
-      <span aria-hidden="true">/</span>
-      <span class="breadcrumb__current" id="entry-crumb-title"></span>
-    </nav>
-
-    <section id="entry-loading" aria-busy="true" aria-label="Loading entry">
-      <Skeleton variant="block" height="auto" class="skeleton--hero" />
-      <div class="stack-sm" style="margin-top: 24px;">
-        <Skeleton width="30%" />
-        <Skeleton variant="title" width="70%" />
-      </div>
-      <div class="stack-sm" style="margin-top: 24px;">
-        <Skeleton width="100%" />
-        <Skeleton width="90%" />
-      </div>
-    </section>
-
-    <section id="entry-content" hidden>
-      <MediaFrame ratio="hero" id="entry-frame" loading="eager" />
-
-      <div class="entry-meta" style="margin-top: 20px;">
-        <p class="entry-meta__line" id="entry-date"></p>
-        <h1 class="page-title" id="entry-title"></h1>
-        <p class="caption" id="entry-sync"></p>
-      </div>
-
-      <div class="actions" id="entry-actions" style="margin-top: 20px;"></div>
-      <p class="media-note" id="entry-media-note" hidden></p>
-
-      <div class="prose" id="entry-explanation" style="margin-top: 28px;"></div>
-
-      <section class="credit-box" aria-labelledby="entry-credit-title">
-        <h2 class="credit-box__title" id="entry-credit-title">Image credit and copyright</h2>
-        <p class="credit-box__text" id="entry-credit"></p>
-      </section>
-
-      <nav class="entry-nav" id="entry-nav" aria-label="Entries"></nav>
-    </section>
-
-    <div id="entry-error" hidden></div>
+  <div class="banner" id="entry-banner" role="status" hidden>
+    <p class="banner__message"></p>
+    <button class="btn btn--text banner__action" type="button" hidden>Try again</button>
   </div>
+
+  <a class="hero-frame" id="entry-frame-link" href="/archive" aria-label="Open this entry">
+    <div class="media-frame" id="entry-frame">
+      <div class="skeleton skeleton--fill" data-skeleton="frame" aria-hidden="true"></div>
+      <img class="media-frame__img" alt="" decoding="async" loading="eager" hidden />
+      <p class="media-frame__label" hidden></p>
+      <span class="media-frame__chip" hidden></span>
+      <div class="media-frame__glyph" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M10 8.5l6 3.5-6 3.5z"></path>
+        </svg>
+      </div>
+    </div>
+  </a>
+
+  <section class="panel" aria-labelledby="entry-title">
+    <div class="panel__skeleton" data-skeleton="panel" aria-hidden="true">
+      <div class="skeleton skeleton--line" style="width: 46%"></div>
+      <div class="skeleton skeleton--line" style="width: 30%"></div>
+      <div class="skeleton skeleton--title" style="width: 86%"></div>
+      <div class="skeleton skeleton--title" style="width: 52%"></div>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <div class="skeleton skeleton--button"></div>
+        <div class="skeleton skeleton--button"></div>
+        <div class="skeleton skeleton--button"></div>
+      </div>
+      <div class="skeleton skeleton--explanation"></div>
+    </div>
+
+    <div class="panel__content" id="entry-content" hidden>
+      <nav class="panel__crumb" id="entry-breadcrumb" aria-label="Breadcrumb">
+        <a href="/archive">Archive</a>
+        <span aria-hidden="true">/</span>
+        <a id="entry-year-link" href="/archive">Year</a>
+        <span aria-hidden="true">/</span>
+        <span class="panel__crumb-current" id="entry-crumb-date"></span>
+      </nav>
+      <p class="panel__meta" id="entry-date"></p>
+      <h1 class="panel__title" id="entry-title"></h1>
+      <div class="panel__actions" id="entry-actions"></div>
+      <div class="panel__explanation" id="entry-explanation"></div>
+      <button class="btn btn--text panel__more" type="button" data-drawer-trigger>
+        Read full explanation →
+      </button>
+      <div class="panel__nav" id="entry-nav"></div>
+    </div>
+  </section>
+
+  <div id="entry-error" class="error-host" role="alert" hidden></div>
+
+  <ExplanationDrawer />
 </BaseLayout>
 
 <script src="../../scripts/entry.ts"></script>

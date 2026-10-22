@@ -1,6 +1,9 @@
 package app.mohakash.apod.ui.navigation
 
+import android.app.Activity
+import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -108,6 +111,13 @@ fun MohakashApp(
                     TodayScreen(
                         onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
                         onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                        onOpenArchive = {
+                            navController.navigate(Routes.ARCHIVE) {
+                                popUpTo(Routes.TODAY) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
                     )
                 }
 
@@ -167,21 +177,31 @@ internal fun openLink(context: Context, url: String) {
  * Opens the system preview of the Mohakash live wallpaper.
  *
  * Tries each intent from [WallpaperIntentBuilder.attemptsFor] in turn until one starts
- * successfully. The plain system chooser (`MAIN` + `WallpaperService` category, no extras) is
- * the safe fallback — several OEM pickers crash when unknown extras are attached to the
- * `CHANGE_LIVE_WALLPAPER` intent, which is what crashed the wallpaper menu on "Preview and set".
+ * successfully.
+ *
+ * The live-wallpaper component is attached as a real [ComponentName]: the system preview reads
+ * `EXTRA_LIVE_WALLPAPER_COMPONENT` with `getParcelableExtra`, and a plain string used to make the
+ * wallpaper screen crash on "Preview and set". The service itself is protected by
+ * `android.permission.BIND_WALLPAPER`, which is required for the system to bind to it.
  */
 internal fun openWallpaperPicker(context: Context) {
     val packageName = context.packageName
+    val service = ComponentName(packageName, WallpaperIntentBuilder.SERVICE_CLASS)
     val attempts = WallpaperIntentBuilder.attemptsFor(packageName, directComponentSet = true)
+    val fromActivity = context is Activity
     var started = false
+
     for (spec in attempts) {
         if (started) break
         started = runCatching {
             val intent = Intent(spec.action).apply {
-                if (spec.newTaskFlag) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                // An activity context should keep its own task; only a non-activity context needs
+                // NEW_TASK. This keeps Back from the preview returning to the launcher.
+                if (spec.newTaskFlag && !fromActivity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 spec.category?.let { addCategory(it) }
-                spec.extras.forEach { (key, value) -> putExtra(key, value) }
+                if (spec.attachWallpaperComponent) {
+                    putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, service)
+                }
             }
             if (context.packageManager.resolveActivity(intent, 0) == null) {
                 throw ActivityNotFoundException("No activity resolves ${spec.action}")
@@ -195,7 +215,7 @@ internal fun openWallpaperPicker(context: Context) {
         runCatching {
             context.startActivity(
                 Intent(Settings.ACTION_DISPLAY_SETTINGS).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    if (!fromActivity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 },
             )
         }.onFailure {

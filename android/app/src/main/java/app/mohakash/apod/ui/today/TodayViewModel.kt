@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
  */
 data class TodayUiState(
     val isLoading: Boolean = true,
+    val isRefreshing: Boolean = false,
     val entry: ApodEntry? = null,
     val isOffline: Boolean = false,
     val isFavourite: Boolean = false,
@@ -61,6 +62,7 @@ class TodayViewModel(
     val events = _events.receiveAsFlow()
 
     private var favouriteJob: Job? = null
+    private var loadJob: Job? = null
 
     init {
         load()
@@ -73,53 +75,77 @@ class TodayViewModel(
      * stale.
      */
     fun load(force: Boolean = false) {
-        viewModelScope.launch {
-            val settings = settingsStore.current()
-            val cached = apodRepository.cachedLatest()
-            if (cached != null) {
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    entry = cached,
-                    syncedAt = settings.lastSyncAt,
-                    scaling = settings.wallpaperScaling,
-                    updateDaily = settings.updateAutomatically,
-                    wallpaperMeta = wallpaperStorage.readMeta(),
-                    wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
-                )
-                observeFavourite(cached)
-            }
-
-            val stale = force || TimeFormatting.isStale(settings.lastSyncAt, System.currentTimeMillis())
-            if (!stale && cached != null) return@launch
-
+        if (loadJob?.isActive == true) return
+        loadJob = viewModelScope.launch {
             try {
-                val fresh = apodRepository.fetchLatest()
-                val updated = settingsStore.current()
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    entry = fresh,
-                    isOffline = false,
-                    hasError = false,
-                    syncedAt = updated.lastSyncAt,
-                    scaling = updated.wallpaperScaling,
-                    updateDaily = updated.updateAutomatically,
-                    wallpaperMeta = wallpaperStorage.readMeta(),
-                    wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
-                )
-                observeFavourite(fresh)
-            } catch (error: Exception) {
+                val settings = settingsStore.current()
+                val cached = apodRepository.cachedLatest()
                 if (cached != null) {
-                    _state.value = _state.value.copy(isLoading = false, isOffline = true)
-                } else {
-                    _state.value = _state.value.copy(isLoading = false, hasError = true)
-                    _events.send(TodayEvent.ShowMessage(MESSAGE_LOAD_FAILED))
+                    _state.value = _state.value.copy(
+                        isLoading = false,
+                        entry = cached,
+                        syncedAt = settings.lastSyncAt,
+                        scaling = settings.wallpaperScaling,
+                        updateDaily = settings.updateAutomatically,
+                        wallpaperMeta = wallpaperStorage.readMeta(),
+                        wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
+                    )
+                    observeFavourite(cached)
+                }
+
+                val stale = force || TimeFormatting.isStale(settings.lastSyncAt, System.currentTimeMillis())
+                if (!stale && cached != null) return@launch
+
+                try {
+                    val fresh = apodRepository.fetchLatest()
+                    val updated = settingsStore.current()
+                    _state.value = _state.value.copy(
+                        isLoading = false,
+                        entry = fresh,
+                        isOffline = false,
+                        hasError = false,
+                        syncedAt = updated.lastSyncAt,
+                        scaling = updated.wallpaperScaling,
+                        updateDaily = updated.updateAutomatically,
+                        wallpaperMeta = wallpaperStorage.readMeta(),
+                        wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
+                    )
+                    observeFavourite(fresh)
+                } catch (error: Exception) {
+                    if (cached != null) {
+                        _state.value = _state.value.copy(isLoading = false, isOffline = true)
+                    } else {
+                        _state.value = _state.value.copy(isLoading = false, hasError = true)
+                        _events.send(TodayEvent.ShowMessage(MESSAGE_LOAD_FAILED))
+                    }
+                }
+            } finally {
+                if (_state.value.isRefreshing) {
+                    _state.value = _state.value.copy(isRefreshing = false)
                 }
             }
         }
     }
 
+    /** Pull-to-refresh: forces a network refresh and keeps the cached content on screen. */
+    fun refresh() {
+        if (loadJob?.isActive == true) return
+        _state.value = _state.value.copy(isRefreshing = true)
+        load(force = true)
+    }
+
+    /** Called when the screen opens again: refreshes only when the cached copy is stale. */
+    fun refreshOnOpen() {
+        if (loadJob?.isActive == true) return
+        load()
+    }
+
     /** Retries the load after a network failure. */
-    fun retry() = load(force = true)
+    fun retry() {
+        if (loadJob?.isActive == true) return
+        _state.value = _state.value.copy(isLoading = true, hasError = false)
+        load(force = true)
+    }
 
     /** Adds the entry to the saved list or removes it again. */
     fun toggleFavourite() {

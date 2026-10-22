@@ -6,6 +6,7 @@ import {
   countLabel,
   entryPath,
   filterEntries,
+  gridGeometry,
   indexToListRows,
   neighbours,
   paginate,
@@ -220,5 +221,22 @@ describe('neighbours', () => {
 describe('entryPath', () => {
   it('builds the entry route', () => {
     expect(entryPath('2026-10-22')).toBe('/archive/2026-10-22');
+  });
+});
+
+describe('gridGeometry', () => {
+  it('gives 6 columns by 3 rows at the 1440x900 reference', () => {
+    // The grid content box at 1440x900: 1392 wide, 652 tall.
+    expect(gridGeometry(1392, 652)).toEqual({ columns: 6, rows: 3 });
+  });
+
+  it('keeps at least one column and one row for tiny containers', () => {
+    expect(gridGeometry(10, 10)).toEqual({ columns: 1, rows: 1 });
+    expect(gridGeometry(0, 0)).toEqual({ columns: 1, rows: 1 });
+  });
+
+  it('derives more columns as the container grows', () => {
+    expect(gridGeometry(1872, 816).columns).toBe(8);
+    expect(gridGeometry(1232, 472).columns).toBe(5);
   });
 });

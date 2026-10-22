@@ -137,13 +137,15 @@ class ArchiveViewModel(
         }
     }
 
-    /** Resets every filter back to the default. */
+    /** Resets every filter back to the default — the current year when it exists. */
     fun reset() {
+        val years = _state.value.availableYears
+        val currentYear = ArchiveUiState.defaultYear()
         _state.value = _state.value.copy(
             query = "",
             typeFilter = MediaFilter.ALL,
             jumpToDate = null,
-            selectedYear = _state.value.availableYears.firstOrNull() ?: ArchiveUiState.defaultYear(),
+            selectedYear = if (currentYear in years) currentYear else years.firstOrNull() ?: currentYear,
             visibleCount = ArchiveUiState.PAGE_SIZE,
         )
     }
@@ -158,8 +160,13 @@ class ArchiveViewModel(
     private fun applyEntries(entries: List<ArchiveIndexEntry>) {
         val years = entries.map { it.year }.filter { it > 0 }.distinct().sortedDescending()
         val current = _state.value
-        val selectedYear = if (current.selectedYear in years) current.selectedYear else years.firstOrNull()
-            ?: ArchiveUiState.defaultYear()
+        val currentYear = ArchiveUiState.defaultYear()
+        val selectedYear = when {
+            current.selectedYear in years -> current.selectedYear
+            // The approved design starts on the current year.
+            currentYear in years -> currentYear
+            else -> years.firstOrNull() ?: currentYear
+        }
         _state.value = current.copy(
             entries = entries,
             availableYears = years,

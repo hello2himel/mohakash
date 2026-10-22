@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -78,6 +79,48 @@ fun SettingsScreen(
         }
     }
 
+    SettingsContent(
+        state = state,
+        onBack = onBack,
+        onOpenLink = onOpenLink,
+        onUpdateAutomaticallyChange = viewModel::setUpdateAutomatically,
+        onPreferHdChange = viewModel::setPreferHd,
+        onWifiOnlyChange = viewModel::setWifiOnly,
+        onScalingChange = viewModel::setScaling,
+        onClearCache = { showClearCacheDialog = true },
+        modifier = modifier,
+    )
+
+    if (showClearCacheDialog) {
+        Dialog(
+            onDismissRequest = { showClearCacheDialog = false },
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+        ) {
+            ClearCacheDialogContent(
+                sizeBytes = state.cacheSizeBytes,
+                onDismiss = { showClearCacheDialog = false },
+                onConfirm = {
+                    showClearCacheDialog = false
+                    viewModel.clearCache()
+                },
+            )
+        }
+    }
+}
+
+/** The stateless settings screen, used by the previews as well. */
+@Composable
+internal fun SettingsContent(
+    state: SettingsUiState,
+    onBack: () -> Unit,
+    onOpenLink: (String) -> Unit,
+    onUpdateAutomaticallyChange: (Boolean) -> Unit,
+    onPreferHdChange: (Boolean) -> Unit,
+    onWifiOnlyChange: (Boolean) -> Unit,
+    onScalingChange: (WallpaperScaling) -> Unit,
+    onClearCache: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -102,33 +145,24 @@ fun SettingsScreen(
                 title = stringResource(R.string.settings_update_automatically),
                 subtitle = stringResource(R.string.settings_update_automatically_hint),
                 checked = state.updateAutomatically,
-                onCheckedChange = viewModel::setUpdateAutomatically,
+                onCheckedChange = onUpdateAutomaticallyChange,
                 showDivider = false,
             )
             SwitchRow(
                 title = stringResource(R.string.settings_prefer_hd),
                 subtitle = stringResource(R.string.settings_prefer_hd_hint),
                 checked = state.preferHd,
-                onCheckedChange = viewModel::setPreferHd,
-                showDivider = false,
+                onCheckedChange = onPreferHdChange,
             )
             SwitchRow(
                 title = stringResource(R.string.settings_wifi_only),
                 checked = state.wifiOnly,
-                onCheckedChange = viewModel::setWifiOnly,
-                showDivider = false,
-            )
-            SwitchRow(
-                title = stringResource(R.string.settings_hide_videos),
-                subtitle = stringResource(R.string.settings_hide_videos_hint),
-                checked = state.hideVideos,
-                onCheckedChange = viewModel::setHideVideos,
-                showDivider = false,
+                onCheckedChange = onWifiOnlyChange,
             )
 
             ScalingRow(
                 scaling = state.scaling,
-                onScalingChange = viewModel::setScaling,
+                onScalingChange = onScalingChange,
             )
 
             SectionLabel(
@@ -138,7 +172,7 @@ fun SettingsScreen(
 
             CacheRow(
                 sizeBytes = state.cacheSizeBytes,
-                onClear = { showClearCacheDialog = true },
+                onClear = onClearCache,
             )
 
             SectionLabel(
@@ -154,16 +188,17 @@ fun SettingsScreen(
             LinkRow(
                 text = stringResource(R.string.settings_content_rights),
                 onClick = { onOpenLink(BuildConfig.CONTENT_RIGHTS_URL) },
+                minHeight = 56.dp,
             )
             LinkRow(
                 text = stringResource(R.string.settings_source_code),
                 onClick = { onOpenLink(BuildConfig.REPOSITORY_URL) },
-                showDivider = false,
+                minHeight = 56.dp,
             )
             InfoRow(
                 title = stringResource(R.string.settings_version),
                 value = BuildConfig.VERSION_NAME,
-                showDivider = false,
+                showDivider = true,
             )
 
             Text(
@@ -174,17 +209,6 @@ fun SettingsScreen(
             )
         }
     }
-
-    if (showClearCacheDialog) {
-        ClearCacheDialog(
-            sizeBytes = state.cacheSizeBytes,
-            onDismiss = { showClearCacheDialog = false },
-            onConfirm = {
-                showClearCacheDialog = false
-                viewModel.clearCache()
-            },
-        )
-    }
 }
 
 /** The *Image scaling* row of the settings screen. */
@@ -193,28 +217,38 @@ private fun ScalingRow(
     scaling: WallpaperScaling,
     onScalingChange: (WallpaperScaling) -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 72.dp)
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            text = stringResource(R.string.settings_image_scaling),
-            style = MohakashTextStyles.UiMedium,
-            color = MohakashColors.Text,
-        )
-        SegmentedControl(
-            options = listOf(
-                stringResource(R.string.wallpaper_scaling_fill),
-                stringResource(R.string.wallpaper_scaling_fit),
-            ),
-            selectedIndex = if (scaling == WallpaperScaling.FILL) 0 else 1,
-            onSelect = { index ->
-                onScalingChange(if (index == 0) WallpaperScaling.FILL else WallpaperScaling.FIT)
-            },
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 72.dp)
+                .padding(vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = stringResource(R.string.settings_image_scaling),
+                style = MohakashTextStyles.UiMedium,
+                color = MohakashColors.Text,
+                modifier = Modifier.weight(1f),
+            )
+            SegmentedControl(
+                options = listOf(
+                    stringResource(R.string.wallpaper_scaling_fill),
+                    stringResource(R.string.wallpaper_scaling_fit),
+                ),
+                selectedIndex = if (scaling == WallpaperScaling.FILL) 0 else 1,
+                onSelect = { index ->
+                    onScalingChange(if (index == 0) WallpaperScaling.FILL else WallpaperScaling.FIT)
+                },
+                modifier = Modifier.padding(start = 12.dp),
+            )
+        }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(MohakashColors.Divider),
         )
     }
 }
@@ -222,102 +256,107 @@ private fun ScalingRow(
 /** The *Image cache* row with the *Clear* button. */
 @Composable
 private fun CacheRow(sizeBytes: Long, onClear: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 64.dp)
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text(
-                text = stringResource(R.string.settings_image_cache),
-                style = MohakashTextStyles.UiMedium,
-                color = MohakashColors.Text,
-            )
-            Text(
-                text = stringResource(R.string.settings_image_cache_size, ByteFormatting.format(sizeBytes)),
-                style = MohakashTextStyles.Caption,
-                color = MohakashColors.TextMuted,
-            )
-        }
-        val shape = RoundedCornerShape(MohakashDimens.PillRadius)
-        Box(
+    Column {
+        Row(
             modifier = Modifier
-                .heightIn(min = 40.dp)
-                .clip(shape)
-                .border(1.dp, MohakashColors.BorderStrong, shape)
-                .clickable(onClick = onClear)
-                .padding(horizontal = 18.dp, vertical = 10.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = stringResource(R.string.settings_clear),
-                style = MohakashTextStyles.UiSmall,
-                color = MohakashColors.Text,
-            )
-        }
-    }
-}
-
-/** The dialog that asks before the image cache is removed. */
-@Composable
-private fun ClearCacheDialog(
-    sizeBytes: Long,
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
-) {
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 32.dp)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(MohakashDimens.DialogRadius))
-                .background(MohakashColors.Surface)
-                .border(
-                    1.dp,
-                    MohakashColors.Border,
-                    RoundedCornerShape(MohakashDimens.DialogRadius),
-                )
-                .padding(24.dp),
+                .heightIn(min = 64.dp)
+                .padding(vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
                 Text(
-                    text = stringResource(R.string.clear_cache_title),
-                    style = MohakashTextStyles.SheetTitle,
+                    text = stringResource(R.string.settings_image_cache),
+                    style = MohakashTextStyles.UiMedium,
                     color = MohakashColors.Text,
                 )
                 Text(
-                    text = stringResource(
-                        R.string.clear_cache_body,
-                        ByteFormatting.format(sizeBytes),
-                    ),
-                    style = MohakashTextStyles.UiSmall,
-                    color = MohakashColors.TextBody,
+                    text = stringResource(R.string.settings_image_cache_size, ByteFormatting.format(sizeBytes)),
+                    style = MohakashTextStyles.Helper,
+                    color = MohakashColors.TextMuted,
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    DialogTextButton(
-                        text = stringResource(R.string.clear_cache_cancel),
-                        onClick = onDismiss,
-                        color = MohakashColors.Accent,
-                    )
-                    DialogTextButton(
-                        text = stringResource(R.string.clear_cache_confirm),
-                        onClick = onConfirm,
-                        color = MohakashColors.OnAccent,
-                        filled = true,
-                    )
-                }
+            }
+            val shape = RoundedCornerShape(20.dp)
+            Box(
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .heightIn(min = 40.dp)
+                    .clip(shape)
+                    .border(1.dp, MohakashColors.BorderStrong, shape)
+                    .clickable(onClick = onClear)
+                    .padding(horizontal = 18.dp, vertical = 8.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_clear),
+                    style = MohakashTextStyles.UiSmall,
+                    color = MohakashColors.Text,
+                )
+            }
+        }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(MohakashColors.Divider),
+        )
+    }
+}
+
+/** The body of the clear-cache dialog. */
+@Composable
+internal fun ClearCacheDialogContent(
+    sizeBytes: Long,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val shape = RoundedCornerShape(MohakashDimens.DialogRadius)
+    Box(
+        modifier = modifier
+            .padding(horizontal = 32.dp)
+            .fillMaxWidth()
+            .clip(shape)
+            .background(MohakashColors.Surface)
+            .border(1.dp, MohakashColors.Border, shape)
+            .padding(24.dp),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(
+                text = stringResource(R.string.clear_cache_title),
+                style = MohakashTextStyles.SheetTitle,
+                color = MohakashColors.Text,
+            )
+            Text(
+                text = stringResource(
+                    R.string.clear_cache_body,
+                    ByteFormatting.format(sizeBytes),
+                ),
+                style = MohakashTextStyles.BodySmall,
+                color = MohakashColors.TextBody,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                DialogTextButton(
+                    text = stringResource(R.string.clear_cache_cancel),
+                    onClick = onDismiss,
+                    color = MohakashColors.Accent,
+                )
+                DialogTextButton(
+                    text = stringResource(R.string.clear_cache_confirm),
+                    onClick = onConfirm,
+                    color = MohakashColors.OnAccent,
+                    filled = true,
+                )
             }
         }
     }
@@ -328,7 +367,7 @@ private fun ClearCacheDialog(
 private fun DialogTextButton(
     text: String,
     onClick: () -> Unit,
-    color: androidx.compose.ui.graphics.Color,
+    color: Color,
     filled: Boolean = false,
 ) {
     val shape = RoundedCornerShape(22.dp)
