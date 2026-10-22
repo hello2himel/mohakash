@@ -120,6 +120,12 @@ pre {
   top: 8px;
 }
 
+.icon {
+  font-size: 18px;
+  font-style: normal;
+  line-height: 1;
+}
+
 .muted {
   color: var(--text-muted);
 }
@@ -263,6 +269,11 @@ pre {
   stroke-width: 1.8;
   stroke-linecap: round;
   fill: none;
+}
+
+.menu-button .icon {
+  font-size: 24px;
+  line-height: 1;
 }
 
 /* ---------------------------------------------------------------- footer */
@@ -470,6 +481,11 @@ pre {
   fill: none;
 }
 
+.media-frame__glyph .icon {
+  font-size: 56px;
+  line-height: 1;
+}
+
 .media-frame__chip {
   position: absolute;
   top: 16px;
@@ -629,6 +645,11 @@ pre {
   white-space: nowrap;
 }
 
+.btn .icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
 .btn:hover {
   text-decoration: none;
 }
@@ -659,6 +680,29 @@ pre {
 .btn[aria-disabled='true'] {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--surface-strong);
+}
+
+.icon-btn .icon {
+  font-size: 24px;
+  line-height: 1;
 }
 
 /* ---------------------------------------------------------------- fields */
@@ -869,6 +913,11 @@ input[type='date'].field {
   height: 24px;
 }
 
+.archive-card__thumb .media-frame__glyph .icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
 .archive-card__date {
   flex: 0 0 auto;
   font-size: var(--text-12);
@@ -1058,6 +1107,11 @@ body.has-drawer-open {
   stroke-width: 1.8;
   stroke-linecap: round;
   fill: none;
+}
+
+.drawer__close .icon {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .drawer__body {

@@ -532,6 +532,11 @@ See [`CONTENT_RIGHTS.md`](CONTENT_RIGHTS.md) for the full text.
 Mohakash is an independent project. It is **not affiliated with, sponsored
 by, reviewed by or endorsed by NASA**.
 
+Interface icons use [Remix Icon](https://remixicon.com) under the Remix Icon
+License v1.0; the font files are bundled with the website. The mohakash brand
+mark, launcher icon, favicon and social cards come from the project's brand
+kit, and the brand wordmark is always lowercase.
+
 ---
 
 ## 13. Tests

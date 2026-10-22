@@ -23,10 +23,7 @@ import { SITE } from '../lib/site';
       <p class="media-frame__label" hidden></p>
       <span class="media-frame__chip" hidden></span>
       <div class="media-frame__glyph" hidden>
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M10 8.5l6 3.5-6 3.5z"></path>
-        </svg>
+        <i class="icon ri-play-circle-line" aria-hidden="true"></i>
       </div>
     </div>
   </a>
@@ -50,10 +47,13 @@ import { SITE } from '../lib/site';
       <div class="panel__actions" id="today-actions"></div>
       <div class="panel__explanation" id="today-explanation"></div>
       <button class="btn btn--text panel__more" type="button" data-drawer-trigger>
-        Read full explanation →
+        Read full explanation <i class="icon ri-arrow-right-line" aria-hidden="true"></i>
       </button>
       <div class="panel__nav" id="today-nav" hidden>
-        <a class="btn btn--secondary" id="today-previous" href="/archive">‹ Previous day</a>
+        <a class="btn btn--secondary" id="today-previous" href="/archive">
+          <i class="icon ri-arrow-left-s-line" aria-hidden="true"></i>
+          Previous day
+        </a>
       </div>
     </div>
   </section>

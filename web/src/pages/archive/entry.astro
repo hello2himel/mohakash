@@ -15,20 +15,17 @@ import ExplanationDrawer from '../../components/ExplanationDrawer.astro';
     <button class="btn btn--text banner__action" type="button" hidden>Try again</button>
   </div>
 
-  <a class="hero-frame" id="entry-frame-link" href="/archive" aria-label="Open this entry">
+  <div class="hero-frame" id="entry-frame-link">
     <div class="media-frame" id="entry-frame">
       <div class="skeleton skeleton--fill" data-skeleton="frame" aria-hidden="true"></div>
       <img class="media-frame__img" alt="" decoding="async" loading="eager" hidden />
       <p class="media-frame__label" hidden></p>
       <span class="media-frame__chip" hidden></span>
       <div class="media-frame__glyph" hidden>
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M10 8.5l6 3.5-6 3.5z"></path>
-        </svg>
+        <i class="icon ri-play-circle-line" aria-hidden="true"></i>
       </div>
     </div>
-  </a>
+  </div>
 
   <section class="panel" aria-labelledby="entry-title">
     <div class="panel__skeleton" data-skeleton="panel" aria-hidden="true">
@@ -57,7 +54,7 @@ import ExplanationDrawer from '../../components/ExplanationDrawer.astro';
       <div class="panel__actions" id="entry-actions"></div>
       <div class="panel__explanation" id="entry-explanation"></div>
       <button class="btn btn--text panel__more" type="button" data-drawer-trigger>
-        Read full explanation →
+        Read full explanation <i class="icon ri-arrow-right-line" aria-hidden="true"></i>
       </button>
       <div class="panel__nav" id="entry-nav"></div>
     </div>

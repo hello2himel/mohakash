@@ -43,11 +43,17 @@ const years = Array.from({ length: currentYear - 1995 + 1 }, (_, index) => curre
   <div id="archive-state" class="state-panel" role="status" hidden></div>
 
   <nav class="archive-pager" id="archive-pager" aria-label="Archive pages" hidden>
-    <button class="btn btn--secondary" type="button" id="archive-prev">‹ Prev</button>
+    <button class="btn btn--secondary" type="button" id="archive-prev">
+      <i class="icon ri-arrow-left-s-line" aria-hidden="true"></i>
+      Prev
+    </button>
     <p class="archive-pager__status" id="archive-page-status">
       Page <strong id="archive-page-current">1</strong> of <span id="archive-page-total">1</span>
     </p>
-    <button class="btn btn--secondary" type="button" id="archive-next">Next ›</button>
+    <button class="btn btn--secondary" type="button" id="archive-next">
+      Next
+      <i class="icon ri-arrow-right-s-line" aria-hidden="true"></i>
+    </button>
   </nav>
 </BaseLayout>
 
