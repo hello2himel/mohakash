@@ -51,6 +51,18 @@ def _utc_now_iso() -> str:
     return _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def data_timestamp(records: Iterable[ApodRecord]) -> str:
+    """A timestamp that only changes when the data changes.
+
+    The published documents must be byte identical when nothing was
+    refreshed, otherwise every scheduled run would produce a diff and an
+    unnecessary deployment.  The newest ``updated_at`` of the archive is used
+    instead of the current time.
+    """
+    stamps = [record.updated_at for record in records if record.updated_at]
+    return max(stamps) if stamps else _utc_now_iso()
+
+
 def _write_if_changed(path: Path, content: str, result: BuildResult) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     relative = str(path)
@@ -164,7 +176,6 @@ def build_status_document(
         "schema_version": SCHEMA_VERSION,
         "generated_at": now or _utc_now_iso(),
         "last_successful_sync": state.get("last_successful_sync"),
-        "last_attempt": state.get("last_attempt"),
         "latest_available_date": max(dates) if dates else None,
         "archive_start_date": min(dates) if dates else None,
         "archive_end_date": max(dates) if dates else None,
@@ -187,7 +198,7 @@ def build_feed(
 ) -> str:
     """Build the RSS 2.0 feed with the newest ``limit`` entries."""
     ordered = sorted(records, key=lambda record: record.date, reverse=True)[:limit]
-    generated = now or _utc_now_iso()
+    generated = now or data_timestamp(records)
     site_link = config.website_base_url or config.pages.base_url
     feed_link = config.feed_url
 
@@ -199,7 +210,7 @@ def build_feed(
         f"    <link>{saxutils.escape(site_link)}</link>",
         f"    <description>{saxutils.escape(config.project_tagline or 'Daily astronomy picture of the day.')}</description>",
         "    <language>en</language>",
-        f"    <lastBuildDate>{saxutils.escape(_rfc822(_dt.datetime.now(_dt.timezone.utc)))}</lastBuildDate>",
+        f"    <lastBuildDate>{saxutils.escape(_rfc822(_parse_iso(generated)))}</lastBuildDate>",
         f'    <atom:link href="{saxutils.escape(feed_link)}" rel="self" type="application/rss+xml" />',
         "    <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>",
     ]
@@ -236,6 +247,17 @@ def _rfc822(moment: _dt.datetime) -> str:
     return moment.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 
+def _parse_iso(value: str) -> _dt.datetime:
+    """Parse an ISO-8601 timestamp, falling back to the current time."""
+    try:
+        parsed = _dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return _dt.datetime.now(_dt.timezone.utc)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=_dt.timezone.utc)
+    return parsed
+
+
 # --------------------------------------------------------------------------
 # publisher
 # --------------------------------------------------------------------------
@@ -266,7 +288,9 @@ def build_public_api(
         raise ValueError("refusing to publish an empty archive")
     result.latest = records[0]
 
-    timestamp = now or _utc_now_iso()
+    # The timestamp is derived from the data, not from the clock, so an
+    # unchanged archive always produces byte identical files.
+    timestamp = now or data_timestamp(records)
 
     latest_doc = build_latest_document(records[0], state=state, config=config, now=timestamp)
     _write_if_changed(api_root / "latest.json", _dump(latest_doc), result)

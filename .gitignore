@@ -29,3 +29,4 @@ api-site/
 # OS noise
 .DS_Store
 Thumbs.db
+data/.run-state.json

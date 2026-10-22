@@ -111,8 +111,8 @@ def test_sync_failure_keeps_the_previous_archive(tmp_path, monkeypatch):
 
     archive = json.loads((tmp_path / "data" / "records" / "2026.json").read_text(encoding="utf-8"))
     assert archive["count"] == 1
-    state = json.loads((tmp_path / "data" / "sync-state.json").read_text(encoding="utf-8"))
-    assert state["source_status"] == "error"
+    run_state = json.loads((tmp_path / "data" / ".run-state.json").read_text(encoding="utf-8"))
+    assert run_state["source_status"] == "error"
 
 
 def test_validate_detects_a_broken_archive(tmp_path, monkeypatch):
