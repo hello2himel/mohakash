@@ -156,4 +156,9 @@ async function load(): Promise<void> {
   }
 }
 
+// Re-run the load when the preference changes in another place.
+window.addEventListener('mohakash:hide-videos-changed', () => {
+  void load();
+});
+
 void load();

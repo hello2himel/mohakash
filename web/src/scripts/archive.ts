@@ -272,4 +272,11 @@ if (initialYear && /^\d{4}$/.test(initialYear)) {
 // Video entries are hidden by default.
 state.hideVideos = readHideVideos();
 
+// Re-render when the preference changes in another place.
+window.addEventListener('mohakash:hide-videos-changed', () => {
+  state.hideVideos = readHideVideos();
+  state.visible = PAGE_SIZE;
+  renderGrid();
+});
+
 void load();

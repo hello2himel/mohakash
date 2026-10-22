@@ -31,6 +31,20 @@ const isCurrent = (href: string) =>
       }
     </nav>
 
+    <label class="header-toggle" for="header-hide-videos" title="Show pictures only">
+      <span class="header-toggle__label">Hide videos</span>
+      <input
+        class="header-toggle__input"
+        id="header-hide-videos"
+        type="checkbox"
+        role="switch"
+        checked
+      />
+      <span class="header-toggle__track" aria-hidden="true">
+        <span class="header-toggle__thumb"></span>
+      </span>
+    </label>
+
     <IconButton
       label="Open menu"
       icon="menu"
@@ -42,3 +56,47 @@ const isCurrent = (href: string) =>
 </header>
 
 <MobileMenu current={current} />
+
+<script>
+  const KEY = 'mohakash:v1:hide-videos';
+  const headerToggle = document.getElementById('header-hide-videos') as HTMLInputElement | null;
+  const mobileToggle = document.getElementById('mobile-hide-videos') as HTMLInputElement | null;
+
+  function readPreference(): boolean {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw === null ? true : raw !== 'false';
+    } catch {
+      return true;
+    }
+  }
+
+  function writePreference(value: boolean): void {
+    try {
+      localStorage.setItem(KEY, value ? 'true' : 'false');
+    } catch {
+      /* storage blocked */
+    }
+  }
+
+  function syncToggle(input: HTMLInputElement | null, value: boolean): void {
+    if (input) input.checked = value;
+  }
+
+  const initial = readPreference();
+  syncToggle(headerToggle, initial);
+  syncToggle(mobileToggle, initial);
+
+  function onChange(source: HTMLInputElement | null): void {
+    if (!source) return;
+    const value = source.checked;
+    writePreference(value);
+    syncToggle(headerToggle, value);
+    syncToggle(mobileToggle, value);
+    // Reload the page content if a script is listening for this change.
+    window.dispatchEvent(new CustomEvent('mohakash:hide-videos-changed', { detail: { value } }));
+  }
+
+  headerToggle?.addEventListener('change', () => onChange(headerToggle));
+  mobileToggle?.addEventListener('change', () => onChange(mobileToggle));
+</script>
