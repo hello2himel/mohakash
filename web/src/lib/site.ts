@@ -1,11 +1,20 @@
 /**
  * Site-wide constants.
  *
- * These mirror `config/site.json` at the repository root. The website is built
- * from the `web/` folder alone (Netlify build base), so it cannot read the
- * root config at build time — keep the two in sync when the owner, repository
- * or domain changes.
+ * The owner specific values (API base URL, website URL, repository) are
+ * generated from `config/site.json` at the repository root, so they only have
+ * to be changed in one place. Run `npm run generate:site` to refresh them;
+ * the `predev`, `prebuild` and `pretest` scripts do it automatically.
  */
+
+import {
+  FEED_URL,
+  ISSUES_URL,
+  PUBLIC_API_BASE,
+  REPOSITORY_URL,
+  SAME_ORIGIN_API_BASE,
+  WEBSITE_URL,
+} from './site.generated';
 
 export const SITE = {
   name: 'Mohakash',
@@ -13,12 +22,13 @@ export const SITE = {
   description:
     'Mohakash is a free, open-source way to read the Astronomy Picture of the Day, browse its archive and put each new picture on your Android home screen.',
   /** Same-origin path the website uses for every request. */
-  sameOriginApiBase: '/api/apod/v1/',
+  sameOriginApiBase: SAME_ORIGIN_API_BASE,
   /** Published API base URL (GitHub Pages). Documentation only — never fetched from. */
-  publicApiBase: 'https://hello2himel.github.io/mohakash/api/v1/',
-  websiteUrl: 'https://mohakash.netlify.app',
-  githubRepo: 'https://github.com/hello2himel/mohakash',
-  issuesUrl: 'https://github.com/hello2himel/mohakash/issues',
+  publicApiBase: PUBLIC_API_BASE,
+  websiteUrl: WEBSITE_URL,
+  githubRepo: REPOSITORY_URL,
+  issuesUrl: ISSUES_URL,
+  feedUrl: FEED_URL,
   rightsUrl: '/rights',
 } as const;
 
