@@ -6,19 +6,23 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import app.mohakash.apod.MohakashApplication
 import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.domain.wallpaper.WallpaperGeometry
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import java.io.File
 
 /**
@@ -36,31 +40,64 @@ class MohakashWallpaperService : WallpaperService() {
      */
     inner class MohakashEngine : Engine() {
 
-        private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        /**
+         * All drawing runs on one single thread, and every engine callback is posted onto it.
+         *
+         * This matters for stability: `lockCanvas`/`unlockCanvasAndPost` must never be called
+         * from two threads at once and the surface must not be touched after it was destroyed.
+         * Doing the decode-and-draw work from coroutines on `Dispatchers.Default` (as an earlier
+         * revision did) races against `onSurfaceDestroyed` and takes down the system settings
+         * process that hosts the live wallpaper — the crash users saw when opening the wallpaper
+         * preview. A dedicated handler with [isDrawingAllowed] checks makes that impossible.
+         */
+        private val renderThread = HandlerThread("MohakashWallpaperRender").apply { start() }
+        private val renderHandler = Handler(renderThread.looper)
 
         private var holder: SurfaceHolder? = null
         private var surfaceWidth = 0
         private var surfaceHeight = 0
         private var bitmap: Bitmap? = null
         private var scalingMode = WallpaperScaling.FILL
-        private var renderJob: Job? = null
         private val paint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG)
+
+        /** True while a valid surface exists; written by every callback, read on the render thread. */
+        @Volatile
+        private var surfaceAlive = false
+
+        /** Set while the framework requires a synchronous redraw of the current frame. */
+        @Volatile
+        private var awaitingSyncRedraw = false
+
+        /** Bumped by [WallpaperSignal]; observed without ever blocking a callback. */
+        private var signalRevision = -1L
+        private var observeJob: Job? = null
 
         override fun onCreate(holder: SurfaceHolder) {
             super.onCreate(holder)
             this.holder = holder
-            scope.launch {
-                val mode = runCatching {
-                    (applicationContext as? MohakashApplication)
-                        ?.container
-                        ?.settingsStore
-                        ?.current()
-                        ?.wallpaperScaling
-                }.getOrNull() ?: WallpaperScaling.FILL
-                scalingMode = mode
-                // Redraw whenever a new picture was stored — no polling involved.
-                WallpaperSignal.revision.collectLatest {
-                    render()
+            postRender { loadScalingAndObserveSignals() }
+        }
+
+        /** Reads the scaling setting once, then re-renders whenever the picture changes. */
+        private fun loadScalingAndObserveSignals() {
+            val mode = runCatching {
+                (applicationContext as? MohakashApplication)
+                    ?.container
+                    ?.settingsStore
+                    ?.current()
+                    ?.wallpaperScaling
+            }.getOrNull() ?: WallpaperScaling.FILL
+            scalingMode = mode
+            observeJob?.cancel()
+            observeJob = CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
+                WallpaperSignal.revision.collectLatest { revision ->
+                    // Never block in the collector: hand the work back to the render thread.
+                    postRender {
+                        if (revision != signalRevision) {
+                            signalRevision = revision
+                            render()
+                        }
+                    }
                 }
             }
         }
@@ -68,62 +105,127 @@ class MohakashWallpaperService : WallpaperService() {
         override fun onSurfaceCreated(holder: SurfaceHolder) {
             super.onSurfaceCreated(holder)
             this.holder = holder
-            render()
+            postRender {
+                surfaceAlive = true
+                render()
+            }
         }
 
         override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
             super.onSurfaceChanged(holder, format, width, height)
             this.holder = holder
-            this.surfaceWidth = width
-            this.surfaceHeight = height
-            render()
+            postRender {
+                surfaceWidth = width
+                surfaceHeight = height
+                surfaceAlive = true
+                render()
+            }
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
             super.onSurfaceDestroyed(holder)
-            this.holder = null
-            releaseBitmap()
+            // The framework requires this callback to return *before* the surface may be torn
+            // down. So we must NOT merely post the cleanup and return — a queued draw could
+            // still lock a dead canvas and crash the process that hosts us (the system settings
+            // wallpaper screen). Instead: block until the render thread has finished its current
+            // frame, then drop everything synchronously.
+            surfaceAlive = false
+            awaitingSyncRedraw = false
+            renderHandler.removeCallbacksAndMessages(null)
+            val drained = CompletableDeferred<Unit>()
+            val posted = runCatching {
+                renderHandler.post {
+                    releaseBitmap()
+                    surfaceWidth = 0
+                    surfaceHeight = 0
+                    this.holder = null
+                    drained.complete(Unit)
+                }
+            }.isSuccess
+            if (posted) {
+                runBlocking {
+                    withTimeoutOrNull(SYNC_REDRAW_TIMEOUT_MS) { drained.await() }
+                }
+            }
+            if (!drained.isCompleted) {
+                // The drain did not finish in time; keep only the cheap parts synchronous so we
+                // never hold the main thread hostage.
+                bitmap = null
+                surfaceWidth = 0
+                surfaceHeight = 0
+                this.holder = null
+            }
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
-            if (visible) render()
+            if (visible) postRender { render() }
         }
 
         override fun onSurfaceRedrawNeeded(holder: SurfaceHolder) {
             super.onSurfaceRedrawNeeded(holder)
             this.holder = holder
-            render()
+            // The framework blocks until this method returns, and it expects the surface to be
+            // redrawn before it does. Hand the work to the render thread and wait for it — with
+            // a timeout, so a slow decode can never deadlock the system UI that hosts us. If the
+            // surface vanished in the meantime we return immediately rather than touching it.
+            if (!surfaceAlive) return
+            awaitingSyncRedraw = true
+            val drawn = CompletableDeferred<Unit>()
+            val posted = runCatching {
+                renderHandler.post {
+                    if (surfaceAlive && awaitingSyncRedraw) {
+                        render()
+                    }
+                    drawn.complete(Unit)
+                }
+            }.isSuccess
+            if (posted) {
+                runBlocking {
+                    withTimeoutOrNull(SYNC_REDRAW_TIMEOUT_MS) { drawn.await() }
+                }
+            }
+            awaitingSyncRedraw = false
         }
 
         override fun onDestroy() {
             super.onDestroy()
-            scope.cancel()
-            releaseBitmap()
+            observeJob?.cancel()
+            renderHandler.removeCallbacksAndMessages(null)
+            renderThread.quitSafely()
         }
 
-        /** Decodes the current picture off the main thread and draws it. */
-        private suspend fun renderNow() {
+        private fun postRender(action: () -> Unit) {
+            runCatching { renderHandler.post(action) }
+        }
+
+        /** Decodes the current picture and draws it. Runs on the render thread only. */
+        private fun renderNow(): Boolean {
+            if (!surfaceAlive) return false
             val storage = (applicationContext as? MohakashApplication)?.container?.wallpaperStorage
-                ?: return
-            val file: File = storage.currentImageFile() ?: return
+                ?: return false
+            val file: File = storage.currentImageFile() ?: return false
             val width = surfaceWidth
             val height = surfaceHeight
-            val decoded = decode(file, width, height) ?: return
-            withContext(Dispatchers.Main) {
-                val previous = bitmap
-                bitmap = decoded
-                draw()
-                previous?.takeIf { it !== decoded && !it.isRecycled }?.recycle()
-            }
+            if (width <= 0 || height <= 0) return false
+            val decoded = decode(file, width, height) ?: return false
+            val previous = bitmap
+            bitmap = decoded
+            val ok = draw()
+            previous?.takeIf { it !== decoded && !it.isRecycled }?.recycle()
+            return ok
         }
 
         /** Starts a render pass; safe to call from any of the engine callbacks. */
         private fun render() {
             // Without a known surface size the picture cannot be scaled properly.
             if (surfaceWidth <= 0 || surfaceHeight <= 0) return
-            renderJob?.cancel()
-            renderJob = scope.launch { renderNow() }
+            renderNow()
+        }
+
+        /** Like [render], but reports back even when nothing was drawn (used by the sync path). */
+        private fun renderSync() {
+            render()
         }
 
         /**
@@ -150,15 +252,21 @@ class MohakashWallpaperService : WallpaperService() {
             }
         }
 
-        /** Draws the picture on the surface. Must run on the thread that owns the surface. */
-        private fun draw() {
-            val current = bitmap ?: return
-            val surface = holder ?: return
-            if (surfaceWidth <= 0 || surfaceHeight <= 0) return
+        /**
+         * Draws the picture on the surface. Runs on the render thread only.
+         *
+         * @return true when a frame was posted.
+         */
+        private fun draw(): Boolean {
+            val current = bitmap ?: return false
+            if (current.isRecycled) return false
+            val surface = holder ?: return false
+            if (!surfaceAlive) return false
+            if (surfaceWidth <= 0 || surfaceHeight <= 0) return false
 
             var canvas: Canvas? = null
             try {
-                canvas = surface.lockCanvas() ?: return
+                canvas = surface.lockCanvas() ?: return false
                 canvas.drawColor(BACKGROUND_COLOR)
                 val source = WallpaperGeometry.computeSourceRect(
                     current.width,
@@ -182,8 +290,10 @@ class MohakashWallpaperService : WallpaperService() {
                         paint,
                     )
                 }
+                return true
             } catch (error: Throwable) {
                 // A surface can disappear while we are drawing — simply skip this frame.
+                return false
             } finally {
                 if (canvas != null) {
                     runCatching { surface.unlockCanvasAndPost(canvas) }
@@ -201,5 +311,8 @@ class MohakashWallpaperService : WallpaperService() {
     companion object {
         /** The app background colour, used for the letterbox bars. */
         val BACKGROUND_COLOR: Int = Color.parseColor("#0B0D12")
+
+        /** Upper bound for waiting on a synchronous redraw before giving up. */
+        private const val SYNC_REDRAW_TIMEOUT_MS = 5_000L
     }
 }

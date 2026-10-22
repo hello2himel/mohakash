@@ -1,0 +1,32 @@
+---
+/**
+ * "Read full explanation" drawer — a modal <dialog> panel fixed to the right
+ * edge over a full-screen scrim. The page behind never moves: only the drawer
+ * body scrolls. Opened from Home and Entry via `[data-drawer-trigger]` (see
+ * `src/lib/drawer.ts` — the native dialog moves focus in, traps Tab, closes on
+ * Esc and returns focus to the control that opened it).
+ *
+ * The contents (explanation, tomorrow's picture, credits, footer actions) are
+ * filled at runtime; the markup shell is rendered here once per page.
+ */
+---
+
+<dialog class="drawer" id="explanation-drawer" aria-labelledby="drawer-title">
+  <div class="drawer__panel" tabindex="-1">
+    <header class="drawer__head">
+      <div class="drawer__heading">
+        <p class="drawer__date"></p>
+        <h2 class="drawer__title" id="drawer-title"></h2>
+      </div>
+      <button class="drawer__close" type="button" aria-label="Close" data-drawer-close>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+    </header>
+
+    <div class="drawer__body"></div>
+
+    <footer class="drawer__footer"></footer>
+  </div>
+</dialog>
