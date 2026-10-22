@@ -596,7 +596,7 @@ pre {
   padding: 0 18px;
 }
 
-.panel__nav .btn:last-child {
+.panel__nav .btn:last-child:not(:first-child) {
   justify-content: flex-end;
 }
 

@@ -46,6 +46,10 @@ const actions = need('#entry-actions');
 const explanation = need('#entry-explanation');
 const entryNav = need('#entry-nav');
 
+/** Dates of the neighbouring entries, used by the arrow-key shortcuts. */
+let previousDate: string | null = null;
+let nextDate: string | null = null;
+
 /** The date addressed by the current URL. */
 function requestedDate(): string | null {
   const parts = window.location.pathname.split('/').filter(Boolean);
@@ -158,9 +162,11 @@ function renderNeighbours(
   date: string,
 ): { nextTitle: string | null } {
   const { previous, next } = neighbours(index, date, readHideVideos());
+  previousDate = previous?.date ?? null;
+  nextDate = next?.date ?? null;
   entryNav.replaceChildren(
-    navButton('‹ Previous day', previous?.date ?? null),
-    navButton('Next day ›', next?.date ?? null),
+    navButton('‹ Previous day', previousDate),
+    navButton('Next day ›', nextDate),
   );
   return { nextTitle: next?.title ?? null };
 }
@@ -246,6 +252,8 @@ function resetForLoad(): void {
   hide(content);
   skeletonPanel.hidden = false;
   skeletonFrame.hidden = false;
+  previousDate = null;
+  nextDate = null;
 }
 
 /* ----------------------------------------------------------------- load */
@@ -303,4 +311,30 @@ async function load(): Promise<void> {
 }
 
 initDrawer();
+
+// ← / → step between entries. They are ignored while the drawer or the
+// mobile menu is open, and while text is being selected or edited.
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+  if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+    return;
+  }
+  const target = event.target as HTMLElement | null;
+  if (target?.closest('input, select, textarea, [contenteditable="true"]')) return;
+  if (document.querySelector('dialog[open]')) return;
+
+  if (event.key === 'ArrowLeft' && previousDate) {
+    event.preventDefault();
+    window.location.assign(entryPath(previousDate));
+  } else if (event.key === 'ArrowRight' && nextDate) {
+    event.preventDefault();
+    window.location.assign(entryPath(nextDate));
+  }
+});
+
+// Joining or leaving a video changes which neighbours are reachable.
+window.addEventListener('mohakash:hide-videos-changed', () => {
+  void load();
+});
+
 void load();
