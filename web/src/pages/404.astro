@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout title="Not found · Mohakash" description="This page does not exist.">
+  <div
+    class="page"
+    style="flex: 1; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 48px 0 96px;"
+  >
+    <p class="caption">Error 404</p>
+    <h1 class="page-title">Nothing out here</h1>
+    <p class="page-lead" style="max-width: 44ch;">
+      This page doesn’t exist, or the entry date isn’t in the archive.
+    </p>
+    <div class="actions" style="justify-content: center; padding-top: 8px;">
+      <Button label="Today" href="/" variant="primary" />
+      <Button label="Archive" href="/archive" variant="secondary" />
+    </div>
+  </div>
+</BaseLayout>

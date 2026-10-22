@@ -1,0 +1,72 @@
+---
+/**
+ * Mobile menu — a full-screen dialog opened from the header on small screens.
+ * It carries its own close button and the secondary links.
+ */
+import { NAV_LINKS, NOT_AFFILIATED, SITE } from '../lib/site';
+
+interface Props {
+  current: string;
+}
+
+const { current } = Astro.props;
+const isCurrent = (href: string) =>
+  href === '/' ? current === '/' : current === '/' + href || current.startsWith(href + '/');
+---
+
+<dialog class="mobile-menu" id="mobile-menu" aria-label="Site menu">
+  <div class="mobile-menu__inner">
+    <div class="mobile-menu__head">
+      <span class="wordmark">{SITE.name}</span>
+      <button class="icon-btn" type="button" id="mobile-menu-close" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="mobile-menu__nav" aria-label="Main">
+      {
+        NAV_LINKS.map((link) => (
+          <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="mobile-menu__secondary">
+      <a href={SITE.rightsUrl}>Content rights</a>
+      <a href="/feed.xml">RSS feed</a>
+    </div>
+
+    <p class="mobile-menu__note">{NOT_AFFILIATED}</p>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('mobile-menu') as HTMLDialogElement | null;
+  const openButton = document.getElementById('menu-button') as HTMLButtonElement | null;
+  const closeButton = document.getElementById('mobile-menu-close') as HTMLButtonElement | null;
+
+  if (dialog && openButton) {
+    const open = () => {
+      if (!dialog.open) dialog.showModal();
+      openButton.setAttribute('aria-expanded', 'true');
+    };
+    const close = () => {
+      if (dialog.open) dialog.close();
+      openButton.setAttribute('aria-expanded', 'false');
+    };
+
+    openButton.addEventListener('click', open);
+    closeButton?.addEventListener('click', close);
+    dialog.addEventListener('close', () => {
+      openButton.setAttribute('aria-expanded', 'false');
+    });
+    // Clicking the backdrop closes the menu.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) close();
+    });
+  }
+</script>

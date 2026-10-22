@@ -1,0 +1,59 @@
+---
+/**
+ * Image frame — `surface` fill, 1px border, 12px radius and a fixed aspect
+ * ratio. A frame without a picture stays a neutral surface (no broken-image
+ * icon). Video entries get a poster frame with a play glyph and a chip.
+ */
+interface Props {
+  /** `hero` is 16/9 (web), `thumb` and `list` are 4/3. */
+  ratio?: 'hero' | 'thumb' | 'list';
+  src?: string | null;
+  alt?: string | null;
+  /** Text shown when there is no picture. */
+  label?: string;
+  /** Chip drawn on the frame, e.g. `Video`. */
+  chip?: string | null;
+  /** Draw a play glyph on top of the frame. */
+  play?: boolean;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+
+const {
+  ratio = 'hero',
+  src = null,
+  alt = '',
+  label = 'Image not available',
+  chip = null,
+  play = false,
+  loading = 'lazy',
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={['media-frame', `media-frame--${ratio}`, className]}>
+  {
+    src ? (
+      <img
+        class="media-frame__img"
+        src={src}
+        alt={alt ?? ''}
+        loading={loading}
+        decoding="async"
+      />
+    ) : (
+      <p class="media-frame__label">{label}</p>
+    )
+  }
+  {chip && <span class="media-frame__chip">{chip}</span>}
+  {
+    play && (
+      <div class="media-frame__glyph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M10 8.5l6 3.5-6 3.5z" />
+        </svg>
+      </div>
+    )
+  }
+</div>

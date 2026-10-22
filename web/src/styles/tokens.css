@@ -1,0 +1,76 @@
+/*
+ * Mohakash design tokens.
+ *
+ * This file is the ONLY place where colours are written down. Every other
+ * stylesheet and component references the custom properties defined here.
+ * Dark theme only.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* --- surfaces & lines ------------------------------------------------ */
+  --bg: #0b0d12; /* page background */
+  --surface: #151922; /* image placeholders, inputs, sheets, skeleton base */
+  --surface-raised: #11141b; /* cards, bottom nav, info panels */
+  --surface-strong: #1b2030; /* banners, skeleton blocks, subtle fills */
+  --border: #232838; /* card and input borders */
+  --border-strong: #323849; /* outlined buttons, chips, segmented controls */
+  --divider: #1b2030; /* list row separators */
+
+  /* --- text ------------------------------------------------------------ */
+  --text: #e8eaf0; /* primary text */
+  --text-body: #d3d8e3; /* long-form explanation text */
+  --text-muted: #a3abbd; /* dates, captions, secondary labels */
+
+  /* --- accent ---------------------------------------------------------- */
+  --accent: #8fb0ff; /* primary buttons, selected chips, links, switches */
+  --on-accent: #0b0d12; /* text and icons on accent fills */
+
+  /* --- overlays -------------------------------------------------------- */
+  --scrim: rgba(0, 0, 0, 0.62); /* behind sheets and dialogs */
+
+  /* --- typography ------------------------------------------------------ */
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, Consolas, monospace;
+
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-caption: 13px;
+  --text-ui: 14px;
+  --text-ui-lg: 15px;
+  --text-body-lg: 17px;
+  --text-title: 40px;
+  --text-h2: 20px;
+  --text-h3: 18px;
+
+  /* --- spacing scale --------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  /* --- radii & borders ------------------------------------------------- */
+  --radius-sm: 8px; /* inputs, buttons */
+  --radius-md: 10px; /* cards, list thumbnails */
+  --radius-lg: 12px; /* images, panels, banners */
+  --radius-pill: 999px; /* chips */
+
+  --border-width: 1px;
+
+  /* --- layout ---------------------------------------------------------- */
+  --content-width: 1040px;
+  --gutter: 24px;
+  --header-height: 72px;
+  --measure: 68ch;
+
+  /* --- motion ---------------------------------------------------------- */
+  --fade-duration: 160ms;
+}

@@ -1,0 +1,26 @@
+---
+/**
+ * Banner — `surface-strong`, 12px radius, one sentence and one action.
+ * Used for the "showing a saved copy" state.
+ */
+interface Props {
+  message: string;
+  actionLabel?: string;
+  actionHref?: string;
+  id?: string;
+  class?: string;
+}
+
+const { message, actionLabel, actionHref, id, class: className } = Astro.props;
+---
+
+<div class:list={['banner', className]} role="status" id={id}>
+  <p class="banner__message">{message}</p>
+  {
+    actionLabel && actionHref && (
+      <a class="btn btn--secondary" href={actionHref}>
+        {actionLabel}
+      </a>
+    )
+  }
+</div>

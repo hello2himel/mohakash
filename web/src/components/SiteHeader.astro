@@ -1,0 +1,44 @@
+---
+/**
+ * Site header — wordmark on the left, main navigation on the right.
+ * Below 600px the navigation collapses into the full-screen menu button.
+ */
+import IconButton from './IconButton.astro';
+import MobileMenu from './MobileMenu.astro';
+import { NAV_LINKS, SITE } from '../lib/site';
+
+interface Props {
+  /** Current path, used to mark the active navigation item. */
+  current: string;
+}
+
+const { current } = Astro.props;
+const isCurrent = (href: string) =>
+  href === '/' ? current === '/' : current === '/' + href || current.startsWith(href + '/');
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="wordmark" href="/">{SITE.name}</a>
+
+    <nav class="site-nav" aria-label="Main">
+      {
+        NAV_LINKS.map((link) => (
+          <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <IconButton
+      label="Open menu"
+      icon="menu"
+      id="menu-button"
+      class="site-header__menu-button"
+      expanded={false}
+    />
+  </div>
+</header>
+
+<MobileMenu current={current} />

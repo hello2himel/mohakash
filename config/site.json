@@ -1,0 +1,28 @@
+{
+  "$comment": "Single source of truth for owner-specific URLs. Change the values here and re-run `python3 scripts/render_netlify_config.py`. The website, the public API base URL and the Android app all read from this file.",
+  "project_name": "Mohakash",
+  "project_tagline": "Daily astronomy picture, archive and live wallpaper.",
+  "github": {
+    "owner": "hello2himel",
+    "repo": "mohakash",
+    "pages_type": "project",
+    "custom_domain": null
+  },
+  "website": {
+    "base_url": "https://mohakash.netlify.app"
+  },
+  "api": {
+    "version": "v1",
+    "same_origin_prefix": "/api/apod/v1",
+    "latest_max_age_seconds": 300,
+    "archive_max_age_seconds": 86400,
+    "feed_entry_count": 30
+  },
+  "android": {
+    "package": "app.mohakash.apod",
+    "api_base_url_fallbacks": [
+      "https://hello2himel.github.io/mohakash/api/v1",
+      "https://hello2himel.github.io/api/v1"
+    ]
+  }
+}

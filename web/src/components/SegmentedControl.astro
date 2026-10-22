@@ -1,0 +1,41 @@
+---
+/**
+ * Segmented control — a joined, outlined group of options with a visible
+ * group label. The selected segment is accent-filled and bold.
+ */
+interface Segment {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  /** Visible group label, wired to the group with `aria-labelledby`. */
+  label: string;
+  segments: Segment[];
+  /** Value of the selected segment. */
+  value: string;
+  id?: string;
+  class?: string;
+}
+
+const { label, segments, value, id, class: className } = Astro.props;
+const labelId = `${id ?? 'segmented'}-label`;
+---
+
+<div class:list={['segmented', className]} id={id}>
+  <span class="segmented__label" id={labelId}>{label}</span>
+  <div class="segmented__options" role="group" aria-labelledby={labelId}>
+    {
+      segments.map((segment) => (
+        <button
+          class="segmented__option"
+          type="button"
+          data-segment-value={segment.value}
+          aria-pressed={segment.value === value}
+        >
+          {segment.label}
+        </button>
+      ))
+    }
+  </div>
+</div>

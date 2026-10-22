@@ -1,0 +1,9 @@
+{
+  "last_attempt": "2026-10-22T12:19:53Z",
+  "last_error": null,
+  "last_successful_sync": "2026-10-22T12:19:53Z",
+  "latest_available_date": "2026-10-22",
+  "record_count": 94,
+  "source_endpoint": "https://science.nasa.gov/wp-json/wp/v2/apod-basic",
+  "source_status": "ok"
+}

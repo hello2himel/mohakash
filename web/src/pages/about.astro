@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="About · Mohakash"
+  description="How Mohakash collects, publishes and reads the Astronomy Picture of the Day — and how the Android live wallpaper works."
+>
+  <div class="page page--tight">
+    <div class="stack-sm" style="max-width: 68ch;">
+      <h1 class="page-title">About</h1>
+      <p class="page-lead">
+        {SITE.name} is a free, open-source way to read the Astronomy Picture of the Day, browse its archive and
+        put each new picture on your Android home screen. No accounts, no tracking.
+      </p>
+    </div>
+
+    <section class="section" aria-labelledby="how">
+      <h2 class="section-title" id="how">How it works</h2>
+      <div class="card-grid card-grid--3">
+        <div class="card">
+          <div class="step-number">1</div>
+          <div class="step-title">Collect</div>
+          <p>Twice a day the latest entries are fetched from the original source and checked.</p>
+        </div>
+        <div class="card">
+          <div class="step-number">2</div>
+          <div class="step-title">Publish</div>
+          <p>Valid data is published as static JSON. Images stay on their original servers.</p>
+        </div>
+        <div class="card">
+          <div class="step-number">3</div>
+          <div class="step-title">Read</div>
+          <p>This website and the Android app read the same data.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="wp" style="max-width: 68ch;">
+      <h2 class="section-title" id="wp">Live wallpaper (Android)</h2>
+      <ol style="color: var(--text-body); display: flex; flex-direction: column; gap: 4px;">
+        <li>Install the app and open it once.</li>
+        <li>Tap “Set live wallpaper” on the Today screen.</li>
+        <li>Confirm in Android’s wallpaper preview.</li>
+      </ol>
+      <p class="muted-block">
+        New pictures arrive about once a day. Android decides the exact time, so updates can be delayed by
+        battery settings.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="oss" style="max-width: 68ch;">
+      <h2 class="section-title" id="oss">Open source</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        Code is public on GitHub. Images belong to their creators, see <a href="/rights">content rights</a>. This
+        is an independent project, not affiliated with or endorsed by NASA.
+      </p>
+      <p class="muted-block">
+        <a href={SITE.githubRepo}>{SITE.githubRepo}</a>
+      </p>
+    </section>
+  </div>
+</BaseLayout>

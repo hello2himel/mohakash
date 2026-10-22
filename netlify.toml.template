@@ -1,0 +1,69 @@
+# Mohakash — Netlify configuration
+#
+# ─────────────────────────────────────────────────────────────────────────────
+#  THIS FILE IS GENERATED.  Do not edit it directly.
+#
+#  Edit `config/site.json` and run:
+#
+#      python3 scripts/render_netlify_config.py
+#
+#  `config/site.json` is the single place where the GitHub owner, the
+#  repository name and the custom domain are configured.  The script renders
+#  this file from `netlify.toml.template`.
+# ─────────────────────────────────────────────────────────────────────────────
+
+[build]
+  base = "web"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# The static website only ever fetches from its own origin
+# (/api/apod/v1/...), so the published API is proxied here.
+
+[[redirects]]
+  from = "/api/apod/v1/*"
+  to = "{{PAGES_BASE_URL}}/api/v1/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/feed.xml"
+  to = "{{PAGES_BASE_URL}}/feed.xml"
+  status = 200
+  force = true
+
+# Entry pages are addressed as /archive/YYYY-MM-DD. The static shell is
+# rewritten for every date; the record itself is fetched from the API at
+# runtime, so a new entry works without rebuilding the site.
+[[redirects]]
+  from = "/archive/:date"
+  to = "/archive/entry/index.html"
+  status = 200
+  force = true
+
+# Cache rules for the proxied API documents. The fresh documents (latest,
+# status, index) are cached briefly and must be revalidated, the yearly
+# files change rarely and may be cached for a day.
+
+[[headers]]
+  for = "/api/apod/v1/latest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+[[headers]]
+  for = "/api/apod/v1/status.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+[[headers]]
+  for = "/api/apod/v1/archive-index.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+[[headers]]
+  for = "/api/apod/v1/archive/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=3600"

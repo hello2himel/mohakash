@@ -1,0 +1,6 @@
+# Runtime dependencies of the Mohakash data pipeline.
+#
+# The pipeline itself only uses the Python standard library.  PyYAML is used
+# by the workflow tests and pytest runs the test suite.
+pytest>=8.0
+PyYAML>=6.0

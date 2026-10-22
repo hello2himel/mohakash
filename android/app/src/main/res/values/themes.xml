@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Mohakash" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/mohakash_background</item>
+        <item name="android:statusBarColor">@color/mohakash_background</item>
+        <item name="android:navigationBarColor">@color/mohakash_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:colorAccent">@color/mohakash_accent</item>
+    </style>
+
+    <style name="Theme.Mohakash.Wallpaper" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/mohakash_background</item>
+    </style>
+</resources>

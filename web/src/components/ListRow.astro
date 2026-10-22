@@ -1,0 +1,48 @@
+---
+/**
+ * List row — a thumbnail plus a small muted line above a truncated title.
+ * `layout="grid"` stacks the thumbnail above the text (archive grid cards);
+ * `layout="row"` puts the thumbnail on the left (list rows, 72px minimum).
+ */
+interface Props {
+  href: string;
+  /** Small muted line above the title — a date, a label, an endpoint. */
+  meta: string;
+  title: string;
+  thumbnail?: string | null;
+  thumbnailAlt?: string;
+  layout?: 'row' | 'grid';
+  /** Right-align the text (used by the "next day" link). */
+  align?: 'start' | 'end';
+  class?: string;
+}
+
+const {
+  href,
+  meta,
+  title,
+  thumbnail = null,
+  thumbnailAlt = '',
+  layout = 'row',
+  align = 'start',
+  class: className,
+} = Astro.props;
+---
+
+<a
+  class:list={['list-row', layout === 'grid' ? 'list-row--grid' : '', className]}
+  href={href}
+  style={align === 'end' ? 'text-align: right;' : undefined}
+>
+  {
+    thumbnail ? (
+      <span class="list-row__thumb">
+        <img src={thumbnail} alt={thumbnailAlt} loading="lazy" decoding="async" />
+      </span>
+    ) : null
+  }
+  <span class="list-row__text">
+    <span class="list-row__meta">{meta}</span>
+    <span class="list-row__title">{title}</span>
+  </span>
+</a>
