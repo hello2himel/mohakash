@@ -143,6 +143,21 @@ def test_build_refuses_to_publish_an_empty_archive(tmp_path, site_config):
         build_public_api(data_root=store.root, output_root=tmp_path / "out", config=site_config, state={})
 
 
+def test_the_published_timestamp_comes_from_the_data(populated):
+    """An unchanged archive must produce byte identical files."""
+    root, store, config = populated
+    output = root / "out"
+    build_public_api(data_root=store.root, output_root=output, config=config, state={})
+
+    latest = json.loads((output / "api" / "v1" / "latest.json").read_text(encoding="utf-8"))
+    index = json.loads((output / "api" / "v1" / "archive-index.json").read_text(encoding="utf-8"))
+    year = json.loads((output / "api" / "v1" / "archive" / "2026.json").read_text(encoding="utf-8"))
+
+    assert latest["generated_at"] == "2026-10-22T07:17:00Z"
+    assert index["generated_at"] == "2026-10-22T07:17:00Z"
+    assert year["generated_at"] == "2026-10-22T07:17:00Z"
+
+
 def test_feed_is_valid_rss(populated):
     root, store, config = populated
     output = root / "out"

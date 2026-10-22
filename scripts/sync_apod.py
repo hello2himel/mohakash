@@ -33,7 +33,7 @@ from mohakash.archive import ArchiveStore, load_sync_state, save_sync_state  # n
 from mohakash.config import REPO_ROOT, load_config  # noqa: E402
 from mohakash.nasa_adapter import DEFAULT_BASE_URL, NasaAdapter, SourceError  # noqa: E402
 from mohakash.normalize import normalize_record  # noqa: E402
-from mohakash.publish import assemble_api_site, build_public_api  # noqa: E402
+from mohakash.publish import assemble_api_site, build_public_api, data_timestamp  # noqa: E402
 from mohakash.schema import SCHEMA_VERSION  # noqa: E402
 
 LOGGER = logging.getLogger("mohakash.sync")
@@ -64,16 +64,20 @@ def _setup_logging(verbose: bool) -> None:
     )
 
 
-def _paths(args: argparse.Namespace) -> tuple[Path, Path, Path]:
-    """Return ``(data_root, output_root, state_path)``.
+def _paths(args: argparse.Namespace) -> tuple[Path, Path, Path, Path]:
+    """Return ``(data_root, output_root, state_path, run_state_path)``.
 
     ``data_root`` is the directory that holds ``records/``, ``api/`` and
-    ``sync-state.json``.
+    ``sync-state.json``.  The committed ``sync-state.json`` only carries facts
+    that are derived from the archive, so it stays stable as long as the data
+    does.  The volatile run log (``last_attempt`` and friends) is written to
+    ``.run-state.json``, which is not committed.
     """
     data_root = Path(args.data_root) if args.data_root else REPO_ROOT / "data"
     output_root = Path(args.output_root) if args.output_root else data_root
     state_path = data_root / "sync-state.json"
-    return data_root, output_root, state_path
+    run_state_path = data_root / ".run-state.json"
+    return data_root, output_root, state_path, run_state_path
 
 
 def _adapter(args: argparse.Namespace) -> NasaAdapter:
@@ -88,14 +92,15 @@ def _adapter(args: argparse.Namespace) -> NasaAdapter:
 # sync
 # --------------------------------------------------------------------------
 def command_sync(args: argparse.Namespace) -> int:
-    data_root, output_root, state_path = _paths(args)
+    data_root, output_root, state_path, run_state_path = _paths(args)
     adapter = _adapter(args)
     store = ArchiveStore(data_root)
     state = load_sync_state(state_path)
+    run_state = load_sync_state(run_state_path)
     now = _utc_now()
 
-    state["last_attempt"] = _iso(now)
-    state["source_endpoint"] = adapter.base_url
+    run_state["last_attempt"] = _iso(now)
+    run_state["source_endpoint"] = adapter.base_url
 
     try:
         newest = adapter.fetch_page(1)
@@ -131,18 +136,25 @@ def command_sync(args: argparse.Namespace) -> int:
         )
     except SourceError as exc:
         LOGGER.error("sync failed, keeping the existing archive: %s", exc)
-        state["source_status"] = "error"
-        state["last_error"] = str(exc)[:400]
-        save_sync_state(state_path, state)
+        run_state["source_status"] = "error"
+        run_state["last_error"] = str(exc)[:400]
+        save_sync_state(run_state_path, run_state)
         return 2
 
     all_records = list(store.iter_records())
+    # The published timestamp is derived from the data, so an unchanged
+    # archive produces no diff at all.
     state["record_count"] = len(all_records)
     state["latest_available_date"] = max((r.date for r in all_records), default=None)
     state["source_status"] = "ok"
     state["last_error"] = None
-    state["last_successful_sync"] = _iso(now)
+    state["source_endpoint"] = adapter.base_url
+    state["last_successful_sync"] = data_timestamp(all_records)
     save_sync_state(state_path, state)
+    run_state["last_successful_run"] = _iso(now)
+    run_state["source_status"] = "ok"
+    run_state["last_error"] = None
+    save_sync_state(run_state_path, run_state)
 
     result = build_public_api(
         data_root=data_root,
@@ -161,10 +173,11 @@ def command_sync(args: argparse.Namespace) -> int:
 # backfill
 # --------------------------------------------------------------------------
 def command_backfill(args: argparse.Namespace) -> int:
-    data_root, output_root, state_path = _paths(args)
+    data_root, output_root, state_path, run_state_path = _paths(args)
     adapter = _adapter(args)
     store = ArchiveStore(data_root)
     state = load_sync_state(state_path)
+    run_state = load_sync_state(run_state_path)
     now = _utc_now()
 
     today = now.date()
@@ -183,8 +196,8 @@ def command_backfill(args: argparse.Namespace) -> int:
         return 1
 
     LOGGER.info("backfilling %s .. %s", start, end)
-    state["last_attempt"] = _iso(now)
-    state["source_endpoint"] = adapter.base_url
+    run_state["last_attempt"] = _iso(now)
+    run_state["source_endpoint"] = adapter.base_url
 
     existing = store.load_all()
     if existing:
@@ -220,9 +233,9 @@ def command_backfill(args: argparse.Namespace) -> int:
             LOGGER.info("resuming at page %s (date %s)", page_number, resume_from)
         except SourceError as exc:
             LOGGER.error("could not locate the start page: %s", exc)
-            state["source_status"] = "error"
-            state["last_error"] = str(exc)[:400]
-            save_sync_state(state_path, state)
+            run_state["source_status"] = "error"
+            run_state["last_error"] = str(exc)[:400]
+            save_sync_state(run_state_path, run_state)
             return 2
 
     pending: dict[int, dict[str, object]] = {}
@@ -284,9 +297,9 @@ def command_backfill(args: argparse.Namespace) -> int:
         LOGGER.error("backfill interrupted: %s", exc)
         for year, records in pending.items():
             stored += _flush_year(store, year, records)
-        state["source_status"] = "error"
-        state["last_error"] = str(exc)[:400]
-        save_sync_state(state_path, state)
+        run_state["source_status"] = "error"
+        run_state["last_error"] = str(exc)[:400]
+        save_sync_state(run_state_path, run_state)
         # The archive keeps whatever was stored before the failure.
         _publish(data_root, output_root, state, args)
         return 2
@@ -299,8 +312,13 @@ def command_backfill(args: argparse.Namespace) -> int:
     state["latest_available_date"] = max((r.date for r in all_records), default=None)
     state["source_status"] = "ok"
     state["last_error"] = None
-    state["last_successful_sync"] = _iso(now)
+    state["source_endpoint"] = adapter.base_url
+    state["last_successful_sync"] = data_timestamp(all_records)
     save_sync_state(state_path, state)
+    run_state["last_successful_run"] = _iso(now)
+    run_state["source_status"] = "ok"
+    run_state["last_error"] = None
+    save_sync_state(run_state_path, run_state)
     LOGGER.info("backfill finished: %s records stored in total", len(all_records))
 
     _publish(data_root, output_root, state, args)
@@ -340,7 +358,7 @@ def command_renormalize(args: argparse.Namespace) -> int:
     """Re-derive the image URLs of every stored record (no network access)."""
     from mohakash.normalize import renormalize_record
 
-    data_root, output_root, state_path = _paths(args)
+    data_root, output_root, state_path, run_state_path = _paths(args)
     store = ArchiveStore(data_root)
     changed_years: set[int] = set()
     for year in store.available_years():
@@ -354,7 +372,7 @@ def command_renormalize(args: argparse.Namespace) -> int:
 
 
 def command_build(args: argparse.Namespace) -> int:
-    data_root, output_root, state_path = _paths(args)
+    data_root, output_root, state_path, run_state_path = _paths(args)
     state = load_sync_state(state_path)
     result = build_public_api(
         data_root=data_root,
@@ -367,7 +385,7 @@ def command_build(args: argparse.Namespace) -> int:
 
 
 def command_validate(args: argparse.Namespace) -> int:
-    data_root, output_root, state_path = _paths(args)
+    data_root, output_root, state_path, run_state_path = _paths(args)
     errors = validate_archive(data_root)
     errors += validate_public_api(output_root, load_config(args.config))
     if errors:
@@ -488,7 +506,7 @@ def validate_public_api(output_root: Path, config) -> list[str]:
 
 
 def command_assemble_site(args: argparse.Namespace) -> int:
-    data_root, output_root, _state = _paths(args)
+    data_root, output_root, _state, _run_state = _paths(args)
     site_root = Path(args.site_root) if args.site_root else REPO_ROOT / "api-site"
     written = assemble_api_site(data_root=output_root, site_root=site_root)
     LOGGER.info("assembled %s path(s) into %s", len(written), site_root)
@@ -496,7 +514,7 @@ def command_assemble_site(args: argparse.Namespace) -> int:
 
 
 def command_status(args: argparse.Namespace) -> int:
-    data_root, output_root, state_path = _paths(args)
+    data_root, output_root, state_path, run_state_path = _paths(args)
     store = ArchiveStore(data_root)
     records = list(store.iter_records())
     state = load_sync_state(state_path)
