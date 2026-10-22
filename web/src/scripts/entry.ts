@@ -146,14 +146,30 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
 
 /* ------------------------------------------------------------------ nav */
 
-function navButton(label: string, date: string | null): HTMLElement {
+function navIcon(className: string): HTMLElement {
+  const icon = document.createElement('i');
+  icon.className = `icon ${className}`;
+  icon.setAttribute('aria-hidden', 'true');
+  return icon;
+}
+
+function navButton(
+  label: string,
+  iconClass: string,
+  date: string | null,
+  iconAfter = false,
+): HTMLElement {
+  const text = el('span', undefined, label);
+  const icon = navIcon(iconClass);
   if (date) {
-    const link = el('a', 'btn btn--secondary', label);
+    const link = el('a', 'btn btn--secondary');
     link.href = entryPath(date);
+    link.append(...(iconAfter ? [text, icon] : [icon, text]));
     return link;
   }
-  const disabled = el('span', 'btn btn--secondary', label);
+  const disabled = el('span', 'btn btn--secondary');
   disabled.setAttribute('aria-disabled', 'true');
+  disabled.append(...(iconAfter ? [text, icon] : [icon, text]));
   return disabled;
 }
 
@@ -165,8 +181,8 @@ function renderNeighbours(
   previousDate = previous?.date ?? null;
   nextDate = next?.date ?? null;
   entryNav.replaceChildren(
-    navButton('‹ Previous day', previousDate),
-    navButton('Next day ›', nextDate),
+    navButton('Previous day', 'ri-arrow-left-s-line', previousDate),
+    navButton('Next day', 'ri-arrow-right-s-line', nextDate, true),
   );
   return { nextTitle: next?.title ?? null };
 }

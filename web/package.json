@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Mohakash website \u2014 a static Astro front-end for the Astronomy Picture of the Day JSON API.",
+  "description": "Mohakash website — a static Astro front-end for the Astronomy Picture of the Day JSON API.",
   "scripts": {
     "generate:site": "node scripts/generate-site-config.mjs",
     "predev": "npm run generate:site",
@@ -18,7 +18,8 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^5.18.2"
+    "astro": "^5.18.2",
+    "remixicon": "^4.9.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
