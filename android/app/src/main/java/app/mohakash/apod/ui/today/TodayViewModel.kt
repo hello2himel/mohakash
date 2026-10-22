@@ -12,6 +12,8 @@ import app.mohakash.apod.data.storage.WallpaperMeta
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.WallpaperScaling
+import app.mohakash.apod.work.ApodSyncEngine
+import app.mohakash.apod.work.InstallOutcome
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,6 +55,7 @@ class TodayViewModel(
     private val settingsStore: SettingsStore,
     private val shareHelper: ShareHelper,
     private val wallpaperStorage: WallpaperStorage,
+    private val syncEngine: ApodSyncEngine,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TodayUiState())
@@ -208,10 +211,34 @@ class TodayViewModel(
         }
     }
 
-    /** Opens the system wallpaper preview. */
+    /**
+     * Installs the picture of the current entry as the live wallpaper and opens the system
+     * preview.
+     *
+     * Installing before the picker opens is what keeps the preview in sync with the entry the
+     * user is looking at; opening the picker first shows whatever was installed previously.
+     */
     fun previewAndSetWallpaper() {
+        val entry = _state.value.entry
         viewModelScope.launch {
-            _events.send(TodayEvent.OpenWallpaperPicker)
+            if (entry == null) {
+                _events.send(TodayEvent.OpenWallpaperPicker)
+                return@launch
+            }
+
+            val settings = settingsStore.current()
+            when (syncEngine.install(entry, settings.preferHd, settings.hideVideos)) {
+                InstallOutcome.INSTALLED, InstallOutcome.UNCHANGED -> {
+                    _state.value = _state.value.copy(
+                        wallpaperMeta = wallpaperStorage.readMeta(),
+                        wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
+                    )
+                    _events.send(TodayEvent.OpenWallpaperPicker)
+                }
+
+                InstallOutcome.NOT_USABLE -> _events.send(TodayEvent.OpenWallpaperPicker)
+                InstallOutcome.FAILED -> _events.send(TodayEvent.ShowMessage(MESSAGE_WALLPAPER_FAILED))
+            }
         }
     }
 
@@ -231,5 +258,6 @@ class TodayViewModel(
         const val MESSAGE_FAVOURITE_ADDED = "Saved"
         const val MESSAGE_FAVOURITE_REMOVED = "Removed from saved"
         const val MESSAGE_FAVOURITE_FAILED = "Could not update the saved list."
+        const val MESSAGE_WALLPAPER_FAILED = "Could not prepare the wallpaper."
     }
 }

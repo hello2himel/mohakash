@@ -30,6 +30,7 @@ import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTheme
 import app.mohakash.apod.ui.today.TodayContent
 import app.mohakash.apod.ui.today.TodayUiState
+import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import app.mohakash.apod.ui.wallpaper.WallpaperSheetContent
 
 /**
@@ -361,7 +362,8 @@ private fun SettingsPreview() {
 private fun OnboardingPreview() {
     PreviewSurface {
         OnboardingContent(
-            previewPath = null,
+            preview = WallpaperPreview(),
+            isPreparing = false,
             onSetWallpaper = {},
             onSkip = {},
         )
@@ -381,7 +383,7 @@ private fun WallpaperSheetPreview() {
             WallpaperSheetContent(
                 scaling = WallpaperScaling.FILL,
                 updateDaily = true,
-                previewPath = null,
+                preview = WallpaperPreview(),
                 caption = "2026-10-23 · The Veil of Cygnus",
                 onScalingChange = {},
                 onUpdateDailyChange = {},

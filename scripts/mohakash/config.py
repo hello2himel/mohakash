@@ -115,7 +115,7 @@ def load_config(path: str | Path | None = None) -> SiteConfig:
         latest_max_age_seconds=int(api.get("latest_max_age_seconds") or 300),
         archive_max_age_seconds=int(api.get("archive_max_age_seconds") or 86400),
         feed_entry_count=int(api.get("feed_entry_count") or 30),
-        android_package=str(android.get("package") or "app.mohakash.apod"),
+        android_package=str(android.get("package") or "mohakash.stargzr.space"),
         android_api_base_url_fallbacks=tuple(
             str(url).rstrip("/") for url in (android.get("api_base_url_fallbacks") or [])
         ),

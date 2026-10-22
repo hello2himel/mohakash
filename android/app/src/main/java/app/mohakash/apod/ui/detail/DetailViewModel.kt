@@ -157,7 +157,7 @@ class DetailViewModel(
         }
         viewModelScope.launch {
             val settings = settingsStore.current()
-            val outcome = syncEngine.install(entry, settings.preferHd)
+            val outcome = syncEngine.install(entry, settings.preferHd, settings.hideVideos)
             when (outcome) {
                 app.mohakash.apod.work.InstallOutcome.INSTALLED -> {
                     _state.value = _state.value.copy(

@@ -60,6 +60,7 @@ import app.mohakash.apod.ui.navigation.openWallpaperPicker
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
+import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import app.mohakash.apod.ui.wallpaper.WallpaperSheet
 import kotlinx.coroutines.launch
 
@@ -83,6 +84,7 @@ fun TodayScreen(
             settingsStore = container.settingsStore,
             shareHelper = container.shareHelper,
             wallpaperStorage = container.wallpaperStorage,
+            syncEngine = container.syncEngine,
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -125,7 +127,7 @@ fun TodayScreen(
         WallpaperSheet(
             scaling = state.scaling,
             updateDaily = state.updateDaily,
-            previewPath = state.wallpaperPreviewPath,
+            preview = todayWallpaperPreview(state),
             caption = wallpaperCaption(state),
             onDismiss = { showWallpaperSheet = false },
             onScalingChange = viewModel::setScaling,
@@ -537,17 +539,43 @@ internal fun creditLine(date: String?, credit: String?): String {
     }
 }
 
-/** The caption of the current wallpaper picture: `date · title`. */
+/** The caption of the selected picture: `date · title`. */
 internal fun wallpaperCaption(state: TodayUiState): String {
-    val meta = state.wallpaperMeta
-    if (meta == null) return "—"
-    val date = meta.date.takeIf { it.isNotBlank() }.orEmpty()
-    val title = meta.title.takeIf { it.isNotBlank() }.orEmpty()
+    val date = (state.entry?.date ?: state.wallpaperMeta?.date)?.takeIf { it.isNotBlank() }.orEmpty()
+    val title = (state.entry?.title ?: state.wallpaperMeta?.title)?.takeIf { it.isNotBlank() }.orEmpty()
     return when {
         date.isBlank() -> title
         title.isBlank() -> date
         else -> "$date · $title"
     }
+}
+
+/**
+ * The picture the wallpaper sheet should show.
+ *
+ * It is the entry on screen, not the previously installed picture. The local file is reused only
+ * when it already belongs to that entry, so the sheet keeps working offline after it was set.
+ */
+internal fun todayWallpaperPreview(state: TodayUiState): WallpaperPreview {
+    val entry = state.entry ?: return WallpaperPreview(localPath = state.wallpaperPreviewPath)
+    val installedUrl = state.wallpaperMeta?.sourceUrl
+    val installedIsEntry = state.wallpaperPreviewPath != null &&
+        state.wallpaperMeta?.date == entry.date &&
+        installedUrl != null &&
+        installedUrl in setOfNotNull(entry.imageUrl, entry.hdImageUrl, entry.thumbnailUrl)
+    if (installedIsEntry) {
+        return WallpaperPreview(localPath = state.wallpaperPreviewPath)
+    }
+
+    val remote = if (entry.mediaType.isImage) {
+        entry.displayImageUrl
+    } else {
+        entry.thumbnailUrl ?: entry.displayImageUrl
+    }
+    return WallpaperPreview(
+        localPath = state.wallpaperPreviewPath.takeIf { remote == null },
+        remoteUrl = remote,
+    )
 }
 
 /** Shown when the legacy storage permission is refused. */

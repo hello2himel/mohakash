@@ -1844,3 +1844,58 @@ body.has-drawer-open {
     display: none;
   }
 }
+
+/* ---------------------------------------------------------- donate prompt */
+/*
+ * A small, dismissible support note for frequent readers. It is not a modal,
+ * has no scrim and no transition, and it never appears on the About page.
+ */
+.donate-prompt {
+  position: fixed;
+  left: 24px;
+  bottom: 56px;
+  z-index: 40;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-body);
+  font-size: var(--text-14);
+  line-height: 1.5;
+}
+
+.donate-prompt__title {
+  margin: 0 0 4px;
+  color: var(--text);
+  font-size: var(--text-14);
+  font-weight: 600;
+}
+
+.donate-prompt__text {
+  margin: 0;
+}
+
+.donate-prompt__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.donate-prompt__dismiss {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+@media (max-width: 699px) {
+  .donate-prompt {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    width: auto;
+    max-width: none;
+  }
+}

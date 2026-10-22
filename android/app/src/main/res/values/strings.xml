@@ -39,7 +39,7 @@
     <!-- Wallpaper sheet -->
     <string name="wallpaper_sheet_title">Live wallpaper</string>
     <string name="wallpaper_preview">Preview</string>
-    <string name="wallpaper_current_image">Current image</string>
+    <string name="wallpaper_selected_image">Selected image</string>
     <string name="wallpaper_scaling">Scaling</string>
     <string name="wallpaper_update_daily">Update daily</string>
     <string name="wallpaper_preview_and_set">Preview and set</string>

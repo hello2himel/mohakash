@@ -1,0 +1,104 @@
+---
+/**
+ * A one-off, polite support note for readers who have used the site a lot.
+ *
+ * The heuristic lives entirely in the browser (see `src/lib/donation.ts`):
+ * no account, cookie, network call or analytics. It appears after a short
+ * pause, never on the About page (where the donate button already lives),
+ * at most once every 30 days, and it is dismissed with "Not now".
+ */
+import { SITE } from '../lib/site';
+---
+
+<aside class="donate-prompt" id="donate-prompt" role="status" aria-live="polite" hidden>
+  <p class="donate-prompt__title">Support mohakash</p>
+  <p class="donate-prompt__text">
+    You've been exploring quite a bit lately. If it's useful, a small donation helps keep it
+    running — no pressure.
+  </p>
+  <div class="donate-prompt__actions">
+    <a
+      class="btn btn--primary"
+      href={SITE.donateUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-donate-link
+    >
+      <i class="icon ri-heart-line" aria-hidden="true"></i>
+      <span class="btn__label">Donate</span>
+    </a>
+    <button class="btn btn--text donate-prompt__dismiss" type="button" data-donate-dismiss>
+      Not now
+    </button>
+  </div>
+</aside>
+
+<script>
+  import { getStorage } from '../lib/cache';
+  import {
+    PROMPT_DELAY_MS,
+    SESSION_KEY,
+    USAGE_KEY,
+    markDonated,
+    markPrompted,
+    parseUsage,
+    registerUsage,
+    shouldAsk,
+    type UsageState,
+  } from '../lib/donation';
+
+  const store = getStorage();
+  const prompt = document.getElementById('donate-prompt');
+
+  function read(): UsageState {
+    return parseUsage(store.getItem(USAGE_KEY));
+  }
+
+  function write(state: UsageState): void {
+    try {
+      store.setItem(USAGE_KEY, JSON.stringify(state));
+    } catch {
+      /* storage blocked or full: the prompt simply will not persist */
+    }
+  }
+
+  const now = new Date();
+  let newSession = false;
+  try {
+    if (!sessionStorage.getItem(SESSION_KEY)) {
+      sessionStorage.setItem(SESSION_KEY, now.toISOString());
+      newSession = true;
+    }
+  } catch {
+    // Without session storage, leave the session counter alone rather than
+    // inflating it on every navigation.
+  }
+
+  const usage = registerUsage(read(), window.location.pathname, now, newSession);
+  write(usage);
+
+  // The About page already offers the support button; do not stack a second ask.
+  const suppressOnThisPage = window.location.pathname.startsWith('/about');
+
+  if (prompt && !suppressOnThisPage && shouldAsk(usage, now)) {
+    window.setTimeout(() => {
+      if (!prompt.hidden) return;
+      const latest = read();
+      if (!shouldAsk(latest, new Date())) return;
+      prompt.hidden = false;
+      write(markPrompted(latest, new Date()));
+    }, PROMPT_DELAY_MS);
+  }
+
+  prompt?.querySelector<HTMLButtonElement>('[data-donate-dismiss]')?.addEventListener('click', () => {
+    if (prompt) prompt.hidden = true;
+    write(markPrompted(read(), new Date()));
+  });
+
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-donate-link]')) {
+    link.addEventListener('click', () => {
+      write(markDonated(read(), new Date()));
+      if (prompt) prompt.hidden = true;
+    });
+  }
+</script>

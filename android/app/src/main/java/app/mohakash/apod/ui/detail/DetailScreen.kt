@@ -52,6 +52,7 @@ import app.mohakash.apod.ui.navigation.openWallpaperPicker
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
+import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import app.mohakash.apod.ui.wallpaper.WallpaperSheet
 import kotlinx.coroutines.launch
 
@@ -117,7 +118,7 @@ fun DetailScreen(
         WallpaperSheet(
             scaling = state.scaling,
             updateDaily = state.updateDaily,
-            previewPath = state.wallpaperPreviewPath,
+            preview = detailWallpaperPreview(state),
             caption = wallpaperCaptionForDetail(state),
             onDismiss = { showWallpaperSheet = false },
             onScalingChange = viewModel::setScaling,
@@ -485,16 +486,34 @@ internal fun detailCreditLine(entry: ApodEntry?): String {
     }
 }
 
-/** The caption of the current wallpaper picture. */
+/** The caption of the selected picture: `date · title`. */
 private fun wallpaperCaptionForDetail(state: DetailUiState): String {
-    val meta = state.wallpaperMeta ?: return "—"
-    val date = meta.date.takeIf { it.isNotBlank() }.orEmpty()
-    val title = meta.title.takeIf { it.isNotBlank() }.orEmpty()
+    val date = (state.entry?.date ?: state.wallpaperMeta?.date)?.takeIf { it.isNotBlank() }.orEmpty()
+    val title = (state.entry?.title ?: state.wallpaperMeta?.title)?.takeIf { it.isNotBlank() }.orEmpty()
     return when {
         date.isBlank() -> title
         title.isBlank() -> date
         else -> "$date · $title"
     }
+}
+
+/**
+ * The picture the wallpaper sheet should show: this entry, not the previously installed one.
+ *
+ * The local file is used when it already belongs to this entry, so the preview still works
+ * offline after the wallpaper was set.
+ */
+private fun detailWallpaperPreview(state: DetailUiState): WallpaperPreview {
+    val entry = state.entry ?: return WallpaperPreview(localPath = state.wallpaperPreviewPath)
+    val installedUrl = state.wallpaperMeta?.sourceUrl
+    val installedIsEntry = state.wallpaperPreviewPath != null &&
+        state.wallpaperMeta?.date == entry.date &&
+        installedUrl != null &&
+        installedUrl in setOfNotNull(entry.imageUrl, entry.hdImageUrl, entry.thumbnailUrl)
+    if (installedIsEntry) {
+        return WallpaperPreview(localPath = state.wallpaperPreviewPath)
+    }
+    return WallpaperPreview(remoteUrl = entry.displayImageUrl)
 }
 
 /** Shown when the legacy storage permission is refused. */

@@ -1,6 +1,12 @@
 # Local machine configuration (not checked in).
 local.properties
 
+# Release signing — never commit keys or passwords.
+keystore.properties
+keystore/
+*.jks
+*.keystore
+
 # Gradle
 /.gradle
 /build

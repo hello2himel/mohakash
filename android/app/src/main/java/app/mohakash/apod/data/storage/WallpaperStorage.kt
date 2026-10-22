@@ -2,6 +2,8 @@ package app.mohakash.apod.data.storage
 
 import app.mohakash.apod.core.ImageUrlValidator
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -35,6 +37,9 @@ class WallpaperStorage(
     private val directory = File(filesDir, DIRECTORY_NAME).apply { mkdirs() }
     private val metaFile = File(directory, META_FILE_NAME)
 
+    /** Serialises commits so two installs can never swap the metadata at the same time. */
+    private val commitMutex = Mutex()
+
     /** The directory holding the wallpaper picture. */
     override val storageDirectory: File get() = directory
 
@@ -58,33 +63,36 @@ class WallpaperStorage(
      * metadata is swapped atomically afterwards.
      */
     override suspend fun commit(source: File, meta: WallpaperMeta): Result<WallpaperMeta> = withContext(Dispatchers.IO) {
-        runCatching {
-            require(source.isFile && source.length() > 0) { "The downloaded wallpaper file is empty" }
-            require(ImageUrlValidator.isValidImageUrl(meta.sourceUrl)) {
-                "Refusing to use a non-image URL as wallpaper: ${meta.sourceUrl}"
+        commitMutex.withLock {
+            runCatching {
+                require(source.isFile && source.length() > 0) { "The downloaded wallpaper file is empty" }
+                require(ImageUrlValidator.isValidImageUrl(meta.sourceUrl)) {
+                    "Refusing to use a non-image URL as wallpaper: ${meta.sourceUrl}"
+                }
+
+                val extension = ImageUrlValidator.extensionOf(meta.sourceUrl) ?: "jpg"
+                val fileName = "wallpaper-${meta.sourceUrl.hashCode().toUInt().toString(16)}.$extension"
+                val target = File(directory, fileName)
+
+                // Unique temporary names keep concurrent installs from writing the same file.
+                val incoming = File.createTempFile("incoming-", ".tmp", directory)
+                source.copyTo(incoming, overwrite = true)
+                if (!incoming.renameTo(target)) {
+                    incoming.copyTo(target, overwrite = true)
+                    incoming.delete()
+                }
+
+                val updated = meta.copy(fileName = fileName)
+                val metaIncoming = File.createTempFile("incoming-meta-", ".tmp", directory)
+                metaIncoming.writeText(json.encodeToString(WallpaperMeta.serializer(), updated))
+                if (!metaIncoming.renameTo(metaFile)) {
+                    metaIncoming.copyTo(metaFile, overwrite = true)
+                    metaIncoming.delete()
+                }
+
+                cleanupOrphans(keep = fileName)
+                updated
             }
-
-            val extension = ImageUrlValidator.extensionOf(meta.sourceUrl) ?: "jpg"
-            val fileName = "wallpaper-${meta.sourceUrl.hashCode().toUInt().toString(16)}.$extension"
-            val target = File(directory, fileName)
-            val incoming = File(directory, "incoming-$fileName")
-
-            source.copyTo(incoming, overwrite = true)
-            if (!incoming.renameTo(target)) {
-                incoming.copyTo(target, overwrite = true)
-                incoming.delete()
-            }
-
-            val updated = meta.copy(fileName = fileName)
-            val metaIncoming = File(directory, "incoming-$META_FILE_NAME")
-            metaIncoming.writeText(json.encodeToString(WallpaperMeta.serializer(), updated))
-            if (!metaIncoming.renameTo(metaFile)) {
-                metaIncoming.copyTo(metaFile, overwrite = true)
-                metaIncoming.delete()
-            }
-
-            cleanupOrphans(keep = fileName)
-            updated
         }
     }
 

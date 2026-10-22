@@ -40,20 +40,19 @@ import app.mohakash.apod.ui.components.switchColors
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
-import java.io.File
 
 /**
  * The live wallpaper sheet.
  *
- * It shows the picture that is currently used, lets the user pick the scaling mode, switch the
- * daily update on or off and opens the system preview.
+ * It previews the picture that will be installed, lets the user pick the scaling mode, switch
+ * the daily update on or off and opens the system preview.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WallpaperSheet(
     scaling: WallpaperScaling,
     updateDaily: Boolean,
-    previewPath: String?,
+    preview: WallpaperPreview,
     caption: String,
     onDismiss: () -> Unit,
     onScalingChange: (WallpaperScaling) -> Unit,
@@ -85,7 +84,7 @@ fun WallpaperSheet(
         WallpaperSheetContent(
             scaling = scaling,
             updateDaily = updateDaily,
-            previewPath = previewPath,
+            preview = preview,
             caption = caption,
             onScalingChange = onScalingChange,
             onUpdateDailyChange = onUpdateDailyChange,
@@ -101,7 +100,7 @@ fun WallpaperSheet(
 internal fun WallpaperSheetContent(
     scaling: WallpaperScaling,
     updateDaily: Boolean,
-    previewPath: String?,
+    preview: WallpaperPreview,
     caption: String,
     onScalingChange: (WallpaperScaling) -> Unit,
     onUpdateDailyChange: (Boolean) -> Unit,
@@ -140,9 +139,9 @@ internal fun WallpaperSheetContent(
                     ),
                 contentAlignment = Alignment.Center,
             ) {
-                if (previewPath != null) {
+                if (preview.model != null) {
                     AsyncImage(
-                        model = File(previewPath),
+                        model = preview.model,
                         contentDescription = stringResource(R.string.wallpaper_preview),
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.matchParentSize(),
@@ -166,7 +165,7 @@ internal fun WallpaperSheetContent(
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text(
-                        text = stringResource(R.string.wallpaper_current_image),
+                        text = stringResource(R.string.wallpaper_selected_image),
                         style = MohakashTextStyles.Caption,
                         color = MohakashColors.TextMuted,
                     )
