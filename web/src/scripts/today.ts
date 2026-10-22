@@ -4,14 +4,14 @@
  * banner row and the content below shrinks to fit.
  */
 
-import { fetchLatest, fetchLatestImage } from '../lib/api';
-import { fetchWithCache } from '../lib/cache';
+import { fetchLatest, fetchLatestImage, fetchYear } from '../lib/api';
+import { fetchWithCache, readCache } from '../lib/cache';
 import { entryPath } from '../lib/archive';
-import { formatDate } from '../lib/format';
+import { formatDate, yearOf } from '../lib/format';
 import { mediaPresentation, needsPictureFallback, type MediaPresentation } from '../lib/media';
 import { readHideVideos } from '../lib/preferences';
 import { initDrawer, setDrawerContent } from '../lib/drawer';
-import type { ApodRecord } from '../lib/types';
+import type { ApodRecord, ArchiveYear } from '../lib/types';
 import {
   applyBanner,
   applyPresentation,
@@ -39,6 +39,17 @@ const dateLine = need('#today-date');
 const title = need('#today-title');
 const actions = need('#today-actions');
 const explanation = need('#today-explanation');
+const navRow = need('#today-nav');
+const previousButton = need<HTMLAnchorElement>('#today-previous');
+
+/**
+ * The date of the older entry, once it is known. It is resolved from the
+ * yearly archive file (which is much smaller than the full index) in the
+ * background, so the picture itself is never blocked on it.
+ */
+let previousDate: string | null = null;
+let previousLookup: Promise<string | null> | null = null;
+let loadedDate = '';
 
 /* ---------------------------------------------------------------- media */
 
@@ -95,6 +106,67 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
   actions.append(buildAction({ label: 'Browse archive', variant: 'secondary', href: '/archive' }));
 }
 
+/* ------------------------------------------------------------- previous */
+
+/**
+ * Find the entry immediately older than [date], skipping videos when they are
+ * hidden. Only the yearly archive files are read — they are far smaller than
+ * the full index, and the current year usually answers on its own.
+ */
+async function findPrevious(date: string): Promise<string | null> {
+  const hideVideos = readHideVideos();
+  const currentYear = yearOf(date);
+
+  for (let year = currentYear; year >= 1995; year -= 1) {
+    try {
+      // Past entries never change, so a cached year is as good as the network.
+      const cached = readCache<ArchiveYear>(`year-${year}`);
+      const result = cached
+        ? cached.data
+        : (await fetchWithCache(`year-${year}`, () => fetchYear(year))).data;
+      const older = result.records
+        .filter((item) => item.date < date && (!hideVideos || item.media_type !== 'video'))
+        .reduce<ApodRecord | null>(
+          (latest, item) => (latest === null || item.date > latest.date ? item : latest),
+          null,
+        );
+      if (older) return older.date;
+      // Only a January entry can need the previous year; stop after that.
+      if (year !== currentYear) break;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+function wirePrevious(date: string): void {
+  previousDate = null;
+  previousLookup = null;
+  navRow.hidden = true;
+  previousButton.setAttribute('href', '/archive');
+
+  previousLookup = findPrevious(date).then((previous) => {
+    if (loadedDate !== date) return null;
+    previousDate = previous;
+    if (previous) {
+      previousButton.href = entryPath(previous);
+      navRow.hidden = false;
+    }
+    return previous;
+  });
+}
+
+async function goPrevious(): Promise<void> {
+  if (previousDate) {
+    window.location.assign(entryPath(previousDate));
+    return;
+  }
+  if (!previousLookup) return;
+  const previous = await previousLookup;
+  if (previous) window.location.assign(entryPath(previous));
+}
+
 /* --------------------------------------------------------------- render */
 
 function render(record: ApodRecord): void {
@@ -116,6 +188,9 @@ function render(record: ApodRecord): void {
   renderActions(record, presentation);
   renderProse(explanation, record.explanation ?? '');
   setDrawerContent({ record, nextTitle: tomorrowTitle(record.explanation ?? '') });
+
+  loadedDate = record.date;
+  wirePrevious(record.date);
 
   skeletonPanel.hidden = true;
   show(content);
@@ -168,6 +243,10 @@ function resetForLoad(): void {
   hide(content);
   skeletonPanel.hidden = false;
   skeletonFrame.hidden = false;
+  navRow.hidden = true;
+  previousDate = null;
+  previousLookup = null;
+  loadedDate = '';
 }
 
 /* ----------------------------------------------------------------- load */
@@ -206,6 +285,21 @@ async function load(): Promise<void> {
 }
 
 initDrawer();
+
+// ← steps back one picture. There is no → on Today — it is the newest entry —
+// and the drawer / mobile menu own the arrow keys while they are open.
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'ArrowLeft') return;
+  if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+    return;
+  }
+  const target = event.target as HTMLElement | null;
+  if (target?.closest('input, select, textarea, [contenteditable="true"]')) return;
+  if (document.querySelector('dialog[open]')) return;
+  if (!previousDate && !previousLookup) return;
+  event.preventDefault();
+  void goPrevious();
+});
 
 window.addEventListener('mohakash:hide-videos-changed', () => {
   void load();
