@@ -110,9 +110,30 @@ export function visibleSlice<T>(items: readonly T[], count: number): T[] {
   return items.slice(0, Math.max(0, count));
 }
 
-/** The label above the archive grid. */
+/** The label beside the archive filters. */
 export function countLabel(total: number): string {
-  return `Newest first · ${total} ${total === 1 ? 'entry' : 'entries'}`;
+  return `${total} ${total === 1 ? 'entry' : 'entries'} · newest first`;
+}
+
+/**
+ * Grid geometry for a fixed-height (no-scroll) archive page.
+ *
+ * Columns follow the container width with a minimum thumbnail of about
+ * 200px: `columns = floor((width + gap) / (200 + gap))`. Rows fill the
+ * remaining height with roughly square cells. Both are clamped to at least 1.
+ */
+export function gridGeometry(width: number, height: number, minThumb = 200, gap = 16): { columns: number; rows: number } {
+  if (!(width > 0) || !(height > 0)) return { columns: 1, rows: 1 };
+  const columns = Math.max(1, Math.floor((width + gap) / (minThumb + gap)));
+  const rows = Math.max(1, Math.floor((height + gap) / (Math.max(120, Math.floor(width / columns)) + gap)));
+  return { columns, rows };
+}
+
+/** Total number of pages for `total` items at `pageSize` per page. */
+export function pageCount(total: number, pageSize: number): number {
+  const size = Math.max(1, Math.floor(pageSize));
+  const count = Math.max(0, Math.floor(total));
+  return Math.max(1, Math.ceil(count / size));
 }
 
 /** Distinct years present in the index, newest first. */
