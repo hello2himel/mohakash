@@ -11,6 +11,33 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 
 /**
+ * Requests the notification permission on Android 13 and newer.
+ *
+ * Older versions grant it at install time, so nothing has to be asked there. The request is a
+ * one-shot: when the user refuses, the wallpaper keeps updating silently.
+ */
+@Composable
+fun rememberNotificationPermissionRequest(): () -> Unit {
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+    ) { /* The outcome needs no follow-up; notifications simply stay off when denied. */ }
+
+    return remember(context) {
+        {
+            val needsPermission = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) != PackageManager.PERMISSION_GRANTED
+            if (needsPermission) {
+                launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+}
+
+/**
  * Requests the legacy storage permission when it is really needed.
  *
  * Android 10 and newer store the picture through `MediaStore`, which needs no permission at all.

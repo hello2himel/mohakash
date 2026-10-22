@@ -15,6 +15,7 @@ import app.mohakash.apod.data.storage.GallerySaver
 import app.mohakash.apod.data.storage.ImageDownloader
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
+import app.mohakash.apod.notification.WallpaperNotifier
 import app.mohakash.apod.work.ApodSyncEngine
 import app.mohakash.apod.work.SyncController
 import kotlinx.serialization.json.Json
@@ -107,8 +108,11 @@ class AppContainer(context: Context) {
             settingsStore = settingsStore,
             wallpaperStorage = wallpaperStorage,
             imageDownloader = imageDownloader,
+            notifier = WallpaperUpdateNotifier { entry -> wallpaperNotifier.notifyNewWallpaper(entry) },
         )
     }
+
+    val wallpaperNotifier: WallpaperNotifier by lazy { WallpaperNotifier(appContext) }
 
     private companion object {
         const val HTTP_CACHE_BYTES = 8L * 1024 * 1024

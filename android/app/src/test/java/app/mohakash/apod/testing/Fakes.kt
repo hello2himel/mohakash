@@ -36,6 +36,8 @@ class FakeSettingsStore(initial: AppSettings = AppSettings()) : SettingsStore {
 
     override suspend fun setUpdateAutomatically(value: Boolean) = state.update { it.copy(updateAutomatically = value) }
 
+    override suspend fun setNotifyOnUpdate(value: Boolean) = state.update { it.copy(notifyOnUpdate = value) }
+
     override suspend fun setPreferHd(value: Boolean) = state.update { it.copy(preferHd = value) }
 
     override suspend fun setWifiOnly(value: Boolean) = state.update { it.copy(wifiOnly = value) }

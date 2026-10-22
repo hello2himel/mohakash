@@ -60,7 +60,16 @@ class ApodSyncEngineTest {
         settings: SettingsStore = FakeSettingsStore(),
         store: WallpaperPictureStore = FakeWallpaperPictureStore(),
         downloader: PictureDownloader = FakePictureDownloader(),
-    ) = ApodSyncEngine(source, settings, store, downloader) { 5_000L }
+        notifier: WallpaperUpdateNotifier? = null,
+    ) = ApodSyncEngine(source, settings, store, downloader, now = { 5_000L }, notifier = notifier)
+
+    /** A [WallpaperUpdateNotifier] that records every entry it is called with. */
+    private class RecordingNotifier : WallpaperUpdateNotifier {
+        val notified = mutableListOf<ApodEntry>()
+        override fun onWallpaperUpdated(entry: ApodEntry) {
+            notified += entry
+        }
+    }
 
     @Test
     fun `a new entry is downloaded and installed`() = runTest {
@@ -304,5 +313,71 @@ class ApodSyncEngineTest {
 
         assertEquals(InstallOutcome.NOT_USABLE, outcome)
         assertNull(store.meta)
+    }
+
+    @Test
+    fun `a new picture notifies once`() = runTest {
+        val notifier = RecordingNotifier()
+
+        val outcome = engine(FakeLatestEntrySource(entry()), notifier = notifier).sync()
+
+        assertTrue(outcome is SyncOutcome.Updated)
+        assertEquals(listOf("2026-10-22"), notifier.notified.map { it.date })
+    }
+
+    @Test
+    fun `an unchanged picture does not notify`() = runTest {
+        val store = FakeWallpaperPictureStore()
+        store.meta = WallpaperMeta(
+            date = "2026-10-22",
+            title = "The First Green Star",
+            credit = null,
+            sourceUrl = "https://example.org/photo.jpg?w=1600",
+            fileName = "current.jpg",
+            updatedAt = 1_000L,
+        )
+        val notifier = RecordingNotifier()
+
+        val outcome = engine(FakeLatestEntrySource(entry()), store = store, notifier = notifier).sync()
+
+        assertTrue(outcome is SyncOutcome.Unchanged)
+        assertTrue(notifier.notified.isEmpty())
+    }
+
+    @Test
+    fun `a failed sync does not notify`() = runTest {
+        val downloader = FakePictureDownloader().apply { failWith = IOException("offline") }
+        val notifier = RecordingNotifier()
+
+        val outcome = engine(
+            FakeLatestEntrySource(entry()),
+            downloader = downloader,
+            notifier = notifier,
+        ).sync()
+
+        assertTrue(outcome is SyncOutcome.Failed)
+        assertTrue(notifier.notified.isEmpty())
+    }
+
+    @Test
+    fun `the notification stays off when the preference is switched off`() = runTest {
+        val settings = FakeSettingsStore(app.mohakash.apod.domain.model.AppSettings(notifyOnUpdate = false))
+        val notifier = RecordingNotifier()
+
+        val outcome = engine(FakeLatestEntrySource(entry()), settings = settings, notifier = notifier).sync()
+
+        assertTrue(outcome is SyncOutcome.Updated)
+        assertTrue(notifier.notified.isEmpty())
+    }
+
+    @Test
+    fun `installing a single entry does not notify`() = runTest {
+        val notifier = RecordingNotifier()
+
+        engine(FakeLatestEntrySource(entry()), notifier = notifier)
+            .install(entry(), preferHd = false)
+
+        // The manual install path shows its own message; no duplicate notification.
+        assertTrue(notifier.notified.isEmpty())
     }
 }

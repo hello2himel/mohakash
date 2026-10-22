@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
  */
 data class SettingsUiState(
     val updateAutomatically: Boolean = true,
+    val notifyOnUpdate: Boolean = true,
     val preferHd: Boolean = false,
     val wifiOnly: Boolean = true,
     val scaling: WallpaperScaling = WallpaperScaling.FILL,
@@ -57,6 +58,7 @@ class SettingsViewModel(
             val settings = settingsStore.current()
             _state.value = _state.value.copy(
                 updateAutomatically = settings.updateAutomatically,
+                notifyOnUpdate = settings.notifyOnUpdate,
                 preferHd = settings.preferHd,
                 wifiOnly = settings.wifiOnly,
                 scaling = settings.wallpaperScaling,
@@ -77,6 +79,14 @@ class SettingsViewModel(
                 // Fetch the current picture right away so the wallpaper is up to date.
                 syncController.runOnce()
             }
+        }
+    }
+
+    /** Switches the "notify me about a new wallpaper" preference on or off. */
+    fun setNotifyOnUpdate(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsStore.setNotifyOnUpdate(enabled)
+            _state.value = _state.value.copy(notifyOnUpdate = enabled)
         }
     }
 

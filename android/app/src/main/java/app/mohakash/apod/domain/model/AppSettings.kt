@@ -6,6 +6,8 @@ package app.mohakash.apod.domain.model
 data class AppSettings(
     val onboardingCompleted: Boolean = false,
     val updateAutomatically: Boolean = true,
+    /** Tell the user with a notification every time a new wallpaper picture was installed. */
+    val notifyOnUpdate: Boolean = true,
     val preferHd: Boolean = false,
     val wifiOnly: Boolean = true,
     val wallpaperScaling: WallpaperScaling = WallpaperScaling.DEFAULT,

@@ -106,6 +106,13 @@ fun SettingsScreen(
                 showDivider = false,
             )
             SwitchRow(
+                title = stringResource(R.string.settings_notify_on_update),
+                subtitle = stringResource(R.string.settings_notify_on_update_hint),
+                checked = state.notifyOnUpdate,
+                onCheckedChange = viewModel::setNotifyOnUpdate,
+                showDivider = false,
+            )
+            SwitchRow(
                 title = stringResource(R.string.settings_prefer_hd),
                 subtitle = stringResource(R.string.settings_prefer_hd_hint),
                 checked = state.preferHd,

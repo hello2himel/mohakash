@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Ask on Android 13+ so a new wallpaper can raise a notification. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Only needed for the legacy gallery path on API 24 - 28. -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"

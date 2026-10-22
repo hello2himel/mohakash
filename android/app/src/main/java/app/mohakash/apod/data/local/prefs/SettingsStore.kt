@@ -24,6 +24,9 @@ interface SettingsStore {
     /** Switches the automatic wallpaper update on or off. */
     suspend fun setUpdateAutomatically(value: Boolean)
 
+    /** Switches the "notify me about a new wallpaper" preference on or off. */
+    suspend fun setNotifyOnUpdate(value: Boolean)
+
     /** Switches the HD preference on or off. */
     suspend fun setPreferHd(value: Boolean)
 

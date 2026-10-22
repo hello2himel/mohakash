@@ -42,6 +42,8 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
 
     override suspend fun setUpdateAutomatically(value: Boolean) = edit { it[Keys.UPDATE_AUTOMATICALLY] = value }
 
+    override suspend fun setNotifyOnUpdate(value: Boolean) = edit { it[Keys.NOTIFY_ON_UPDATE] = value }
+
     override suspend fun setPreferHd(value: Boolean) = edit { it[Keys.PREFER_HD] = value }
 
     override suspend fun setWifiOnly(value: Boolean) = edit { it[Keys.WIFI_ONLY] = value }
@@ -65,6 +67,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
     private fun Preferences.toSettings(): AppSettings = AppSettings(
         onboardingCompleted = this[Keys.ONBOARDING_COMPLETED] ?: false,
         updateAutomatically = this[Keys.UPDATE_AUTOMATICALLY] ?: true,
+        notifyOnUpdate = this[Keys.NOTIFY_ON_UPDATE] ?: true,
         preferHd = this[Keys.PREFER_HD] ?: false,
         wifiOnly = this[Keys.WIFI_ONLY] ?: true,
         wallpaperScaling = WallpaperScaling.fromStorageKey(this[Keys.WALLPAPER_SCALING]),
@@ -76,6 +79,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
     private object Keys {
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
         val UPDATE_AUTOMATICALLY = booleanPreferencesKey("update_automatically")
+        val NOTIFY_ON_UPDATE = booleanPreferencesKey("notify_on_update")
         val PREFER_HD = booleanPreferencesKey("prefer_hd")
         val WIFI_ONLY = booleanPreferencesKey("wifi_only")
         val WALLPAPER_SCALING = stringPreferencesKey("wallpaper_scaling")

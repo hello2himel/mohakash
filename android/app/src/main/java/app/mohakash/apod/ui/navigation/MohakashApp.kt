@@ -30,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.archive.ArchiveScreen
+import app.mohakash.apod.ui.components.rememberNotificationPermissionRequest
 import app.mohakash.apod.ui.detail.DetailScreen
 import app.mohakash.apod.ui.onboarding.OnboardingScreen
 import app.mohakash.apod.ui.saved.SavedScreen
@@ -51,12 +52,16 @@ fun MohakashApp(
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current
+    val requestNotificationPermission = rememberNotificationPermissionRequest()
     val snackbarHostState = remember { SnackbarHostState() }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = currentRoute == Routes.TODAY ||
         currentRoute == Routes.ARCHIVE ||
         currentRoute == Routes.SAVED
+
+    // Ask once, after the app is up: without it a new wallpaper cannot raise a notification.
+    LaunchedEffect(Unit) { requestNotificationPermission() }
 
     CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
         Scaffold(

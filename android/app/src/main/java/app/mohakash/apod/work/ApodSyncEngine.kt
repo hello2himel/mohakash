@@ -15,6 +15,16 @@ import app.mohakash.apod.wallpaper.WallpaperSignal
 import java.io.File
 
 /**
+ * Tells the user that a new wallpaper picture was installed.
+ *
+ * An interface so the sync engine stays free of Android framework types and can be unit tested
+ * with a recorder.
+ */
+fun interface WallpaperUpdateNotifier {
+    fun onWallpaperUpdated(entry: ApodEntry)
+}
+
+/**
  * The result of one synchronisation run.
  */
 sealed interface SyncOutcome {
@@ -67,6 +77,7 @@ class ApodSyncEngine(
     private val wallpaperStorage: WallpaperPictureStore,
     private val imageDownloader: PictureDownloader,
     private val now: () -> Long = System::currentTimeMillis,
+    private val notifier: WallpaperUpdateNotifier? = null,
 ) {
 
     /**
@@ -106,8 +117,12 @@ class ApodSyncEngine(
             return SyncOutcome.WallpaperUnavailable(entry, "No usable connection for the picture.")
         }
 
-        return when (install(entry, settings.preferHd, choice.url)) {
-            InstallOutcome.INSTALLED -> SyncOutcome.Updated(entry)
+        return when (val install = install(entry, settings.preferHd, choice.url)) {
+            InstallOutcome.INSTALLED -> {
+                // A brand new picture is on the device — let the user know about it.
+                if (settings.notifyOnUpdate) notifier?.onWallpaperUpdated(entry)
+                SyncOutcome.Updated(entry)
+            }
             InstallOutcome.UNCHANGED -> SyncOutcome.Unchanged(entry)
             InstallOutcome.NOT_USABLE -> SyncOutcome.WallpaperUnavailable(entry, "The new entry has no picture that can be used as wallpaper.")
             InstallOutcome.FAILED -> SyncOutcome.Failed(IllegalStateException("The picture could not be stored."))
