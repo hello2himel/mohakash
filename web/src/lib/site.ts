@@ -27,6 +27,9 @@ export const SITE = {
   publicApiBase: PUBLIC_API_BASE,
   websiteUrl: WEBSITE_URL,
   githubRepo: REPOSITORY_URL,
+  /** Latest GitHub release page and the direct APK asset it carries. */
+  androidReleaseUrl: `${REPOSITORY_URL}/releases/latest`,
+  androidApkUrl: `${REPOSITORY_URL}/releases/latest/download/mohakash.apk`,
   issuesUrl: ISSUES_URL,
   feedUrl: FEED_URL,
   rightsUrl: '/rights',
