@@ -68,7 +68,9 @@
   /* --- layout ---------------------------------------------------------- */
   --content-width: 1040px;
   --gutter: 24px;
-  --header-height: 72px;
+  --header-height: 56px;
+  --footer-height: 40px;
+  --main-padding-y: 16px;
   --measure: 68ch;
 
   /* --- motion ---------------------------------------------------------- */
