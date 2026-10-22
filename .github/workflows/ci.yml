@@ -46,6 +46,10 @@ jobs:
           cache-dependency-path: web/package-lock.json
       - name: Install dependencies
         run: npm ci
+      - name: Generate the site configuration
+        run: npm run generate:site
+      - name: Check that the generated configuration is up to date
+        run: git diff --exit-code -- src/lib/site.generated.ts
       - name: Build
         run: npm run build
       - name: Test

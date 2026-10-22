@@ -144,10 +144,11 @@ console.log(latest.title, latest.date);"></pre>
 <script>
   import { fetchStatus } from '../lib/api';
   import { formatDate, formatSyncedAgo } from '../lib/format';
+  import { PUBLIC_API_BASE, SAME_ORIGIN_API_BASE } from '../lib/site.generated';
 
   const bases: Record<string, string> = {
-    'same-origin': '/api/apod/v1/',
-    'github-pages': 'https://hello2himel.github.io/mohakash/api/v1/',
+    'same-origin': SAME_ORIGIN_API_BASE,
+    'github-pages': PUBLIC_API_BASE,
   };
 
   const blocks = Array.from(document.querySelectorAll<HTMLPreElement>('pre.code-block[data-base]'));

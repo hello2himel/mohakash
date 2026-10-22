@@ -23,7 +23,7 @@ genuine Android **live wallpaper**.
 Point the build at your SDK with `android/local.properties`:
 
 ```properties
-sdk.dir=/home/himel/Android/Sdk
+sdk.dir=/path/to/your/Android/Sdk
 ```
 
 `local.properties` is git-ignored.
