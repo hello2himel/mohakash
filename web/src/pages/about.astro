@@ -66,5 +66,29 @@ import { SITE } from '../lib/site';
         <a href={SITE.githubRepo}>{SITE.githubRepo}</a>
       </p>
     </section>
+
+    <section class="section" aria-labelledby="support" style="max-width: 68ch;">
+      <h2 class="section-title" id="support">Support</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        mohakash is free and independent. If it is useful to you, you can support its hosting and
+        development with a small donation.
+      </p>
+      <div style="margin-top: 4px;">
+        <a
+          class="btn btn--secondary"
+          href={SITE.donateUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-donate-link
+        >
+          <i class="icon ri-heart-line" aria-hidden="true"></i>
+          Donate
+        </a>
+      </div>
+      <p class="muted-block" style="font-size: 13px;">
+        The occasional support note is based on a counter stored only in your browser; nothing is sent
+        anywhere.
+      </p>
+    </section>
   </div>
 </BaseLayout>

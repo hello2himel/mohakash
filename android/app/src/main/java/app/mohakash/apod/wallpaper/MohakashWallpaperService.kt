@@ -55,6 +55,7 @@ class MohakashWallpaperService : WallpaperService() {
         private var surfaceHeight = 0
         private var bitmap: Bitmap? = null
         private var decodedFile: String? = null
+        private var decodedStamp: Long = 0L
         private var scalingMode = WallpaperScaling.FILL
         private val paint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG)
 
@@ -158,6 +159,7 @@ class MohakashWallpaperService : WallpaperService() {
                 // never hold the main thread hostage.
                 bitmap = null
                 decodedFile = null
+                decodedStamp = 0L
                 surfaceWidth = 0
                 surfaceHeight = 0
                 this.holder = null
@@ -217,12 +219,16 @@ class MohakashWallpaperService : WallpaperService() {
             val storage = (applicationContext as? MohakashApplication)?.container?.wallpaperStorage
                 ?: return false
             val file: File = storage.currentImageFile() ?: return false
-            val changed = decodedFile != file.absolutePath || bitmap?.isRecycled != false
+            val stamp = file.lastModified() * 31 + file.length()
+            val changed = decodedFile != file.absolutePath ||
+                decodedStamp != stamp ||
+                bitmap?.isRecycled != false
             if (redecode || changed) {
                 val decoded = decode(file, surfaceWidth, surfaceHeight) ?: return false
                 val previous = bitmap
                 bitmap = decoded
                 decodedFile = file.absolutePath
+                decodedStamp = stamp
                 previous?.takeIf { it !== decoded && !it.isRecycled }?.recycle()
             }
             return draw()
@@ -305,6 +311,7 @@ class MohakashWallpaperService : WallpaperService() {
             val current = bitmap ?: return
             bitmap = null
             decodedFile = null
+            decodedStamp = 0L
             if (!current.isRecycled) current.recycle()
         }
     }

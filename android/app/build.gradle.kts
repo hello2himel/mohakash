@@ -1,5 +1,6 @@
 import groovy.json.JsonSlurper
 import java.io.File
+import java.util.Properties
 
 /**
  * Reads `config/site.json` from the repository root at *configuration time*.
@@ -39,13 +40,70 @@ val apiBaseUrlFallbacks: List<String> =
 
 require(apiBaseUrlFallbacks.isNotEmpty()) { "config/site.json must define android.api_base_url_fallbacks" }
 
-val packageName = androidConfig["package"]?.toString() ?: "app.mohakash.apod"
+/** The permanent application ID shown by Play, F-Droid and Android Settings. */
+val appId = androidConfig["package"]?.toString() ?: "mohakash.stargzr.space"
+/** The Kotlin/Android source namespace. It deliberately does not change with the app ID. */
+val namespaceName = androidConfig["namespace"]?.toString() ?: "app.mohakash.apod"
 val githubOwner = githubConfig["owner"]?.toString() ?: "hello2himel"
 val githubRepo = githubConfig["repo"]?.toString() ?: "mohakash"
 val repositoryUrl = "https://github.com/$githubOwner/$githubRepo"
 val defaultBranch = githubConfig["default_branch"]?.toString() ?: "main"
 val contentRightsUrl = "$repositoryUrl/blob/$defaultBranch/CONTENT_RIGHTS.md"
 val websiteBaseUrl = websiteConfig["base_url"]?.toString() ?: repositoryUrl
+
+/**
+ * Release version numbers are checked in so F-Droid and every other
+ * reproducible builder get exactly the same values. CI may override them for
+ * a one-off build without changing the source tree.
+ */
+val versionPropertiesFile = file("version.properties")
+val versionProperties = Properties().apply {
+    if (versionPropertiesFile.isFile) {
+        versionPropertiesFile.inputStream().use { load(it) }
+    }
+}
+val appVersionCode = System.getenv("ANDROID_VERSION_CODE")?.toIntOrNull()
+    ?: versionProperties.getProperty("VERSION_CODE")?.toIntOrNull()
+    ?: 1
+val appVersionName = System.getenv("ANDROID_VERSION_NAME")?.takeIf { it.isNotBlank() }
+    ?: versionProperties.getProperty("VERSION_NAME")?.takeIf { it.isNotBlank() }
+    ?: "1.0.0"
+
+/**
+ * Release signing is supplied either by environment variables (CI) or by the
+ * git-ignored `android/keystore.properties` file (local builds). If neither is
+ * present, `assembleRelease` still produces an unsigned APK for F-Droid-style
+ * builders, but CI refuses to publish it.
+ *
+ * Never commit a keystore or its passwords. See RELEASING.md.
+ */
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.isFile) {
+        keystorePropertiesFile.inputStream().use { load(it) }
+    }
+}
+val signingValue: (String, String) -> String? = { envName, propertyName ->
+    System.getenv(envName)?.takeIf { it.isNotBlank() }
+        ?: keystoreProperties.getProperty(propertyName)?.takeIf { it.isNotBlank() }
+}
+val releaseStorePath = signingValue("ANDROID_KEYSTORE_PATH", "storeFile")
+val releaseStorePassword = signingValue("ANDROID_KEYSTORE_PASSWORD", "storePassword")
+val releaseKeyAlias = signingValue("ANDROID_KEY_ALIAS", "keyAlias")
+val releaseKeyPassword = signingValue("ANDROID_KEY_PASSWORD", "keyPassword")
+val releaseSigningConfigured = listOf(
+    releaseStorePath,
+    releaseStorePassword,
+    releaseKeyAlias,
+    releaseKeyPassword,
+).all { !it.isNullOrBlank() }
+
+if (!releaseSigningConfigured) {
+    logger.lifecycle(
+        "Release signing is not configured; release builds will be unsigned. " +
+            "See android/keystore.properties.example.",
+    )
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -56,7 +114,7 @@ plugins {
 }
 
 android {
-    namespace = packageName
+    namespace = namespaceName
     compileSdk = 36
 
     // CI restores a stable debug keystore so a freshly downloaded APK can be
@@ -72,14 +130,22 @@ android {
                 keyPassword = System.getenv("ANDROID_DEBUG_KEY_PASSWORD") ?: "android"
             }
         }
+        create("release") {
+            if (releaseSigningConfigured) {
+                storeFile = rootProject.file(releaseStorePath!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
     }
 
     defaultConfig {
-        applicationId = packageName
+        applicationId = appId
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -104,6 +170,11 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            signingConfig = if (releaseSigningConfigured) {
+                signingConfigs.getByName("release")
+            } else {
+                null
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",

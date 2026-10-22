@@ -25,13 +25,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
+import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.components.QuietButton
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
+import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import coil.compose.AsyncImage
-import java.io.File
 
 /**
  * The screen that is shown once, right after the installation.
@@ -47,21 +48,26 @@ fun OnboardingScreen(
             settingsStore = container.settingsStore,
             syncController = container.syncController,
             wallpaperStorage = container.wallpaperStorage,
+            apodRepository = container.apodRepository,
+            syncEngine = container.syncEngine,
         )
     }
-    val previewPath by viewModel.previewPath.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val snackbarHostState = LocalSnackbarHostState.current
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
                 OnboardingEvent.Finished -> onFinished()
                 OnboardingEvent.OpenWallpaperPicker -> onOpenWallpaperPicker()
+                is OnboardingEvent.ShowMessage -> snackbarHostState.showSnackbar(event.text)
             }
         }
     }
 
     OnboardingContent(
-        previewPath = previewPath,
+        preview = state.preview,
+        isPreparing = state.isPreparing,
         onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
         onSkip = { viewModel.complete(openWallpaperPicker = false) },
         modifier = modifier,
@@ -71,7 +77,8 @@ fun OnboardingScreen(
 /** The stateless onboarding screen, used by the previews as well. */
 @Composable
 internal fun OnboardingContent(
-    previewPath: String?,
+    preview: WallpaperPreview,
+    isPreparing: Boolean,
     onSetWallpaper: () -> Unit,
     onSkip: () -> Unit,
     modifier: Modifier = Modifier,
@@ -101,9 +108,9 @@ internal fun OnboardingContent(
                         .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp)),
                     contentAlignment = Alignment.Center,
                 ) {
-                    if (previewPath != null) {
+                    if (preview.model != null) {
                         AsyncImage(
-                            model = File(previewPath),
+                            model = preview.model,
                             contentDescription = stringResource(R.string.onboarding_wallpaper_preview),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.matchParentSize(),
@@ -144,6 +151,7 @@ internal fun OnboardingContent(
                 text = stringResource(R.string.onboarding_set_wallpaper),
                 onClick = onSetWallpaper,
                 modifier = Modifier.fillMaxWidth(),
+                enabled = !isPreparing,
                 height = 52.dp,
                 textStyle = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
             )

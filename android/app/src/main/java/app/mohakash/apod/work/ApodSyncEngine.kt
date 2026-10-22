@@ -12,6 +12,8 @@ import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.wallpaper.WallpaperChoice
 import app.mohakash.apod.domain.wallpaper.WallpaperImageSelector
 import app.mohakash.apod.wallpaper.WallpaperSignal
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.io.File
 
 /**
@@ -71,6 +73,14 @@ class ApodSyncEngine(
 ) {
 
     /**
+     * Serialises wallpaper installs.
+     *
+     * The daily worker and an explicit "Set as wallpaper" can run at the same time. Without this
+     * lock they would write the same temporary file and commit in an unpredictable order.
+     */
+    private val installMutex = Mutex()
+
+    /**
      * Runs one synchronisation.
      *
      * @param updateWallpaper whether the wallpaper picture may be replaced.
@@ -126,36 +136,43 @@ class ApodSyncEngine(
         preferHd: Boolean,
         hideVideos: Boolean = true,
         imageUrl: String? = null,
-    ): InstallOutcome {
+    ): InstallOutcome = installMutex.withLock {
         val choice = WallpaperImageSelector.select(entry, preferHd, hideVideos)
         val url = imageUrl ?: (choice as? WallpaperChoice.Use)?.url
-        if (url.isNullOrBlank()) return InstallOutcome.NOT_USABLE
+        if (url.isNullOrBlank()) return@withLock InstallOutcome.NOT_USABLE
 
-        val target = File(wallpaperStorage.storageDirectory, DOWNLOAD_FILE_NAME)
-        val downloaded = imageDownloader.download(url, target)
-        if (downloaded.isFailure) {
+        // Every install gets its own temporary file: the background worker may be downloading
+        // at the same time as an explicit "Set as wallpaper".
+        val target = runCatching {
+            wallpaperStorage.storageDirectory.mkdirs()
+            File.createTempFile(DOWNLOAD_FILE_PREFIX, DOWNLOAD_FILE_SUFFIX, wallpaperStorage.storageDirectory)
+        }.getOrElse { return@withLock InstallOutcome.FAILED }
+
+        try {
+            val downloaded = imageDownloader.download(url, target)
+            if (downloaded.isFailure) return@withLock InstallOutcome.FAILED
+
+            val meta = WallpaperMeta(
+                date = entry.date,
+                title = entry.title,
+                credit = entry.displayCredit,
+                sourceUrl = url,
+                fileName = "",
+                updatedAt = now(),
+            )
+            val committed = wallpaperStorage.commit(downloaded.getOrThrow(), meta)
+            if (committed.isFailure) return@withLock InstallOutcome.FAILED
+
+            WallpaperSignal.notifyChanged()
+            notifyWallpaperChanged(entry)
+            InstallOutcome.INSTALLED
+        } finally {
             target.delete()
-            return InstallOutcome.FAILED
         }
-
-        val meta = WallpaperMeta(
-            date = entry.date,
-            title = entry.title,
-            credit = entry.displayCredit,
-            sourceUrl = url,
-            fileName = "",
-            updatedAt = now(),
-        )
-        val committed = wallpaperStorage.commit(downloaded.getOrThrow(), meta)
-        target.delete()
-        if (committed.isFailure) return InstallOutcome.FAILED
-
-        WallpaperSignal.notifyChanged()
-        notifyWallpaperChanged(entry)
-        return InstallOutcome.INSTALLED
     }
 
     companion object {
-        const val DOWNLOAD_FILE_NAME = "incoming-download.tmp"
+        const val DOWNLOAD_FILE_PREFIX = "wallpaper-download-"
+        const val DOWNLOAD_FILE_SUFFIX = ".tmp"
     }
 }

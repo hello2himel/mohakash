@@ -12,6 +12,7 @@ import '../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import DonatePrompt from '../components/DonatePrompt.astro';
 import { SITE } from '../lib/site';
 
 interface Props {
@@ -86,5 +87,6 @@ const ogImage = new URL('/og-image.png', SITE.websiteUrl).toString();
       <slot />
     </main>
     <SiteFooter />
+    <DonatePrompt />
   </body>
 </html>
