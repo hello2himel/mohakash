@@ -3,7 +3,7 @@
  * Site footer — the rights note on the left, the secondary links on the right.
  * 40px high on desktop, exactly as the shell spec requires.
  */
-import { NOT_AFFILIATED } from '../lib/site';
+import { NOT_AFFILIATED, SITE } from '../lib/site';
 ---
 
 <footer class="site-footer">
@@ -12,5 +12,6 @@ import { NOT_AFFILIATED } from '../lib/site';
     <a href="/api">API docs</a>
     <a href="/rights">Content rights</a>
     <a href="/feed.xml">RSS</a>
+    <a href={SITE.androidReleaseUrl}>Android app</a>
   </nav>
 </footer>
