@@ -1,0 +1,12 @@
+{
+  "code": "rest_invalid_param",
+  "message": "Invalid parameter(s): date_from, date_to",
+  "data": {
+    "status": 400,
+    "params": {
+      "date_from": "Invalid parameter.",
+      "date_to": "Invalid parameter."
+    },
+    "details": []
+  }
+}

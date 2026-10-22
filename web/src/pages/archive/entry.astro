@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Entry · Mohakash"
+  description="One Astronomy Picture of the Day: the picture, the explanation and the credit exactly as it was published."
+>
+  <div class="page page--entry" id="entry-view">
+    <div id="entry-banner"></div>
+
+    <nav class="breadcrumb" id="entry-breadcrumb" aria-label="Breadcrumb" hidden>
+      <a href="/archive">Archive</a>
+      <span aria-hidden="true">/</span>
+      <a href="/archive" id="entry-year-link">Year</a>
+      <span aria-hidden="true">/</span>
+      <span class="breadcrumb__current" id="entry-crumb-title"></span>
+    </nav>
+
+    <section id="entry-loading" aria-busy="true" aria-label="Loading entry">
+      <div class="skeleton skeleton--block" style="aspect-ratio: 16 / 9;" aria-hidden="true"></div>
+      <div class="stack-sm" style="margin-top: 24px;">
+        <div class="skeleton skeleton--line" style="width: 30%;" aria-hidden="true"></div>
+        <div class="skeleton skeleton--title" style="width: 70%;" aria-hidden="true"></div>
+      </div>
+      <div class="stack-sm" style="margin-top: 24px;">
+        <div class="skeleton skeleton--line" style="width: 100%;" aria-hidden="true"></div>
+        <div class="skeleton skeleton--line" style="width: 90%;" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section id="entry-content" hidden>
+      <div id="entry-frame"></div>
+
+      <div class="entry-meta" style="margin-top: 20px;">
+        <p class="entry-meta__line" id="entry-date"></p>
+        <h1 class="page-title" id="entry-title"></h1>
+        <p class="caption" id="entry-sync"></p>
+      </div>
+
+      <div class="actions" id="entry-actions" style="margin-top: 20px;"></div>
+      <p class="media-note" id="entry-media-note" hidden></p>
+
+      <div class="prose" id="entry-explanation" style="margin-top: 28px;"></div>
+
+      <section class="credit-box" aria-labelledby="entry-credit-title">
+        <h2 class="credit-box__title" id="entry-credit-title">Image credit and copyright</h2>
+        <p class="credit-box__text" id="entry-credit"></p>
+      </section>
+
+      <nav class="entry-nav" id="entry-nav" aria-label="Entries"></nav>
+    </section>
+
+    <div id="entry-error" hidden></div>
+  </div>
+</BaseLayout>
+
+<script src="../../scripts/entry.ts"></script>

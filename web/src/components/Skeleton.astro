@@ -1,0 +1,29 @@
+---
+/**
+ * Skeleton — `surface-strong` blocks that match the final layout.
+ */
+interface Props {
+  /** `block` fills the frame, `line` is a text line, `title` is a heading line. */
+  variant?: 'block' | 'line' | 'title';
+  /** Inline width, e.g. `70%`. */
+  width?: string;
+  height?: string;
+  class?: string;
+}
+
+const { variant = 'line', width, height, class: className } = Astro.props;
+const classes = [
+  'skeleton',
+  variant === 'block' ? 'skeleton--block' : '',
+  variant === 'title' ? 'skeleton--title' : '',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<div
+  class={classes}
+  style={[width ? `width:${width}` : '', height ? `height:${height}` : ''].filter(Boolean).join(';') || undefined}
+  aria-hidden="true"
+></div>

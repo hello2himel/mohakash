@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SearchField from '../../components/SearchField.astro';
+---
+
+<BaseLayout
+  title="Archive · Mohakash"
+  description="Every Astronomy Picture of the Day in one place. Search by title, filter by year or jump straight to a date."
+>
+  <div class="page page--archive" id="archive-view">
+    <div id="archive-banner"></div>
+
+    <form class="archive-filters" id="archive-filters" role="search" aria-label="Search the archive">
+      <SearchField id="archive-search" label="Search titles" placeholder="Search titles" />
+      <div>
+        <label class="visually-hidden" for="archive-year">Year</label>
+        <select class="field" id="archive-year" name="year">
+          <option value="">All years</option>
+        </select>
+      </div>
+      <div>
+        <label class="visually-hidden" for="archive-date">Jump to date</label>
+        <input class="field" id="archive-date" name="date" type="date" aria-describedby="archive-date-hint" />
+      </div>
+    </form>
+    <p class="caption" id="archive-date-hint" role="status"></p>
+
+    <p class="archive-count" id="archive-count"></p>
+
+    <div id="archive-grid" class="archive-grid" aria-busy="true"></div>
+    <div id="archive-empty" hidden></div>
+    <div class="more-row" id="archive-more"></div>
+  </div>
+</BaseLayout>
+
+<script src="../../scripts/archive.ts"></script>

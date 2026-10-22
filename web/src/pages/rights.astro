@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Content rights · Mohakash"
+  description="What the code licence covers, what it does not, and how to keep the credit with every picture you reuse."
+>
+  <div class="page page--tight">
+    <div class="stack-sm" style="max-width: 68ch;">
+      <h1 class="page-title">Content rights</h1>
+      <p class="page-lead">
+        Two different things are covered here: the code of this project, and the pictures it shows.
+      </p>
+    </div>
+
+    <div class="card-grid card-grid--2">
+      <section class="card" aria-labelledby="code">
+        <h2 class="section-title section-title--sm" id="code">Source code</h2>
+        <p>
+          The website, API scripts and Android app are open source under the licence in the repository.
+        </p>
+      </section>
+      <section class="card" aria-labelledby="img">
+        <h2 class="section-title section-title--sm" id="img">Images and text</h2>
+        <p>
+          Pictures and explanations may have different owners and conditions. They are not covered by the code
+          licence, and not all are public domain.
+        </p>
+      </section>
+    </div>
+
+    <section class="section" aria-labelledby="attr" style="max-width: 68ch;">
+      <h2 class="section-title" id="attr">Attribution</h2>
+      <ul style="color: var(--text-body); display: flex; flex-direction: column; gap: 4px;">
+        <li>Credits are shown exactly as supplied and are never removed.</li>
+        <li>Every entry links to its original APOD page and image.</li>
+        <li>Saving or sharing from the app keeps the credit with the entry.</li>
+        <li>Check the original page before reusing a picture.</li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="aff" style="max-width: 68ch;">
+      <h2 class="section-title" id="aff">Not affiliated</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        This is an independent project. It is not sponsored, reviewed or endorsed by NASA.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="rep" style="max-width: 68ch;">
+      <h2 class="section-title" id="rep">Report a problem</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        Spot a missing credit or a wrong link? <a href={SITE.issuesUrl}>Open an issue on GitHub</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>

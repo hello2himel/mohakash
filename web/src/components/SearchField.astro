@@ -1,0 +1,31 @@
+---
+/**
+ * Search field — 44px, `surface` fill, 1px border, 8px radius.
+ * The label is visually hidden but always present.
+ */
+interface Props {
+  id: string;
+  label: string;
+  placeholder?: string;
+  value?: string;
+  class?: string;
+  /** Extra hint rendered as a visible caption below the field. */
+  describedBy?: string;
+}
+
+const { id, label, placeholder, value = '', class: className, describedBy } = Astro.props;
+---
+
+<div class:list={['archive-filters__search', className]}>
+  <label class="visually-hidden" for={id}>{label}</label>
+  <input
+    class="field"
+    id={id}
+    type="search"
+    name="q"
+    autocomplete="off"
+    placeholder={placeholder}
+    value={value}
+    aria-describedby={describedBy}
+  />
+</div>

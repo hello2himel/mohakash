@@ -1,0 +1,948 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-10-22T12:20:25Z",
+  "count": 94,
+  "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
+  "entries": [
+    {
+      "date": "2026-10-22",
+      "title": "The First Green Star, WD J1330+6435",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/green_wd_mark-garlick_annotated2.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/green_wd_mark-garlick_annotated2.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-22-the-first-green-star-wd-j13306435/",
+      "copyright": "Mark A. Garlick/University of Warwick",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-21",
+      "title": "New Ghosts Revealed in Cassiopeia",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/IC63.png?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/IC63.png?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-21-new-ghosts-revealed-in-cassiopeia/",
+      "copyright": "Louis Leroux-Géré, Thibault Rouillée, Vincent Martin, Cédric de Decker (Starfront Observatories)",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-20",
+      "title": "An Anticrepuscular Rainbow Fan",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/AntiRainbow_Esposti_5120.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/AntiRainbow_Esposti_5120.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-20-an-anticrepuscular-rainbow-fan/",
+      "copyright": "Aurelia Degli Esposti",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-19",
+      "title": "Treble Clef: Unusual X-ray Hot Radio Source",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/trebleclef.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/trebleclef.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-19-treble-clef-unusual-x-ray-hot-radio-source/",
+      "copyright": "X-ray: NASA/CXC/INAF-IRA/A. Botteon et al.; Infrared: UKIDSS-GPS; Radio: ASTRONLOFAR; Image processing: NASA/CXC/SAO/N. Wolk",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-18",
+      "title": "Sonified: Eagle Nebula Pillars",
+      "media_type": "video",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/SonifiedEagleNebulaPillars.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/SonifiedEagleNebulaPillars.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-18-sonified-eagle-nebula-pillars/",
+      "copyright": "Image Credit: NASA, ESA, & The Hubble Heritage Project (STScI/AURA);\nSonification: NASA, CXC, SAO, K. Arcand, M. Russo & A. Santaguida",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-17",
+      "title": "3D 67P",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/anaglyph-NAC_2015-07-25T06.28.48.742Z_lamy.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/anaglyph-NAC_2015-07-25T06.28.48.742Z_lamy.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-17-3d-67p/",
+      "copyright": "ESA , Rosetta , MPS , OSIRIS - Stereo Anaglyph: Philippe Lamy and The Team",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-16",
+      "title": "Chasing the International Space Station",
+      "media_type": "video",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/CRS35-Holland30s1080p.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/CRS35-Holland30s1080p.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-16-chasing-the-international-space-station/",
+      "copyright": "Eric Holland",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-15",
+      "title": "The Milky Way over Manhattan",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Manhattan%20Milkyway.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Manhattan%20Milkyway.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-15-the-milky-way-over-manhattan/",
+      "copyright": "Jason Kurth, Ty Buckley",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-14",
+      "title": "Mars and the Beehive Under an Aurora",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/2026_10_10_PZ_Jesličky_01_1500px.png?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/2026_10_10_PZ_Jesličky_01_1500px.png?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-14-mars-and-the-beehive-under-an-aurora/",
+      "copyright": "Petr Horálek (Institute of Physics in Opava), Josef Kujal, Vojan Höfer",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-13",
+      "title": "Desert Stairway to Heaven",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Stairway2Heaven_Looten_6750.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Stairway2Heaven_Looten_6750.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-13-desert-stairway-to-heaven/",
+      "copyright": "Julien Looten",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-12",
+      "title": "Jupiter and the Moons",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/JupiterMoons_Upreti_3105.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/JupiterMoons_Upreti_3105.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-12-jupiter-and-the-moons/",
+      "copyright": "Chirag Upreti",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-11",
+      "title": "Ice Fishing for Cosmic Neutrinos",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/deephole_icecube_4000.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/deephole_icecube_4000.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-11-ice-fishing-for-cosmic-neutrinos/",
+      "copyright": "NSF, B. Gudbjartsson, IceCube Collaboration",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-10",
+      "title": "Lunar Farside",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/farside_lro1600.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/farside_lro1600.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-10-lunar-farside/",
+      "copyright": "NASA / GSFC / Arizona State Univ. / Lunar Reconnaissance Orbiter",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-09",
+      "title": "Stickney Crater",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/PSP_007769_9010_IRB_Stickney.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/PSP_007769_9010_IRB_Stickney.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-9-stickney-crater/",
+      "copyright": "HiRISE, MRO, LPL (U. Arizona), NASA",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-08",
+      "title": "The Saturn System Smörgåsbord",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/2026-09-21-2349_3-TW-RGB-Sat2_1.5x_Labelled.png?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/2026-09-21-2349_3-TW-RGB-Sat2_1.5x_Labelled.png?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-8-the-saturn-system-smorgasbord/",
+      "copyright": "Tom Williams",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-07",
+      "title": "Supernova Remnant Pa 30",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/noirlab2624a.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/noirlab2624a.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-7-supernova-remnant-pa-30/",
+      "copyright": "International Gemini Observatory/NOIRLab/NSF/AURA. Acknowledgment: PI: T. Cunningham (Center for Astrophysics - Harvard & Smithsonian). Image Processing: J. Miller & M. Rodriguez (International Gemini Observatory/NSF NOIRLab), T.A. Rector (University of Alaska Anchorage/NSF NOIRLab), D. de Martin & M. Zamani (NSF NOIRLab).",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-06",
+      "title": "A Complete Auroral Oval from SMILE",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Smile_s_first_ultraviolet_footage_shows_auroral_substorm-1.jpeg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Smile_s_first_ultraviolet_footage_shows_auroral_substorm-1.jpeg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-6-a-complete-auroral-oval-from-smile/",
+      "copyright": "ESA, CAS, SMILE, UVI",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-05",
+      "title": "M104: The Sombrero Galaxy's Tidal Streams",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/M104_Vollmer_4222.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/M104_Vollmer_4222.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-5-m104-the-sombrero-galaxys-tidal-streams/",
+      "copyright": "Engelbert Vollmer",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-04",
+      "title": "Supernumerary Rainbows over New Jersey",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/SupernumeraryRainbows_Entwistle_1362.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/SupernumeraryRainbows_Entwistle_1362.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-4-supernumerary-rainbows-over-new-jersey/",
+      "copyright": "John Entwistle",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Selfie at Vera Rubin Ridge",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Sol1943CuriosityBodrov.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Sol1943CuriosityBodrov.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-3-selfie-at-vera-rubin-ridge/",
+      "copyright": "Image Credit: NASA, JPL-Caltech, MSSS - Panorama: Andrew Bodrov",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-02",
+      "title": "The Complete Sharpless Catalog: 313 Nebulas",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/sharpless_catalog.png?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/sharpless_catalog.png?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-2-the-complete-sharpless-catalog-313-nebulae/",
+      "copyright": "Bing Xin",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-10-01",
+      "title": "Harvest Moon with Erupting Mount Etna",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Harvest%20Moon%20Trail%20With%20Venus%20Belt%20and%20Erupting%20Mount%20Etna%204%20LD.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/Harvest%20Moon%20Trail%20With%20Venus%20Belt%20and%20Erupting%20Mount%20Etna%204%20LD.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-1-harvest-moon-with-belt-of-venus-and-erupting-mount-etna/",
+      "copyright": "Dario Giannobile",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-09-30",
+      "title": "Arp 78: Peculiar Galaxy in Aries",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NGC772_Robert_Eder.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NGC772_Robert_Eder.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-september-30-arp-78-peculiar-galaxy-in-aries/",
+      "copyright": "Robert Eder",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-09-29",
+      "title": "Sh2-188: The Shrimp Nebula",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/september/Shrimp_Pawel_2048.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/september/Shrimp_Pawel_2048.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-september-29-sh2-188-the-shrimp-nebula/",
+      "copyright": "Pawel Piechnik",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "2026-09-28",
+      "title": "Cosmic Latte: The Average Color of the Universe",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/september/CosmicLatte_jhu_960_annotated.jpg?w=480",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/september/CosmicLatte_jhu_960_annotated.jpg?w=1600",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-september-28-cosmic-latte-the-average-color-of-the-universe/",
+      "copyright": "Karl Glazebrook & Ivan Baldry (JHU)",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/2026.json"
+    },
+    {
+      "date": "1995-08-26",
+      "title": "Two Tails of Comet West",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-26-two-tails-of-comet-west/",
+      "copyright": "Credit: Observatoire de Haute, Provence, France",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-25",
+      "title": "A World Explorer",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-25-a-world-explorer/",
+      "copyright": "Credit: NASA, JPL Magellan Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-24",
+      "title": "A Radar Image of Planet Earth",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-24-a-radar-image-of-planet-earth/",
+      "copyright": "Credit: NASA, JPL Imaging Radar Program",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-23",
+      "title": "A Venusian Tick",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-23-a-venusian-tick/",
+      "copyright": "Credit: NASA, Magellan Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-22",
+      "title": "Venus UnVeiled",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-22-venus-unveiled/",
+      "copyright": "Credit: NASA, Magellan Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-21",
+      "title": "An Orbiting Iceberg",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-21-an-orbiting-iceberg/",
+      "copyright": "Credit: European Space Agency, Giotto Camera Team.",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-20",
+      "title": "Announcing Comet Hale-Bopp",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-20-announcing-comet-hale-bopp/",
+      "copyright": "Credit: Erich Meyer and Herbert Raab, Austria",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-19",
+      "title": "Our Solar System from Voyager",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-19-our-solar-system-from-voyager/",
+      "copyright": "Credit: NASA, Voyager 1,",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-18",
+      "title": "Pluto: The Frozen Planet",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-18-pluto-the-frozen-planet/",
+      "copyright": "Credit: NASA, Hubble Space Telescope, R. Albrecht (ESA/ESO)",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-17",
+      "title": "Neptune: Big Blue Giant",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-17-neptune-big-blue-giant/",
+      "copyright": "Credit: NASA, Voyager 2, Copyright Calvin J. Hamilton",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-16",
+      "title": "Uranus: The Tilted Planet",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-16-uranus-the-tilted-planet/",
+      "copyright": "Credit: NASA, Voyager 2",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-15",
+      "title": "Venus: Earth's Sister Planet",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-15-venus-earths-sister-planet/",
+      "copyright": "Credit: NASA, Galileo, Copyright Calvin J. Hamilton",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-14",
+      "title": "Mercury: Closest Planet to the Sun",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-14-mercury-closest-planet-to-the-sun/",
+      "copyright": "Credit: NASA, Mariner 10",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-13",
+      "title": "The Sun Erupts",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-13-the-sun-erupts/",
+      "copyright": "Credit: NASA, Skylab",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-12",
+      "title": "Atlantis Landing",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-12-atlantis-landing/",
+      "copyright": "Credit: NASA, Kennedy Space Center",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-11",
+      "title": "The Compton Gamma Ray Observatory",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-11-the-compton-gamma-ray-observatory/",
+      "copyright": "Credit: NASA, Compton Gamma Ray Observatory Science Support Center",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-10",
+      "title": "The Orbiting Hubble Space Telescope",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-10-the-orbiting-hubble-space-telescope/",
+      "copyright": "Credit: NASA, Space Telescope Scientific Institute",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-09",
+      "title": "Challenger Launches Spacelab 2",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-09-challenger-launches-spacelab-2/",
+      "copyright": "Credit: NASA, Kennedy Space Center",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-08",
+      "title": "Columbia Waits, Discovery Launches",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-08-columbia-waits-discovery-launches/",
+      "copyright": "Credit: NASA, Kennedy Space Center",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-07",
+      "title": "Night Launch of Endeavour",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-07-night-launch-of-endeavour/",
+      "copyright": "Credit: NASA, Kennedy Space Center",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-06",
+      "title": "Liftoff of Space Shuttle Columbia",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-06-liftoff-of-space-shuttle-columbia/",
+      "copyright": "Credit: NASA, Kennedy Space Center",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-05",
+      "title": "Geysers on Triton",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-05-geysers-on-triton/",
+      "copyright": "Credit: NASA, Voyager Project, Copyright Calvin J. Hamilton",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-04",
+      "title": "Closeup of an Io Volcano",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-04-closeup-of-an-io-volcano/",
+      "copyright": "Credit: NASA, Voyager Project, Copyright Calvin J. Hamilton",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-03",
+      "title": "Io: A Volcanic Moon",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-03-io-a-volcanic-moon/",
+      "copyright": "Credit: NASA, Voyager Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-02",
+      "title": "Jupiter's Rings",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-02-jupiters-rings/",
+      "copyright": "Credit: NASA, Voyager Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-08-01",
+      "title": "Crossing The Ring Plane",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-august-01-crossing-the-ring-plane/",
+      "copyright": "Credit: NASA, Hubble Space Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-31",
+      "title": "Exploring Saturn's Rings",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-31-exploring-saturns-rings/",
+      "copyright": "Credit: NASA, Jet Propulsion Laboratory, Voyager Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-30",
+      "title": "The Rings of Saturn",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-30-the-rings-of-saturn/",
+      "copyright": "Credit: NASA, Jet Propulsion Laboratory, Voyager Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-29",
+      "title": "M27: The Dumbbell Nebula",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-29-m27-the-dumbbell-nebula/",
+      "copyright": "Credit: The Electronic Universe Project, Karen Gloria",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-28",
+      "title": "M82: An Irregular Galaxy",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-28-m82-an-irregular-galaxy/",
+      "copyright": "Credit: The Electronic Universe Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-27",
+      "title": "M57: The Ring Nebula",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-27-m57-the-ring-nebula/",
+      "copyright": "Credit: The Electronic Universe Project, Nelson Caldwell",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-26",
+      "title": "M15: A Great Globular Cluster",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-26-m15-a-great-globular-cluster/",
+      "copyright": "Credit: The Electronic Universe Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-25",
+      "title": "M1: The Crab Nebula",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-25-m1-the-crab-nebula/",
+      "copyright": "Credit: The Electronic Universe Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-24",
+      "title": "M31: The Andromeda Galaxy",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-24-m31-the-andromeda-galaxy/",
+      "copyright": "Credit: The Electronic Universe Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-23",
+      "title": "M20: The Trifid Nebula",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-23-m20-the-trifid-nebula/",
+      "copyright": "Credit: Hopkins Observatory, Karen Gloria",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-22",
+      "title": "The Face on Mars",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-22-the-face-on-mars/",
+      "copyright": "NASA,Viking Project,",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-21",
+      "title": "The Search for Life on Mars",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-21-the-search-for-life-on-mars/",
+      "copyright": "NASA,Viking Project,",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-20",
+      "title": "The Grand Canyon of Mars",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-20-the-grand-canyon-of-mars/",
+      "copyright": "NASA,Viking Project,USGS",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-19",
+      "title": "The Mountains of Mars",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-19-the-mountains-of-mars/",
+      "copyright": "NASA,Viking Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-18",
+      "title": "Cygnus Loop Supernova Shockwave",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-18-cygnus-loop-supernova-shockwave/",
+      "copyright": "Credit: NASA, HST, WFPC2, Jeff Hester",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-17",
+      "title": "Barsoom",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-17-barsoom/",
+      "copyright": "NASA,Viking Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-16",
+      "title": "The Exploration of Mars",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-16-the-exploration-of-mars/",
+      "copyright": "NASA,Viking Project, USGS",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-15",
+      "title": "The Crater Chain",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-15-the-crater-chain/",
+      "copyright": "NASA, Voyager Team",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-14",
+      "title": "Comet Impacts on Jupiter",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-14-comet-impacts-on-jupiter/",
+      "copyright": "NASA, Hubble Space Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-13",
+      "title": "A String Of Pearls",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-13-a-string-of-pearls/",
+      "copyright": "NASA, Hubble Space Telescope (courtesy of H. Weaver)",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-12",
+      "title": "Eta Carinae Before Explosion",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-12-eta-carinae-before-explosion/",
+      "copyright": "NASA, HST, WFPC2, J. Hester (ASU)",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-11",
+      "title": "Microlensing of the Einstein Cross",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-11-microlensing-of-the-einstein-cross/",
+      "copyright": "Geraint Lewis and Michael Irwin, William Hershel Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-10",
+      "title": "Abell 2218: A Galaxy Cluster Lens",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-10-abell-2218-a-galaxy-cluster-lens/",
+      "copyright": "NASA, HST, WFPC2, W. Couch (UNSW)",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-09",
+      "title": "A Meteoric View of Apollo 13",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-09-a-meteoric-view-of-apollo-13/",
+      "copyright": "Unknown",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-08",
+      "title": "Damage to Apollo 13",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-08-damage-to-apollo-13/",
+      "copyright": "NASA, Crew of Apollo 13",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-07",
+      "title": "Lunar Farside from Apollo 13",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-07-lunar-farside-from-apollo-13/",
+      "copyright": "NASA, Crew of Apollo 13",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-06",
+      "title": "Saturn, Rings, and Two Moons",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-06-saturn-rings-and-two-moons/",
+      "copyright": "NASA, Jet Propulsion Laboratory,Voyager Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-05",
+      "title": "The Night Side of Saturn",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-05-the-night-side-of-saturn/",
+      "copyright": "NASA, Jet Propulsion Laboratory,Voyager Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-04",
+      "title": "The Firework Nebula",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-04-the-firework-nebula/",
+      "copyright": "WIYN Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-03",
+      "title": "The Great Nebula in Orion",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-03-the-great-nebula-in-orion/",
+      "copyright": "NASA, Hubble Space Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-02",
+      "title": "The Cartwheel Galaxy",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-02-the-cartwheel-galaxy/",
+      "copyright": "NASA, Hubble Space Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-07-01",
+      "title": "The Hooker Telescope on Mt. Wilson",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-july-01-the-hooker-telescope-on-mt-wilson/",
+      "copyright": "Mount Wilson Observatory",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-30",
+      "title": "Ida and Dactyl: Asteroid and Moon",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-30-ida-and-dactyl-asteroid-and-moon/",
+      "copyright": "NASA, JPL, Galileo Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-29",
+      "title": "The Earth-Moon System",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-29-the-earth-moon-system/",
+      "copyright": "NASA, JPL, Galileo Project",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-28",
+      "title": "The Cat's Eye Nebula",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-28-the-cats-eye-nebula/",
+      "copyright": "NASA, Hubble Space Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-27",
+      "title": "An Ultraviolet Image of Messier 101",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-27-an-ultraviolet-image-of-m101/",
+      "copyright": "NASA, Ultraviolet Imaging Telescope (UIT)",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-26",
+      "title": "The Spiral Galaxy M100",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-26-spiral-galaxy-m100/",
+      "copyright": "NASA, Hubble Space Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-25",
+      "title": "Jupiter from Voyager",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-25-jupiter-from-voyager/",
+      "copyright": "NASA, JPL, NSSDC, Voyager",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-24",
+      "title": "The Crab Nebula and Geminga in Gamma Rays",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-24-gamma-ray-crab-geminga/",
+      "copyright": "NASA, Compton Gamma Ray Observatory",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-23",
+      "title": "Gamma Ray All Sky Map",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-23-gamma-ray-sky-map/",
+      "copyright": "NASA, Compton Gamma Ray Observatory",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-22",
+      "title": "The Earth from Apollo 17",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-22-earth-from-apollo-17/",
+      "copyright": "NASA, Apollo 17, NSSDC",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-21",
+      "title": "The Aftermath of the Great Supernova in 1987",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-21-supernova-1987a-aftermath/",
+      "copyright": "Hubble Space Telescope",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-20",
+      "title": "The Pleiades Star Cluster",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-20-pleiades-star-cluster/",
+      "copyright": "Mount Wilson Observatory",
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    },
+    {
+      "date": "1995-06-16",
+      "title": "Neutron Star Earth",
+      "media_type": "image",
+      "thumbnail_url": null,
+      "image_url": null,
+      "apod_url": "https://science.nasa.gov/image-article/apod-1995-june-16-neutron-star-earth/",
+      "copyright": null,
+      "detail_path": "https://hello2himel.github.io/mohakash/api/v1/archive/1995.json"
+    }
+  ]
+}

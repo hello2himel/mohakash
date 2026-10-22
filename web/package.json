@@ -1,0 +1,29 @@
+{
+  "name": "mohakash-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mohakash website — a static Astro front-end for the Astronomy Picture of the Day JSON API.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/node": "^24.19.2",
+    "smol-toml": "^1.9.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

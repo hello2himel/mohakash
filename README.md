@@ -1,0 +1,553 @@
+# Mohakash
+
+> Daily astronomy picture. Browse the NASA Astronomy Picture of the Day
+> archive, read the explanations, save what you like, and put the newest
+> picture on your Android home screen as a live wallpaper.
+
+Mohakash is one repository with three connected products:
+
+| Product | What it is | Where it runs |
+|---|---|---|
+| **Website** | Astro + TypeScript, responsive, accessible | Netlify |
+| **Public API** | Versioned static JSON + an optional RSS feed | GitHub Pages |
+| **Android app** | Kotlin, Jetpack Compose, Material 3, with a genuine `WallpaperService` | Your device |
+
+Everything reads the same normalized data. There is no user account, no
+database server, no paid hosting and no API key.
+
+---
+
+## 1. Architecture and data flow
+
+```text
+                     NASA APOD (science.nasa.gov)
+                                |
+                                |  scripts/sync_apod.py  (normalize + validate)
+                                v
+                    data/records/YYYY.json          <- authoritative archive (in git)
+                                |
+                                |  scripts/build_public_api.py
+                                v
+             data/api/v1/{latest,archive-index,status}.json
+             data/api/v1/archive/YYYY.json
+             data/feed.xml
+                                |
+                GitHub Actions (commit + upload-pages-artifact)
+                                v
+                    GitHub Pages  https://<owner>.github.io/<repo>/api/v1/...
+                        ^                        ^
+                        |                        |
+       Netlify rewrite   |                        |  direct fetch
+        (same origin)    |                        |
+                +-------+--------+               |
+                |                |               |
+         Astro website      Android app  --->   +------+
+         (netlify.app)      (GitHub Pages)   WallpaperService
+```
+
+* The **archive** in `data/records/` is the source of truth and lives in git.
+* The **public API** is generated from the archive and is the only thing the
+  website and the app read.
+* The **website** fetches from its own origin (`/api/apod/v1/...`); Netlify
+  proxies that path to GitHub Pages. The website build therefore never has to
+  be re-run when the data changes.
+* The **Android app** fetches straight from GitHub Pages.
+* **Image binaries are never mirrored.** The API publishes links to NASA's own
+  image files; the app downloads an image only when it needs it.
+
+### Why a daily data change does not trigger a Netlify build
+
+Scheduled data commits carry `[skip netlify]` in the commit message, which
+Netlify honours. On top of that the authoritative data lives outside `web/`,
+so a data refresh never touches the website source tree at all. A normal
+source-code commit still triggers a standard Netlify build.
+
+---
+
+## 2. The NASA APOD endpoint (verified behaviour)
+
+The legacy `https://api.nasa.gov/planetary/apod` service is scheduled to be
+archived on **1 December 2026**. This project uses the current endpoint:
+
+```text
+GET https://science.nasa.gov/wp-json/wp/v2/apod-basic
+```
+
+What was checked against the live service (October 2026):
+
+| Question | Answer |
+|---|---|
+| Is an API key needed? | **No.** No key is used and none is stored. |
+| Does it answer without a `User-Agent`? | Yes, but a descriptive one is sent anyway. |
+| What does the collection return? | A JSON **array** of records, newest first. |
+| Which query parameters work? | `page` (default 1) and `per_page` (default 25, clamped to 25 by the service). |
+| Does `date` / `start_date` / `end_date` work? | **No.** They are silently ignored and the newest page is returned. |
+| What about `date_from` / `date_to`? | They are advertised in the endpoint's own `OPTIONS` response but currently answer `400 rest_invalid_param`. The adapter probes them once and transparently falls back to pagination. |
+| How do I fetch one exact date? | `GET .../apod-basic/{YYMMDD}` — e.g. `.../apod-basic/261016` for 2026-10-16. A missing date answers `404 apod_basic_not_found`. |
+| What is `url`? | The **APOD article page**, not an image. |
+| What is `hdurl`? | The actual image asset (or the poster frame of a video). This is the field to download. |
+| What is `basic_html`? | A complete HTML document. It is never stored. |
+
+Response fields used: `date`, `post_id`, `title`, `permalink`, `media_type`,
+`explanation`, `credit`, `copyright`, `alt`, `url`, `hdurl`.
+
+Two traps that the adapter handles:
+
+* **`url` is not an image.** Publishing it as an image URL would download an
+  HTML page.
+* **NASA's image CDN can resize on the fly.** URLs under
+  `assets.science.nasa.gov/dynamicimage/` accept a `?w=` parameter, so the
+  pipeline derives a 1600 px display URL, a 2400 px large URL and a 480 px
+  thumbnail from one asset. Older `content/dam` assets are static files and
+  are used unchanged.
+
+Some entries from the 1990s point at NASA's generic placeholder thumbnail
+rather than the original picture. Those are published with
+`image_status: "placeholder"` and no image URLs, so no client ever shows the
+placeholder as "today's picture".
+
+All provider-specific parsing lives in `scripts/mohakash/nasa_adapter.py`.
+The website and the Android app only ever see the project's own schema.
+
+---
+
+## 3. Repository structure
+
+```text
+mohakash/
+├── android/                     # Kotlin app (Compose, Room, DataStore, WorkManager)
+│   ├── app/
+│   ├── gradle/libs.versions.toml
+│   └── settings.gradle.kts
+├── web/                         # Astro website
+│   ├── src/{components,layouts,pages,lib,styles}/
+│   ├── public/
+│   ├── tests/
+│   ├── astro.config.mjs
+│   └── package.json
+├── data/
+│   ├── records/YYYY.json        # authoritative archive, one file per year
+│   ├── api/v1/                  # generated public API
+│   │   ├── latest.json
+│   │   ├── archive-index.json
+│   │   ├── status.json
+│   │   └── archive/YYYY.json
+│   ├── feed.xml                 # generated RSS 2.0 feed
+│   └── sync-state.json          # last successful sync, source status
+├── scripts/
+│   ├── mohakash/                # the pipeline package
+│   │   ├── config.py            # reads config/site.json
+│   │   ├── schema.py            # the normalized, versioned schema
+│   │   ├── nasa_adapter.py      # the only NASA-aware module
+│   │   ├── normalize.py         # raw payload -> normalized record
+│   │   ├── archive.py           # the on-disk archive store
+│   │   └── publish.py           # public API + RSS generation
+│   ├── tests/                   # pytest suite (no network needed)
+│   ├── sync_apod.py             # CLI: sync / backfill / build / validate
+│   ├── build_public_api.py      # CLI: rebuild the public API only
+│   └── requirements.txt
+├── config/site.json             # owner + repository URLs (single edit point)
+├── .github/workflows/
+│   ├── update-apod.yml          # scheduled sync, commit, GitHub Pages
+│   └── ci.yml                   # tests for the pipeline, website and app
+├── netlify.toml                 # build configuration + API proxy rules
+├── CONTENT_RIGHTS.md
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 4. Local prerequisites
+
+| Tool | Version used | Notes |
+|---|---|---|
+| Python | 3.11+ (3.12 in CI) | The pipeline only uses the standard library. `pip install -r scripts/requirements.txt` adds `pytest` and `PyYAML`. |
+| Node.js | 20+ (22 in CI) | For the website. |
+| JDK | 17 | For the Android app. |
+| Android SDK | platform 36, build-tools 35+ | `ANDROID_HOME` or `android/local.properties`. |
+
+---
+
+## 5. Website
+
+```bash
+cd web
+npm install
+npm run dev        # http://localhost:4321
+npm run build      # static output in web/dist
+npm test           # unit tests
+```
+
+The site is fully static. It fetches its data in the browser from
+`/api/apod/v1/...`; nothing is baked in at build time. During local
+development the Astro dev server proxies `/api/apod/v1/*` to GitHub Pages (see
+`web/astro.config.mjs`), so the site works locally without a Netlify account.
+
+### Routes
+
+| Route | Page |
+|---|---|
+| `/` | Today |
+| `/archive` | Archive (search, year filter, jump to date, load more) |
+| `/archive/YYYY-MM-DD` | Entry detail |
+| `/api` | API documentation |
+| `/about` | About |
+| `/rights` | Content rights |
+| anything else | 404 |
+
+---
+
+## 6. Android app
+
+```bash
+cd android
+./gradlew :app:assembleDebug        # APK at app/build/outputs/apk/debug/
+./gradlew :app:testDebugUnitTest    # unit tests
+```
+
+The API base URL is read from `config/site.json` at build time and turned into
+a `BuildConfig` field, so there is no URL in the Kotlin sources. The app tries
+the configured candidates in order (a GitHub **project** site first, then a
+GitHub **user** site) and remembers the one that works.
+
+Install and enable the wallpaper:
+
+```bash
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+Then open the app and press **Set live wallpaper**, or pick
+*Settings → Wallpaper → Mohakash* in Android's own wallpaper picker.
+
+---
+
+## 7. Data pipeline commands
+
+All commands are run from the repository root.
+
+```bash
+# Fetch the newest entry and revalidate the previous seven days
+python3 scripts/sync_apod.py sync
+
+# Build the historical archive (resumable, safe to interrupt)
+python3 scripts/sync_apod.py backfill --start-year 1995 --end-year 2026
+
+# Re-fetch years that are already stored (for corrections)
+python3 scripts/sync_apod.py backfill --start-year 2020 --end-year 2021 --refresh
+
+# Regenerate the public API and the RSS feed from the archive
+python3 scripts/sync_apod.py build
+python3 scripts/build_public_api.py        # same thing, separate entry point
+
+# Validate the archive and the generated documents (also used in CI)
+python3 scripts/sync_apod.py validate
+
+# Build the GitHub Pages artifact locally
+python3 scripts/sync_apod.py assemble-site --site-root api-site
+
+# Show what is stored locally
+python3 scripts/sync_apod.py status
+
+# Run the tests
+python3 -m pytest scripts/tests -q
+```
+
+### Behaviour that matters
+
+* **Idempotent.** Re-running `sync` without new data changes no file, so the
+  scheduled workflow creates no commit.
+* **Non-destructive.** A failed request never removes a stored record. A
+  refresh that temporarily loses its image keeps the previous, working image.
+* **Corrections are picked up.** A record whose title or explanation changed
+  upstream is updated, and only the affected year file is rewritten.
+* **Deduplicated.** Records are keyed by publication date.
+* **Never publishes an empty archive.** `build` refuses to run without
+  records, and `validate` fails loudly.
+* **Bounded retries.** Transient failures are retried with exponential
+  backoff; client errors are not retried at all.
+
+### The normalized schema (version 1.0.0)
+
+```json
+{
+  "schema_version": "1.0.0",
+  "date": "2026-10-22",
+  "title": "The First Green Star, WD J1330+6435",
+  "explanation": "Plain text. Paragraphs are separated by a blank line.",
+  "media_type": "image",
+  "image_url": "https://…?w=1600",
+  "hd_image_url": "https://…?w=2400",
+  "thumbnail_url": "https://…?w=480",
+  "apod_url": "https://science.nasa.gov/image-article/…",
+  "copyright": "Mark A. Garlick/University of Warwick",
+  "credit": "Mark A. Garlick/University of Warwick",
+  "alt_text": "A star shines with a greenish hue…",
+  "source": "NASA APOD",
+  "source_id": "1497603",
+  "source_media_type": "image",
+  "image_status": "ok",
+  "updated_at": "2026-10-22T12:17:44Z"
+}
+```
+
+Unavailable optional values are `null` — never invented. `media_type` is one
+of `image`, `video`, `other`. `image_status` is `ok`, `placeholder` or
+`missing`.
+
+---
+
+## 8. Public API
+
+Base URL (GitHub Pages project site):
+
+```text
+https://<owner>.github.io/<repo>/api/v1/
+```
+
+| Endpoint | Returns |
+|---|---|
+| `GET latest.json` | The newest record, flattened, plus `last_successful_sync`, `latest_available_date`, `record_count` and `source_status`. |
+| `GET archive-index.json` | A compact index of every record, newest first. No explanations. Each entry has `date`, `title`, `media_type`, `thumbnail_url`, `image_url`, `apod_url`, `copyright` and `detail_path`. |
+| `GET archive/YYYY.json` | Every full record of one calendar year, with explanations and attribution. |
+| `GET status.json` | `schema_version`, `last_successful_sync`, `latest_available_date`, `archive_start_date`, `record_count`, `source_status` and a few non-sensitive diagnostics. |
+| `GET /feed.xml` | RSS 2.0 with the newest 30 entries. |
+
+Examples:
+
+```bash
+curl https://<owner>.github.io/<repo>/api/v1/latest.json
+curl https://<owner>.github.io/<repo>/api/v1/archive/2026.json
+curl -s https://<owner>.github.io/<repo>/api/v1/latest.json | jq -r '.title'
+```
+
+```js
+const res = await fetch('/api/apod/v1/latest.json');   // same origin on the website
+const latest = await res.json();
+console.log(latest.title, latest.date);
+```
+
+The responses contain **metadata and links to the original image files**. No
+image binaries are hosted by this project.
+
+---
+
+## 9. Owner setup
+
+The steps in this section are for the repository owner. Everything else in
+this README was implemented and verified by the coding agent.
+
+### 9.1 Point the project at your account
+
+Edit **one file**: `config/site.json`.
+
+```json
+{
+  "github": {
+    "owner": "your-github-username",
+    "repo": "mohakash",
+    "pages_type": "project",
+    "custom_domain": null
+  },
+  "website": { "base_url": "https://your-site.netlify.app" },
+  "android": {
+    "package": "app.mohakash.apod",
+    "api_base_url_fallbacks": [
+      "https://your-github-username.github.io/mohakash/api/v1",
+      "https://your-github-username.github.io/api/v1"
+    ]
+  }
+}
+```
+
+* `pages_type: "project"` → the API is served from
+  `https://<owner>.github.io/<repo>/`.
+* `pages_type: "user"` → the API is served from
+  `https://<owner>.github.io/` (a user-level Pages site). The path segment is
+  dropped automatically.
+* `custom_domain` → set your own domain; it wins over both.
+
+Then update the two rewrite targets in `netlify.toml` — or, better, just run
+`python3 scripts/render_netlify_config.py` — and, if you use a custom
+domain, the `site` value in `web/astro.config.mjs`.
+
+> `netlify.toml` is **generated**. After editing `config/site.json` run
+> `python3 scripts/render_netlify_config.py` to regenerate it. CI fails when
+> the two are out of sync.
+
+### 9.2 GitHub Pages
+
+1. Repository → **Settings → Pages → Build and deployment → Source**:
+   choose **GitHub Actions**.
+2. That is all. The `update-apod.yml` workflow publishes the artifact itself.
+   The first run creates it.
+
+The published artifact contains **only** the public data:
+
+```text
+api-site/
+├── .nojekyll
+├── api/v1/{latest,archive-index,status}.json
+├── api/v1/archive/YYYY.json
+└── feed.xml
+```
+
+No source code, no tests, no workflow logs.
+
+### 9.3 Netlify
+
+1. Add the repository to Netlify (Import an existing project).
+2. Netlify reads `netlify.toml` from the repository root. It should show
+   *Base directory* `web`, *Build command* `npm run build` and *Publish
+   directory* `dist`. If Netlify's UI shows different values, set them to
+   match.
+3. Deploy. The redirect rules are part of the same file, so no extra
+   configuration is needed.
+
+### 9.4 Permissions and branch protection
+
+The workflow needs:
+
+| Permission | Why |
+|---|---|
+| `contents: write` | to commit the refreshed data |
+| `pages: write` | to publish the artifact |
+| `id-token: write` | required by `actions/deploy-pages` |
+
+If the default branch is protected and blocks the bot commit, the workflow
+will fail at the push step. The smallest possible fixes, in order of
+preference:
+
+1. Allow GitHub Actions to create "bot" commits on the default branch
+   (branch protection → *Rules → Bypass list* → add the `github-actions`
+   app), **or**
+2. Exempt the `chore(apod): refresh APOD data [skip netlify]` commit from the
+   required review, **or**
+3. Use a GitHub App token with write access to the repository if your
+   organisation forbids bot commits.
+
+A personal access token is **not** required and should not be used.
+
+---
+
+## 10. The scheduled workflow
+
+`.github/workflows/update-apod.yml`
+
+* **Schedule:** `17 7,13 * * *` (UTC) — twice a day. GitHub delays scheduled
+  workflows, so the exact execution time is never guaranteed.
+* **Manual runs:** *Actions → Update APOD data → Run workflow* with the mode
+  `sync`, `backfill`, `build` or `validate`, optional `start_year` /
+  `end_year` for a backfill, `refresh` to re-fetch stored records and
+  `force_deploy` to publish to Pages even when nothing changed.
+* **Concurrency:** one run at a time (`group: apod-data-<ref>`,
+  `cancel-in-progress: false`), so an older run can never overwrite a newer
+  archive.
+* **Order of work:** fetch → validate → assemble the artifact → commit the
+  data → publish to Pages, all inside the same workflow. The publication does
+  not depend on a second workflow being triggered by the bot's push.
+* **No empty commits.** If the data did not change, nothing is committed and
+  Pages is not redeployed.
+
+---
+
+## 11. Cache behaviour and known limitations
+
+| Resource | Cache policy |
+|---|---|
+| `latest.json`, `status.json` | `max-age=300, must-revalidate` at the Netlify proxy; the browser revalidates on every load. |
+| `archive-index.json` | `max-age=300, must-revalidate`. |
+| `archive/YYYY.json` | `max-age=86400` — historical records change rarely. |
+| `feed.xml` | `max-age=3600`. |
+
+* The website caches the last successful `latest.json` and
+  `archive-index.json` in the browser so a brief API outage still shows
+  something useful, with a status banner and a retry button.
+* The Android app keeps the last successful metadata and image in
+  app-private storage and shows them when the network is unavailable.
+* **A short mismatch is normal.** The data commit and the Pages publication
+  happen in the same run, but GitHub Pages can take a minute to serve the new
+  files. The website treats this as a stale-data condition, not an error.
+* **Background updates are not exact.** The Android app schedules a
+  24-hour `PeriodicWorkRequest`. Android decides when that actually runs:
+  it may be delayed by battery optimisation, Doze, app-standby buckets or
+  the device being in use. The app never promises a specific update time, and
+  a foreground refresh happens whenever the app is opened and its metadata is
+  stale.
+
+---
+
+## 12. Copyright and attribution
+
+The pictures are not public domain and this project does not claim that they
+are. Credits are shown exactly as supplied, are never removed, and travel with
+the entry when it is saved or shared. Every entry links to its original APOD
+page and image.
+
+See [`CONTENT_RIGHTS.md`](CONTENT_RIGHTS.md) for the full text.
+
+Mohakash is an independent project. It is **not affiliated with, sponsored
+by, reviewed by or endorsed by NASA**.
+
+---
+
+## 13. Tests
+
+```bash
+python3 -m pytest scripts/tests -q     # data pipeline (no network required)
+cd web && npm test                      # website unit tests
+cd android && ./gradlew :app:testDebugUnitTest
+```
+
+The data-pipeline tests cover normalization against saved NASA payloads,
+image-URL validation, video and placeholder records, missing credits,
+upsert and deduplication, historical corrections, index and feed generation,
+retry behaviour, temporary source failures, invalid JSON, idempotent runs,
+interrupted backfills and the refusal to publish an empty archive. They use
+saved fixtures and a fake HTTP layer, so **they never call NASA**.
+
+The workflow tests assert the schedule, the minimal permissions, the
+`[skip netlify]` marker, the absence of empty commits and the fact that the
+Pages publication happens in the same workflow.
+
+---
+
+## 14. Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| The website shows "Try again" and no data | The API is not reachable from the browser | Open `https://<owner>.github.io/<repo>/api/v1/latest.json` directly. If that fails, the Pages site is not published yet — run the workflow with `mode: build` and `force_deploy: true`. |
+| The website 404s on `/api/apod/v1/...` | The Netlify rewrite target is wrong for your account | Check the two `to =` values in `netlify.toml` against `config/site.json`. |
+| The website shows yesterday's picture | GitHub Pages has not served the new file yet | Wait a minute and reload. The site revalidates `latest.json` on every load. |
+| The workflow fails at the push step | Branch protection blocks the bot commit | See §9.4. |
+| The workflow fails with `400` on the date-range request | NASA's `date_from`/`date_to` are broken upstream | Nothing to do — the adapter falls back to pagination automatically. |
+| The Android app shows "You're offline" | The API base URL does not match your Pages site | Fix `android.api_base_url_fallbacks` in `config/site.json` and rebuild the app. |
+| The wallpaper does not change | Android deferred the background work | Open the app to force a foreground refresh, or check that *Settings → Apps → Mohakash → Battery* is not set to *Restricted*. |
+| The live wallpaper is not in the picker | The service is not registered | Rebuild and reinstall the APK; check `AndroidManifest.xml` for the `WallpaperService` and `res/xml/wallpaper.xml`. |
+| `python3 scripts/sync_apod.py validate` fails | The archive or the generated files are inconsistent | Re-run `python3 scripts/sync_apod.py build` and commit the result. |
+
+---
+
+## 15. Owner checklist
+
+**Done by the coding agent**
+
+- [x] Verified the current NASA endpoint, its parameters and its response fields.
+- [x] Data pipeline with a dedicated NASA adapter, a normalized versioned schema, upsert/dedupe, resumable backfill, bounded retries and validation.
+- [x] Public API generator for `latest.json`, `archive-index.json`, `archive/YYYY.json`, `status.json` and `feed.xml`.
+- [x] GitHub Actions workflow: schedule, manual runs, concurrency, minimal permissions, `[skip netlify]` commit, Pages deployment in the same workflow.
+- [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
+- [x] Netlify configuration with the same-origin API proxy and freshness headers.
+- [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
+- [x] Automated tests for the pipeline, the website and the app.
+
+**Needs the repository owner**
+
+- [ ] Push the repository to your own GitHub account.
+- [ ] Update `config/site.json` (owner, repo, website URL, Android fallbacks).
+- [ ] Update the two rewrite targets in `netlify.toml` and the `site` value in `web/astro.config.mjs`.
+- [ ] Enable GitHub Pages with **GitHub Actions** as the source.
+- [ ] Connect the repository to Netlify and deploy.
+- [ ] Decide how the bot commit may pass branch protection (§9.4).
+- [ ] Run the first backfill from the Actions tab (mode `backfill`, `start_year` 1995) if you did not keep the committed archive.
+- [ ] Release the Android app with your own signing key.

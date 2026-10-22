@@ -1,0 +1,49 @@
+---
+/**
+ * Base layout — document shell, fonts, header and footer.
+ */
+import '../styles/tokens.css';
+import '../styles/global.css';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+interface Props {
+  /** Full document title. */
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const current = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0b0d12" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Mohakash" href="/feed.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader current={current} />
+    <main class="site-main" id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

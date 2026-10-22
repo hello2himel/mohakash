@@ -1,0 +1,29 @@
+---
+/**
+ * Chip — 40px, fully rounded. The selected state uses an accent fill and a
+ * bold weight, never colour alone.
+ */
+interface Props {
+  label: string;
+  selected?: boolean;
+  /** Chip type. Chips without a click handler are plain spans. */
+  as?: 'button' | 'span';
+  id?: string;
+  class?: string;
+}
+
+const { label, selected = false, as = 'span', id, class: className } = Astro.props;
+const classes = ['chip', selected ? 'chip--selected' : '', className].filter(Boolean).join(' ');
+---
+
+{
+  as === 'button' ? (
+    <button class={classes} type="button" id={id} aria-pressed={selected}>
+      {label}
+    </button>
+  ) : (
+    <span class={classes} id={id}>
+      {label}
+    </span>
+  )
+}
