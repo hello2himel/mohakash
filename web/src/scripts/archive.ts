@@ -66,22 +66,10 @@ function filtered(): ArchiveIndexEntry[] {
 
 function playGlyph(): HTMLElement {
   const host = el('div', 'media-frame__glyph');
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 24 24');
-  svg.setAttribute('fill', 'none');
-  svg.setAttribute('stroke', 'currentColor');
-  svg.setAttribute('stroke-width', '1.5');
-  svg.setAttribute('stroke-linejoin', 'round');
-  svg.setAttribute('aria-hidden', 'true');
-  svg.setAttribute('focusable', 'false');
-  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  circle.setAttribute('cx', '12');
-  circle.setAttribute('cy', '12');
-  circle.setAttribute('r', '10');
-  const triangle = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  triangle.setAttribute('d', 'M10 8.5l6 3.5-6 3.5z');
-  svg.append(circle, triangle);
-  host.append(svg);
+  const icon = document.createElement('i');
+  icon.className = 'icon ri-play-circle-line';
+  icon.setAttribute('aria-hidden', 'true');
+  host.append(icon);
   return host;
 }
 
