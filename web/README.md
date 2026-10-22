@@ -80,9 +80,12 @@ src/
 tests/          vitest unit tests
 ```
 
-`src/lib/site.ts` mirrors `config/site.json` at the repository root: the
-website is built from `web/` alone, so it cannot read the root config at build
-time. Keep the two in sync when the owner, repository or domain changes.
+`src/lib/site.ts` re-exports `src/lib/site.generated.ts`, which is generated
+from `config/site.json` at the repository root. The website is built from
+`web/` alone, so the root config cannot be imported directly — the
+`generate:site` script copies the values over and runs automatically before
+`dev`, `build` and `test`. Change the owner, the repository or the domain in
+`config/site.json` and re-run `npm run generate:site`.
 
 ## Deployment (Netlify)
 

@@ -378,6 +378,7 @@ Edit **one file**: `config/site.json`.
   "github": {
     "owner": "your-github-username",
     "repo": "mohakash",
+    "default_branch": "main",
     "pages_type": "project",
     "custom_domain": null
   },
@@ -399,13 +400,18 @@ Edit **one file**: `config/site.json`.
   dropped automatically.
 * `custom_domain` → set your own domain; it wins over both.
 
-Then update the two rewrite targets in `netlify.toml` — or, better, just run
-`python3 scripts/render_netlify_config.py` — and, if you use a custom
-domain, the `site` value in `web/astro.config.mjs`.
+Everything else follows from that file:
 
-> `netlify.toml` is **generated**. After editing `config/site.json` run
-> `python3 scripts/render_netlify_config.py` to regenerate it. CI fails when
-> the two are out of sync.
+| Generated from `config/site.json` | How |
+|---|---|
+| `netlify.toml` (the two rewrite targets) | `python3 scripts/render_netlify_config.py` |
+| `web/src/lib/site.generated.ts` (the URLs shown on the site) | `npm run generate:site` in `web/` |
+| The Android `BuildConfig` base URLs | read at Gradle configuration time |
+
+Both generators also run automatically before `dev`, `build` and `test`, and CI
+fails when the committed output is out of date. The only other place that may
+need your attention is the `site` value in `web/astro.config.mjs` (the
+canonical URL of the website itself).
 
 ### 9.2 GitHub Pages
 
