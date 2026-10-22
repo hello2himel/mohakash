@@ -31,20 +31,6 @@ const isCurrent = (href: string) =>
       }
     </nav>
 
-    <label class="header-toggle" for="header-hide-videos" title="Show pictures only">
-      <span class="header-toggle__label">Hide videos</span>
-      <input
-        class="header-toggle__input"
-        id="header-hide-videos"
-        type="checkbox"
-        role="switch"
-        checked
-      />
-      <span class="header-toggle__track" aria-hidden="true">
-        <span class="header-toggle__thumb"></span>
-      </span>
-    </label>
-
     <IconButton
       label="Open menu"
       icon="menu"
@@ -59,7 +45,6 @@ const isCurrent = (href: string) =>
 
 <script>
   const KEY = 'mohakash:v1:hide-videos';
-  const headerToggle = document.getElementById('header-hide-videos') as HTMLInputElement | null;
   const mobileToggle = document.getElementById('mobile-hide-videos') as HTMLInputElement | null;
 
   function readPreference(): boolean {
@@ -79,24 +64,13 @@ const isCurrent = (href: string) =>
     }
   }
 
-  function syncToggle(input: HTMLInputElement | null, value: boolean): void {
-    if (input) input.checked = value;
-  }
-
   const initial = readPreference();
-  syncToggle(headerToggle, initial);
-  syncToggle(mobileToggle, initial);
+  if (mobileToggle) mobileToggle.checked = initial;
 
-  function onChange(source: HTMLInputElement | null): void {
-    if (!source) return;
-    const value = source.checked;
+  mobileToggle?.addEventListener('change', () => {
+    const value = mobileToggle.checked;
     writePreference(value);
-    syncToggle(headerToggle, value);
-    syncToggle(mobileToggle, value);
     // Reload the page content if a script is listening for this change.
     window.dispatchEvent(new CustomEvent('mohakash:hide-videos-changed', { detail: { value } }));
-  }
-
-  headerToggle?.addEventListener('change', () => onChange(headerToggle));
-  mobileToggle?.addEventListener('change', () => onChange(mobileToggle));
+  });
 </script>
