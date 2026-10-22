@@ -98,7 +98,7 @@ class AppContainer(context: Context) {
 
     val shareHelper: ShareHelper by lazy { ShareHelper(appContext) }
 
-    val notificationHelper: NotificationHelper by lazy { NotificationHelper(appContext) }
+    val notificationHelper: NotificationHelper by lazy { NotificationHelper.get(appContext) }
 
     val imageRepository: ImageRepository by lazy {
         ImageRepository(appContext, imageDownloader, gallerySaver)
@@ -110,6 +110,7 @@ class AppContainer(context: Context) {
             settingsStore = settingsStore,
             wallpaperStorage = wallpaperStorage,
             imageDownloader = imageDownloader,
+            notifyWallpaperChanged = { entry -> notificationHelper.notifyWallpaperChanged(entry) },
         )
     }
 

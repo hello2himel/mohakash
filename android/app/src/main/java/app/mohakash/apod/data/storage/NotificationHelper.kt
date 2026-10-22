@@ -35,8 +35,8 @@ class NotificationHelper private constructor(private val context: Context) {
                 NotificationManager.IMPORTANCE_DEFAULT,
             ).apply {
                 description = context.getString(R.string.notification_channel_wallpaper_description)
-                enableLights = false
-                enableVibration = false
+                enableLights(false)
+                enableVibration(false)
             }
             manager.createNotificationChannel(channel)
         }
@@ -44,6 +44,8 @@ class NotificationHelper private constructor(private val context: Context) {
 
     companion object {
         @Volatile private var instance: NotificationHelper? = null
+
+        const val NOTIFICATION_ID = 1001
 
         fun get(context: Context): NotificationHelper =
             instance ?: synchronized(this) {
@@ -125,9 +127,5 @@ class NotificationHelper private constructor(private val context: Context) {
             .build()
 
         manager.notify(NOTIFICATION_ID, notification)
-    }
-
-    private companion object {
-        const val NOTIFICATION_ID = 1001
     }
 }
