@@ -150,6 +150,9 @@ def command_sync(args: argparse.Namespace) -> int:
     state["last_error"] = None
     state["source_endpoint"] = adapter.base_url
     state["last_successful_sync"] = data_timestamp(all_records)
+    # The committed state only carries facts that are derived from the
+    # archive; volatile run information lives in the run state file.
+    state.pop("last_attempt", None)
     save_sync_state(state_path, state)
     run_state["last_successful_run"] = _iso(now)
     run_state["source_status"] = "ok"
@@ -314,6 +317,9 @@ def command_backfill(args: argparse.Namespace) -> int:
     state["last_error"] = None
     state["source_endpoint"] = adapter.base_url
     state["last_successful_sync"] = data_timestamp(all_records)
+    # The committed state only carries facts that are derived from the
+    # archive; volatile run information lives in the run state file.
+    state.pop("last_attempt", None)
     save_sync_state(state_path, state)
     run_state["last_successful_run"] = _iso(now)
     run_state["source_status"] = "ok"
