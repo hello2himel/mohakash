@@ -7,7 +7,7 @@
  */
 import HideVideosSwitch from './HideVideosSwitch.astro';
 import MobileMenu from './MobileMenu.astro';
-import { NAV_LINKS, SITE } from '../lib/site';
+import { NAV_LINKS } from '../lib/site';
 
 interface Props {
   /** Current path, used to mark the active navigation item. */
@@ -23,7 +23,14 @@ const isCurrent = (href: string) =>
 
 <header class="site-header">
   <div class="site-header__left">
-    <a class="wordmark" href="/">{SITE.name}</a>
+    <a class="wordmark" href="/">
+      <img
+        class="wordmark__image"
+        src="/brand/mohakash-horizontal-reversed.svg"
+        alt="mohakash"
+        height="22"
+      />
+    </a>
 
     <nav class="site-nav" aria-label="Main">
       {

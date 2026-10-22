@@ -19,7 +19,14 @@ const isCurrent = (href: string) =>
 <dialog class="mobile-menu" id="mobile-menu" aria-label="Site menu">
   <div class="mobile-menu__inner">
     <div class="mobile-menu__head">
-      <span class="wordmark">{SITE.name}</span>
+      <span class="wordmark">
+        <img
+          class="wordmark__image"
+          src="/brand/mohakash-horizontal-reversed.svg"
+          alt="mohakash"
+          height="22"
+        />
+      </span>
       <button class="menu-button" type="button" id="mobile-menu-close" aria-label="Close menu">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M6 6l12 12M18 6L6 18" />

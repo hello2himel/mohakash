@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Mohakash</string>
+    <string name="app_name">mohakash</string>
 
     <!-- Navigation -->
     <string name="nav_today">Today</string>
@@ -137,7 +137,7 @@
 
     <!-- Wallpaper service -->
     <string name="wallpaper_description">The Astronomy Picture of the Day on your home screen.</string>
-    <string name="wallpaper_label">Mohakash</string>
+    <string name="wallpaper_label">mohakash</string>
 
     <!-- Notifications -->
     <string name="notification_channel_wallpaper_name">Wallpaper updates</string>

@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="web/public/brand/mohakash-horizontal-reversed-480.png">
+  <img src="web/public/brand/mohakash-horizontal-color-480.png" alt="mohakash" width="260">
+</picture>
+
 # Mohakash
 
 > Daily astronomy picture. Browse the NASA Astronomy Picture of the Day
