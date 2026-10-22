@@ -130,9 +130,9 @@ describe('pagination', () => {
 
 describe('countLabel', () => {
   it('reads "Newest first · N entries"', () => {
-    expect(countLabel(94)).toBe('Newest first · 94 entries');
-    expect(countLabel(1)).toBe('Newest first · 1 entry');
-    expect(countLabel(0)).toBe('Newest first · 0 entries');
+    expect(countLabel(94)).toBe('94 entries · newest first');
+    expect(countLabel(1)).toBe('1 entry · newest first');
+    expect(countLabel(0)).toBe('0 entries · newest first');
   });
 });
 

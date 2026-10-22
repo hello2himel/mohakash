@@ -1,0 +1,23 @@
+---
+/**
+ * "Hide videos" switch — label (13px, text-muted) plus a 20×20 accent switch.
+ * The whole label is at least 44px high so it stays a comfortable tap target.
+ *
+ * Used in the site header (Today and Entry pages), in the archive toolbar and
+ * in the mobile menu. Every copy shares one preference (local storage) and is
+ * kept in sync through the `mohakash:hide-videos-changed` event.
+ */
+interface Props {
+  /** Unique id of the underlying checkbox. */
+  id: string;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+---
+
+<label class:list={['video-switch', className]} for={id}>
+  <span class="video-switch__label">Hide videos</span>
+  <input class="video-switch__input" id={id} type="checkbox" role="switch" checked data-hide-videos-toggle />
+  <span class="video-switch__track" aria-hidden="true"><span class="video-switch__thumb"></span></span>
+</label>
