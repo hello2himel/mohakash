@@ -221,7 +221,7 @@ def build_feed(
         pub_date = _rfc822(_dt.datetime.strptime(record.date, "%Y-%m-%d").replace(tzinfo=_dt.timezone.utc))
         description_parts = []
         if record.explanation:
-            description_parts.append(saxutils.escape(record.explanation[:600]))
+            description_parts.append(saxutils.escape(_shorten(record.explanation, 600)))
         if record.copyright:
             description_parts.append(f"Credit: {saxutils.escape(record.copyright)}")
         description = "<br/>".join(description_parts)
@@ -245,6 +245,18 @@ def build_feed(
 
 def _rfc822(moment: _dt.datetime) -> str:
     return moment.strftime("%a, %d %b %Y %H:%M:%S GMT")
+
+
+def _shorten(text: str, limit: int) -> str:
+    """Cut a text at a word boundary and mark that it was cut."""
+    flattened = " ".join(text.split())
+    if len(flattened) <= limit:
+        return flattened
+    cut = flattened[:limit]
+    space = cut.rfind(" ")
+    if space > limit // 2:
+        cut = cut[:space]
+    return cut.rstrip(" ,;:.") + "…"
 
 
 def _parse_iso(value: str) -> _dt.datetime:

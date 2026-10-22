@@ -206,6 +206,10 @@ cd android
 ./gradlew :app:testDebugUnitTest    # unit tests
 ```
 
+> **JDK:** Gradle 8.14.3 supports JDK 17 and 21. If the system JDK is newer
+> (this machine has JDK 27), point `JAVA_HOME` at a 17 or 21 installation:
+> `export JAVA_HOME=/path/to/jdk-21`.
+
 The API base URL is read from `config/site.json` at build time and turned into
 a `BuildConfig` field, so there is no URL in the Kotlin sources. The app tries
 the configured candidates in order (a GitHub **project** site first, then a
@@ -236,6 +240,9 @@ python3 scripts/sync_apod.py backfill --start-year 1995 --end-year 2026
 # Re-fetch years that are already stored (for corrections)
 python3 scripts/sync_apod.py backfill --start-year 2020 --end-year 2021 --refresh
 
+# Re-derive the image URLs of the stored records (no network access)
+python3 scripts/sync_apod.py renormalize
+
 # Regenerate the public API and the RSS feed from the archive
 python3 scripts/sync_apod.py build
 python3 scripts/build_public_api.py        # same thing, separate entry point
@@ -245,6 +252,17 @@ python3 scripts/sync_apod.py validate
 
 # Build the GitHub Pages artifact locally
 python3 scripts/sync_apod.py assemble-site --site-root api-site
+
+# Render netlify.toml from config/site.json (and check that it is up to date)
+python3 scripts/render_netlify_config.py
+python3 scripts/render_netlify_config.py --check
+
+# Serve the built website with the Netlify rewrites, for a local check
+cd web && npm run build && cd ..
+python3 scripts/serve_site.py --port 4321
+
+# Verify a deployed API
+python3 scripts/verify_api.py --base-url https://<owner>.github.io/<repo>/api/v1
 
 # Show what is stored locally
 python3 scripts/sync_apod.py status
@@ -256,7 +274,9 @@ python3 -m pytest scripts/tests -q
 ### Behaviour that matters
 
 * **Idempotent.** Re-running `sync` without new data changes no file, so the
-  scheduled workflow creates no commit.
+  scheduled workflow creates no commit and no deployment. The published
+  timestamps are derived from the archive (`max(updated_at)`), never from the
+  clock, so an unchanged archive always produces byte-identical documents.
 * **Non-destructive.** A failed request never removes a stored record. A
   refresh that temporarily loses its image keeps the previous, working image.
 * **Corrections are picked up.** A record whose title or explanation changed
@@ -266,6 +286,9 @@ python3 -m pytest scripts/tests -q
   records, and `validate` fails loudly.
 * **Bounded retries.** Transient failures are retried with exponential
   backoff; client errors are not retried at all.
+* **Resumable.** The backfill finds the page it has to start at with a binary
+  search and continues below the oldest day it already has, so an interrupted
+  run does not start over.
 
 ### The normalized schema (version 1.0.0)
 
