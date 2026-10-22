@@ -41,6 +41,13 @@ GENERIC_ALT_TEXTS = {
 #: NASA prefixes every explanation with a redundant "Explanation:" label.
 _EXPLANATION_PREFIX_RE = re.compile(r"^\s*explanation\s*:\s*", re.IGNORECASE)
 
+#: NASA prefixes some credits with a redundant label such as "Image Credit:".
+#: The clients add their own label, so the source label is removed.
+_CREDIT_LABEL_RE = re.compile(
+    r"^\s*(image|video|illustration|audio)?\s*credit(\s*(&|and)\s*(copyright|licen[cs]e))?\s*:\s*",
+    re.IGNORECASE,
+)
+
 #: The trailing teaser NASA adds to most explanations.
 _TRAILER_RE = re.compile(r"\s*Tomorrow'?s picture\s*:.*$", re.IGNORECASE | re.DOTALL)
 
@@ -75,11 +82,17 @@ def html_to_text(value: str | None) -> str:
     return text.strip()
 
 
-def clean_optional_text(value: str | None) -> str | None:
-    """Normalise a free text field, returning ``None`` when it is empty."""
+def clean_optional_text(value: str | None, *, single_line: bool = False) -> str | None:
+    """Normalise a free text field, returning ``None`` when it is empty.
+
+    ``single_line`` collapses line breaks into spaces, which is what the short
+    credit and copyright fields need.
+    """
     if value is None:
         return None
     text = html_to_text(value)
+    if single_line:
+        text = re.sub(r"\s*\n\s*", " ", text)
     text = _WS_RE.sub(" ", text).strip()
     return text or None
 
@@ -89,6 +102,13 @@ def normalize_explanation(value: str | None) -> str:
     text = html_to_text(value)
     text = _EXPLANATION_PREFIX_RE.sub("", text, count=1)
     return text.strip()
+
+
+def strip_credit_label(value: str | None) -> str | None:
+    """Remove a leading "Image Credit:" style label from a credit."""
+    if not value:
+        return value
+    return _CREDIT_LABEL_RE.sub("", value, count=1).strip() or None
 
 
 # --------------------------------------------------------------------------
@@ -221,15 +241,19 @@ def renormalize_record(record: "ApodRecord") -> "ApodRecord":
     required.
     """
     source = record.hd_image_url or record.image_url
-    if not source:
-        return record
-    image_url, hd_image_url, thumbnail_url = derive_image_urls(source)
-    if not image_url:
-        return record
-    record.image_url = image_url
-    record.hd_image_url = hd_image_url
-    record.thumbnail_url = thumbnail_url
-    record.image_status = IMAGE_STATUS_OK
+    if source:
+        image_url, hd_image_url, thumbnail_url = derive_image_urls(source)
+        if image_url:
+            record.image_url = image_url
+            record.hd_image_url = hd_image_url
+            record.thumbnail_url = thumbnail_url
+            record.image_status = IMAGE_STATUS_OK
+    record.credit = strip_credit_label(record.credit)
+    record.copyright = strip_credit_label(record.copyright)
+    if record.credit:
+        record.credit = re.sub(r"\s*\n\s*", " ", record.credit).strip()
+    if record.copyright:
+        record.copyright = re.sub(r"\s*\n\s*", " ", record.copyright).strip()
     return record
 
 
@@ -280,8 +304,8 @@ def normalize_record(raw: dict[str, Any], *, now: _dt.datetime | None = None) ->
         hd_image_url=hd_image_url,
         thumbnail_url=thumbnail_url,
         apod_url=apod_url,
-        copyright=clean_optional_text(raw.get("copyright")),
-        credit=clean_optional_text(raw.get("credit")),
+        copyright=strip_credit_label(clean_optional_text(raw.get("copyright"), single_line=True)),
+        credit=strip_credit_label(clean_optional_text(raw.get("credit"), single_line=True)),
         alt_text=alt_text,
         source_id=str(source_id) if isinstance(source_id, (int, str)) and source_id != "" else None,
         source_media_type=raw.get("media_type") if isinstance(raw.get("media_type"), str) else None,

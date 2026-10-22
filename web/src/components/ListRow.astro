@@ -1,48 +1,67 @@
 ---
 /**
  * List row — a thumbnail plus a small muted line above a truncated title.
- * `layout="grid"` stacks the thumbnail above the text (archive grid cards);
+ *
+ * `layout="grid"` stacks the thumbnail above the text (archive grid cards),
  * `layout="row"` puts the thumbnail on the left (list rows, 72px minimum).
+ *
+ * With `template` the component renders the row as a `<template>` instead of a
+ * link: the archive page clones it for every entry, so the markup lives in one
+ * place only.
  */
 interface Props {
-  href: string;
+  href?: string;
   /** Small muted line above the title — a date, a label, an endpoint. */
-  meta: string;
-  title: string;
+  meta?: string;
+  title?: string;
   thumbnail?: string | null;
   thumbnailAlt?: string;
   layout?: 'row' | 'grid';
-  /** Right-align the text (used by the "next day" link). */
-  align?: 'start' | 'end';
+  /** Render the markup as a template for the runtime to clone. */
+  template?: boolean;
   class?: string;
 }
 
 const {
-  href,
-  meta,
-  title,
+  href = '/',
+  meta = '',
+  title = '',
   thumbnail = null,
   thumbnailAlt = '',
   layout = 'row',
-  align = 'start',
+  template = false,
   class: className,
 } = Astro.props;
+const classes = ['list-row', layout === 'grid' ? 'list-row--grid' : '', className].filter(Boolean).join(' ');
 ---
 
-<a
-  class:list={['list-row', layout === 'grid' ? 'list-row--grid' : '', className]}
-  href={href}
-  style={align === 'end' ? 'text-align: right;' : undefined}
->
-  {
-    thumbnail ? (
+{
+  template ? (
+    <template data-list-row>
+      <a class={classes} href={href}>
+        <span class="list-row__thumb">
+          <img class="list-row__image" src={thumbnail ?? undefined} alt={thumbnailAlt} loading="lazy" decoding="async" hidden />
+          <span class="list-row__fallback">No image</span>
+        </span>
+        <span class="list-row__text">
+          <span class="list-row__meta">{meta}</span>
+          <span class="list-row__title">{title}</span>
+        </span>
+      </a>
+    </template>
+  ) : (
+    <a class={classes} href={href}>
       <span class="list-row__thumb">
-        <img src={thumbnail} alt={thumbnailAlt} loading="lazy" decoding="async" />
+        {thumbnail ? (
+          <img class="list-row__image" src={thumbnail} alt={thumbnailAlt} loading="lazy" decoding="async" />
+        ) : (
+          <span class="list-row__fallback">No image</span>
+        )}
       </span>
-    ) : null
-  }
-  <span class="list-row__text">
-    <span class="list-row__meta">{meta}</span>
-    <span class="list-row__title">{title}</span>
-  </span>
-</a>
+      <span class="list-row__text">
+        <span class="list-row__meta">{meta}</span>
+        <span class="list-row__title">{title}</span>
+      </span>
+    </a>
+  )
+}

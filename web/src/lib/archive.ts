@@ -4,7 +4,7 @@
  */
 
 import { formatDateShort, yearOf } from './format';
-import type { ArchiveIndexEntry } from './types';
+import type { ArchiveIndex, ArchiveIndexEntry } from './types';
 
 export interface ArchiveFilters {
   /** Free-text query matched against the entry title (case-insensitive). */
@@ -128,7 +128,7 @@ export function indexToListRows(entries: readonly ArchiveIndexEntry[]): ListRow[
     mediaType: entry.media_type,
     thumbnailUrl: entry.thumbnail_url ?? null,
     imageUrl: entry.image_url ?? null,
-    apodUrl: entry.apod_url,
+    apodUrl: entry.apod_url ?? '',
     copyright: entry.copyright ?? null,
     href: entryPath(entry.date),
   }));
@@ -144,4 +144,24 @@ export function neighbours(
   const older = ordered[index + 1] ?? null;
   const newer = index > 0 ? ordered[index - 1] : null;
   return { previous: older, next: newer };
+}
+
+/**
+ * A cache-friendly copy of the index.
+ *
+ * The published index grows with every entry; the local copy only keeps the
+ * fields the site renders, so the offline fallback still fits into the
+ * storage quota of a browser.
+ */
+export function compactArchiveIndex(index: ArchiveIndex): ArchiveIndex {
+  return {
+    ...index,
+    entries: (index.entries ?? []).map((entry) => ({
+      date: entry.date,
+      title: entry.title,
+      media_type: entry.media_type,
+      thumbnail_url: entry.thumbnail_url ?? null,
+      image_url: entry.image_url ?? null,
+    })),
+  };
 }

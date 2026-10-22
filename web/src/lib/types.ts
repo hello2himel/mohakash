@@ -38,9 +38,12 @@ export interface ArchiveIndexEntry {
   media_type: MediaType;
   thumbnail_url: string | null;
   image_url: string | null;
-  apod_url: string;
-  copyright: string | null;
-  detail_path: string;
+  /** Original APOD page. Optional in the compact local cache copy. */
+  apod_url?: string;
+  /** Creator credit. Optional in the compact local cache copy. */
+  copyright?: string | null;
+  /** Absolute URL of the yearly file. Optional in the compact local cache copy. */
+  detail_path?: string;
 }
 
 export interface ArchiveIndex {

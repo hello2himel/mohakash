@@ -8,23 +8,24 @@ import { formatDate, formatSyncedAgo } from '../lib/format';
 import { mediaPresentation } from '../lib/media';
 import type { ApodRecord } from '../lib/types';
 import {
+  applyBanner,
+  applyPresentation,
   buildAction,
   hide,
+  hideBanner,
   need,
-  renderBanner,
   renderErrorState,
-  renderMediaFrame,
   renderProse,
   setBusy,
   show,
 } from '../lib/dom';
 
-const bannerHost = need('#today-banner');
+const banner = need('#today-banner');
 const loading = need('#today-loading');
 const content = need('#today-content');
 const errorHost = need('#today-error');
 
-const frameHost = need('#today-frame');
+const frame = need('#today-frame');
 const dateLine = need('#today-date');
 const title = need('#today-title');
 const syncLine = need('#today-sync');
@@ -41,7 +42,7 @@ function mediaNoteText(kind: string): string {
 function render(record: ApodRecord): void {
   const presentation = mediaPresentation(record);
 
-  renderMediaFrame(frameHost, presentation, { ratio: 'hero', priority: true });
+  applyPresentation(frame, presentation, { priority: true });
 
   const date = formatDate(record.date);
   const credit = (record.credit ?? record.copyright ?? '').trim();
@@ -100,7 +101,7 @@ async function load(): Promise<void> {
   hide(content);
   hide(errorHost);
   setBusy(loading, true);
-  bannerHost.replaceChildren();
+  hideBanner(banner);
 
   try {
     const result = await fetchWithCache('latest', () => fetchLatest());
@@ -108,7 +109,7 @@ async function load(): Promise<void> {
 
     if (result.fromCache) {
       const cachedDate = formatDate(result.data.date);
-      renderBanner(bannerHost, {
+      applyBanner(banner, {
         message: `Couldn't refresh. Showing the saved copy from ${cachedDate}.`,
         actionLabel: 'Retry',
         onAction: () => {

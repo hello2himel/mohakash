@@ -10,6 +10,31 @@
 #  `config/site.json` is the single place where the GitHub owner, the
 #  repository name and the custom domain are configured.  The script renders
 #  this file from `netlify.toml.template`.
+#
+#  ── Moving the project ────────────────────────────────────────────────────
+#
+#  1. A different GitHub user or repository
+#     Only the two redirect targets below change:
+#       /api/apod/v1/*  ->  https://<owner>.github.io/<repo>/api/v1/:splat
+#       /feed.xml       ->  https://<owner>.github.io/<repo>/feed.xml
+#     Set "github.owner" and "github.repo" in `config/site.json` and re-run
+#     the render script.
+#
+#  2. A GitHub USER site (user-level Pages, no repository path)
+#     A user site is served from https://<owner>.github.io, so the repository
+#     path segment must be dropped from both redirect targets:
+#       https://<owner>.github.io/api/v1/:splat
+#       https://<owner>.github.io/feed.xml
+#     Set "github.pages_type" to "user" in `config/site.json` and re-run the
+#     render script — the script drops the segment for you.
+#
+#  3. A custom domain
+#     The website is served from the custom domain while the API stays on
+#     GitHub Pages, so nothing changes here. To serve the API from the custom
+#     domain as well, set "github.custom_domain" in `config/site.json` and
+#     re-run the render script; both redirect targets then point at
+#       https://<your-domain>/api/v1/:splat
+#       https://<your-domain>/feed.xml
 # ─────────────────────────────────────────────────────────────────────────────
 
 [build]

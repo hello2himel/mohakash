@@ -321,6 +321,15 @@ curl https://<owner>.github.io/<repo>/api/v1/archive/2026.json
 curl -s https://<owner>.github.io/<repo>/api/v1/latest.json | jq -r '.title'
 ```
 
+To check a deployment end to end:
+
+```bash
+python3 scripts/verify_api.py --base-url https://<owner>.github.io/<repo>/api/v1
+```
+
+It fetches every endpoint, parses the JSON and the feed, and checks that the
+counts and dates agree with each other.
+
 ```js
 const res = await fetch('/api/apod/v1/latest.json');   // same origin on the website
 const latest = await res.json();

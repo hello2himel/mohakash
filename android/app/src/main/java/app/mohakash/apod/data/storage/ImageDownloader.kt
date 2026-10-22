@@ -15,7 +15,7 @@ import java.io.IOException
  * The download always runs off the main thread. The response is streamed to disk so a large
  * picture never has to fit into memory.
  */
-class ImageDownloader(private val httpClient: OkHttpClient) {
+class ImageDownloader(private val httpClient: OkHttpClient) : PictureDownloader {
 
     /**
      * Downloads [url] into [target].
@@ -23,7 +23,7 @@ class ImageDownloader(private val httpClient: OkHttpClient) {
      * The target file is removed when the download fails so a half written file can never be
      * mistaken for a complete one.
      */
-    suspend fun download(url: String, target: File): Result<File> = withContext(Dispatchers.IO) {
+    override suspend fun download(url: String, target: File): Result<File> = withContext(Dispatchers.IO) {
         if (!ImageUrlValidator.isValidImageUrl(url)) {
             return@withContext Result.failure(IOException("Refusing to download a non-image URL: $url"))
         }

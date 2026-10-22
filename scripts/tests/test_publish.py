@@ -73,7 +73,9 @@ def test_index_is_newest_first_and_has_no_explanations(populated):
     assert dates == sorted(dates, reverse=True)
     for entry in index["entries"]:
         assert "explanation" not in entry
-        assert entry["detail_path"].endswith(f"/archive/{entry['date'][:4]}.json")
+        # The index must not duplicate the image links; the thumbnail is enough.
+        assert "image_url" not in entry
+        assert entry["detail_path"] == f"archive/{entry['date'][:4]}.json"
         assert entry["apod_url"].startswith("https://")
 
 
@@ -170,6 +172,25 @@ def test_feed_contains_at_most_thirty_entries(tmp_path, site_config):
 
     tree = ET.fromstring((output / "feed.xml").read_text(encoding="utf-8"))
     assert len(tree.find("channel").findall("item")) == 28
+
+
+def test_published_files_are_readable(populated):
+    """The published data has to be readable by the web server."""
+    import stat
+
+    root, store, config = populated
+    output = root / "out"
+    build_public_api(data_root=store.root, output_root=output, config=config, state={})
+
+    for path in [
+        output / "api" / "v1" / "latest.json",
+        output / "api" / "v1" / "archive-index.json",
+        output / "api" / "v1" / "status.json",
+        output / "api" / "v1" / "archive" / "2026.json",
+        output / "feed.xml",
+    ]:
+        mode = stat.S_IMODE(path.stat().st_mode)
+        assert mode & 0o044, f"{path} is not readable by others (mode {oct(mode)})"
 
 
 def test_assemble_api_site_only_contains_public_data(populated, tmp_path):

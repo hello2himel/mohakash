@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -60,7 +61,11 @@ fun SavedScreen(
             actions = {
                 if (state.entries.isNotEmpty()) {
                     Text(
-                        text = stringResource(R.string.saved_count, state.entries.size),
+                        text = pluralStringResource(
+                            R.plurals.saved_count,
+                            state.entries.size,
+                            state.entries.size,
+                        ),
                         style = MohakashTextStyles.Caption,
                         color = MohakashColors.TextMuted,
                         modifier = Modifier.padding(end = MohakashDimens.SidePadding),

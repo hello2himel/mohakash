@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   availableYears,
+  compactArchiveIndex,
   countLabel,
   entryPath,
   filterEntries,
@@ -157,6 +158,40 @@ describe('indexToListRows', () => {
 describe('availableYears', () => {
   it('lists the years newest first', () => {
     expect(availableYears(entries)).toEqual([2026, 2025, 1995]);
+  });
+});
+
+describe('compactArchiveIndex', () => {
+  it('keeps the fields the site renders and drops the rest', () => {
+    const compact = compactArchiveIndex({
+      schema_version: '1.0.0',
+      generated_at: '2026-10-22T12:20:25Z',
+      count: entries.length,
+      api_base_url: 'https://example.test/api/v1',
+      entries,
+    });
+
+    expect(compact.entries).toHaveLength(entries.length);
+    expect(compact.entries[0]).toEqual({
+      date: '2026-10-22',
+      title: 'The First Green Star',
+      media_type: 'image',
+      thumbnail_url: 'https://example.test/2026-10-22.jpg',
+      image_url: 'https://example.test/2026-10-22.jpg',
+    });
+    expect(JSON.stringify(compact).length).toBeLessThan(JSON.stringify(entries).length);
+  });
+
+  it('keeps the date and the title of every entry', () => {
+    const compact = compactArchiveIndex({
+      schema_version: '1.0.0',
+      generated_at: '2026-10-22T12:20:25Z',
+      count: entries.length,
+      api_base_url: 'https://example.test/api/v1',
+      entries,
+    });
+    expect(compact.entries.map((item) => item.date)).toEqual(entries.map((item) => item.date));
+    expect(compact.entries.map((item) => item.title)).toEqual(entries.map((item) => item.title));
   });
 });
 

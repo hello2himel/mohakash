@@ -105,4 +105,29 @@ describe('fetchWithCache', () => {
     expect(second.fromCache).toBe(true);
     expect(second.data.entries).toEqual([1, 2, 3]);
   });
+
+  it('stores a smaller copy when one is given', async () => {
+    const result = await fetchWithCache(
+      'archive-index',
+      async () => ({ entries: [1, 2, 3], extra: 'dropped' }),
+      { store: (data) => ({ entries: data.entries }) },
+    );
+
+    expect(result.data.extra).toBe('dropped');
+    expect(readCache<{ entries: number[] }>('archive-index')?.data).toEqual({ entries: [1, 2, 3] });
+  });
+
+  it('falls back to the stored copy when the request fails', async () => {
+    await fetchWithCache(
+      'archive-index',
+      async () => ({ entries: [1, 2, 3], extra: 'dropped' }),
+      { store: (data) => ({ entries: data.entries }) },
+    );
+
+    const fallback = await fetchWithCache<{ entries: number[] }>('archive-index', async () => {
+      throw new Error('offline');
+    });
+    expect(fallback.fromCache).toBe(true);
+    expect(fallback.data.entries).toEqual([1, 2, 3]);
+  });
 });

@@ -35,25 +35,53 @@ export function svgIcon(paths: string[], viewBox = '0 0 24 24'): SVGSVGElement {
   return svg;
 }
 
-/** A play glyph drawn on top of a video poster frame. */
-export function playGlyph(): SVGSVGElement {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 24 24');
-  svg.setAttribute('fill', 'none');
-  svg.setAttribute('stroke', 'currentColor');
-  svg.setAttribute('stroke-width', '1.5');
-  svg.setAttribute('stroke-linejoin', 'round');
-  svg.setAttribute('aria-hidden', 'true');
-  svg.setAttribute('focusable', 'false');
-  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  circle.setAttribute('cx', '12');
-  circle.setAttribute('cy', '12');
-  circle.setAttribute('r', '10');
-  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  path.setAttribute('d', 'M10 8.5l6 3.5-6 3.5z');
-  svg.append(circle, path);
-  return svg;
+export interface ListRowContent {
+  href: string;
+  meta: string;
+  title: string;
+  thumbnailUrl?: string | null;
+  alt?: string;
+  fallback?: string;
 }
+
+/** Clone the server-rendered row template and fill it in. */
+export function createListRow(template: HTMLTemplateElement, content: ListRowContent): HTMLElement {
+  const fragment = template.content.cloneNode(true) as DocumentFragment;
+  const link = fragment.querySelector('a');
+  if (!link) throw new Error('The list row template is missing its link.');
+
+  link.setAttribute('href', content.href);
+
+  const meta = fragment.querySelector('.list-row__meta');
+  if (meta) meta.textContent = content.meta;
+
+  const title = fragment.querySelector('.list-row__title');
+  if (title) title.textContent = content.title;
+
+  const image = fragment.querySelector<HTMLImageElement>('.list-row__image');
+  const fallback = fragment.querySelector<HTMLElement>('.list-row__fallback');
+  if (fallback) fallback.textContent = content.fallback ?? 'No image';
+
+  if (image) {
+    image.onerror = null;
+    if (content.thumbnailUrl) {
+      image.setAttribute('src', content.thumbnailUrl);
+      image.setAttribute('alt', content.alt ?? '');
+      image.hidden = false;
+      image.onerror = () => {
+        image.hidden = true;
+        if (fallback) fallback.hidden = false;
+      };
+      if (fallback) fallback.hidden = true;
+    } else {
+      image.hidden = true;
+      if (fallback) fallback.hidden = false;
+    }
+  }
+
+  return link;
+}
+
 
 export type ButtonVariant = 'primary' | 'secondary' | 'text';
 
@@ -89,73 +117,87 @@ export function buildAction(options: ActionOptions): HTMLAnchorElement | HTMLBut
 }
 
 export interface MediaFrameOptions {
-  /** `hero` uses a 16/9 frame, `thumb` and `list` use 4/3. */
-  ratio: 'hero' | 'thumb' | 'list';
   /** Load the image eagerly (used for the first, visible picture). */
   priority?: boolean;
 }
 
 /**
- * Draw a media frame.
+ * Fill a media frame that was rendered by the server.
  *
  * The frame is always kept: when the picture fails to load the `<img>` is
  * replaced by a muted "Image unavailable" label inside the same frame.
  */
-export function renderMediaFrame(
-  host: HTMLElement,
+export function applyPresentation(
+  frame: HTMLElement,
   presentation: MediaPresentation,
-  options: MediaFrameOptions,
+  options: MediaFrameOptions = {},
 ): HTMLElement {
-  host.replaceChildren();
-  const frame = el('div', `media-frame media-frame--${options.ratio}`);
+  const image = frame.querySelector<HTMLImageElement>('.media-frame__img');
+  const label = frame.querySelector<HTMLElement>('.media-frame__label');
+  const chip = frame.querySelector<HTMLElement>('.media-frame__chip');
+  const glyph = frame.querySelector<HTMLElement>('.media-frame__glyph');
 
-  if (presentation.src) {
-    const image = el('img', 'media-frame__img');
-    image.src = presentation.src;
-    image.alt = presentation.alt ?? '';
-    image.loading = options.priority ? 'eager' : 'lazy';
-    image.decoding = 'async';
-    if (options.priority) image.setAttribute('fetchpriority', 'high');
-    image.addEventListener('error', () => {
-      const label = el('p', 'media-frame__label', IMAGE_UNAVAILABLE_LABEL);
-      image.remove();
-      frame.prepend(label);
-    });
-    frame.append(image);
-  } else {
-    frame.append(el('p', 'media-frame__label', presentation.frameLabel));
+  if (image) {
+    image.onerror = null;
+    if (presentation.src) {
+      if (image.getAttribute('src') !== presentation.src) image.setAttribute('src', presentation.src);
+      image.alt = presentation.alt ?? '';
+      image.loading = options.priority ? 'eager' : 'lazy';
+      image.hidden = false;
+      image.onerror = () => {
+        image.hidden = true;
+        if (label) {
+          label.textContent = IMAGE_UNAVAILABLE_LABEL;
+          label.hidden = false;
+        }
+      };
+    } else {
+      image.hidden = true;
+      image.removeAttribute('src');
+    }
   }
 
-  if (presentation.chipLabel) {
-    const chip = el('span', 'media-frame__chip', presentation.chipLabel);
-    frame.append(chip);
+  if (label) {
+    label.textContent = presentation.src ? '' : presentation.frameLabel;
+    label.hidden = Boolean(presentation.src);
   }
 
-  if (presentation.showPlayGlyph) {
-    const glyph = el('div', 'media-frame__glyph');
-    glyph.append(playGlyph());
-    frame.append(glyph);
+  if (chip) {
+    chip.textContent = presentation.chipLabel ?? '';
+    chip.hidden = !presentation.chipLabel;
   }
 
-  host.append(frame);
+  if (glyph) {
+    glyph.hidden = !presentation.showPlayGlyph;
+  }
+
   return frame;
 }
 
-/** A status banner with one sentence and one action. */
-export function renderBanner(
-  host: HTMLElement,
+/** Fill the server-rendered banner and wire its action. */
+export function applyBanner(
+  banner: HTMLElement,
   options: { message: string; actionLabel?: string; onAction?: () => void },
 ): HTMLElement {
-  host.replaceChildren();
-  const banner = el('div', 'banner');
-  banner.setAttribute('role', 'status');
-  banner.append(el('p', 'banner__message', options.message));
-  if (options.actionLabel && options.onAction) {
-    banner.append(buildAction({ label: options.actionLabel, variant: 'secondary', onClick: options.onAction }));
+  const message = banner.querySelector<HTMLElement>('.banner__message');
+  const action = banner.querySelector<HTMLButtonElement>('.banner__action');
+
+  if (message) message.textContent = options.message;
+  if (action) {
+    if (options.actionLabel) action.textContent = options.actionLabel;
+    action.onclick = options.onAction ?? null;
+    action.hidden = !options.onAction;
   }
-  host.append(banner);
+
+  banner.hidden = false;
   return banner;
 }
+
+/** Hide the banner again. */
+export function hideBanner(banner: HTMLElement | null | undefined): void {
+  if (banner) banner.hidden = true;
+}
+
 
 /** The "error, no cache" state: a heading, one sentence and two actions. */
 export function renderErrorState(

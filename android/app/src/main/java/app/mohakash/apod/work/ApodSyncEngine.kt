@@ -2,8 +2,11 @@ package app.mohakash.apod.work
 
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.repository.ApodRepository
+import app.mohakash.apod.data.repository.LatestEntrySource
 import app.mohakash.apod.data.storage.ImageDownloader
+import app.mohakash.apod.data.storage.PictureDownloader
 import app.mohakash.apod.data.storage.WallpaperMeta
+import app.mohakash.apod.data.storage.WallpaperPictureStore
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.wallpaper.WallpaperChoice
@@ -59,10 +62,10 @@ enum class InstallOutcome {
  * * every failure keeps the last successful picture.
  */
 class ApodSyncEngine(
-    private val apodRepository: ApodRepository,
+    private val apodRepository: LatestEntrySource,
     private val settingsStore: SettingsStore,
-    private val wallpaperStorage: WallpaperStorage,
-    private val imageDownloader: ImageDownloader,
+    private val wallpaperStorage: WallpaperPictureStore,
+    private val imageDownloader: PictureDownloader,
     private val now: () -> Long = System::currentTimeMillis,
 ) {
 

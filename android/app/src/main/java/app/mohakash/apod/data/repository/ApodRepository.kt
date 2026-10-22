@@ -5,10 +5,11 @@ import app.mohakash.apod.data.local.db.dao.CachedEntryDao
 import app.mohakash.apod.data.local.db.entity.CacheDocumentEntity
 import app.mohakash.apod.data.local.db.entity.CachedEntryEntity
 import app.mohakash.apod.data.local.prefs.SettingsStore
-import app.mohakash.apod.data.remote.ApodApi
 import app.mohakash.apod.data.remote.ApiMapper
+import app.mohakash.apod.data.remote.ApodService
 import app.mohakash.apod.data.remote.dto.ApodRecordDto
 import app.mohakash.apod.data.remote.dto.ArchiveIndexDto
+import app.mohakash.apod.data.remote.dto.ArchiveYearDto
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
 import kotlinx.serialization.json.Json
@@ -30,16 +31,16 @@ data class EntrySnapshot(
  * wallpaper storage.
  */
 class ApodRepository(
-    private val api: ApodApi,
+    private val api: ApodService,
     private val cacheDocumentDao: CacheDocumentDao,
     private val cachedEntryDao: CachedEntryDao,
     private val settingsStore: SettingsStore,
     private val json: Json,
     private val now: () -> Long = System::currentTimeMillis,
-) {
+) : LatestEntrySource {
 
     /** Fetches `latest.json`, caches it and records the successful sync. */
-    suspend fun fetchLatest(): ApodEntry {
+    override suspend fun fetchLatest(): ApodEntry {
         val raw = api.getString("/latest.json")
         val entry = ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(raw))
         cacheDocumentDao.put(
@@ -84,7 +85,9 @@ class ApodRepository(
 
     /** Fetches a full year file and caches every record it contains. */
     suspend fun fetchArchiveYear(year: Int): List<ApodEntry> {
-        val records = api.archiveYear(year)
+        val raw = api.getString("/archive/$year.json")
+        val dto = json.decodeFromString<ArchiveYearDto>(raw)
+        val records = dto.records.map { ApiMapper.toDomain(it) }
         val timestamp = now()
         cachedEntryDao.upsertAll(records.map { CachedEntryEntity.from(it, timestamp) })
         return records
@@ -96,6 +99,10 @@ class ApodRepository(
             .filter { it.date.startsWith("$year-") }
             .sortedByDescending { it.date }
             .map { it.toDomain() }
+
+    /** True when the records of the year are already cached. */
+    suspend fun hasCachedYear(year: Int): Boolean =
+        cachedEntryDao.getAll().any { it.date.startsWith("$year-") }
 
     /**
      * Looks a record up in the local cache.

@@ -43,7 +43,8 @@ val packageName = androidConfig["package"]?.toString() ?: "app.mohakash.apod"
 val githubOwner = githubConfig["owner"]?.toString() ?: "hello2himel"
 val githubRepo = githubConfig["repo"]?.toString() ?: "mohakash"
 val repositoryUrl = "https://github.com/$githubOwner/$githubRepo"
-val contentRightsUrl = "$repositoryUrl/blob/master/CONTENT_RIGHTS.md"
+val defaultBranch = githubConfig["default_branch"]?.toString() ?: "main"
+val contentRightsUrl = "$repositoryUrl/blob/$defaultBranch/CONTENT_RIGHTS.md"
 val websiteBaseUrl = websiteConfig["base_url"]?.toString() ?: repositoryUrl
 
 plugins {

@@ -30,13 +30,13 @@ data class WallpaperMeta(
 class WallpaperStorage(
     filesDir: File,
     private val json: Json = Json { ignoreUnknownKeys = true },
-) {
+) : WallpaperPictureStore {
 
     private val directory = File(filesDir, DIRECTORY_NAME).apply { mkdirs() }
     private val metaFile = File(directory, META_FILE_NAME)
 
     /** The directory holding the wallpaper picture. */
-    val storageDirectory: File get() = directory
+    override val storageDirectory: File get() = directory
 
     /** The file that currently holds the wallpaper picture, if any. */
     fun currentImageFile(): File? {
@@ -46,7 +46,7 @@ class WallpaperStorage(
     }
 
     /** The metadata of the current wallpaper picture, if any. */
-    fun readMeta(): WallpaperMeta? {
+    override fun readMeta(): WallpaperMeta? {
         if (!metaFile.isFile) return null
         return runCatching { json.decodeFromString<WallpaperMeta>(metaFile.readText()) }.getOrNull()
     }
@@ -57,7 +57,7 @@ class WallpaperStorage(
      * The file is copied into the private directory under a content addressed name and the
      * metadata is swapped atomically afterwards.
      */
-    suspend fun commit(source: File, meta: WallpaperMeta): Result<WallpaperMeta> = withContext(Dispatchers.IO) {
+    override suspend fun commit(source: File, meta: WallpaperMeta): Result<WallpaperMeta> = withContext(Dispatchers.IO) {
         runCatching {
             require(source.isFile && source.length() > 0) { "The downloaded wallpaper file is empty" }
             require(ImageUrlValidator.isValidImageUrl(meta.sourceUrl)) {

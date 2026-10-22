@@ -7,6 +7,7 @@ import { fetchIndex, fetchYear } from '../lib/api';
 import { fetchWithCache } from '../lib/cache';
 import {
   availableYears,
+  compactArchiveIndex,
   countLabel,
   entryPath,
   filterEntries,
@@ -16,11 +17,13 @@ import {
 import { formatDate, formatDateShort, isIsoDate } from '../lib/format';
 import type { ApodRecord, ArchiveIndexEntry } from '../lib/types';
 import {
+  applyBanner,
   buildAction,
+  createListRow,
   el,
   hide,
+  hideBanner,
   need,
-  renderBanner,
   renderEmptyState,
   renderErrorState,
   setBusy,
@@ -29,7 +32,7 @@ import {
 
 const PAGE_SIZE = 24;
 
-const bannerHost = need('#archive-banner');
+const banner = need('#archive-banner');
 const grid = need('#archive-grid');
 const emptyHost = need('#archive-empty');
 const moreHost = need('#archive-more');
@@ -38,6 +41,7 @@ const searchInput = need<HTMLInputElement>('#archive-search');
 const yearSelect = need<HTMLSelectElement>('#archive-year');
 const dateInput = need<HTMLInputElement>('#archive-date');
 const dateHint = need('#archive-date-hint');
+const rowTemplate = need<HTMLTemplateElement>('template[data-list-row]');
 
 const state = {
   entries: [] as ArchiveIndexEntry[],
@@ -51,38 +55,15 @@ const state = {
 /* ------------------------------------------------------------- rendering */
 
 function buildCard(entry: ArchiveIndexEntry): HTMLElement {
-  const link = el('a', 'list-row list-row--grid');
-  link.href = entryPath(entry.date);
-
-  const thumb = el('span', 'list-row__thumb');
   const enriched = state.enriched.get(entry.date);
-  const src = entry.thumbnail_url ?? entry.image_url ?? null;
-
-  if (src) {
-    const image = el('img');
-    image.src = src;
-    image.alt = enriched?.alt_text?.trim() || `Thumbnail of ${entry.title}`;
-    image.loading = 'lazy';
-    image.decoding = 'async';
-    image.addEventListener('error', () => {
-      const label = el('p', 'media-frame__label', 'Image unavailable');
-      label.style.fontSize = '12px';
-      image.remove();
-      thumb.append(label);
-    });
-    thumb.append(image);
-  } else {
-    const label = el('p', 'media-frame__label', 'No image');
-    label.style.fontSize = '12px';
-    thumb.append(label);
-  }
-
-  const text = el('span', 'list-row__text');
-  text.append(el('span', 'list-row__meta', formatDateShort(entry.date)));
-  text.append(el('span', 'list-row__title', entry.title));
-
-  link.append(thumb, text);
-  return link;
+  return createListRow(rowTemplate, {
+    href: entryPath(entry.date),
+    meta: formatDateShort(entry.date),
+    title: entry.title,
+    thumbnailUrl: entry.thumbnail_url ?? entry.image_url ?? null,
+    alt: enriched?.alt_text?.trim() || `Thumbnail of ${entry.title}`,
+    fallback: 'No image',
+  });
 }
 
 function renderGrid(): void {
@@ -114,15 +95,16 @@ function renderGrid(): void {
   }
 
   if (filtered.length > state.visible) {
-    const button = buildAction({
-      label: 'Load more',
-      variant: 'secondary',
-      onClick: () => {
-        state.visible += PAGE_SIZE;
-        renderGrid();
-      },
-    });
-    moreHost.append(button);
+    moreHost.append(
+      buildAction({
+        label: 'Load more',
+        variant: 'secondary',
+        onClick: () => {
+          state.visible += PAGE_SIZE;
+          renderGrid();
+        },
+      }),
+    );
   }
 }
 
@@ -174,7 +156,7 @@ async function loadYearDetails(year: number): Promise<void> {
     }
     renderGrid();
     if (result.fromCache) {
-      renderBanner(bannerHost, {
+      applyBanner(banner, {
         message: `Couldn't refresh the details for ${year}. Showing the saved copy from ${formatDate(result.savedAt ?? '')}.`,
         actionLabel: 'Retry',
         onAction: () => {
@@ -183,7 +165,7 @@ async function loadYearDetails(year: number): Promise<void> {
       });
     }
   } catch {
-    renderBanner(bannerHost, {
+    applyBanner(banner, {
       message: `Couldn't load the details for ${year}. The list below still works.`,
       actionLabel: 'Retry',
       onAction: () => {
@@ -193,21 +175,32 @@ async function loadYearDetails(year: number): Promise<void> {
   }
 }
 
+function errorHost(): HTMLElement {
+  const existing = document.getElementById('archive-error');
+  if (existing) return existing as HTMLElement;
+  const node = el('div');
+  node.id = 'archive-error';
+  grid.after(node);
+  return node;
+}
+
 async function load(): Promise<void> {
-  bannerHost.replaceChildren();
+  hideBanner(banner);
   renderSkeleton();
   setBusy(grid, true);
   countEl.textContent = '';
 
   try {
-    const result = await fetchWithCache('archive-index', () => fetchIndex());
+    const result = await fetchWithCache('archive-index', () => fetchIndex(), {
+      store: compactArchiveIndex,
+    });
     state.entries = result.data.entries ?? [];
     populateYears();
     renderGrid();
     setBusy(grid, false);
 
     if (result.fromCache) {
-      renderBanner(bannerHost, {
+      applyBanner(banner, {
         message: `Couldn't refresh. Showing the saved copy from ${formatDate(result.savedAt ?? '')}.`,
         actionLabel: 'Retry',
         onAction: () => {
@@ -230,15 +223,6 @@ async function load(): Promise<void> {
       secondaryHref: '/',
     });
   }
-}
-
-function errorHost(): HTMLElement {
-  const existing = document.getElementById('archive-error');
-  if (existing) return existing as HTMLElement;
-  const node = el('div');
-  node.id = 'archive-error';
-  grid.after(node);
-  return node;
 }
 
 /* --------------------------------------------------------------- events */

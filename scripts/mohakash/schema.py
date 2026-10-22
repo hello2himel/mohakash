@@ -139,15 +139,19 @@ class ApodRecord:
 def index_entry(record: ApodRecord, detail_path: str) -> dict[str, Any]:
     """Compact representation used in ``archive-index.json``.
 
-    The index intentionally contains no explanations so that clients can list
-    thousands of entries without downloading megabytes of text.
+    The index intentionally contains no explanations and no duplicate image
+    links, so that clients can list thousands of entries without downloading
+    megabytes of text.
+
+    ``detail_path`` is relative to the API base URL, which every client knows:
+    the website joins it with its same-origin prefix, the Android app with its
+    configured base URL.
     """
     return {
         "date": record.date,
         "title": record.title,
         "media_type": record.media_type,
         "thumbnail_url": record.thumbnail_url,
-        "image_url": record.image_url,
         "apod_url": record.apod_url,
         "copyright": record.copyright,
         "detail_path": detail_path,

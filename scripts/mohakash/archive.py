@@ -190,6 +190,9 @@ def _atomic_write(path: Path, content: str) -> None:
             handle.write(content)
             handle.flush()
             os.fsync(handle.fileno())
+        # NamedTemporaryFile creates the file with 0600; the published data has
+        # to be readable by the web server.
+        os.chmod(handle.name, 0o644)
         os.replace(handle.name, path)
     except BaseException:
         try:

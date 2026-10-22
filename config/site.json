@@ -5,6 +5,7 @@
   "github": {
     "owner": "hello2himel",
     "repo": "mohakash",
+    "default_branch": "main",
     "pages_type": "project",
     "custom_domain": null
   },
