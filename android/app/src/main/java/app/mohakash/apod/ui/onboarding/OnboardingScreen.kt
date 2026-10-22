@@ -2,15 +2,12 @@ package app.mohakash.apod.ui.onboarding
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,12 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.ui.components.PrimaryButton
-import app.mohakash.apod.ui.components.SecondaryButton
+import app.mohakash.apod.ui.components.QuietButton
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
@@ -62,6 +60,22 @@ fun OnboardingScreen(
         }
     }
 
+    OnboardingContent(
+        previewPath = previewPath,
+        onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
+        onSkip = { viewModel.complete(openWallpaperPicker = false) },
+        modifier = modifier,
+    )
+}
+
+/** The stateless onboarding screen, used by the previews as well. */
+@Composable
+internal fun OnboardingContent(
+    previewPath: String?,
+    onSetWallpaper: () -> Unit,
+    onSkip: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -89,7 +103,7 @@ fun OnboardingScreen(
                 ) {
                     if (previewPath != null) {
                         AsyncImage(
-                            model = File(previewPath!!),
+                            model = File(previewPath),
                             contentDescription = stringResource(R.string.onboarding_wallpaper_preview),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.matchParentSize(),
@@ -117,7 +131,7 @@ fun OnboardingScreen(
                     )
                     Text(
                         text = stringResource(R.string.onboarding_subtitle),
-                        style = MohakashTextStyles.BodyMedium,
+                        style = MohakashTextStyles.BodyBase,
                         color = MohakashColors.TextMuted,
                         textAlign = TextAlign.Center,
                     )
@@ -128,17 +142,19 @@ fun OnboardingScreen(
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             PrimaryButton(
                 text = stringResource(R.string.onboarding_set_wallpaper),
-                onClick = { viewModel.complete(openWallpaperPicker = true) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
+                onClick = onSetWallpaper,
+                modifier = Modifier.fillMaxWidth(),
+                height = 52.dp,
+                textStyle = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
             )
-            SecondaryButton(
+            // A text button: no border, no fill — exactly as on the first-launch design.
+            QuietButton(
                 text = stringResource(R.string.onboarding_skip),
-                onClick = { viewModel.complete(openWallpaperPicker = false) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
+                onClick = onSkip,
+                modifier = Modifier.fillMaxWidth(),
+                minHeight = 52.dp,
+                style = MohakashTextStyles.UiMedium,
+                color = MohakashColors.Text,
             )
             Text(
                 text = stringResource(R.string.onboarding_wifi_note),

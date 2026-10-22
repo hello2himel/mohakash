@@ -61,10 +61,13 @@ class DetailViewModel(
 
     private var favouriteJob: Job? = null
     private var loadedDate: String? = null
+    private var requestedDate: String? = null
 
     /** Loads the entry with the given date. */
     fun load(date: String) {
-        if (date.isBlank() || loadedDate == date) return
+        if (date.isBlank()) return
+        requestedDate = date
+        if (loadedDate == date) return
         loadedDate = date
         viewModelScope.launch {
             val settings = settingsStore.current()
@@ -94,6 +97,14 @@ class DetailViewModel(
                 _events.send(DetailEvent.ShowMessage(MESSAGE_LOAD_FAILED))
             }
         }
+    }
+
+    /** Retries the load of the current entry after a failure. */
+    fun retry() {
+        val date = requestedDate ?: return
+        loadedDate = null
+        _state.value = _state.value.copy(isLoading = true, hasError = false)
+        load(date)
     }
 
     /** Adds the entry to the saved list or removes it again. */

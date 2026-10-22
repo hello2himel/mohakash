@@ -1,8 +1,10 @@
 ---
 /**
- * Mobile menu — a full-screen dialog opened from the header on small screens.
- * It carries its own close button and the secondary links.
+ * Mobile menu — a full-screen dialog opened from the header below 700px.
+ * It carries the main navigation, the "Hide videos" switch and the secondary
+ * links required by the shell spec.
  */
+import HideVideosSwitch from './HideVideosSwitch.astro';
 import { NAV_LINKS, NOT_AFFILIATED, SITE } from '../lib/site';
 
 interface Props {
@@ -18,8 +20,8 @@ const isCurrent = (href: string) =>
   <div class="mobile-menu__inner">
     <div class="mobile-menu__head">
       <span class="wordmark">{SITE.name}</span>
-      <button class="icon-btn" type="button" id="mobile-menu-close" aria-label="Close menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+      <button class="menu-button" type="button" id="mobile-menu-close" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M6 6l12 12M18 6L6 18" />
         </svg>
       </button>
@@ -36,27 +38,12 @@ const isCurrent = (href: string) =>
     </nav>
 
     <div class="mobile-menu__switch">
-      <label class="switch-row switch-row--menu" for="mobile-hide-videos">
-        <span class="switch-row__text">
-          <span class="switch-row__label">Hide videos</span>
-          <span class="switch-row__helper">Show pictures only. Video entries are skipped.</span>
-        </span>
-        <input
-          class="switch-row__input"
-          id="mobile-hide-videos"
-          type="checkbox"
-          role="switch"
-          checked={true}
-        />
-        <span class="switch-row__track" aria-hidden="true">
-          <span class="switch-row__thumb"></span>
-        </span>
-      </label>
+      <HideVideosSwitch id="mobile-hide-videos" />
     </div>
 
     <div class="mobile-menu__secondary">
       <a href={SITE.rightsUrl}>Content rights</a>
-      <a href="/feed.xml">RSS feed</a>
+      <a href="/feed.xml">RSS</a>
     </div>
 
     <p class="mobile-menu__note">{NOT_AFFILIATED}</p>
@@ -67,9 +54,6 @@ const isCurrent = (href: string) =>
   const dialog = document.getElementById('mobile-menu') as HTMLDialogElement | null;
   const openButton = document.getElementById('menu-button') as HTMLButtonElement | null;
   const closeButton = document.getElementById('mobile-menu-close') as HTMLButtonElement | null;
-  const hideVideosInput = document.getElementById('mobile-hide-videos') as HTMLInputElement | null;
-
-  const KEY = 'mohakash:v1:hide-videos';
 
   if (dialog && openButton) {
     const open = () => {
@@ -86,50 +70,9 @@ const isCurrent = (href: string) =>
     dialog.addEventListener('close', () => {
       openButton.setAttribute('aria-expanded', 'false');
     });
-    // Clicking the backdrop closes the menu.
+    // Clicking the backdrop (the dialog box itself) closes the menu.
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) close();
     });
-
-    // Initialize the switch from localStorage (videos hidden by default).
-    function readPreference(): boolean {
-      try {
-        const raw = localStorage.getItem(KEY);
-        return raw === null ? true : raw !== 'false';
-      } catch {
-        return true;
-      }
-    }
-
-    function writePreference(value: boolean): void {
-      try {
-        localStorage.setItem(KEY, value ? 'true' : 'false');
-      } catch {
-        /* storage blocked */
-      }
-    }
-
-    const initial = readPreference();
-    if (hideVideosInput) hideVideosInput.checked = initial;
-
-    if (hideVideosInput) {
-      hideVideosInput.addEventListener('change', () => {
-        writePreference(hideVideosInput.checked);
-        window.dispatchEvent(new CustomEvent('mohakash:hide-videos-changed', { detail: { value: hideVideosInput.checked } }));
-      });
-    }
-
-    // Sync when the preference changes elsewhere.
-    window.addEventListener('mohakash:hide-videos-changed', (event) => {
-      const value = (event as CustomEvent).detail?.value;
-      if (typeof value === 'boolean' && hideVideosInput) {
-        hideVideosInput.checked = value;
-      }
-    });
-
-    // Sync the checkbox when the menu opens.
-    openButton.addEventListener('click', () => {
-      if (hideVideosInput) hideVideosInput.checked = readPreference();
-    }, { capture: true });
   }
 </script>

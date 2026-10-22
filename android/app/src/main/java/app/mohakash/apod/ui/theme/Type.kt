@@ -78,12 +78,28 @@ object MohakashTextStyles {
         lineHeight = 26.sp,
     )
 
-    /** Body copy — 15 / 1.65, Inter. */
+    /** Body copy — 15 / 1.5, Inter. */
+    val BodyBase = TextStyle(
+        fontFamily = InterFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 15.sp,
+        lineHeight = 22.5.sp,
+    )
+
+    /** Long-form explanation copy — 15 / 1.65, Inter. */
     val BodyMedium = TextStyle(
         fontFamily = InterFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 15.sp,
         lineHeight = 25.sp,
+    )
+
+    /** Body copy — 14 / 1.5, Inter — used by dialogs. */
+    val BodySmall = TextStyle(
+        fontFamily = InterFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 21.sp,
     )
 
     /** User interface text — 15 / 500, Inter. */
@@ -112,6 +128,25 @@ object MohakashTextStyles {
 
     /** A caption that is used for a section label — 12, Inter. */
     val CaptionMuted = Caption.copy(color = MohakashColors.TextMuted)
+
+    /** A helper line under a setting or above a grid — 13, Inter. */
+    val Helper = TextStyle(
+        fontFamily = InterFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
+    )
+
+    /** The tiny label inside the wallpaper preview frame — 11, Inter. */
+    val PreviewLabel = TextStyle(
+        fontFamily = InterFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 11.sp,
+        lineHeight = 14.sp,
+    )
+
+    /** 14 / 600 — buttons and selected list labels. */
+    val UiSmallSemiBold = UiSmall.copy(fontWeight = FontWeight.SemiBold)
 }
 
 /**

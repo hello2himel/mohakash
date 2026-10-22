@@ -1,12 +1,16 @@
 /**
- * Today page — loads the newest record at runtime.
+ * Today page — loads the newest record at runtime and fills the fixed
+ * two-column shell. The cached copy is shown first; a stale copy gets the
+ * banner row and the content below shrinks to fit.
  */
 
 import { fetchLatest, fetchLatestImage } from '../lib/api';
 import { fetchWithCache } from '../lib/cache';
-import { formatDate, formatSyncedAgo } from '../lib/format';
-import { mediaPresentation, needsPictureFallback } from '../lib/media';
+import { entryPath } from '../lib/archive';
+import { formatDate } from '../lib/format';
+import { mediaPresentation, needsPictureFallback, type MediaPresentation } from '../lib/media';
 import { readHideVideos } from '../lib/preferences';
+import { initDrawer, setDrawerContent } from '../lib/drawer';
 import type { ApodRecord } from '../lib/types';
 import {
   applyBanner,
@@ -17,33 +21,90 @@ import {
   need,
   renderErrorState,
   renderProse,
-  setBusy,
   show,
+  tomorrowTitle,
 } from '../lib/dom';
 
+const main = need<HTMLElement>('main');
 const banner = need('#today-banner');
-const loading = need('#today-loading');
+const frameLink = need<HTMLAnchorElement>('#today-frame-link');
+const frame = need('#today-frame');
 const content = need('#today-content');
 const errorHost = need('#today-error');
 
-const frame = need('#today-frame');
+const skeletonFrame = need('[data-skeleton="frame"]');
+const skeletonPanel = need('[data-skeleton="panel"]');
+
 const dateLine = need('#today-date');
 const title = need('#today-title');
-const syncLine = need('#today-sync');
 const actions = need('#today-actions');
-const mediaNote = need('#today-media-note');
 const explanation = need('#today-explanation');
 
-function mediaNoteText(kind: string): string {
-  if (kind === 'video') return 'This entry is a video, so it opens on the original page.';
-  if (kind === 'other') return 'This entry is embedded on the original page, so it opens there.';
-  return 'No picture is available for this entry, so it opens on the original page.';
+/* ---------------------------------------------------------------- media */
+
+/** Hide the frame skeleton as soon as the picture settles (load or error). */
+function clearFrameSkeleton(presentation: MediaPresentation): void {
+  const image = frame.querySelector<HTMLImageElement>('.media-frame__img');
+  const clear = () => {
+    skeletonFrame.hidden = true;
+  };
+  if (presentation.src && image) {
+    image.addEventListener('load', clear, { once: true });
+    image.addEventListener('error', clear, { once: true });
+    if (image.complete && image.naturalWidth > 0) clear();
+  } else {
+    clear();
+  }
 }
 
-function render(record: ApodRecord, options: { substitutedVideo?: boolean } = {}): void {
+/* -------------------------------------------------------------- actions */
+
+function renderActions(record: ApodRecord, presentation: MediaPresentation): void {
+  actions.replaceChildren();
+
+  if (presentation.kind === 'image' && (record.hd_image_url || record.image_url)) {
+    const save = buildAction({
+      label: 'Save HD image',
+      variant: 'primary',
+      href: record.hd_image_url ?? record.image_url ?? '',
+    });
+    if (save instanceof HTMLAnchorElement) save.setAttribute('download', '');
+    actions.append(save);
+  } else if ((presentation.kind === 'video' || presentation.kind === 'other') && record.apod_url) {
+    actions.append(
+      buildAction({
+        label: 'Watch on original page',
+        variant: 'primary',
+        href: record.apod_url,
+        external: true,
+      }),
+    );
+  }
+
+  if (record.apod_url) {
+    actions.append(
+      buildAction({
+        label: 'Original APOD page',
+        variant: 'secondary',
+        href: record.apod_url,
+        external: true,
+      }),
+    );
+  }
+
+  actions.append(buildAction({ label: 'Browse archive', variant: 'secondary', href: '/archive' }));
+}
+
+/* --------------------------------------------------------------- render */
+
+function render(record: ApodRecord): void {
   const presentation = mediaPresentation(record);
 
+  frameLink.href = entryPath(record.date);
+  frameLink.setAttribute('aria-label', 'Open this entry');
+
   applyPresentation(frame, presentation, { priority: true });
+  clearFrameSkeleton(presentation);
 
   const date = formatDate(record.date);
   const credit = (record.credit ?? record.copyright ?? '').trim();
@@ -52,111 +113,100 @@ function render(record: ApodRecord, options: { substitutedVideo?: boolean } = {}
   title.textContent = record.title;
   document.title = `${record.title} · Mohakash`;
 
-  const synced = record.last_successful_sync ?? record.updated_at;
-  syncLine.textContent = synced ? formatSyncedAgo(synced) : '';
-  hide(syncLine);
-
-  actions.replaceChildren();
-  if (presentation.showHdAction && record.hd_image_url) {
-    actions.append(
-      buildAction({
-        label: 'Save HD image',
-        variant: 'primary',
-        href: record.hd_image_url,
-        external: true,
-      }),
-    );
-  }
-
-  const originalIsPrimary = !presentation.showHdAction;
-  if (record.apod_url) {
-    actions.append(
-      buildAction({
-        label: 'Original APOD page',
-        variant: originalIsPrimary ? 'primary' : 'secondary',
-        href: record.apod_url,
-        external: true,
-      }),
-    );
-  }
-
-  actions.append(buildAction({ label: 'Browse archive', variant: 'secondary', href: '/archive' }));
-
-  if (options.substitutedVideo) {
-    mediaNote.textContent = 'The newest entry is a video, so the latest picture is shown instead.';
-    show(mediaNote);
-  } else if (presentation.opensOnOriginalPage) {
-    mediaNote.textContent = mediaNoteText(presentation.kind);
-    show(mediaNote);
-  } else {
-    hide(mediaNote);
-  }
-
+  renderActions(record, presentation);
   renderProse(explanation, record.explanation ?? '');
+  setDrawerContent({ record, nextTitle: tomorrowTitle(record.explanation ?? '') });
 
-  hide(errorHost);
-  hide(loading);
+  skeletonPanel.hidden = true;
   show(content);
-  setBusy(loading, false);
+  main.classList.remove('is-error');
+  main.removeAttribute('aria-busy');
 }
 
-async function load(): Promise<void> {
-  show(loading);
-  hide(content);
-  hide(errorHost);
-  setBusy(loading, true);
+/* ---------------------------------------------------------------- states */
+
+function showBanner(message: string): void {
+  applyBanner(banner, {
+    message,
+    actionLabel: 'Try again',
+    onAction: () => {
+      void load();
+    },
+  });
+  main.classList.add('has-banner');
+}
+
+function clearBanner(): void {
   hideBanner(banner);
+  main.classList.remove('has-banner');
+}
+
+function showError(): void {
+  clearBanner();
+  hide(content);
+  skeletonPanel.hidden = true;
+  skeletonFrame.hidden = true;
+  main.classList.add('is-error');
+  main.removeAttribute('aria-busy');
+  show(errorHost);
+  renderErrorState(errorHost, {
+    title: "Today's picture isn't available",
+    text: 'Check your connection and try again. You can still browse the archive.',
+    actionLabel: 'Try again',
+    onAction: () => {
+      void load();
+    },
+    secondaryLabel: 'Archive',
+    secondaryHref: '/archive',
+  });
+}
+
+function resetForLoad(): void {
+  hide(errorHost);
+  main.classList.remove('is-error');
+  main.setAttribute('aria-busy', 'true');
+  hide(content);
+  skeletonPanel.hidden = false;
+  skeletonFrame.hidden = false;
+}
+
+/* ----------------------------------------------------------------- load */
+
+async function load(): Promise<void> {
+  resetForLoad();
+  clearBanner();
 
   try {
     const hideVideos = readHideVideos();
     const result = await fetchWithCache('latest', () => fetchLatest());
     let record = result.data;
     let fromCache = result.fromCache;
-    let substitutedVideo = false;
 
-    // Videos are hidden by default: when the newest entry is a video, the
-    // most recent picture is shown instead.
+    // Videos are hidden by default: show the most recent still picture
+    // instead of the newest video entry.
     if (needsPictureFallback(record, hideVideos)) {
       try {
         const picture = await fetchWithCache('latest-image', () => fetchLatestImage());
         record = picture.data;
         fromCache = fromCache || picture.fromCache;
-        substitutedVideo = true;
       } catch {
-        // The video entry stays; it is the newest entry after all.
+        // Keep the video entry; it really is the newest entry.
       }
     }
 
-    render(record, { substitutedVideo });
+    render(record);
 
     if (fromCache) {
-      const cachedDate = formatDate(record.date);
-      applyBanner(banner, {
-        message: `Couldn't refresh. Showing the saved copy from ${cachedDate}.`,
-        actionLabel: 'Retry',
-        onAction: () => {
-          void load();
-        },
-      });
+      const savedAt = result.savedAt ?? record.date;
+      showBanner(`Couldn't refresh. Showing the saved copy from ${formatDate(savedAt)}.`);
     }
   } catch {
-    hide(loading);
-    setBusy(loading, false);
-    show(errorHost);
-    renderErrorState(errorHost, {
-      title: "Today's picture isn't available",
-      text: 'Check your connection and try again. You can still browse the archive.',
-      actionLabel: 'Try again',
-      onAction: () => {
-        void load();
-      },
-      secondaryLabel: 'Archive',
-      secondaryHref: '/archive',
-    });
+    showError();
   }
 }
 
-// Re-run the load when the preference changes in another place.
+initDrawer();
+
 window.addEventListener('mohakash:hide-videos-changed', () => {
   void load();
 });
