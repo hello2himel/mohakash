@@ -1,0 +1,28 @@
+---
+/**
+ * Switch row — the whole row is the tap target, the label sits on the left and
+ * the switch on the right. An optional one-line helper is rendered below the
+ * label in `text-muted`.
+ *
+ * The switch is a real `<input type="checkbox" role="switch">`, so it works
+ * with a keyboard and with assistive technology.
+ */
+interface Props {
+  id: string;
+  label: string;
+  checked?: boolean;
+  helper?: string;
+  class?: string;
+}
+
+const { id, label, checked = true, helper, class: className } = Astro.props;
+---
+
+<label class:list={['switch-row', className]} for={id}>
+  <span class="switch-row__text">
+    <span class="switch-row__label">{label}</span>
+    {helper && <span class="switch-row__helper">{helper}</span>}
+  </span>
+  <input class="switch-row__input" id={id} type="checkbox" role="switch" checked={checked} />
+  <span class="switch-row__track" aria-hidden="true"><span class="switch-row__thumb"></span></span>
+</label>

@@ -20,15 +20,24 @@ sealed interface WallpaperChoice {
  *
  * The rules:
  * * an image entry uses `hd_image_url` when HD is preferred, otherwise `image_url`;
- * * a video/iframe entry falls back to its poster (`thumbnail_url`);
+ * * a video/iframe entry falls back to its poster (`thumbnail_url`) — unless videos are hidden;
  * * an entry without a usable picture (`image_status` is `missing` or `placeholder`) keeps the
  *   previous wallpaper;
  * * an article URL is never used as an image asset.
  */
 object WallpaperImageSelector {
 
-    fun select(entry: ApodEntry?, preferHd: Boolean): WallpaperChoice {
+    fun select(
+        entry: ApodEntry?,
+        preferHd: Boolean,
+        hideVideos: Boolean = true,
+    ): WallpaperChoice {
         val target = entry ?: return WallpaperChoice.Keep
+
+        // Videos are never used as wallpaper when they are hidden.
+        if (hideVideos && !target.mediaType.isImage) {
+            return WallpaperChoice.Keep
+        }
 
         // A missing or placeholder picture must never replace a working wallpaper.
         if (!target.imageStatus.isUsable) {
@@ -60,8 +69,14 @@ object WallpaperImageSelector {
      * Both the date and the image URL are compared: the API may publish a new rendering of the
      * same day, and the URL then changes.
      */
-    fun hasChanged(currentDate: String?, currentUrl: String?, entry: ApodEntry, preferHd: Boolean): Boolean {
-        val choice = select(entry, preferHd)
+    fun hasChanged(
+        currentDate: String?,
+        currentUrl: String?,
+        entry: ApodEntry,
+        preferHd: Boolean,
+        hideVideos: Boolean = true,
+    ): Boolean {
+        val choice = select(entry, preferHd, hideVideos)
         if (choice !is WallpaperChoice.Use) return false
         if (currentUrl == null) return true
         if (currentUrl != choice.url) return true

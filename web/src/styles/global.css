@@ -344,6 +344,30 @@ pre {
   color: var(--text-muted);
 }
 
+/* ---------------------------------------------------------------- switch row in menu */
+
+.mobile-menu__switch {
+  padding: var(--space-2) var(--space-4) var(--space-4);
+}
+
+.switch-row--menu {
+  width: 100%;
+}
+
+.switch-row--menu .switch-row__track {
+  width: 44px;
+  height: 26px;
+}
+
+.switch-row--menu .switch-row__thumb {
+  width: 18px;
+  height: 18px;
+}
+
+.switch-row--menu .switch-row__input:checked + .switch-row__track .switch-row__thumb {
+  transform: translateX(18px);
+}
+
 /* ---------------------------------------------------------------- footer */
 
 .site-footer {
@@ -596,7 +620,9 @@ select.field {
 }
 
 .media-frame--hero {
-  aspect-ratio: 16 / 9;
+  /* The frame takes its aspect ratio from the loaded image, so the
+     picture fills it without letterboxing (no grey bars). */
+  aspect-ratio: auto;
 }
 
 .media-frame--thumb,
@@ -610,6 +636,10 @@ select.field {
   display: block;
   object-fit: contain;
   background: var(--surface);
+}
+
+.media-frame--hero .media-frame__img {
+  height: auto;
 }
 
 .media-frame--thumb .media-frame__img,
@@ -842,6 +872,13 @@ select.field {
 .archive-count {
   color: var(--text-muted);
   font-size: var(--text-sm);
+}
+
+/* The "hide videos" preference sits on its own line under the filters. */
+.archive-preference,
+.today-preference {
+  padding-top: var(--space-2);
+  max-width: 420px;
 }
 
 .more-row {
@@ -1224,4 +1261,84 @@ select.field {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* -------------------------------------------------------------- switch row */
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.switch-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.switch-row__label {
+  color: var(--text);
+  font-size: var(--text-ui-lg);
+  font-weight: 500;
+}
+
+.switch-row__helper {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* The native checkbox stays in the accessibility tree, the track is drawn. */
+.switch-row__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.switch-row__track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-strong);
+  border: var(--border-width) solid var(--border-strong);
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.switch-row__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+.switch-row__input:checked + .switch-row__track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.switch-row__input:checked + .switch-row__track .switch-row__thumb {
+  transform: translateX(18px);
+  background: var(--on-accent);
+}
+
+.switch-row__input:focus-visible + .switch-row__track {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }

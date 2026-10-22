@@ -136,6 +136,15 @@ class ApodRecord:
             )
 
 
+def is_picture(record: ApodRecord) -> bool:
+    """``True`` when the entry is a still picture that can be shown as one.
+
+    A video entry is not, even when it carries a poster frame, and an entry
+    whose image could not be resolved is not either.
+    """
+    return record.media_type == MEDIA_IMAGE and record.image_status == IMAGE_STATUS_OK
+
+
 def index_entry(record: ApodRecord, detail_path: str) -> dict[str, Any]:
     """Compact representation used in ``archive-index.json``.
 

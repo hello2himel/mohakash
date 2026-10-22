@@ -15,6 +15,7 @@ import {
   visibleSlice,
 } from '../lib/archive';
 import { formatDate, formatDateShort, isIsoDate } from '../lib/format';
+import { readHideVideos } from '../lib/preferences';
 import type { ApodRecord, ArchiveIndexEntry } from '../lib/types';
 import {
   applyBanner,
@@ -48,6 +49,8 @@ const state = {
   query: '',
   year: null as number | null,
   visible: PAGE_SIZE,
+  /** Video entries are hidden unless the visitor turns them on. */
+  hideVideos: true,
   /** Full records of the selected year, used for richer alternative text. */
   enriched: new Map<string, ApodRecord>(),
 };
@@ -67,7 +70,13 @@ function buildCard(entry: ArchiveIndexEntry): HTMLElement {
 }
 
 function renderGrid(): void {
-  const filtered = sortNewestFirst(filterEntries(state.entries, { query: state.query, year: state.year }));
+  const filtered = sortNewestFirst(
+    filterEntries(state.entries, {
+      query: state.query,
+      year: state.year,
+      hideVideos: state.hideVideos,
+    }),
+  );
 
   countEl.textContent = countLabel(filtered.length);
   grid.replaceChildren();
@@ -259,5 +268,8 @@ if (initialYear && /^\d{4}$/.test(initialYear)) {
   state.year = Number(initialYear);
   yearSelect.value = initialYear;
 }
+
+// Video entries are hidden by default.
+state.hideVideos = readHideVideos();
 
 void load();

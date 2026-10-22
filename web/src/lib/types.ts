@@ -30,6 +30,10 @@ export interface ApodRecord {
   record_count?: number;
   source_status?: string;
   api_base_url?: string;
+  /** Only on `latest-image.json`: the date of the newest entry of any kind. */
+  latest_entry_date?: string | null;
+  /** Only on `latest-image.json`: how the record was chosen. */
+  selection?: string;
 }
 
 export interface ArchiveIndexEntry {

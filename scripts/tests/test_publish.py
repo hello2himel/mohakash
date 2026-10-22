@@ -158,6 +158,77 @@ def test_the_published_timestamp_comes_from_the_data(populated):
     assert year["generated_at"] == "2026-10-22T07:17:00Z"
 
 
+def test_latest_image_document_skips_video_entries(tmp_path, site_config):
+    """``latest-image.json`` is the newest entry that is a still picture."""
+    store = ArchiveStore(tmp_path)
+    store.upsert(
+        [
+            make_record("2026-10-22", title="Newest, a video", media_type="video"),
+            make_record("2026-10-21", title="A picture", media_type="image"),
+        ]
+    )
+    output = tmp_path / "out"
+    build_public_api(data_root=store.root, output_root=output, config=site_config, state={})
+
+    latest = json.loads((output / "api" / "v1" / "latest.json").read_text(encoding="utf-8"))
+    latest_image = json.loads((output / "api" / "v1" / "latest-image.json").read_text(encoding="utf-8"))
+
+    assert latest["title"] == "Newest, a video"
+    assert latest_image["title"] == "A picture"
+    assert latest_image["media_type"] == "image"
+    assert latest_image["image_status"] == "ok"
+    assert latest_image["latest_entry_date"] == "2026-10-22"
+
+
+def test_latest_image_document_skips_entries_without_a_usable_picture(tmp_path, site_config):
+    store = ArchiveStore(tmp_path)
+    store.upsert(
+        [
+            make_record(
+                "2026-10-22",
+                media_type="image",
+                image_url=None,
+                hd_image_url=None,
+                thumbnail_url=None,
+                image_status="placeholder",
+            ),
+            make_record("2026-10-21", media_type="image"),
+        ]
+    )
+    output = tmp_path / "out"
+    build_public_api(data_root=store.root, output_root=output, config=site_config, state={})
+
+    latest_image = json.loads((output / "api" / "v1" / "latest-image.json").read_text(encoding="utf-8"))
+    assert latest_image["date"] == "2026-10-21"
+
+
+def test_status_document_reports_the_picture_counts(tmp_path, site_config):
+    store = ArchiveStore(tmp_path)
+    store.upsert(
+        [
+            make_record("2026-10-22", media_type="video"),
+            make_record("2026-10-21", media_type="image"),
+        ]
+    )
+    output = tmp_path / "out"
+    build_public_api(data_root=store.root, output_root=output, config=site_config, state={})
+
+    status = json.loads((output / "api" / "v1" / "status.json").read_text(encoding="utf-8"))
+    assert status["picture_count"] == 1
+    assert status["latest_image_date"] == "2026-10-21"
+    assert status["latest_available_date"] == "2026-10-22"
+
+
+def test_is_picture_helper():
+    from mohakash.schema import is_picture
+
+    assert is_picture(make_record("2026-10-22", media_type="image"))
+    assert not is_picture(make_record("2026-10-22", media_type="video"))
+    assert not is_picture(
+        make_record("2026-10-22", media_type="image", image_status="placeholder")
+    )
+
+
 def test_feed_is_valid_rss(populated):
     root, store, config = populated
     output = root / "out"

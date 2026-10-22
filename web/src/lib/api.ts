@@ -98,6 +98,16 @@ export function fetchLatest(options: RequestOptions = {}): Promise<ApodRecord> {
   return requestJson<ApodRecord>('latest.json', { cache: 'no-cache', ...options });
 }
 
+/**
+ * Newest entry that is a still picture (`media_type: "image"`).
+ *
+ * Used when video entries are hidden, so that the site can still show the
+ * most recent picture instead of the most recent entry.
+ */
+export function fetchLatestImage(options: RequestOptions = {}): Promise<ApodRecord> {
+  return requestJson<ApodRecord>('latest-image.json', { cache: 'no-cache', ...options });
+}
+
 /** Compact index of every entry, newest first. */
 export function fetchIndex(options: RequestOptions = {}): Promise<ArchiveIndex> {
   return requestJson<ArchiveIndex>('archive-index.json', { cache: 'no-cache', ...options });

@@ -20,7 +20,7 @@ from typing import Any, Iterable
 
 from .archive import ArchiveStore
 from .config import SiteConfig
-from .schema import SCHEMA_VERSION, ApodRecord, index_entry
+from .schema import SCHEMA_VERSION, ApodRecord, index_entry, is_picture
 
 RSS_ITEM_LIMIT_DEFAULT = 30
 
@@ -125,6 +125,26 @@ def build_latest_document(
     return document
 
 
+def build_latest_image_document(
+    record: ApodRecord,
+    *,
+    state: dict[str, Any],
+    config: SiteConfig,
+    latest_entry_date: str | None = None,
+    now: str | None = None,
+) -> dict[str, Any]:
+    """``latest-image.json`` -- the newest entry that is a still picture.
+
+    Clients that hide video entries use this document to show the most recent
+    picture instead of the most recent entry.  It has the same shape as
+    ``latest.json``.
+    """
+    document = build_latest_document(record, state=state, config=config, now=now)
+    document["latest_entry_date"] = latest_entry_date
+    document["selection"] = "newest picture entry (media_type=image, image_status=ok)"
+    return document
+
+
 def build_index_document(
     records: Iterable[ApodRecord],
     *,
@@ -172,14 +192,17 @@ def build_status_document(
     """``status.json`` -- schema version, sync state and archive statistics."""
     dates = [record.date for record in records]
     years = sorted({record.year for record in records})
+    pictures = [record.date for record in records if is_picture(record)]
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_at": now or _utc_now_iso(),
         "last_successful_sync": state.get("last_successful_sync"),
         "latest_available_date": max(dates) if dates else None,
+        "latest_image_date": max(pictures) if pictures else None,
         "archive_start_date": min(dates) if dates else None,
         "archive_end_date": max(dates) if dates else None,
         "record_count": len(records),
+        "picture_count": len(pictures),
         "source_status": state.get("source_status", "unknown"),
         "source_name": "NASA APOD",
         "source_endpoint": state.get("source_endpoint"),
@@ -306,6 +329,19 @@ def build_public_api(
 
     latest_doc = build_latest_document(records[0], state=state, config=config, now=timestamp)
     _write_if_changed(api_root / "latest.json", _dump(latest_doc), result)
+
+    # The newest entry that is a still picture.  Clients that hide video
+    # entries show this one instead of the newest entry.
+    pictures = [record for record in records if is_picture(record)]
+    if pictures:
+        latest_image_doc = build_latest_image_document(
+            pictures[0],
+            state=state,
+            config=config,
+            latest_entry_date=records[0].date,
+            now=timestamp,
+        )
+        _write_if_changed(api_root / "latest-image.json", _dump(latest_image_doc), result)
 
     index_doc = build_index_document(records, config=config, now=timestamp)
     _write_if_changed(api_root / "archive-index.json", _dump(index_doc), result)

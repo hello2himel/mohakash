@@ -35,6 +35,25 @@ const isCurrent = (href: string) =>
       }
     </nav>
 
+    <div class="mobile-menu__switch">
+      <label class="switch-row switch-row--menu" for="mobile-hide-videos">
+        <span class="switch-row__text">
+          <span class="switch-row__label">Hide videos</span>
+          <span class="switch-row__helper">Show pictures only. Video entries are skipped.</span>
+        </span>
+        <input
+          class="switch-row__input"
+          id="mobile-hide-videos"
+          type="checkbox"
+          role="switch"
+          checked={true}
+        />
+        <span class="switch-row__track" aria-hidden="true">
+          <span class="switch-row__thumb"></span>
+        </span>
+      </label>
+    </div>
+
     <div class="mobile-menu__secondary">
       <a href={SITE.rightsUrl}>Content rights</a>
       <a href="/feed.xml">RSS feed</a>
@@ -48,6 +67,9 @@ const isCurrent = (href: string) =>
   const dialog = document.getElementById('mobile-menu') as HTMLDialogElement | null;
   const openButton = document.getElementById('menu-button') as HTMLButtonElement | null;
   const closeButton = document.getElementById('mobile-menu-close') as HTMLButtonElement | null;
+  const hideVideosInput = document.getElementById('mobile-hide-videos') as HTMLInputElement | null;
+
+  const KEY = 'mohakash:v1:hide-videos';
 
   if (dialog && openButton) {
     const open = () => {
@@ -68,5 +90,25 @@ const isCurrent = (href: string) =>
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) close();
     });
+
+    // Initialize the switch from localStorage (videos hidden by default).
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (hideVideosInput) {
+        hideVideosInput.checked = raw === null ? true : raw !== 'false';
+      }
+    } catch {
+      /* storage blocked — the preference does not survive the session */
+    }
+
+    if (hideVideosInput) {
+      hideVideosInput.addEventListener('change', () => {
+        try {
+          localStorage.setItem(KEY, hideVideosInput.checked ? 'true' : 'false');
+        } catch {
+          /* storage blocked */
+        }
+      });
+    }
   }
 </script>

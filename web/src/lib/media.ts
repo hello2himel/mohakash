@@ -7,7 +7,7 @@
  * ever has to guess.
  */
 
-import type { RecordLike } from './types';
+import type { MediaType, RecordLike } from './types';
 
 export type PresentationKind = 'image' | 'video' | 'other' | 'placeholder' | 'missing';
 
@@ -21,7 +21,7 @@ export interface MediaPresentation {
   showPlayGlyph: boolean;
   /** Chip label drawn on the frame (`Video`, `Embed`, …) or `null`. */
   chipLabel: string | null;
-  /** `true` when the "View HD image" action may be offered. */
+  /** `true` when the "Save HD image" action may be offered. */
   showHdAction: boolean;
   /** `true` when the frame has no picture and shows a neutral surface. */
   isNeutral: boolean;
@@ -113,3 +113,14 @@ export function mediaPresentation(record: RecordLike): MediaPresentation {
  * Used when an `<img>` fails to load: the frame stays, the text changes.
  */
 export const IMAGE_UNAVAILABLE_LABEL = 'Image unavailable';
+
+/**
+ * Decide whether the newest picture has to be shown instead of the newest
+ * entry.
+ *
+ * Video entries are hidden by default, so a day whose APOD is a video falls
+ * back to the most recent picture (`latest-image.json`).
+ */
+export function needsPictureFallback(record: { media_type?: MediaType | null }, hideVideos: boolean): boolean {
+  return hideVideos && record.media_type === 'video';
+}

@@ -13,6 +13,7 @@ import app.mohakash.apod.data.repository.ImageRepository
 import app.mohakash.apod.data.storage.CacheManager
 import app.mohakash.apod.data.storage.GallerySaver
 import app.mohakash.apod.data.storage.ImageDownloader
+import app.mohakash.apod.data.storage.NotificationHelper
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.work.ApodSyncEngine
@@ -96,6 +97,8 @@ class AppContainer(context: Context) {
     val syncController: SyncController by lazy { SyncController(appContext) }
 
     val shareHelper: ShareHelper by lazy { ShareHelper(appContext) }
+
+    val notificationHelper: NotificationHelper by lazy { NotificationHelper(appContext) }
 
     val imageRepository: ImageRepository by lazy {
         ImageRepository(appContext, imageDownloader, gallerySaver)

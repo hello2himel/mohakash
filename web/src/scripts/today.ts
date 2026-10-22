@@ -2,10 +2,11 @@
  * Today page — loads the newest record at runtime.
  */
 
-import { fetchLatest } from '../lib/api';
+import { fetchLatest, fetchLatestImage } from '../lib/api';
 import { fetchWithCache } from '../lib/cache';
 import { formatDate, formatSyncedAgo } from '../lib/format';
-import { mediaPresentation } from '../lib/media';
+import { mediaPresentation, needsPictureFallback } from '../lib/media';
+import { readHideVideos } from '../lib/preferences';
 import type { ApodRecord } from '../lib/types';
 import {
   applyBanner,
@@ -39,7 +40,7 @@ function mediaNoteText(kind: string): string {
   return 'No picture is available for this entry, so it opens on the original page.';
 }
 
-function render(record: ApodRecord): void {
+function render(record: ApodRecord, options: { substitutedVideo?: boolean } = {}): void {
   const presentation = mediaPresentation(record);
 
   applyPresentation(frame, presentation, { priority: true });
@@ -59,7 +60,7 @@ function render(record: ApodRecord): void {
   if (presentation.showHdAction && record.hd_image_url) {
     actions.append(
       buildAction({
-        label: 'View HD image',
+        label: 'Save HD image',
         variant: 'primary',
         href: record.hd_image_url,
         external: true,
@@ -81,7 +82,10 @@ function render(record: ApodRecord): void {
 
   actions.append(buildAction({ label: 'Browse archive', variant: 'secondary', href: '/archive' }));
 
-  if (presentation.opensOnOriginalPage) {
+  if (options.substitutedVideo) {
+    mediaNote.textContent = 'The newest entry is a video, so the latest picture is shown instead.';
+    show(mediaNote);
+  } else if (presentation.opensOnOriginalPage) {
     mediaNote.textContent = mediaNoteText(presentation.kind);
     show(mediaNote);
   } else {
@@ -104,11 +108,29 @@ async function load(): Promise<void> {
   hideBanner(banner);
 
   try {
+    const hideVideos = readHideVideos();
     const result = await fetchWithCache('latest', () => fetchLatest());
-    render(result.data);
+    let record = result.data;
+    let fromCache = result.fromCache;
+    let substitutedVideo = false;
 
-    if (result.fromCache) {
-      const cachedDate = formatDate(result.data.date);
+    // Videos are hidden by default: when the newest entry is a video, the
+    // most recent picture is shown instead.
+    if (needsPictureFallback(record, hideVideos)) {
+      try {
+        const picture = await fetchWithCache('latest-image', () => fetchLatestImage());
+        record = picture.data;
+        fromCache = fromCache || picture.fromCache;
+        substitutedVideo = true;
+      } catch {
+        // The video entry stays; it is the newest entry after all.
+      }
+    }
+
+    render(record, { substitutedVideo });
+
+    if (fromCache) {
+      const cachedDate = formatDate(record.date);
       applyBanner(banner, {
         message: `Couldn't refresh. Showing the saved copy from ${cachedDate}.`,
         actionLabel: 'Retry',

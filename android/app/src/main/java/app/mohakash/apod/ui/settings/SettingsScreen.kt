@@ -118,6 +118,13 @@ fun SettingsScreen(
                 onCheckedChange = viewModel::setWifiOnly,
                 showDivider = false,
             )
+            SwitchRow(
+                title = stringResource(R.string.settings_hide_videos),
+                subtitle = stringResource(R.string.settings_hide_videos_hint),
+                checked = state.hideVideos,
+                onCheckedChange = viewModel::setHideVideos,
+                showDivider = false,
+            )
 
             ScalingRow(
                 scaling = state.scaling,

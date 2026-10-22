@@ -22,6 +22,10 @@ const fields = [
 
 const endpoints = [
   { path: 'latest.json', description: 'Newest record plus sync metadata.' },
+  {
+    path: 'latest-image.json',
+    description: 'Newest entry that is a still picture. Use it when video entries are hidden.',
+  },
   { path: 'archive-index.json', description: 'Compact index of every entry, newest first. No explanations.' },
   { path: 'archive/YYYY.json', description: 'Full records for one calendar year.' },
   { path: 'status.json', description: 'Schema version, last sync, latest date, record count, source status.' },
@@ -122,6 +126,10 @@ const endpoints = [
       <pre class="code-block" data-base="const res = await fetch('{BASE}latest.json');
 const latest = await res.json();
 console.log(latest.title, latest.date);"></pre>
+      <div class="example-label">Latest picture (skips video entries)</div>
+      <pre class="code-block" data-base="const res = await fetch('{BASE}latest-image.json');
+const picture = await res.json();
+console.log(picture.title, picture.date);"></pre>
       <div class="example-label">One year of records</div>
       <pre class="code-block" data-base="curl {BASE}archive/2026.json"></pre>
     </section>

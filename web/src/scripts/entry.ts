@@ -11,6 +11,7 @@ import { fetchWithCache } from '../lib/cache';
 import { entryPath, neighbours } from '../lib/archive';
 import { formatDate, formatSyncedAgo, isIsoDate, yearOf } from '../lib/format';
 import { mediaPresentation } from '../lib/media';
+import { readHideVideos } from '../lib/preferences';
 import type { ApodRecord, ArchiveIndexEntry } from '../lib/types';
 import {
   applyBanner,
@@ -104,7 +105,8 @@ async function copyCurrentLink(button: HTMLButtonElement): Promise<void> {
 
 function renderNeighbours(index: ArchiveIndexEntry[], date: string): void {
   entryNav.replaceChildren();
-  const { previous, next } = neighbours(index, date);
+  // Video entries are skipped, so the links always point at a picture.
+  const { previous, next } = neighbours(index, date, readHideVideos());
 
   if (previous) {
     const link = el('a', 'entry-nav__link');
@@ -148,7 +150,7 @@ function render(record: ApodRecord, index: ArchiveIndexEntry[]): void {
   if (presentation.showHdAction && record.hd_image_url) {
     actions.append(
       buildAction({
-        label: 'View HD image',
+        label: 'Save HD image',
         variant: 'primary',
         href: record.hd_image_url,
         external: true,
