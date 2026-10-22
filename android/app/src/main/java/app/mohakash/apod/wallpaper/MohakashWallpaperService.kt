@@ -10,7 +10,7 @@ import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import app.mohakash.apod.MohakashApplication
 import app.mohakash.apod.domain.model.WallpaperScaling
-import app.mohakash.apod.domain.wallpaper.WallpaperScaling as ScalingMath
+import app.mohakash.apod.domain.wallpaper.WallpaperGeometry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -120,6 +120,8 @@ class MohakashWallpaperService : WallpaperService() {
 
         /** Starts a render pass; safe to call from any of the engine callbacks. */
         private fun render() {
+            // Without a known surface size the picture cannot be scaled properly.
+            if (surfaceWidth <= 0 || surfaceHeight <= 0) return
             renderJob?.cancel()
             renderJob = scope.launch { renderNow() }
         }
@@ -135,7 +137,7 @@ class MohakashWallpaperService : WallpaperService() {
                 if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
 
                 val options = BitmapFactory.Options().apply {
-                    inSampleSize = ScalingMath.computeSampleSize(
+                    inSampleSize = WallpaperGeometry.computeSampleSize(
                         sourceWidth = bounds.outWidth,
                         sourceHeight = bounds.outHeight,
                         destinationWidth = destinationWidth,
@@ -158,14 +160,14 @@ class MohakashWallpaperService : WallpaperService() {
             try {
                 canvas = surface.lockCanvas() ?: return
                 canvas.drawColor(BACKGROUND_COLOR)
-                val source = ScalingMath.computeSourceRect(
+                val source = WallpaperGeometry.computeSourceRect(
                     current.width,
                     current.height,
                     surfaceWidth,
                     surfaceHeight,
                     scalingMode,
                 )
-                val destination = ScalingMath.computeDestinationRect(
+                val destination = WallpaperGeometry.computeDestinationRect(
                     current.width,
                     current.height,
                     surfaceWidth,

@@ -502,6 +502,19 @@ pre {
   font-weight: 600;
 }
 
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.chip-row .chip {
+  min-height: 28px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-xs);
+}
+
 /* segmented control -------------------------------------------------- */
 
 .segmented {
@@ -675,13 +688,23 @@ select.field {
   overflow: hidden;
   background: var(--surface);
   border: var(--border-width) solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.list-row__thumb img {
+.list-row__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.list-row__fallback {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  text-align: center;
+  padding: var(--space-1);
 }
 
 .list-row__text {
@@ -755,7 +778,8 @@ select.field {
 
 .banner .btn {
   min-height: 36px;
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-2);
+  flex: 0 0 auto;
 }
 
 /* ------------------------------------------------------------- skeleton */
@@ -768,6 +792,11 @@ select.field {
 
 .skeleton--block {
   border-radius: var(--radius-lg);
+}
+
+.skeleton--hero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
 }
 
 .skeleton--line {

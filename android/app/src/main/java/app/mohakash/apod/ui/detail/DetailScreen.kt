@@ -23,11 +23,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -41,12 +43,15 @@ import app.mohakash.apod.ui.components.MohakashTopBar
 import app.mohakash.apod.ui.components.NoteBox
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.PrimaryButton
+import app.mohakash.apod.ui.components.rememberLegacyStoragePermission
 import app.mohakash.apod.ui.containerViewModel
+import app.mohakash.apod.ui.navigation.openWallpaperPicker
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 import app.mohakash.apod.ui.today.creditLine
 import app.mohakash.apod.ui.wallpaper.WallpaperSheet
+import kotlinx.coroutines.launch
 
 /**
  * The detail screen of one entry.
@@ -61,6 +66,7 @@ fun DetailScreen(
     onOpenLink: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     val viewModel = containerViewModel(key = "detail-$date") { container ->
         DetailViewModel(
             apodRepository = container.apodRepository,
@@ -74,7 +80,13 @@ fun DetailScreen(
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = LocalSnackbarHostState.current
+    val scope = rememberCoroutineScope()
     var showWallpaperSheet by remember { mutableStateOf(false) }
+
+    val saveImage = rememberLegacyStoragePermission(
+        onGranted = { viewModel.saveImage() },
+        onDenied = { scope.launch { snackbarHostState.showSnackbar(MESSAGE_PERMISSION_DENIED) } },
+    )
 
     LaunchedEffect(date) { viewModel.load(date) }
 
@@ -82,7 +94,7 @@ fun DetailScreen(
         viewModel.events.collect { event ->
             when (event) {
                 is DetailEvent.ShowMessage -> snackbarHostState.showSnackbar(event.text)
-                DetailEvent.OpenWallpaperPicker -> showWallpaperSheet = true
+                DetailEvent.OpenWallpaperPicker -> openWallpaperPicker(context)
             }
         }
     }
@@ -203,7 +215,7 @@ fun DetailScreen(
                 ) {
                     PrimaryButton(
                         text = stringResource(R.string.detail_save_image),
-                        onClick = viewModel::saveImage,
+                        onClick = saveImage,
                         modifier = Modifier
                             .weight(1f)
                             .height(48.dp),
@@ -358,3 +370,6 @@ private fun wallpaperCaptionForDetail(state: DetailUiState): String {
         else -> "$date · $title"
     }
 }
+
+/** Shown when the legacy storage permission is refused. */
+private const val MESSAGE_PERMISSION_DENIED = "Storage permission is needed to save the image."

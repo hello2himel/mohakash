@@ -112,6 +112,7 @@ class ArchiveViewModel(
         _state.value = _state.value.copy(selectedYear = year, visibleCount = ArchiveUiState.PAGE_SIZE)
         viewModelScope.launch {
             // The full records are only needed when the user opens an entry of that year.
+            if (apodRepository.hasCachedYear(year)) return@launch
             runCatching { apodRepository.fetchArchiveYear(year) }
         }
     }
@@ -131,6 +132,7 @@ class ArchiveViewModel(
             visibleCount = ArchiveUiState.PAGE_SIZE,
         )
         viewModelScope.launch {
+            if (apodRepository.hasCachedYear(year)) return@launch
             runCatching { apodRepository.fetchArchiveYear(year) }
         }
     }

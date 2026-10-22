@@ -23,25 +23,20 @@ class ApodApi(
     private val baseUrlResolver: BaseUrlResolver,
     private val httpClient: OkHttpClient,
     private val json: Json,
-) {
+) : ApodService {
 
-    suspend fun latest(): ApodEntry = withContext(Dispatchers.IO) {
+    override suspend fun latest(): ApodEntry = withContext(Dispatchers.IO) {
         val dto = json.decodeFromString<ApodRecordDto>(getString("/latest.json"))
         ApiMapper.toDomain(dto)
     }
 
-    suspend fun archiveIndex(): List<ArchiveIndexEntry> = withContext(Dispatchers.IO) {
+    override suspend fun archiveIndex(): List<ArchiveIndexEntry> = withContext(Dispatchers.IO) {
         val dto = json.decodeFromString<ArchiveIndexDto>(getString("/archive-index.json"))
         ApiMapper.toDomain(dto)
     }
 
-    suspend fun archiveYear(year: Int): List<ApodEntry> = withContext(Dispatchers.IO) {
-        val dto = json.decodeFromString<ArchiveYearDto>(getString("/archive/$year.json"))
-        dto.records.map { ApiMapper.toDomain(it) }
-    }
-
     /** Downloads a raw document, probing every candidate base URL until one answers. */
-    suspend fun getString(path: String): String = withContext(Dispatchers.IO) {
+    override suspend fun getString(path: String): String = withContext(Dispatchers.IO) {
         var lastError: Throwable? = null
         for (baseUrl in baseUrlResolver.orderedCandidates()) {
             val url = baseUrl.trimEnd('/') + path

@@ -29,7 +29,7 @@ data class PixelRect(
  * * **Fill** – the picture covers the whole screen; the parts that do not fit are cropped away.
  * * **Fit**  – the whole picture stays visible; the free space is filled with the app background.
  */
-object WallpaperScaling {
+object WallpaperGeometry {
 
     /**
      * The part of the source picture that has to be drawn.

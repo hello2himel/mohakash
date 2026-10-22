@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Banner from '../components/Banner.astro';
+import MediaFrame from '../components/MediaFrame.astro';
+import Skeleton from '../components/Skeleton.astro';
 import { SITE } from '../lib/site';
 ---
 
@@ -8,22 +11,22 @@ import { SITE } from '../lib/site';
   description="Today's Astronomy Picture of the Day, read straight from the public JSON API. No accounts, no tracking."
 >
   <div class="page page--today" id="today-view">
-    <div id="today-banner"></div>
+    <Banner id="today-banner" actionLabel="Retry" />
 
     <section id="today-loading" aria-busy="true" aria-label="Loading today's picture">
-      <div class="skeleton skeleton--block" style="aspect-ratio: 16 / 9;" aria-hidden="true"></div>
+      <Skeleton variant="block" height="auto" class="skeleton--hero" />
       <div class="stack-sm" style="margin-top: 24px;">
-        <div class="skeleton skeleton--line" style="width: 30%;" aria-hidden="true"></div>
-        <div class="skeleton skeleton--title" style="width: 70%;" aria-hidden="true"></div>
+        <Skeleton width="30%" />
+        <Skeleton variant="title" width="70%" />
       </div>
       <div class="stack-sm" style="margin-top: 24px;">
-        <div class="skeleton skeleton--line" style="width: 100%;" aria-hidden="true"></div>
-        <div class="skeleton skeleton--line" style="width: 90%;" aria-hidden="true"></div>
+        <Skeleton width="100%" />
+        <Skeleton width="90%" />
       </div>
     </section>
 
     <section id="today-content" hidden>
-      <div id="today-frame"></div>
+      <MediaFrame ratio="hero" id="today-frame" loading="eager" />
 
       <div class="entry-meta" style="margin-top: 20px;">
         <p class="entry-meta__line" id="today-date"></p>

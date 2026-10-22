@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.mohakash.apod.R
@@ -197,7 +198,11 @@ fun FilterSheet(
                         .height(52.dp),
                 )
                 PrimaryButton(
-                    text = stringResource(R.string.filter_show_entries, preview.filtered.size),
+                    text = pluralStringResource(
+                        R.plurals.filter_show_entries,
+                        preview.filtered.size,
+                        preview.filtered.size,
+                    ),
                     onClick = {
                         onYearSelected(selectedYear)
                         onTypeSelected(selectedType)

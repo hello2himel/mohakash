@@ -23,9 +23,17 @@ class ApodSyncWorker(
         val settings = runCatching { container.settingsStore.current() }.getOrNull()
 
         val engine = container.syncEngine
+
+        // The metadata is always refreshed; the picture is only downloaded when the connection
+        // suits the "Wi-Fi only" preference.
+        val connected = container.networkMonitor.isConnected()
+        val unmetered = container.networkMonitor.isUnmetered()
+        val wifiOnly = settings?.wifiOnly ?: true
+        val pictureAllowed = connected && (!wifiOnly || unmetered)
+
         val outcome = engine.sync(
             updateWallpaper = settings?.updateAutomatically ?: true,
-            networkAvailable = container.networkMonitor.isConnected(),
+            networkAvailable = pictureAllowed,
         )
 
         return when (outcome) {

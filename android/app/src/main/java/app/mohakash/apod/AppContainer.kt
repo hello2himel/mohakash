@@ -3,6 +3,7 @@ package app.mohakash.apod
 import android.content.Context
 import app.mohakash.apod.core.NetworkMonitor
 import app.mohakash.apod.data.local.db.MohakashDatabase
+import app.mohakash.apod.data.local.prefs.PreferencesSettingsStore
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.remote.ApodApi
 import app.mohakash.apod.data.remote.BaseUrlResolver
@@ -15,6 +16,7 @@ import app.mohakash.apod.data.storage.ImageDownloader
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.work.ApodSyncEngine
+import app.mohakash.apod.work.SyncController
 import kotlinx.serialization.json.Json
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -39,7 +41,7 @@ class AppContainer(context: Context) {
 
     val database: MohakashDatabase by lazy { MohakashDatabase.get(appContext) }
 
-    val settingsStore: SettingsStore by lazy { SettingsStore(appContext) }
+    val settingsStore: SettingsStore by lazy { PreferencesSettingsStore(appContext) }
 
     val networkMonitor: NetworkMonitor by lazy { NetworkMonitor(appContext) }
 
@@ -90,6 +92,8 @@ class AppContainer(context: Context) {
     val gallerySaver: GallerySaver by lazy { GallerySaver(appContext) }
 
     val cacheManager: CacheManager by lazy { CacheManager(appContext) }
+
+    val syncController: SyncController by lazy { SyncController(appContext) }
 
     val shareHelper: ShareHelper by lazy { ShareHelper(appContext) }
 

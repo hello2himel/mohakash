@@ -71,6 +71,9 @@ def _atomic_write(path: Path, content: str) -> None:
             handle.write(content)
             handle.flush()
             os.fsync(handle.fileno())
+        # NamedTemporaryFile creates the file with 0600; the published data has
+        # to be readable by the web server.
+        os.chmod(handle.name, 0o644)
         os.replace(handle.name, path)
     except BaseException:
         try:
@@ -119,7 +122,7 @@ def build_index_document(
     """``archive-index.json`` -- a compact, newest-first list of every entry."""
     ordered = sorted(records, key=lambda record: record.date, reverse=True)
     entries = [
-        index_entry(record, f"{config.api_base_url}/archive/{record.year}.json") for record in ordered
+        index_entry(record, f"archive/{record.year}.json") for record in ordered
     ]
     return {
         "schema_version": SCHEMA_VERSION,

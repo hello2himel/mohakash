@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Chip from '../components/Chip.astro';
 import SegmentedControl from '../components/SegmentedControl.astro';
 import { SITE } from '../lib/site';
 
@@ -88,7 +89,16 @@ const endpoints = [
                 <tr>
                   <td><code>{field.name}</code></td>
                   <td class="field-table__type">{field.type}</td>
-                  <td>{field.description}</td>
+                  <td>
+                    {field.description}
+                    {field.name === 'media_type' && (
+                      <span class="chip-row">
+                        <Chip label="image" />
+                        <Chip label="video" />
+                        <Chip label="other" />
+                      </span>
+                    )}
+                  </td>
                 </tr>
               ))
             }

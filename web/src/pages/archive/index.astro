@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Banner from '../../components/Banner.astro';
+import ListRow from '../../components/ListRow.astro';
 import SearchField from '../../components/SearchField.astro';
 ---
 
@@ -8,7 +10,8 @@ import SearchField from '../../components/SearchField.astro';
   description="Every Astronomy Picture of the Day in one place. Search by title, filter by year or jump straight to a date."
 >
   <div class="page page--archive" id="archive-view">
-    <div id="archive-banner"></div>
+    <h1 class="visually-hidden">Archive</h1>
+    <Banner id="archive-banner" actionLabel="Retry" />
 
     <form class="archive-filters" id="archive-filters" role="search" aria-label="Search the archive">
       <SearchField id="archive-search" label="Search titles" placeholder="Search titles" />
@@ -31,6 +34,8 @@ import SearchField from '../../components/SearchField.astro';
     <div id="archive-empty" hidden></div>
     <div class="more-row" id="archive-more"></div>
   </div>
+
+  <ListRow template layout="grid" />
 </BaseLayout>
 
 <script src="../../scripts/archive.ts"></script>

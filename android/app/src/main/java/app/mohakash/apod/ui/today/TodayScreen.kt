@@ -21,10 +21,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,11 +39,14 @@ import app.mohakash.apod.ui.components.IconActionButton
 import app.mohakash.apod.ui.components.MohakashTopBar
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.TextAction
+import app.mohakash.apod.ui.components.rememberLegacyStoragePermission
 import app.mohakash.apod.ui.containerViewModel
+import app.mohakash.apod.ui.navigation.openWallpaperPicker
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 import app.mohakash.apod.ui.wallpaper.WallpaperSheet
+import kotlinx.coroutines.launch
 
 /**
  * The Today screen: the picture of the day.
@@ -50,9 +55,10 @@ import app.mohakash.apod.ui.wallpaper.WallpaperSheet
 fun TodayScreen(
     onOpenEntry: (String) -> Unit,
     onOpenSettings: () -> Unit,
-    onOpenWallpaperSheet: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val viewModel = containerViewModel { container ->
         TodayViewModel(
             apodRepository = container.apodRepository,
@@ -68,11 +74,16 @@ fun TodayScreen(
 
     var showWallpaperSheet by remember { mutableStateOf(false) }
 
+    val saveImage = rememberLegacyStoragePermission(
+        onGranted = { viewModel.saveImage() },
+        onDenied = { scope.launch { snackbarHostState.showSnackbar(MESSAGE_PERMISSION_DENIED) } },
+    )
+
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
                 is TodayEvent.ShowMessage -> snackbarHostState.showSnackbar(event.text)
-                TodayEvent.OpenWallpaperPicker -> showWallpaperSheet = true
+                TodayEvent.OpenWallpaperPicker -> openWallpaperPicker(context)
             }
         }
     }
@@ -173,7 +184,7 @@ fun TodayScreen(
                 IconActionButton(
                     painter = painterResource(R.drawable.ic_download_24),
                     contentDescription = stringResource(R.string.today_download),
-                    onClick = viewModel::saveImage,
+                    onClick = saveImage,
                 )
                 IconActionButton(
                     painter = painterResource(R.drawable.ic_share_24),
@@ -284,3 +295,6 @@ internal fun wallpaperCaption(state: TodayUiState): String {
         else -> "$date · $title"
     }
 }
+
+/** Shown when the legacy storage permission is refused. */
+private const val MESSAGE_PERMISSION_DENIED = "Storage permission is needed to save the image."

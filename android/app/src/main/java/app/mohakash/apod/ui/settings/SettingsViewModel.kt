@@ -6,7 +6,7 @@ import app.mohakash.apod.core.TimeFormatting
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.storage.CacheManager
 import app.mohakash.apod.domain.model.WallpaperScaling
-import app.mohakash.apod.work.SyncScheduler
+import app.mohakash.apod.work.SyncController
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +38,7 @@ sealed interface SettingsEvent {
 class SettingsViewModel(
     private val settingsStore: SettingsStore,
     private val cacheManager: CacheManager,
-    private val syncScheduler: SyncScheduler,
+    private val syncController: SyncController,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsUiState())
@@ -71,9 +71,11 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsStore.setUpdateAutomatically(enabled)
             _state.value = _state.value.copy(updateAutomatically = enabled)
+            // The daily job follows the setting.
+            syncController.apply(settingsStore.current())
             if (enabled) {
-                // Make sure the daily job is running again.
-                syncScheduler.schedulePeriodic()
+                // Fetch the current picture right away so the wallpaper is up to date.
+                syncController.runOnce()
             }
         }
     }
@@ -83,6 +85,8 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsStore.setPreferHd(enabled)
             _state.value = _state.value.copy(preferHd = enabled)
+            // The HD variant is a different picture — refresh the wallpaper now.
+            syncController.runOnce()
         }
     }
 

@@ -24,8 +24,7 @@ object ImageUrlValidator {
         val extension = lastSegment.substringAfterLast('.').lowercase()
         return extension.takeIf { it.isNotEmpty() && it.length <= 5 }
     }
-
-    /** True when the URL is an absolute `https` link that most likely points at an image. */
+    /** True when the URL is an absolute `https` link that points at a picture. */
     fun isValidImageUrl(url: String?): Boolean {
         val raw = url?.trim()?.takeIf { it.isNotEmpty() } ?: return false
         if (!raw.startsWith("https://", ignoreCase = true)) return false
@@ -34,8 +33,7 @@ object ImageUrlValidator {
         val host = afterScheme.substringBefore('/').substringBefore('?')
         if (host.isBlank()) return false
 
-        val extension = extensionOf(raw)
-        if (extension == null) return true // no extension: cannot prove it is a page, allow it
+        val extension = extensionOf(raw) ?: return false
         if (extension in PAGE_EXTENSIONS) return false
         return extension in IMAGE_EXTENSIONS
     }

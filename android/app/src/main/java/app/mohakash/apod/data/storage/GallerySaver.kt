@@ -2,6 +2,7 @@ package app.mohakash.apod.data.storage
 
 import android.content.ContentValues
 import android.content.Context
+import android.annotation.SuppressLint
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
@@ -39,6 +40,7 @@ class GallerySaver(private val context: Context) {
         }
     }
 
+    @SuppressLint("InlinedApi")
     private fun saveWithMediaStore(fileName: String, source: File): Uri {
         val resolver = context.contentResolver
         val values = ContentValues().apply {

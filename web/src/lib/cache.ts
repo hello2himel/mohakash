@@ -78,8 +78,16 @@ export function readCache<T>(name: string): CacheEnvelope<T> | null {
 }
 
 /** Store a payload together with the time it was stored. */
-export function writeCache<T>(name: string, data: T, now: Date = new Date()): CacheEnvelope<T> {
-  const envelope: CacheEnvelope<T> = { savedAt: now.toISOString(), data };
+export function writeCache<T>(
+  name: string,
+  data: T,
+  now: Date = new Date(),
+  store?: (data: T) => unknown,
+): CacheEnvelope<T> {
+  const envelope: CacheEnvelope<T> = {
+    savedAt: now.toISOString(),
+    data: (store ? store(data) : data) as T,
+  };
   try {
     getStorage().setItem(cacheKey(name), JSON.stringify(envelope));
   } catch {
@@ -107,6 +115,15 @@ export interface CacheResult<T> {
   error: unknown;
 }
 
+export interface CacheOptions<T> {
+  /**
+   * The representation stored in the local cache. It may be a smaller copy of
+   * the payload — the archive index grows with every entry, so the local copy
+   * keeps only the fields the site renders.
+   */
+  store?: (data: T) => unknown;
+}
+
 /**
  * Fetch a document and fall back to the cached copy when the request fails.
  *
@@ -116,11 +133,12 @@ export interface CacheResult<T> {
 export async function fetchWithCache<T>(
   name: string,
   fetcher: () => Promise<T>,
+  options: CacheOptions<T> = {},
   now: Date = new Date(),
 ): Promise<CacheResult<T>> {
   try {
     const data = await fetcher();
-    writeCache(name, data, now);
+    writeCache(name, data, now, options.store);
     return { data, fromCache: false, savedAt: null, error: null };
   } catch (error) {
     const cached = readCache<T>(name);

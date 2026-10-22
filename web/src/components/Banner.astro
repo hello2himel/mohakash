@@ -2,25 +2,23 @@
 /**
  * Banner — `surface-strong`, 12px radius, one sentence and one action.
  * Used for the "showing a saved copy" state.
+ *
+ * The banner is rendered by the server; the runtime script fills the message
+ * and wires the action (see `applyBanner` in `src/lib/dom.ts`).
  */
+import Button from './Button.astro';
+
 interface Props {
-  message: string;
-  actionLabel?: string;
-  actionHref?: string;
   id?: string;
+  /** Label of the action button. */
+  actionLabel?: string;
   class?: string;
 }
 
-const { message, actionLabel, actionHref, id, class: className } = Astro.props;
+const { id, actionLabel = 'Retry', class: className } = Astro.props;
 ---
 
-<div class:list={['banner', className]} role="status" id={id}>
-  <p class="banner__message">{message}</p>
-  {
-    actionLabel && actionHref && (
-      <a class="btn btn--secondary" href={actionHref}>
-        {actionLabel}
-      </a>
-    )
-  }
+<div class:list={['banner', className]} role="status" id={id} hidden>
+  <p class="banner__message"></p>
+  <Button label={actionLabel} variant="text" class="banner__action" />
 </div>

@@ -13,26 +13,27 @@ import { formatDate, formatSyncedAgo, isIsoDate, yearOf } from '../lib/format';
 import { mediaPresentation } from '../lib/media';
 import type { ApodRecord, ArchiveIndexEntry } from '../lib/types';
 import {
+  applyBanner,
+  applyPresentation,
   buildAction,
   el,
   hide,
+  hideBanner,
   need,
-  renderBanner,
   renderErrorState,
-  renderMediaFrame,
   renderProse,
   setBusy,
   show,
 } from '../lib/dom';
 
-const bannerHost = need('#entry-banner');
+const banner = need('#entry-banner');
 const loading = need('#entry-loading');
 const content = need('#entry-content');
 const errorHost = need('#entry-error');
 const breadcrumb = need('#entry-breadcrumb');
 const crumbTitle = need('#entry-crumb-title');
 const yearLink = need<HTMLAnchorElement>('#entry-year-link');
-const frameHost = need('#entry-frame');
+const frame = need('#entry-frame');
 const dateLine = need('#entry-date');
 const title = need('#entry-title');
 const syncLine = need('#entry-sync');
@@ -125,7 +126,7 @@ function renderNeighbours(index: ArchiveIndexEntry[], date: string): void {
 function render(record: ApodRecord, index: ArchiveIndexEntry[]): void {
   const presentation = mediaPresentation(record);
 
-  renderMediaFrame(frameHost, presentation, { ratio: 'hero', priority: true });
+  applyPresentation(frame, presentation, { priority: true });
 
   const date = formatDate(record.date);
   const credit = (record.credit ?? record.copyright ?? '').trim();
@@ -207,7 +208,7 @@ async function load(): Promise<void> {
   hide(content);
   hide(errorHost);
   setBusy(loading, true);
-  bannerHost.replaceChildren();
+  hideBanner(banner);
 
   const year = yearOf(date);
 
@@ -226,7 +227,7 @@ async function load(): Promise<void> {
     render(record, index);
 
     if (indexResult.fromCache || yearResult.fromCache) {
-      renderBanner(bannerHost, {
+      applyBanner(banner, {
         message: `Couldn't refresh. Showing the saved copy from ${formatDate(date)}.`,
         actionLabel: 'Retry',
         onAction: () => {
