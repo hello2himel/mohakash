@@ -1,9 +1,9 @@
 /*
  * Mohakash design tokens.
  *
- * This file is the ONLY place where colours are written down. Every other
- * stylesheet and component references the custom properties defined here.
- * Dark theme only.
+ * This file is the ONLY place where colours and type sizes are written down.
+ * Every other stylesheet and component references the custom properties
+ * defined here. Dark theme only.
  */
 
 :root {
@@ -11,36 +11,48 @@
 
   /* --- surfaces & lines ------------------------------------------------ */
   --bg: #0b0d12; /* page background */
-  --surface: #151922; /* image placeholders, inputs, sheets, skeleton base */
-  --surface-raised: #11141b; /* cards, bottom nav, info panels */
-  --surface-strong: #1b2030; /* banners, skeleton blocks, subtle fills */
-  --border: #232838; /* card and input borders */
-  --border-strong: #323849; /* outlined buttons, chips, segmented controls */
+  --surface: #151922; /* image frames, inputs, drawer */
+  --surface-raised: #11141b; /* credit box, bottom bar */
+  --surface-strong: #1b2030; /* banners, skeletons, notes */
+  --border: #232838; /* frames, header/footer dividers */
+  --border-strong: #323849; /* outlined buttons, chips, controls */
   --divider: #1b2030; /* list row separators */
 
   /* --- text ------------------------------------------------------------ */
   --text: #e8eaf0; /* primary text */
-  --text-body: #d3d8e3; /* long-form explanation text */
-  --text-muted: #a3abbd; /* dates, captions, secondary labels */
+  --text-body: #d3d8e3; /* explanation text */
+  --text-preview: #c5cbd9; /* 3-line preview */
+  --text-muted: #a3abbd; /* dates, captions, inactive nav */
 
   /* --- accent ---------------------------------------------------------- */
-  --accent: #8fb0ff; /* primary buttons, selected chips, links, switches */
-  --on-accent: #0b0d12; /* text and icons on accent fills */
+  --accent: #8fb0ff; /* primary buttons, links, switches */
+  --on-accent: #0b0d12; /* text on accent fills */
 
   /* --- overlays -------------------------------------------------------- */
-  --scrim: rgba(0, 0, 0, 0.62); /* behind sheets and dialogs */
+  --scrim: rgba(0, 0, 0, 0.62); /* behind the drawer */
 
   /* --- typography ------------------------------------------------------ */
   --font-display: 'Newsreader', Georgia, serif;
   --font-ui: 'Inter', system-ui, sans-serif;
   --font-mono: ui-monospace, Menlo, Consolas, monospace;
 
-  --text-xs: 12px;
-  --text-sm: 13px;
-  --text-caption: 13px;
-  --text-ui: 14px;
-  --text-ui-lg: 15px;
-  --text-body-lg: 17px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-22: 22px;
+  --text-26: 26px;
+  --text-34: clamp(24px, 2.4vw, 34px);
+
+  /* aliases kept for the documentation pages */
+  --text-xs: var(--text-12);
+  --text-sm: var(--text-13);
+  --text-caption: var(--text-13);
+  --text-ui: var(--text-14);
+  --text-ui-lg: var(--text-15);
+  --text-body-lg: var(--text-16);
   --text-title: 40px;
   --text-h2: 20px;
   --text-h3: 18px;
@@ -58,15 +70,14 @@
   --space-10: 64px;
 
   /* --- radii & borders ------------------------------------------------- */
-  --radius-sm: 8px; /* inputs, buttons */
-  --radius-md: 10px; /* cards, list thumbnails */
-  --radius-lg: 12px; /* images, panels, banners */
-  --radius-pill: 999px; /* chips */
-
+  --radius-sm: 8px; /* buttons and inputs */
+  --radius-md: 10px; /* archive thumbnails */
+  --radius-lg: 12px; /* image frames and credit box */
+  --radius-pill: 999px;
   --border-width: 1px;
 
   /* --- layout ---------------------------------------------------------- */
-  --content-width: 1040px;
+  --content-width: 100%;
   --gutter: 24px;
   --header-height: 56px;
   --footer-height: 40px;

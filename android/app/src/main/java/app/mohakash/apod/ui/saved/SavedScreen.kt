@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -32,6 +33,8 @@ import app.mohakash.apod.ui.components.EllipsizedText
 import app.mohakash.apod.ui.components.MohakashTopBar
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.PrimaryButton
+import app.mohakash.apod.ui.components.SkeletonBlock
+import app.mohakash.apod.ui.components.busySemantics
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
@@ -51,6 +54,22 @@ fun SavedScreen(
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    SavedContent(
+        state = state,
+        onOpenEntry = onOpenEntry,
+        onBrowseArchive = onBrowseArchive,
+        modifier = modifier,
+    )
+}
+
+/** The stateless saved screen, used by the previews as well. */
+@Composable
+internal fun SavedContent(
+    state: SavedUiState,
+    onOpenEntry: (String) -> Unit,
+    onBrowseArchive: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -66,18 +85,18 @@ fun SavedScreen(
                             state.entries.size,
                             state.entries.size,
                         ),
-                        style = MohakashTextStyles.Caption,
+                        style = MohakashTextStyles.Helper,
                         color = MohakashColors.TextMuted,
-                        modifier = Modifier.padding(end = MohakashDimens.SidePadding),
+                        modifier = Modifier.padding(end = 12.dp),
                     )
                 }
             },
         )
 
-        if (state.entries.isEmpty() && !state.isLoading) {
-            SavedEmptyState(onBrowseArchive = onBrowseArchive)
-        } else {
-            LazyVerticalGrid(
+        when {
+            state.isLoading -> SavedSkeleton()
+            state.entries.isEmpty() -> SavedEmptyState(onBrowseArchive = onBrowseArchive)
+            else -> LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,7 +128,7 @@ private fun SavedTile(entry: ApodEntry, onClick: () -> Unit) {
     ) {
         PictureFrame(
             url = entry.displayImageUrl,
-            contentDescription = entry.title,
+            contentDescription = entry.altText,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f),
@@ -130,6 +149,46 @@ private fun SavedTile(entry: ApodEntry, onClick: () -> Unit) {
     }
 }
 
+/** The skeleton grid shown while the local database is opening. */
+@Composable
+private fun SavedSkeleton() {
+    val loadingLabel = stringResource(R.string.saved_loading)
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+            .busySemantics(loadingLabel),
+        contentPadding = PaddingValues(
+            start = MohakashDimens.SidePadding,
+            end = MohakashDimens.SidePadding,
+            top = 8.dp,
+        ),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        items(4) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                SkeletonBlock(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f),
+                    cornerRadius = MohakashDimens.CardRadius,
+                )
+                SkeletonBlock(
+                    modifier = Modifier
+                        .fillMaxWidth(0.45f)
+                        .height(12.dp),
+                )
+                SkeletonBlock(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(14.dp),
+                )
+            }
+        }
+    }
+}
+
 /** The empty state of the saved screen. */
 @Composable
 private fun SavedEmptyState(onBrowseArchive: () -> Unit) {
@@ -137,40 +196,34 @@ private fun SavedEmptyState(onBrowseArchive: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 40.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_heart_24),
-                    contentDescription = null,
-                    tint = MohakashColors.TextMuted,
-                    modifier = Modifier.size(48.dp),
-                )
-                Text(
-                    text = stringResource(R.string.saved_empty_title),
-                    style = MohakashTextStyles.SectionHeading,
-                    color = MohakashColors.Text,
-                )
-                Text(
-                    text = stringResource(R.string.saved_empty_body),
-                    style = MohakashTextStyles.BodyMedium,
-                    color = MohakashColors.TextMuted,
-                    textAlign = TextAlign.Center,
-                )
-                PrimaryButton(
-                    text = stringResource(R.string.saved_browse_archive),
-                    onClick = onBrowseArchive,
-                    modifier = Modifier.padding(top = 8.dp),
-                )
-            }
-        }
+        Icon(
+            painter = painterResource(R.drawable.ic_heart_outline_24),
+            contentDescription = null,
+            tint = MohakashColors.TextMuted,
+            modifier = Modifier.size(48.dp),
+        )
+        Text(
+            text = stringResource(R.string.saved_empty_title),
+            style = MohakashTextStyles.SectionHeading,
+            color = MohakashColors.Text,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 12.dp),
+        )
+        Text(
+            text = stringResource(R.string.saved_empty_body),
+            style = MohakashTextStyles.BodyBase,
+            color = MohakashColors.TextMuted,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 12.dp),
+        )
+        PrimaryButton(
+            text = stringResource(R.string.saved_browse_archive),
+            onClick = onBrowseArchive,
+            modifier = Modifier.padding(top = 8.dp),
+            contentPadding = PaddingValues(horizontal = 28.dp, vertical = 10.dp),
+        )
     }
 }

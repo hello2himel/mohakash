@@ -2,52 +2,54 @@
 /**
  * Site header — wordmark and main navigation on the left, the "Hide videos"
  * switch on the right. The switch sits in the toolbar on the archive page
- * (`hideVideos="false"` keeps the right side empty) and moves into the
- * full-screen menu below 700px.
+ * (`hideVideos={false}` keeps the header's right side empty on desktop); below
+ * 700px it lives in the full-screen menu instead.
  */
 import HideVideosSwitch from './HideVideosSwitch.astro';
-import IconButton from './IconButton.astro';
 import MobileMenu from './MobileMenu.astro';
 import { NAV_LINKS, SITE } from '../lib/site';
 
 interface Props {
   /** Current path, used to mark the active navigation item. */
   current: string;
-  /** Render the header's "Hide videos" switch. Default: `true`. */
+  /** Render the header's "Hide videos" switch. */
   hideVideos?: boolean;
 }
 
-const { current, hideVideos = true } = Astro.props;
+const { current, hideVideos = false } = Astro.props;
 const isCurrent = (href: string) =>
   href === '/' ? current === '/' : current === '/' + href || current.startsWith(href + '/');
 ---
 
 <header class="site-header">
-  <div class="site-header__inner">
-    <div class="site-header__left">
-      <a class="wordmark" href="/">{SITE.name}</a>
+  <div class="site-header__left">
+    <a class="wordmark" href="/">{SITE.name}</a>
 
-      <nav class="site-nav" aria-label="Main">
-        {
-          NAV_LINKS.map((link) => (
-            <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
-              {link.label}
-            </a>
-          ))
-        }
-      </nav>
-    </div>
+    <nav class="site-nav" aria-label="Main">
+      {
+        NAV_LINKS.map((link) => (
+          <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
 
-    <div class="site-header__right">
-      {hideVideos && <HideVideosSwitch id="header-hide-videos" />}
-      <IconButton
-        label="Open menu"
-        icon="menu"
-        id="menu-button"
-        class="site-header__menu-button"
-        expanded={false}
-      />
-    </div>
+  <div class="site-header__right">
+    {hideVideos && <HideVideosSwitch id="header-hide-videos" />}
+    <button
+      class="menu-button"
+      id="menu-button"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
   </div>
 </header>
 
@@ -56,7 +58,7 @@ const isCurrent = (href: string) =>
 <script>
   import { readHideVideos, writeHideVideos } from '../lib/preferences';
 
-  // Keep every copy of the "Hide videos" switch (header, archive toolbar,
+  // Keep every copy of the "Hide videos" switch (header, archive toolbar and
   // mobile menu) in sync with the stored preference.
   const toggles = [...document.querySelectorAll<HTMLInputElement>('input[data-hide-videos-toggle]')];
 

@@ -21,8 +21,16 @@
     <string name="today_download">Save image</string>
     <string name="today_share">Share</string>
     <string name="today_set_wallpaper">Set live wallpaper</string>
+    <string name="today_wallpaper_active">Wallpaper active</string>
     <string name="today_settings">Settings</string>
+    <string name="today_open_entry">Open full entry</string>
+    <string name="today_loading">Loading today\'s picture</string>
+    <string name="today_error_title">Today\'s picture isn\'t available</string>
+    <string name="today_error_body">Check your connection and try again.</string>
+    <string name="today_error_try_again">Try again</string>
+    <string name="today_error_archive">Archive</string>
     <string name="synced_ago">Synced %1$s</string>
+    <string name="last_synced_ago">Last synced %1$s</string>
 
     <!-- Offline -->
     <string name="offline_banner">You\'re offline. Showing the saved copy from %1$s.</string>
@@ -49,18 +57,28 @@
     <string name="detail_watch_original">Watch on original page</string>
     <string name="detail_video_note">Video entries can\'t be used as wallpaper. Your current wallpaper stays as it is.</string>
     <string name="detail_video_poster">Video poster</string>
+    <string name="detail_image_unavailable">Image unavailable</string>
+    <string name="detail_image_credit">Image credit: %1$s</string>
+    <string name="detail_loading">Loading entry</string>
+    <string name="detail_error_title">This entry isn\'t available</string>
+    <string name="detail_error_body">Check your connection and try again.</string>
+    <string name="detail_error_try_again">Try again</string>
 
     <!-- Archive -->
     <string name="archive_title">Archive</string>
     <string name="archive_search_hint">Search titles</string>
     <string name="archive_filters">Filters</string>
-    <string name="archive_empty">No entries match your search.</string>
+    <string name="archive_empty_query">No entries match &quot;%1$s&quot;</string>
+    <string name="archive_empty_filters">No entries match your filters.</string>
+    <string name="archive_clear_filters">Clear filters</string>
     <string name="archive_thumbnail">Thumbnail</string>
+    <string name="archive_loading">Loading archive</string>
 
     <!-- Filter sheet -->
     <string name="filter_title">Filter</string>
     <string name="filter_year">Year</string>
     <string name="filter_jump_to_date">Jump to date</string>
+    <string name="filter_jump_to_date_placeholder">Select a date</string>
     <string name="filter_type">Type</string>
     <string name="filter_all">All</string>
     <string name="filter_images">Images</string>
@@ -72,6 +90,8 @@
         <item quantity="other">Show %d entries</item>
     </plurals>
     <string name="filter_older">Older</string>
+    <string name="filter_close">Close</string>
+    <string name="filter_year_picker_title">Choose a year</string>
 
     <!-- Saved -->
     <string name="saved_title">Saved</string>
@@ -82,6 +102,7 @@
     <string name="saved_empty_title">Nothing saved yet</string>
     <string name="saved_empty_body">Tap the heart on any picture to keep it here, even offline.</string>
     <string name="saved_browse_archive">Browse archive</string>
+    <string name="saved_loading">Loading saved pictures</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>

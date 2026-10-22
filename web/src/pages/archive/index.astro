@@ -1,41 +1,54 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Banner from '../../components/Banner.astro';
-import ListRow from '../../components/ListRow.astro';
-import SearchField from '../../components/SearchField.astro';
+import HideVideosSwitch from '../../components/HideVideosSwitch.astro';
+
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: currentYear - 1995 + 1 }, (_, index) => currentYear - index);
 ---
 
 <BaseLayout
   title="Archive · Mohakash"
   description="Every Astronomy Picture of the Day in one place. Search by title, filter by year or jump straight to a date."
+  variant="app"
+  mainClass="app-main app-main--archive"
 >
-  <div class="page page--archive" id="archive-view">
-    <h1 class="visually-hidden">Archive</h1>
-    <Banner id="archive-banner" actionLabel="Retry" />
+  <h1 class="visually-hidden">Archive</h1>
 
-    <form class="archive-filters" id="archive-filters" role="search" aria-label="Search the archive">
-      <SearchField id="archive-search" label="Search titles" placeholder="Search titles" />
-      <div>
-        <label class="visually-hidden" for="archive-year">Year</label>
-        <select class="field" id="archive-year" name="year">
-          <option value="">All years</option>
-        </select>
-      </div>
-      <div>
-        <label class="visually-hidden" for="archive-date">Jump to date</label>
-        <input class="field" id="archive-date" name="date" type="date" aria-describedby="archive-date-hint" />
-      </div>
-    </form>
-    <p class="caption" id="archive-date-hint" role="status"></p>
+  <div class="archive-toolbar" role="search">
+    <label class="visually-hidden" for="archive-search">Search titles</label>
+    <input
+      class="field archive-toolbar__search"
+      id="archive-search"
+      type="search"
+      placeholder="Search titles"
+      autocomplete="off"
+      spellcheck="false"
+    />
+
+    <label class="visually-hidden" for="archive-year">Year</label>
+    <select class="field" id="archive-year">
+      <option value="">All years</option>
+      {years.map((year) => <option value={String(year)}>{year}</option>)}
+    </select>
+
+    <label class="visually-hidden" for="archive-date">Jump to date</label>
+    <input class="field" id="archive-date" type="date" />
 
     <p class="archive-count" id="archive-count"></p>
 
-    <div id="archive-grid" class="archive-grid" aria-busy="true"></div>
-    <div id="archive-empty" hidden></div>
-    <div class="more-row" id="archive-more"></div>
+    <HideVideosSwitch id="archive-hide-videos" />
   </div>
 
-  <ListRow template layout="grid" />
+  <div id="archive-grid" class="archive-grid" aria-busy="true"></div>
+  <div id="archive-state" class="state-panel" role="status" hidden></div>
+
+  <nav class="archive-pager" id="archive-pager" aria-label="Archive pages" hidden>
+    <button class="btn btn--secondary" type="button" id="archive-prev">‹ Prev</button>
+    <p class="archive-pager__status" id="archive-page-status">
+      Page <strong id="archive-page-current">1</strong> of <span id="archive-page-total">1</span>
+    </p>
+    <button class="btn btn--secondary" type="button" id="archive-next">Next ›</button>
+  </nav>
 </BaseLayout>
 
 <script src="../../scripts/archive.ts"></script>

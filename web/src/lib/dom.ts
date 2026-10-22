@@ -137,14 +137,9 @@ export function applyPresentation(
   const chip = frame.querySelector<HTMLElement>('.media-frame__chip');
   const glyph = frame.querySelector<HTMLElement>('.media-frame__glyph');
 
-  // Keep the frame's aspect ratio in sync with the loaded picture so the
-  // image fills it exactly and no letterboxing (grey bars) appears.
-  const syncFrameAspect = () => {
-    if (image && image.naturalWidth > 0 && image.naturalHeight > 0) {
-      frame.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`;
-    }
-  };
-
+  // The frame keeps the size the layout gives it; the picture is contained
+  // inside it, so it is never cropped, stretched or able to change the page
+  // height.
   if (image) {
     image.onerror = null;
     if (presentation.src) {
@@ -154,21 +149,14 @@ export function applyPresentation(
       image.hidden = false;
       image.onerror = () => {
         image.hidden = true;
-        frame.style.aspectRatio = '';
         if (label) {
           label.textContent = IMAGE_UNAVAILABLE_LABEL;
           label.hidden = false;
         }
       };
-      if (image.complete && image.naturalWidth > 0) {
-        syncFrameAspect();
-      } else {
-        image.addEventListener('load', syncFrameAspect, { once: true });
-      }
     } else {
       image.hidden = true;
       image.removeAttribute('src');
-      frame.style.aspectRatio = '';
     }
   }
 
@@ -260,12 +248,37 @@ export function renderEmptyState(
   return panel;
 }
 
+/** The trailing "Tomorrow's picture: …" line carried by APOD explanations. */
+const TOMORROW_PREFIX = /^tomorrow['’]?s picture:\s*/i;
+
+function normaliseParagraph(paragraph: string): string {
+  return paragraph.replace(/\s*\n\s*/g, ' ').trim();
+}
+
 /** Split an explanation into paragraphs (`\n\n` separates them). */
 export function parseParagraphs(text: string): string[] {
   return (text ?? '')
     .split(/\n\s*\n/)
-    .map((paragraph) => paragraph.replace(/\s*\n\s*/g, ' ').trim())
-    .filter((paragraph) => paragraph.length > 0);
+    .map(normaliseParagraph)
+    .filter((paragraph) => paragraph.length > 0)
+    // "Tomorrow's picture" belongs in the drawer only, never in the body copy.
+    .filter((paragraph) => !TOMORROW_PREFIX.test(paragraph));
+}
+
+/**
+ * The "Tomorrow's picture: …" title carried by an APOD explanation, if any.
+ * The line itself is removed from the prose so it is shown in the drawer only.
+ */
+export function tomorrowTitle(text: string): string | null {
+  for (const paragraph of (text ?? '').split(/\n\s*\n/)) {
+    const clean = normaliseParagraph(paragraph);
+    const match = TOMORROW_PREFIX.exec(clean);
+    if (match) {
+      const title = clean.slice(match[0].length).trim();
+      if (title) return title;
+    }
+  }
+  return null;
 }
 
 /** Render an explanation as a sequence of paragraphs. */
