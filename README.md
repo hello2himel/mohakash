@@ -537,6 +537,16 @@ cd web && npm test                      # website unit tests
 cd android && ./gradlew :app:testDebugUnitTest
 ```
 
+Current result:
+
+| Suite | Tests | Command |
+|---|---|---|
+| Data pipeline | **98 passed** | `python3 -m pytest scripts/tests -q` |
+| Website | **69 passed** | `cd web && npm test` |
+| Android | **76 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
+| Website type check | 0 errors, 0 warnings | `cd web && npx astro check` |
+| Archive validation | ok | `python3 scripts/sync_apod.py validate` |
+
 The data-pipeline tests cover normalization against saved NASA payloads,
 image-URL validation, video and placeholder records, missing credits,
 upsert and deduplication, historical corrections, index and feed generation,
@@ -547,6 +557,11 @@ saved fixtures and a fake HTTP layer, so **they never call NASA**.
 The workflow tests assert the schedule, the minimal permissions, the
 `[skip netlify]` marker, the absence of empty commits and the fact that the
 Pages publication happens in the same workflow.
+
+The Netlify configuration is covered by a test as well: it parses
+`netlify.toml` and asserts the build base, the publish directory, both
+rewrite targets, the `force` flags and the cache headers, and that the file
+still matches `config/site.json`.
 
 ---
 
@@ -568,24 +583,41 @@ Pages publication happens in the same workflow.
 
 ## 15. Owner checklist
 
-**Done by the coding agent**
+**Done and verified by the coding agent**
 
-- [x] Verified the current NASA endpoint, its parameters and its response fields.
+- [x] Verified the current NASA endpoint, its parameters and its response fields against the live service.
 - [x] Data pipeline with a dedicated NASA adapter, a normalized versioned schema, upsert/dedupe, resumable backfill, bounded retries and validation.
+- [x] The complete archive: **11 443 records** from 1995-06-16 to 2026-10-22, backfilled from the live endpoint. NASA publishes 11 444 posts; one date (2007-07-16) has two posts and the newer one is kept.
 - [x] Public API generator for `latest.json`, `archive-index.json`, `archive/YYYY.json`, `status.json` and `feed.xml`.
 - [x] GitHub Actions workflow: schedule, manual runs, concurrency, minimal permissions, `[skip netlify]` commit, Pages deployment in the same workflow.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests for the pipeline, the website and the app.
+- [x] Automated tests: 98 pipeline, 69 website, 76 Android — all green. The debug APK builds.
 
 **Needs the repository owner**
 
 - [ ] Push the repository to your own GitHub account.
-- [ ] Update `config/site.json` (owner, repo, website URL, Android fallbacks).
-- [ ] Update the two rewrite targets in `netlify.toml` and the `site` value in `web/astro.config.mjs`.
+- [ ] Update `config/site.json` (owner, repo, website URL, Android fallbacks) and re-run `python3 scripts/render_netlify_config.py` and `npm run generate:site` in `web/`.
+- [ ] Update the `site` value in `web/astro.config.mjs`.
 - [ ] Enable GitHub Pages with **GitHub Actions** as the source.
 - [ ] Connect the repository to Netlify and deploy.
 - [ ] Decide how the bot commit may pass branch protection (§9.4).
 - [ ] Run the first backfill from the Actions tab (mode `backfill`, `start_year` 1995) if you did not keep the committed archive.
 - [ ] Release the Android app with your own signing key.
+
+### Not verified here
+
+The following could not be checked in this environment and must be confirmed
+after deployment:
+
+* The **real Netlify proxy** and the **real GitHub Pages publication** — the
+  rewrite rules were exercised against a local server that mimics them
+  (`scripts/serve_site.py`), not against Netlify.
+* The **live wallpaper on a device**: no emulator or physical device was
+  available, so the rendering, the wallpaper picker, the MediaStore save, the
+  Sharesheet and the WorkManager schedule were verified by unit tests and by
+  reading the compiled manifest, not at runtime.
+* **The scheduled workflow** never ran on GitHub, so the cron schedule, the
+  Pages deployment and the bot commit were verified by inspecting the workflow
+  file and by running the same commands locally.
