@@ -4,7 +4,6 @@ import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.repository.ApodRepository
 import app.mohakash.apod.data.repository.LatestEntrySource
 import app.mohakash.apod.data.storage.ImageDownloader
-import app.mohakash.apod.data.storage.NotificationHelper
 import app.mohakash.apod.data.storage.PictureDownloader
 import app.mohakash.apod.data.storage.WallpaperMeta
 import app.mohakash.apod.data.storage.WallpaperPictureStore
@@ -67,7 +66,7 @@ class ApodSyncEngine(
     private val settingsStore: SettingsStore,
     private val wallpaperStorage: WallpaperPictureStore,
     private val imageDownloader: PictureDownloader,
-    private val notificationHelper: NotificationHelper,
+    private val notifyWallpaperChanged: (ApodEntry) -> Unit = {},
     private val now: () -> Long = System::currentTimeMillis,
 ) {
 
@@ -152,7 +151,7 @@ class ApodSyncEngine(
         if (committed.isFailure) return InstallOutcome.FAILED
 
         WallpaperSignal.notifyChanged()
-        notificationHelper.notifyWallpaperChanged(entry)
+        notifyWallpaperChanged(entry)
         return InstallOutcome.INSTALLED
     }
 
