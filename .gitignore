@@ -1,32 +1,4 @@
-# Python
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.venv/
-venv/
-
-# Node / Astro
 node_modules/
-web/dist/
-web/.astro/
-web/.netlify/
-
-# Android
-android/local.properties
-android/.gradle/
-android/build/
-android/app/build/
-android/.idea/
-*.iml
-*.apk
-*.aab
-*.keystore
-*.jks
-
-# Generated Pages artifact (rebuilt by the workflow)
-api-site/
-
-# OS noise
-.DS_Store
-Thumbs.db
-data/.run-state.json
+dist/
+build/
+*.log
