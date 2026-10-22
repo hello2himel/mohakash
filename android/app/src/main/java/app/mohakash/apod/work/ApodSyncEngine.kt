@@ -4,6 +4,7 @@ import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.repository.ApodRepository
 import app.mohakash.apod.data.repository.LatestEntrySource
 import app.mohakash.apod.data.storage.ImageDownloader
+import app.mohakash.apod.data.storage.NotificationHelper
 import app.mohakash.apod.data.storage.PictureDownloader
 import app.mohakash.apod.data.storage.WallpaperMeta
 import app.mohakash.apod.data.storage.WallpaperPictureStore
@@ -66,6 +67,7 @@ class ApodSyncEngine(
     private val settingsStore: SettingsStore,
     private val wallpaperStorage: WallpaperPictureStore,
     private val imageDownloader: PictureDownloader,
+    private val notificationHelper: NotificationHelper,
     private val now: () -> Long = System::currentTimeMillis,
 ) {
 
@@ -90,7 +92,7 @@ class ApodSyncEngine(
         }
 
         val settings = settingsStore.current()
-        val choice = WallpaperImageSelector.select(entry, settings.preferHd)
+        val choice = WallpaperImageSelector.select(entry, settings.preferHd, settings.hideVideos)
         if (choice !is WallpaperChoice.Use) {
             // Video without a poster, a missing or placeholder picture: keep the old wallpaper.
             return SyncOutcome.WallpaperUnavailable(entry, "The new entry has no picture that can be used as wallpaper.")
@@ -106,7 +108,7 @@ class ApodSyncEngine(
             return SyncOutcome.WallpaperUnavailable(entry, "No usable connection for the picture.")
         }
 
-        return when (install(entry, settings.preferHd, choice.url)) {
+        return when (install(entry, settings.preferHd, settings.hideVideos, choice.url)) {
             InstallOutcome.INSTALLED -> SyncOutcome.Updated(entry)
             InstallOutcome.UNCHANGED -> SyncOutcome.Unchanged(entry)
             InstallOutcome.NOT_USABLE -> SyncOutcome.WallpaperUnavailable(entry, "The new entry has no picture that can be used as wallpaper.")
@@ -123,9 +125,10 @@ class ApodSyncEngine(
     suspend fun install(
         entry: ApodEntry,
         preferHd: Boolean,
+        hideVideos: Boolean = true,
         imageUrl: String? = null,
     ): InstallOutcome {
-        val choice = WallpaperImageSelector.select(entry, preferHd)
+        val choice = WallpaperImageSelector.select(entry, preferHd, hideVideos)
         val url = imageUrl ?: (choice as? WallpaperChoice.Use)?.url
         if (url.isNullOrBlank()) return InstallOutcome.NOT_USABLE
 
@@ -149,6 +152,7 @@ class ApodSyncEngine(
         if (committed.isFailure) return InstallOutcome.FAILED
 
         WallpaperSignal.notifyChanged()
+        notificationHelper.notifyWallpaperChanged(entry)
         return InstallOutcome.INSTALLED
     }
 

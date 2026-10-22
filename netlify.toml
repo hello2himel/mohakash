@@ -79,6 +79,11 @@
     Cache-Control = "public, max-age=300, must-revalidate"
 
 [[headers]]
+  for = "/api/apod/v1/latest-image.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+[[headers]]
   for = "/api/apod/v1/status.json"
   [headers.values]
     Cache-Control = "public, max-age=300, must-revalidate"

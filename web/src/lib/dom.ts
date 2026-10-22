@@ -137,6 +137,14 @@ export function applyPresentation(
   const chip = frame.querySelector<HTMLElement>('.media-frame__chip');
   const glyph = frame.querySelector<HTMLElement>('.media-frame__glyph');
 
+  // Keep the frame's aspect ratio in sync with the loaded picture so the
+  // image fills it exactly and no letterboxing (grey bars) appears.
+  const syncFrameAspect = () => {
+    if (image && image.naturalWidth > 0 && image.naturalHeight > 0) {
+      frame.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`;
+    }
+  };
+
   if (image) {
     image.onerror = null;
     if (presentation.src) {
@@ -146,14 +154,21 @@ export function applyPresentation(
       image.hidden = false;
       image.onerror = () => {
         image.hidden = true;
+        frame.style.aspectRatio = '';
         if (label) {
           label.textContent = IMAGE_UNAVAILABLE_LABEL;
           label.hidden = false;
         }
       };
+      if (image.complete && image.naturalWidth > 0) {
+        syncFrameAspect();
+      } else {
+        image.addEventListener('load', syncFrameAspect, { once: true });
+      }
     } else {
       image.hidden = true;
       image.removeAttribute('src');
+      frame.style.aspectRatio = '';
     }
   }
 

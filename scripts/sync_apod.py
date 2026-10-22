@@ -480,6 +480,19 @@ def validate_public_api(output_root: Path, config) -> list[str]:
         if document.get("schema_version") != SCHEMA_VERSION:
             errors.append(f"{name}: schema_version {document.get('schema_version')!r} != {SCHEMA_VERSION!r}")
 
+    # The "newest picture" document is optional, but when it exists it has to
+    # describe a real picture that is not newer than the newest entry.
+    latest_image_path = api_root / "latest-image.json"
+    if latest_image_path.exists():
+        latest_image = load(latest_image_path)
+        if latest_image is not None:
+            if latest_image.get("media_type") != "image":
+                errors.append("latest-image.json: the record is not an image entry")
+            if latest_image.get("image_status") != "ok":
+                errors.append("latest-image.json: the record has no usable image")
+            if latest.get("date") and latest_image.get("date", "") > latest.get("date", ""):
+                errors.append("latest-image.json: the record is newer than latest.json")
+
     if latest.get("date") != status.get("latest_available_date"):
         errors.append("latest.json and status.json disagree about the latest date")
     if index.get("count") != len(index.get("entries", [])):

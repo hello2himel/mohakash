@@ -40,6 +40,8 @@ class FakeSettingsStore(initial: AppSettings = AppSettings()) : SettingsStore {
 
     override suspend fun setWifiOnly(value: Boolean) = state.update { it.copy(wifiOnly = value) }
 
+    override suspend fun setHideVideos(value: Boolean) = state.update { it.copy(hideVideos = value) }
+
     override suspend fun setWallpaperScaling(scaling: WallpaperScaling) =
         state.update { it.copy(wallpaperScaling = scaling) }
 

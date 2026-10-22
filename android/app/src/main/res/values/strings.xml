@@ -91,6 +91,8 @@
     <string name="settings_prefer_hd">Prefer HD images</string>
     <string name="settings_prefer_hd_hint">Larger downloads</string>
     <string name="settings_wifi_only">Wi-Fi only</string>
+    <string name="settings_hide_videos">Hide videos</string>
+    <string name="settings_hide_videos_hint">Show pictures only. Video entries are skipped.</string>
     <string name="settings_image_scaling">Image scaling</string>
     <string name="settings_section_storage">Storage</string>
     <string name="settings_image_cache">Image cache</string>
@@ -115,4 +117,12 @@
     <!-- Wallpaper service -->
     <string name="wallpaper_description">The Astronomy Picture of the Day on your home screen.</string>
     <string name="wallpaper_label">Mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">Wallpaper updates</string>
+    <string name="notification_channel_wallpaper_description">Notifies when the live wallpaper picture changes.</string>
+    <string name="notification_no_description">No description available.</string>
+    <string name="notification_action_open_app">Open app</string>
+    <string name="notification_action_view_apod">View on APOD</string>
+    <string name="notification_action_settings">Settings</string>
 </resources>

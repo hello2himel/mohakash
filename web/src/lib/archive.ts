@@ -11,6 +11,8 @@ export interface ArchiveFilters {
   query?: string;
   /** Calendar year, or `null`/`undefined` for every year. */
   year?: number | null;
+  /** Drop video entries. Videos are hidden by default. */
+  hideVideos?: boolean;
 }
 
 /** A row of the archive list, ready to be rendered. */
@@ -49,7 +51,10 @@ export function sortOldestFirst<T extends { date: string }>(entries: readonly T[
 
 /**
  * Filter entries by title text and/or year.
+ *
  * The title match is case-insensitive and matches anywhere in the title.
+ * Video entries are dropped when `hideVideos` is set, which is the default
+ * for the whole site.
  */
 export function filterEntries(
   entries: readonly ArchiveIndexEntry[],
@@ -57,8 +62,10 @@ export function filterEntries(
 ): ArchiveIndexEntry[] {
   const query = (filters.query ?? '').trim().toLowerCase();
   const year = filters.year ?? null;
+  const hideVideos = filters.hideVideos ?? true;
 
   return entries.filter((entry) => {
+    if (hideVideos && entry.media_type === 'video') return false;
     if (year !== null && yearOf(entry.date) !== year) return false;
     if (!query) return true;
     return (entry.title ?? '').toLowerCase().includes(query);
@@ -134,15 +141,21 @@ export function indexToListRows(entries: readonly ArchiveIndexEntry[]): ListRow[
   }));
 }
 
-/** The entry immediately older / newer than `date` inside an ordered list. */
+/**
+ * The entry immediately older / newer than `date` inside an ordered list.
+ *
+ * When `hideVideos` is set, video entries are skipped, so the links always
+ * point at an entry the visitor can actually see.
+ */
 export function neighbours(
   ordered: readonly ArchiveIndexEntry[],
   date: string,
+  hideVideos = true,
 ): { previous: ArchiveIndexEntry | null; next: ArchiveIndexEntry | null } {
-  const index = ordered.findIndex((entry) => entry.date === date);
-  if (index === -1) return { previous: null, next: null };
-  const older = ordered[index + 1] ?? null;
-  const newer = index > 0 ? ordered[index - 1] : null;
+  const sorted = sortNewestFirst(ordered);
+  const visible = hideVideos ? sorted.filter((entry) => entry.media_type !== 'video') : sorted;
+  const older = visible.find((entry) => entry.date < date) ?? null;
+  const newer = [...visible].reverse().find((entry) => entry.date > date) ?? null;
   return { previous: older, next: newer };
 }
 

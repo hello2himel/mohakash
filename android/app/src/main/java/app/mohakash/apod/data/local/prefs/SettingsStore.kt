@@ -30,6 +30,9 @@ interface SettingsStore {
     /** Switches the Wi-Fi only download on or off. */
     suspend fun setWifiOnly(value: Boolean)
 
+    /** Hides video entries from the archive and the wallpaper. */
+    suspend fun setHideVideos(value: Boolean)
+
     /** Changes the scaling mode of the live wallpaper. */
     suspend fun setWallpaperScaling(scaling: WallpaperScaling)
 

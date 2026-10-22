@@ -22,6 +22,7 @@ data class SettingsUiState(
     val preferHd: Boolean = false,
     val wifiOnly: Boolean = true,
     val scaling: WallpaperScaling = WallpaperScaling.FILL,
+    val hideVideos: Boolean = true,
     val cacheSizeBytes: Long = 0L,
     val lastSyncAt: Long? = null,
 )
@@ -60,6 +61,7 @@ class SettingsViewModel(
                 preferHd = settings.preferHd,
                 wifiOnly = settings.wifiOnly,
                 scaling = settings.wallpaperScaling,
+                hideVideos = settings.hideVideos,
                 lastSyncAt = settings.lastSyncAt,
                 cacheSizeBytes = cacheManager.cacheSizeBytes(),
             )
@@ -95,6 +97,17 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsStore.setWifiOnly(enabled)
             _state.value = _state.value.copy(wifiOnly = enabled)
+        }
+    }
+
+    /** Hides or shows video entries in the archive and the wallpaper. */
+    fun setHideVideos(hidden: Boolean) {
+        viewModelScope.launch {
+            settingsStore.setHideVideos(hidden)
+            _state.value = _state.value.copy(hideVideos = hidden)
+            // A video entry may currently be the wallpaper; re-run the sync so the selector
+            // can pick a picture instead.
+            syncController.runOnce()
         }
     }
 

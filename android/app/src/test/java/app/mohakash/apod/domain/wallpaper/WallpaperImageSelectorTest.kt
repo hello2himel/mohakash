@@ -81,10 +81,11 @@ class WallpaperImageSelectorTest {
     }
 
     @Test
-    fun `a video entry falls back to the poster`() {
+    fun `a video entry falls back to the poster when videos are shown`() {
         val choice = WallpaperImageSelector.select(
             entry(mediaType = MediaType.VIDEO),
             preferHd = false,
+            hideVideos = false,
         )
 
         assertTrue(choice is WallpaperChoice.Use)
@@ -93,13 +94,34 @@ class WallpaperImageSelectorTest {
     }
 
     @Test
-    fun `an iframe entry falls back to the poster`() {
+    fun `an iframe entry falls back to the poster when videos are shown`() {
+        val choice = WallpaperImageSelector.select(
+            entry(mediaType = MediaType.OTHER),
+            preferHd = false,
+            hideVideos = false,
+        )
+
+        assertEquals("https://example.org/photo.jpg?w=480", (choice as WallpaperChoice.Use).url)
+    }
+
+    @Test
+    fun `a video entry keeps the previous wallpaper when videos are hidden`() {
+        val choice = WallpaperImageSelector.select(
+            entry(mediaType = MediaType.VIDEO),
+            preferHd = false,
+        )
+
+        assertEquals(WallpaperChoice.Keep, choice)
+    }
+
+    @Test
+    fun `an iframe entry keeps the previous wallpaper when videos are hidden`() {
         val choice = WallpaperImageSelector.select(
             entry(mediaType = MediaType.OTHER),
             preferHd = false,
         )
 
-        assertEquals("https://example.org/photo.jpg?w=480", (choice as WallpaperChoice.Use).url)
+        assertEquals(WallpaperChoice.Keep, choice)
     }
 
     @Test

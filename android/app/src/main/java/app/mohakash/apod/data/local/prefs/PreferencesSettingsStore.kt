@@ -46,6 +46,8 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
 
     override suspend fun setWifiOnly(value: Boolean) = edit { it[Keys.WIFI_ONLY] = value }
 
+    override suspend fun setHideVideos(value: Boolean) = edit { it[Keys.HIDE_VIDEOS] = value }
+
     override suspend fun setWallpaperScaling(scaling: WallpaperScaling) =
         edit { it[Keys.WALLPAPER_SCALING] = scaling.storageKey }
 
@@ -68,6 +70,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         preferHd = this[Keys.PREFER_HD] ?: false,
         wifiOnly = this[Keys.WIFI_ONLY] ?: true,
         wallpaperScaling = WallpaperScaling.fromStorageKey(this[Keys.WALLPAPER_SCALING]),
+        hideVideos = this[Keys.HIDE_VIDEOS] ?: true,
         preferredBaseUrl = this[Keys.PREFERRED_BASE_URL],
         lastSyncAt = this[Keys.LAST_SYNC_AT],
         lastSyncDate = this[Keys.LAST_SYNC_DATE],
@@ -78,6 +81,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         val UPDATE_AUTOMATICALLY = booleanPreferencesKey("update_automatically")
         val PREFER_HD = booleanPreferencesKey("prefer_hd")
         val WIFI_ONLY = booleanPreferencesKey("wifi_only")
+        val HIDE_VIDEOS = booleanPreferencesKey("hide_videos")
         val WALLPAPER_SCALING = stringPreferencesKey("wallpaper_scaling")
         val PREFERRED_BASE_URL = stringPreferencesKey("preferred_base_url")
         val LAST_SYNC_AT = longPreferencesKey("last_sync_at")
