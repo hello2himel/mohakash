@@ -36,7 +36,7 @@ import app.mohakash.apod.ui.saved.SavedScreen
 import app.mohakash.apod.ui.settings.SettingsScreen
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.today.TodayScreen
-import app.mohakash.apod.wallpaper.MohakashWallpaperService
+import app.mohakash.apod.wallpaper.WallpaperIntentBuilder
 
 /**
  * The navigation graph of the app.
@@ -165,22 +165,42 @@ internal fun openLink(context: Context, url: String) {
 
 /**
  * Opens the system preview of the Mohakash live wallpaper.
+ *
+ * Tries each intent from [WallpaperIntentBuilder.attemptsFor] in turn until one starts
+ * successfully. The plain system chooser (`MAIN` + `WallpaperService` category, no extras) is
+ * the safe fallback — several OEM pickers crash when unknown extras are attached to the
+ * `CHANGE_LIVE_WALLPAPER` intent, which is what crashed the wallpaper menu on "Preview and set".
  */
 internal fun openWallpaperPicker(context: Context) {
-    val component = android.content.ComponentName(context, MohakashWallpaperService::class.java)
-    val intent = Intent(android.app.WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
-        putExtra(
-            android.app.WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-            component,
-        )
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    val packageName = context.packageName
+    val attempts = WallpaperIntentBuilder.attemptsFor(packageName, directComponentSet = true)
+    var started = false
+    for (spec in attempts) {
+        if (started) break
+        started = runCatching {
+            val intent = Intent(spec.action).apply {
+                if (spec.newTaskFlag) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                spec.category?.let { addCategory(it) }
+                spec.extras.forEach { (key, value) -> putExtra(key, value) }
+            }
+            if (context.packageManager.resolveActivity(intent, 0) == null) {
+                throw ActivityNotFoundException("No activity resolves ${spec.action}")
+            }
+            context.startActivity(intent)
+            true
+        }.isSuccess
     }
-    runCatching { context.startActivity(intent) }.onFailure {
-        // Fall back to the wallpaper picker of the system.
-        val fallback = Intent(android.app.WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (!started) {
+        // Last resort: open the device-wide wallpaper settings screen.
+        runCatching {
+            context.startActivity(
+                Intent(Settings.ACTION_DISPLAY_SETTINGS).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                },
+            )
+        }.onFailure {
+            // Nothing more we can do; the preview simply isn't available on this device.
         }
-        runCatching { context.startActivity(fallback) }
     }
 }
 
