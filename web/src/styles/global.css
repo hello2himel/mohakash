@@ -207,6 +207,12 @@ pre {
   min-height: 44px;
 }
 
+.wordmark__image {
+  display: block;
+  height: 22px;
+  width: auto;
+}
+
 .wordmark:hover {
   color: var(--accent);
   text-decoration: none;

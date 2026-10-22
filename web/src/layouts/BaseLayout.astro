@@ -11,6 +11,7 @@ import '../styles/tokens.css';
 import '../styles/global.css';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { SITE } from '../lib/site';
 
 interface Props {
   /** Full document title. */
@@ -32,6 +33,8 @@ const {
   hideVideos = false,
 } = Astro.props;
 const current = Astro.url.pathname;
+const canonical = new URL(Astro.url.pathname, SITE.websiteUrl).toString();
+const ogImage = new URL('/og-image.png', SITE.websiteUrl).toString();
 ---
 
 <!doctype html>
@@ -42,10 +45,29 @@ const current = Astro.url.pathname;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#0b0d12" />
-    <!-- The browser chrome colour mirrors --bg; it cannot read a CSS variable. -->
+    <!-- Brand Deep Space; visually matches the page background. -->
+    <meta name="theme-color" content="#0B1020" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title="Mohakash" href="/feed.xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title="mohakash" href="/feed.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="mohakash" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="mohakash — daily astronomy picture" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
