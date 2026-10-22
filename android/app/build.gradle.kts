@@ -59,6 +59,21 @@ android {
     namespace = packageName
     compileSdk = 36
 
+    // CI restores a stable debug keystore so a freshly downloaded APK can be
+    // installed over the previous build. Local builds without the environment
+    // variable keep Gradle's default debug signing.
+    signingConfigs {
+        create("stableDebug") {
+            val storePath = System.getenv("ANDROID_DEBUG_KEYSTORE_PATH")
+            if (!storePath.isNullOrBlank()) {
+                storeFile = file(storePath)
+                storePassword = System.getenv("ANDROID_DEBUG_KEYSTORE_PASSWORD") ?: "android"
+                keyAlias = System.getenv("ANDROID_DEBUG_KEY_ALIAS") ?: "androiddebugkey"
+                keyPassword = System.getenv("ANDROID_DEBUG_KEY_PASSWORD") ?: "android"
+            }
+        }
+    }
+
     defaultConfig {
         applicationId = packageName
         minSdk = 24
@@ -82,6 +97,9 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
+            if (!System.getenv("ANDROID_DEBUG_KEYSTORE_PATH").isNullOrBlank()) {
+                signingConfig = signingConfigs.getByName("stableDebug")
+            }
         }
         release {
             isMinifyEnabled = true

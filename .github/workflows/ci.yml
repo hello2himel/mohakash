@@ -74,15 +74,23 @@ jobs:
           # APK can be installed over the previous one. Forks without the
           # secret fall back to Gradle's generated debug key.
           if [ -n "$DEBUG_KEYSTORE_BASE64" ]; then
-            mkdir -p "$HOME/.android"
-            printf '%s' "$DEBUG_KEYSTORE_BASE64" | base64 --decode > "$HOME/.android/debug.keystore"
-            chmod 600 "$HOME/.android/debug.keystore"
+            printf '%s' "$DEBUG_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/mohakash-debug.keystore"
+            chmod 600 "$RUNNER_TEMP/mohakash-debug.keystore"
+            echo "stable debug keystore restored ($(wc -c < "$RUNNER_TEMP/mohakash-debug.keystore") bytes)"
+          else
+            echo "no debug keystore secret; Gradle will generate one"
           fi
       - name: Unit tests
         run: ./gradlew --no-daemon :app:testDebugUnitTest
         working-directory: android
       - name: Build the debug APK
-        run: ./gradlew --no-daemon :app:assembleDebug
+        env:
+          ANDROID_DEBUG_KEYSTORE_PATH: ${{ runner.temp }}/mohakash-debug.keystore
+        run: |
+          if [ ! -f "$ANDROID_DEBUG_KEYSTORE_PATH" ]; then
+            unset ANDROID_DEBUG_KEYSTORE_PATH
+          fi
+          ./gradlew --no-daemon :app:assembleDebug
         working-directory: android
       - uses: actions/upload-artifact@v4
         with:
