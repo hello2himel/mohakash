@@ -78,6 +78,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
       label: 'Save HD image',
       variant: 'primary',
       href: record.hd_image_url ?? record.image_url ?? '',
+      icon: 'ri-download-line',
     });
     if (save instanceof HTMLAnchorElement) save.setAttribute('download', '');
     actions.append(save);
@@ -88,6 +89,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
         variant: 'primary',
         href: record.apod_url,
         external: true,
+        icon: 'ri-play-circle-line',
       }),
     );
   }
@@ -99,11 +101,19 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
         variant: 'secondary',
         href: record.apod_url,
         external: true,
+        icon: 'ri-external-link-line',
       }),
     );
   }
 
-  actions.append(buildAction({ label: 'Browse archive', variant: 'secondary', href: '/archive' }));
+  actions.append(
+    buildAction({
+      label: 'Browse archive',
+      variant: 'secondary',
+      href: '/archive',
+      icon: 'ri-archive-line',
+    }),
+  );
 }
 
 /* ------------------------------------------------------------- previous */

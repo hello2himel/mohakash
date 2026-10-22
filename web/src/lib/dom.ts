@@ -74,6 +74,24 @@ export interface ActionOptions {
   onClick?: () => void;
   external?: boolean;
   ariaLabel?: string;
+  /** RemixIcon class, e.g. `ri-download-line`. */
+  icon?: string;
+}
+
+/** Fill an action with an optional leading RemixIcon and its label. */
+function fillAction(
+  node: HTMLAnchorElement | HTMLButtonElement,
+  options: ActionOptions,
+): void {
+  const label = el('span', 'btn__label', options.label);
+  if (!options.icon) {
+    node.append(label);
+    return;
+  }
+  const icon = document.createElement('i');
+  icon.className = `icon ${options.icon}`;
+  icon.setAttribute('aria-hidden', 'true');
+  node.append(icon, label);
 }
 
 /** Build an action: a real `<a>` for links, a real `<button>` for actions. */
@@ -82,7 +100,7 @@ export function buildAction(options: ActionOptions): HTMLAnchorElement | HTMLBut
   if (options.href) {
     const link = el('a', `btn btn--${variant}`);
     link.href = options.href;
-    link.textContent = options.label;
+    fillAction(link, options);
     if (options.external) {
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
@@ -92,7 +110,7 @@ export function buildAction(options: ActionOptions): HTMLAnchorElement | HTMLBut
   }
   const button = el('button', `btn btn--${variant}`);
   button.type = 'button';
-  button.textContent = options.label;
+  fillAction(button, options);
   if (options.ariaLabel) button.setAttribute('aria-label', options.ariaLabel);
   if (options.onClick) button.addEventListener('click', options.onClick);
   return button;

@@ -1771,3 +1771,76 @@ body.has-drawer-open {
     max-height: 50dvh;
   }
 }
+
+/* ------------------------------------------------------ archive card hover */
+/*
+ * A specific APOD card gets a flat, immediate hover state: accent thumbnail
+ * border, accent title and a small open arrow. There is deliberately no
+ * transition on any of these properties.
+ */
+.archive-card__open {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.archive-card__open .icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.archive-card:hover .archive-card__thumb,
+.archive-card:focus-visible .archive-card__thumb {
+  border-color: var(--accent);
+}
+
+.archive-card:hover .archive-card__open,
+.archive-card:focus-visible .archive-card__open {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+.archive-card:hover .archive-card__title,
+.archive-card:focus-visible .archive-card__title {
+  color: var(--accent);
+}
+
+/* Keep the icon-bearing action row on one line at the 1440 reference. */
+.panel__actions {
+  gap: 8px;
+}
+
+.panel__actions .btn {
+  gap: 6px;
+}
+
+.panel__actions .btn .icon {
+  font-size: 16px;
+}
+
+/* No hover animation on the archive cards, only the immediate state. */
+.archive-card,
+.archive-card__thumb,
+.archive-card__open,
+.archive-card__title {
+  transition: none;
+}
+
+/* The fixed desktop layout at its narrowest width keeps the action labels
+   on two rows instead of letting the new icons force a third. */
+@media (min-width: 900px) and (max-width: 999px) and (min-height: 600px) {
+  .panel__actions .btn .icon {
+    display: none;
+  }
+}

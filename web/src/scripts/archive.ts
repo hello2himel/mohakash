@@ -97,6 +97,13 @@ function buildCard(entry: ArchiveIndexEntry): HTMLElement {
     thumb.prepend(image);
   }
 
+  const openHint = el('span', 'archive-card__open');
+  const openIcon = document.createElement('i');
+  openIcon.className = 'icon ri-arrow-right-line';
+  openIcon.setAttribute('aria-hidden', 'true');
+  openHint.append(openIcon);
+  thumb.append(openHint);
+
   const date = el('span', 'archive-card__date', formatDateShort(entry.date));
   const title = el('span', 'archive-card__title', entry.title);
   card.append(thumb, date, title);

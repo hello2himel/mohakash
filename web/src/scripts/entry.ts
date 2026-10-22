@@ -95,10 +95,15 @@ async function copyCurrentLink(button: HTMLButtonElement): Promise<void> {
     }
     helper.remove();
   }
-  const label = button.textContent;
-  button.textContent = 'Copied';
+  const labelEl = button.querySelector<HTMLElement>('.btn__label');
+  const label = labelEl?.textContent ?? button.textContent ?? '';
+  const setLabel = (text: string) => {
+    if (labelEl) labelEl.textContent = text;
+    else button.textContent = text;
+  };
+  setLabel('Copied');
   window.setTimeout(() => {
-    button.textContent = label;
+    setLabel(label);
   }, 2000);
 }
 
@@ -110,6 +115,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
       label: 'Save HD image',
       variant: 'primary',
       href: record.hd_image_url ?? record.image_url ?? '',
+      icon: 'ri-download-line',
     });
     if (save instanceof HTMLAnchorElement) save.setAttribute('download', '');
     actions.append(save);
@@ -120,6 +126,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
         variant: 'primary',
         href: record.apod_url,
         external: true,
+        icon: 'ri-play-circle-line',
       }),
     );
   }
@@ -131,13 +138,16 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
         variant: 'secondary',
         href: record.apod_url,
         external: true,
+        icon: 'ri-external-link-line',
       }),
     );
   }
 
-  const copy = el('button', 'btn btn--secondary');
-  copy.type = 'button';
-  copy.textContent = 'Copy link';
+  const copy = buildAction({
+    label: 'Copy link',
+    variant: 'secondary',
+    icon: 'ri-link',
+  }) as HTMLButtonElement;
   copy.addEventListener('click', () => {
     void copyCurrentLink(copy);
   });
