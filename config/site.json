@@ -20,7 +20,9 @@
     "feed_entry_count": 30
   },
   "android": {
-    "package": "app.mohakash.apod",
+    "$comment": "package is the permanent Play/F-Droid application ID. namespace is the Kotlin/Android source namespace and is intentionally kept stable across releases.",
+    "package": "mohakash.stargzr.space",
+    "namespace": "app.mohakash.apod",
     "api_base_url_fallbacks": [
       "https://hello2himel.github.io/mohakash/api/v1",
       "https://hello2himel.github.io/api/v1"

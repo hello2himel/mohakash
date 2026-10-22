@@ -42,7 +42,7 @@ def test_pages_base_url_for_a_user_site(tmp_path):
                 "github": {"owner": "someone", "repo": "mohakash", "pages_type": "user"},
                 "website": {"base_url": "https://example.netlify.app"},
                 "api": {"version": "v1"},
-                "android": {"package": "app.mohakash.apod"},
+                "android": {"package": "mohakash.stargzr.space"},
             }
         ),
         encoding="utf-8",
@@ -62,7 +62,7 @@ def test_custom_domain_wins(tmp_path):
                 "github": {"owner": "someone", "repo": "mohakash", "custom_domain": "apod.example.org"},
                 "website": {"base_url": "https://apod.example.org"},
                 "api": {"version": "v1"},
-                "android": {"package": "app.mohakash.apod"},
+                "android": {"package": "mohakash.stargzr.space"},
             }
         ),
         encoding="utf-8",
