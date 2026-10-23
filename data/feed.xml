@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Oct 2026 12:32:18 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 12:39:01 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Andromeda in Southern Spring</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-october-23-andromeda-in-southern-spring/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-23-andromeda-in-southern-spring/</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Looking toward the north from Mullion, New South Wales, Australia, the Andromeda Galaxy never gets more than a few degrees above the horizon. During the southern hemisphere spring, Andromeda is highest in the sky around midnight though. And in this telephoto scene from October 10/11, multiple exposures were used to reveal the spiral galaxy in tantalizing detail as it climbed above rolling Australian hills. Also known as M31, the Andromeda Galaxy is one of the brightest objects in the Messier catalog, but is only visible to the unaided eye as a small, faint, fuzzy patch. Digitally tracked and…<br/>Credit: Lucy Yunxi Hu</description>
+    </item>
     <item>
       <title>The First Green Star, WD J1330+6435</title>
       <link>https://science.nasa.gov/image-article/apod-2026-october-22-the-first-green-star-wd-j13306435/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-24-the-ghosts-of-five-supernovas/</guid>
       <pubDate>Thu, 24 Sep 2026 00:00:00 GMT</pubDate>
       <description>The ghosts of five supernovas haunt this extraordinary image. It was acquired at Oukaïmeden Observatory in Morocco with approximately 200 hours of observations and shows a large patch of the sky, equivalent to the area of one thousand full moons tiled together, in the constellation of Auriga (the Charioteer). From left to right, the five supernova remnants visible across the field are G181.1+9.5, G182.4+4.3, G179.0+2.6, G180.0−1.7 (Sh2-240, the Spaghetti Nebula), and G178.2−4.2. They are highlighted in the annotated image, together with open cluster M37 and the Tadpole Nebula. As each…<br/>Credit: Stephane Vetter, Yann Sainty</description>
-    </item>
-    <item>
-      <title>A New Lunar Crater: McGetchin</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-september-23-the-mcgetchin-crater/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-23-the-mcgetchin-crater/</guid>
-      <pubDate>Wed, 23 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A once-in-a-lifetime crater has appeared on the Moon! A comet or asteroid roughly the size of a humpback whale (approximately 10-20 meters, 30-60 feet) crashed into the Moon sometime between April and May of 2024. The Lunar Reconnaissance Orbiter (LRO), with its monthly monitoring of the Moon, captured today’s images of the lunar surface before and after the event. The resulting crater, named after Apollo-era lunar scientist McGetchin, is two soccer fields across. Craters of this size are only expected once every 132 years! Follow up thermal imaging revealed a large cold spot that surrounds…<br/>Credit: NASA/GSFC/Intuitive Machines</description>
     </item>
   </channel>
 </rss>
