@@ -1695,16 +1695,17 @@ body.has-drawer-open {
   }
 }
 
-/* ------------------------------------------------------ entry image viewer */
+/* ------------------------------------------------ entry and today image viewer */
 /*
- * The Entry page shows the picture itself, not a full-size panel with grey
- * letterbox bands. The layout column/height constraints stay on .hero-frame;
- * the image shrink-wraps inside them and carries the border and radius.
- * The media frame is transparent once the picture is loaded and only keeps
- * the old panel look while the skeleton is visible or when there is no image.
+ * The Entry and Today pages show the picture itself, not a full-size panel
+ * with grey letterbox bands. The layout column/height constraints stay on
+ * .hero-frame; the image shrink-wraps inside them and carries the border and
+ * radius. The media frame is transparent once the picture is loaded and only
+ * keeps the old panel look while the skeleton is visible or when there is no
+ * image.
  */
 
-.app-main--entry .hero-frame {
+.app-main:where(.app-main--entry, .app-main--today) .hero-frame {
   padding: 0;
   background: transparent;
   border: 0;
@@ -1716,7 +1717,7 @@ body.has-drawer-open {
   container-type: inline-size;
 }
 
-.app-main--entry .hero-frame .media-frame__img {
+.app-main:where(.app-main--entry, .app-main--today) .hero-frame .media-frame__img {
   width: auto;
   height: auto;
   max-width: 100cqw;
@@ -1731,7 +1732,7 @@ body.has-drawer-open {
 
 /* The loaded picture (and video poster) defines the frame's size, so the
    "Video" chip and play glyph stay on the image instead of the old panel. */
-.app-main--entry
+.app-main:where(.app-main--entry, .app-main--today)
   .hero-frame
   .media-frame:not(:has(.media-frame__img[hidden])):not(:has(.skeleton--fill:not([hidden]))) {
   width: fit-content;
@@ -1748,8 +1749,12 @@ body.has-drawer-open {
 
 /* Loading and no-image fallback keep the previous neutral panel and its
    dimensions; only the loaded state becomes image-sized. */
-.app-main--entry .hero-frame:has(.skeleton--fill:not([hidden])) .media-frame,
-.app-main--entry .hero-frame:has(.media-frame__img[hidden]) .media-frame {
+.app-main:where(.app-main--entry, .app-main--today)
+  .hero-frame:has(.skeleton--fill:not([hidden]))
+  .media-frame,
+.app-main:where(.app-main--entry, .app-main--today)
+  .hero-frame:has(.media-frame__img[hidden])
+  .media-frame {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1757,17 +1762,17 @@ body.has-drawer-open {
 }
 
 @media (min-width: 900px) and (min-height: 600px) {
-  .app-main--entry .hero-frame {
+  .app-main:where(.app-main--entry, .app-main--today) .hero-frame {
     container-type: size;
   }
 
-  .app-main--entry .hero-frame .media-frame__img {
+  .app-main:where(.app-main--entry, .app-main--today) .hero-frame .media-frame__img {
     max-height: 100cqh;
   }
 }
 
 @media (max-width: 599px) {
-  .app-main--entry .hero-frame .media-frame__img {
+  .app-main:where(.app-main--entry, .app-main--today) .hero-frame .media-frame__img {
     max-height: 50dvh;
   }
 }
