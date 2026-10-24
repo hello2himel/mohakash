@@ -49,6 +49,7 @@ val githubRepo = githubConfig["repo"]?.toString() ?: "mohakash"
 val repositoryUrl = "https://github.com/$githubOwner/$githubRepo"
 val defaultBranch = githubConfig["default_branch"]?.toString() ?: "main"
 val contentRightsUrl = "$repositoryUrl/blob/$defaultBranch/CONTENT_RIGHTS.md"
+val thirdPartyNoticesUrl = "$repositoryUrl/blob/$defaultBranch/THIRD_PARTY_NOTICES.md"
 val websiteBaseUrl = websiteConfig["base_url"]?.toString() ?: repositoryUrl
 
 /**
@@ -157,6 +158,7 @@ android {
         )
         buildConfigField("String", "REPOSITORY_URL", "\"$repositoryUrl\"")
         buildConfigField("String", "CONTENT_RIGHTS_URL", "\"$contentRightsUrl\"")
+        buildConfigField("String", "THIRD_PARTY_NOTICES_URL", "\"$thirdPartyNoticesUrl\"")
         buildConfigField("String", "WEBSITE_BASE_URL", "\"$websiteBaseUrl\"")
         buildConfigField("String", "PRIVACY_URL", "\"$websiteBaseUrl/privacy\"")
     }

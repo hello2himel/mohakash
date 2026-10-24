@@ -7,6 +7,7 @@ object Routes {
     const val ARCHIVE = "archive"
     const val SAVED = "saved"
     const val SETTINGS = "settings"
+    const val ADVANCED = "settings/advanced"
     const val DETAIL = "detail/{date}"
 
     /** The detail screen of one entry. */

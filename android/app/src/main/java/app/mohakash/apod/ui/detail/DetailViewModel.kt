@@ -17,6 +17,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -60,8 +63,25 @@ class DetailViewModel(
     val events = _events.receiveAsFlow()
 
     private var favouriteJob: Job? = null
+    private var loadJob: Job? = null
     private var loadedDate: String? = null
     private var requestedDate: String? = null
+
+    init {
+        // An endpoint change invalidates the loaded record; reload it when the user returns.
+        viewModelScope.launch {
+            settingsStore.settings
+                .map { it.customApiBaseUrl }
+                .distinctUntilChanged()
+                .drop(1)
+                .collect {
+                    val date = requestedDate ?: return@collect
+                    loadedDate = null
+                    _state.value = _state.value.copy(isLoading = true, hasError = false)
+                    load(date)
+                }
+        }
+    }
 
     /** Loads the entry with the given date. */
     fun load(date: String) {
@@ -69,7 +89,8 @@ class DetailViewModel(
         requestedDate = date
         if (loadedDate == date) return
         loadedDate = date
-        viewModelScope.launch {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
             val settings = settingsStore.current()
             _state.value = _state.value.copy(
                 isLoading = true,

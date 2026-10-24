@@ -36,6 +36,9 @@ interface SettingsStore {
     /** Changes the scaling mode of the live wallpaper. */
     suspend fun setWallpaperScaling(scaling: WallpaperScaling)
 
+    /** Sets a custom API base URL, or clears it to use the built-in candidates. */
+    suspend fun setCustomApiBaseUrl(baseUrl: String?)
+
     /** Remembers the API base URL that answered last. */
     suspend fun setPreferredBaseUrl(baseUrl: String?)
 

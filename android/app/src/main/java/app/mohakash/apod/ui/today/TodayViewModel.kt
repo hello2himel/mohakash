@@ -19,6 +19,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -69,6 +72,19 @@ class TodayViewModel(
 
     init {
         load()
+        // The advanced settings screen can switch the API endpoint while Today is in the back
+        // stack. Reload from the new server as soon as that happens.
+        viewModelScope.launch {
+            settingsStore.settings
+                .map { it.customApiBaseUrl }
+                .distinctUntilChanged()
+                .drop(1)
+                .collect {
+                    loadJob?.cancel()
+                    loadJob = null
+                    load(force = true)
+                }
+        }
     }
 
     /**
