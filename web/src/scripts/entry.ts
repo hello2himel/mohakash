@@ -18,6 +18,7 @@ import {
   applyBanner,
   applyPresentation,
   buildAction,
+  downloadLink,
   el,
   hide,
   hideBanner,
@@ -111,14 +112,14 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
   actions.replaceChildren();
 
   if (presentation.kind === 'image' && (record.hd_image_url || record.image_url)) {
-    const save = buildAction({
-      label: 'Save HD image',
-      variant: 'primary',
-      href: record.hd_image_url ?? record.image_url ?? '',
-      icon: 'ri-download-line',
-    });
-    if (save instanceof HTMLAnchorElement) save.setAttribute('download', '');
-    actions.append(save);
+    actions.append(
+      downloadLink({
+        label: 'Save HD image',
+        variant: 'primary',
+        href: record.hd_image_url ?? record.image_url ?? '',
+        icon: 'ri-download-line',
+      }),
+    );
   } else if ((presentation.kind === 'video' || presentation.kind === 'other') && record.apod_url) {
     actions.append(
       buildAction({
