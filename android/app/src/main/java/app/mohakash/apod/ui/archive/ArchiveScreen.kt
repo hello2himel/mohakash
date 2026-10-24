@@ -75,6 +75,11 @@ fun ArchiveScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showFilters by remember { mutableStateOf(false) }
 
+    // The index is not cached: reload it every time the archive is opened.
+    LaunchedEffect(Unit) {
+        viewModel.load()
+    }
+
     ArchiveContent(
         state = state,
         onQueryChange = viewModel::setQuery,

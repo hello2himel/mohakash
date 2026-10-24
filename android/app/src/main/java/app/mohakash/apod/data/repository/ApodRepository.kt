@@ -62,25 +62,17 @@ class ApodRepository(
             .getOrNull()
     }
 
-    /** Fetches `archive-index.json`, caches it and returns the entries. */
+    /**
+     * Fetches `archive-index.json` and returns the entries.
+     *
+     * The index is several megabytes, so it is deliberately not persisted on the device: the
+     * archive screen always loads it from the network. Older versions stored it in SQLite, so any
+     * leftover copy is removed first.
+     */
     suspend fun fetchArchiveIndex(): List<ArchiveIndexEntry> {
+        cacheDocumentDao.delete(CacheDocumentEntity.KEY_ARCHIVE_INDEX)
         val raw = api.getString("/archive-index.json")
-        val entries = ApiMapper.toDomain(json.decodeFromString<ArchiveIndexDto>(raw))
-        cacheDocumentDao.put(
-            CacheDocumentEntity(
-                key = CacheDocumentEntity.KEY_ARCHIVE_INDEX,
-                json = raw,
-                updatedAt = now(),
-            ),
-        )
-        return entries
-    }
-
-    /** Reads the cached `archive-index.json` document, if any. */
-    suspend fun cachedArchiveIndex(): List<ArchiveIndexEntry> {
-        val raw = readDocument(CacheDocumentEntity.KEY_ARCHIVE_INDEX) ?: return emptyList()
-        return runCatching { ApiMapper.toDomain(json.decodeFromString<ArchiveIndexDto>(raw)) }
-            .getOrDefault(emptyList())
+        return ApiMapper.toDomain(json.decodeFromString<ArchiveIndexDto>(raw))
     }
 
     /**

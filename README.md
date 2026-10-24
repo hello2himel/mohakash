@@ -603,7 +603,7 @@ still matches `config/site.json`.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
 - [x] Automated tests: 98 pipeline, 69 website, 76 Android — all green. The debug APK builds.
-- [x] Signed Android release **v1.0.1** published on GitHub with APK, AAB and `SHA256SUMS.txt`; package `mohakash.stargzr.space`, certificate pinned in the release workflow.
+- [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.3**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 

@@ -75,29 +75,21 @@ class ArchiveViewModel(
 
     private var loadJob: Job? = null
 
-    init {
-        load()
-    }
-
-    /** Loads the archive index. */
-    fun load(force: Boolean = false) {
+    /** Loads the archive index from the network. */
+    fun load() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
-            val cached = apodRepository.cachedArchiveIndex()
-            if (cached.isNotEmpty()) {
-                applyEntries(cached)
-            }
+            val previous = _state.value.entries
+            _state.value = _state.value.copy(isLoading = true, hasError = false)
             try {
-                val entries = apodRepository.fetchArchiveIndex()
-                applyEntries(entries)
+                applyEntries(apodRepository.fetchArchiveIndex())
                 _state.value = _state.value.copy(isLoading = false, isOffline = false, hasError = false)
             } catch (error: Exception) {
-                if (cached.isNotEmpty()) {
-                    _state.value = _state.value.copy(isLoading = false, isOffline = true)
-                } else {
-                    _state.value = _state.value.copy(isLoading = false, hasError = true)
-                }
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    isOffline = previous.isNotEmpty(),
+                    hasError = previous.isEmpty(),
+                )
             }
         }
     }
