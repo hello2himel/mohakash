@@ -120,40 +120,33 @@ class ApodRepositoryTest {
     }
 
     @Test
-    fun `the archive index is cached and can be read again`() = runTest {
+    fun `the archive index is fetched every time and never stored`() = runTest {
         val api = FakeApodService(archiveIndexJson = indexJson)
         val documents = FakeCacheDocumentDao()
         val repository = repository(api, documents)
 
-        val entries = repository.fetchArchiveIndex()
+        assertEquals(1, repository.fetchArchiveIndex().size)
+        assertEquals(1, repository.fetchArchiveIndex().size)
 
-        assertEquals(1, entries.size)
-        assertNotNull(documents.get(CacheDocumentEntity.KEY_ARCHIVE_INDEX))
-
-        api.error = IOException("offline")
-        val cached = repository.cachedArchiveIndex()
-
-        assertEquals(1, cached.size)
-        assertEquals("2026-10-22", cached.first().date)
+        assertEquals(listOf("/archive-index.json", "/archive-index.json"), api.requestedPaths)
+        assertNull(documents.get(CacheDocumentEntity.KEY_ARCHIVE_INDEX))
     }
 
     @Test
-    fun `a large archive index is read back in chunks`() = runTest {
-        val entriesJson = (1..4_000).joinToString(",") { index ->
-            """{"date":"2026-01-01","title":"Entry $index ${"x".repeat(120)}","media_type":"image"}"""
-        }
-        val largeIndexJson = """{"schema_version":"1.0.0","count":4000,"entries":[$entriesJson]}"""
-        val api = FakeApodService(archiveIndexJson = largeIndexJson)
-        val repository = repository(api)
+    fun `a previously cached archive index is deleted`() = runTest {
+        val documents = FakeCacheDocumentDao()
+        documents.put(
+            CacheDocumentEntity(
+                key = CacheDocumentEntity.KEY_ARCHIVE_INDEX,
+                json = """{"entries":[]}""",
+                updatedAt = 1L,
+            ),
+        )
+        val repository = repository(FakeApodService(archiveIndexJson = indexJson), documents)
 
-        assertEquals(4_000, repository.fetchArchiveIndex().size)
+        repository.fetchArchiveIndex()
 
-        api.error = IOException("offline")
-        val cached = repository.cachedArchiveIndex()
-
-        assertEquals(4_000, cached.size)
-        assertEquals("Entry 1 ${"x".repeat(120)}", cached.first().title)
-        assertEquals("Entry 4000 ${"x".repeat(120)}", cached.last().title)
+        assertNull(documents.get(CacheDocumentEntity.KEY_ARCHIVE_INDEX))
     }
 
     @Test
