@@ -57,6 +57,19 @@ Run the unit tests:
 
 The HTML report is written to `android/app/build/reports/tests/testDebugUnitTest/index.html`.
 
+### Signed release builds
+
+The release package is `mohakash.stargzr.space`. Signing, versioning, Play and
+F-Droid instructions are in [`RELEASING.md`](RELEASING.md).
+
+```bash
+./gradlew :app:assembleRelease :app:bundleRelease
+```
+
+The signed APK and AAB are written to `app/build/outputs/apk/release/` and
+`app/build/outputs/bundle/release/`. The release key and its passwords are
+git-ignored; see `keystore.properties.example`.
+
 ### Configuration
 
 Every owner-specific URL is read from **`config/site.json`** in the repository root — at Gradle
