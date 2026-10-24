@@ -55,6 +55,18 @@ class ApodRepository(
         return entry
     }
 
+    /**
+     * Removes every cached metadata document and record.
+     *
+     * Called when the API endpoint changes so entries from the previous server are never shown
+     * as if they came from the new one. Saved pictures, the image cache and the live wallpaper
+     * are deliberately untouched.
+     */
+    suspend fun clearMetadataCache() {
+        cacheDocumentDao.clear()
+        cachedEntryDao.clear()
+    }
+
     /** Reads the cached `latest.json` document, if any. */
     suspend fun cachedLatest(): ApodEntry? {
         val raw = readDocument(CacheDocumentEntity.KEY_LATEST) ?: return null

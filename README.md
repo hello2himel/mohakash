@@ -219,6 +219,17 @@ a `BuildConfig` field, so there is no URL in the Kotlin sources. The app tries
 the configured candidates in order (a GitHub **project** site first, then a
 GitHub **user** site) and remembers the one that works.
 
+**Settings → Advanced → API endpoint** lets you point the app at a self-hosted
+server instead. The endpoint must use HTTPS and serve the same JSON files as the
+public API (`latest.json`, `archive-index.json` and `archive/YYYY.json`). Changing
+it clears cached APOD metadata and schedules a refresh; saved pictures, the
+image cache and the current live wallpaper are kept. The reset button returns to
+the built-in endpoint.
+
+UI icons come from [Remix Icon](https://remixicon.com); the launcher icon and the
+notification mark are original Mohakash artwork. See
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
 Install and enable the wallpaper:
 
 ```bash
@@ -602,7 +613,7 @@ still matches `config/site.json`.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests: 98 pipeline, 69 website, 76 Android — all green. The debug APK builds.
+- [x] Automated tests: 98 pipeline, 69 website, 107 Android — all green. The debug APK builds.
 - [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.3**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.

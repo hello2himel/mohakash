@@ -31,4 +31,8 @@ interface CacheDocumentDao {
 
     @Query("DELETE FROM cache_documents WHERE key = :key")
     suspend fun delete(key: String)
+
+    /** Removes every cached document, e.g. after the API endpoint changes. */
+    @Query("DELETE FROM cache_documents")
+    suspend fun clear()
 }

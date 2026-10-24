@@ -41,6 +41,7 @@ import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.components.InfoRow
 import app.mohakash.apod.ui.components.LinkRow
 import app.mohakash.apod.ui.components.MohakashTopBar
+import app.mohakash.apod.ui.components.NavigationRow
 import app.mohakash.apod.ui.components.SectionLabel
 import app.mohakash.apod.ui.components.SegmentedControl
 import app.mohakash.apod.ui.components.SwitchRow
@@ -56,6 +57,7 @@ import app.mohakash.apod.ui.theme.MohakashTextStyles
 fun SettingsScreen(
     onBack: () -> Unit,
     onOpenLink: (String) -> Unit,
+    onOpenAdvanced: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = containerViewModel { container ->
@@ -83,6 +85,7 @@ fun SettingsScreen(
         state = state,
         onBack = onBack,
         onOpenLink = onOpenLink,
+        onOpenAdvanced = onOpenAdvanced,
         onUpdateAutomaticallyChange = viewModel::setUpdateAutomatically,
         onPreferHdChange = viewModel::setPreferHd,
         onWifiOnlyChange = viewModel::setWifiOnly,
@@ -114,6 +117,7 @@ internal fun SettingsContent(
     state: SettingsUiState,
     onBack: () -> Unit,
     onOpenLink: (String) -> Unit,
+    onOpenAdvanced: () -> Unit,
     onUpdateAutomaticallyChange: (Boolean) -> Unit,
     onPreferHdChange: (Boolean) -> Unit,
     onWifiOnlyChange: (Boolean) -> Unit,
@@ -176,6 +180,24 @@ internal fun SettingsContent(
             )
 
             SectionLabel(
+                text = stringResource(R.string.settings_section_advanced),
+                modifier = Modifier.padding(top = 24.dp),
+            )
+
+            NavigationRow(
+                title = stringResource(R.string.settings_api_endpoint),
+                subtitle = stringResource(
+                    if (state.customApiBaseUrl != null) {
+                        R.string.settings_api_endpoint_custom
+                    } else {
+                        R.string.settings_api_endpoint_default
+                    },
+                ),
+                onClick = onOpenAdvanced,
+                showDivider = false,
+            )
+
+            SectionLabel(
                 text = stringResource(R.string.settings_section_about),
                 modifier = Modifier.padding(top = 24.dp),
             )
@@ -198,6 +220,11 @@ internal fun SettingsContent(
             LinkRow(
                 text = stringResource(R.string.settings_source_code),
                 onClick = { onOpenLink(BuildConfig.REPOSITORY_URL) },
+                minHeight = 56.dp,
+            )
+            LinkRow(
+                text = stringResource(R.string.settings_third_party_notices),
+                onClick = { onOpenLink(BuildConfig.THIRD_PARTY_NOTICES_URL) },
                 minHeight = 56.dp,
             )
             InfoRow(

@@ -11,6 +11,8 @@ data class AppSettings(
     val wallpaperScaling: WallpaperScaling = WallpaperScaling.DEFAULT,
     /** Videos are hidden unless the user turns them on. */
     val hideVideos: Boolean = true,
+    /** A user-supplied API base URL. When set, it replaces the built-in candidates. */
+    val customApiBaseUrl: String? = null,
     /** The API base URL that answered last time; tried first on the next request. */
     val preferredBaseUrl: String? = null,
     /** Epoch millis of the last successful metadata sync. */

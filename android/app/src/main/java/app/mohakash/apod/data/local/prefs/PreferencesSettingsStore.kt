@@ -51,6 +51,10 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
     override suspend fun setWallpaperScaling(scaling: WallpaperScaling) =
         edit { it[Keys.WALLPAPER_SCALING] = scaling.storageKey }
 
+    override suspend fun setCustomApiBaseUrl(baseUrl: String?) = edit { prefs ->
+        if (baseUrl.isNullOrBlank()) prefs.remove(Keys.CUSTOM_API_BASE_URL) else prefs[Keys.CUSTOM_API_BASE_URL] = baseUrl
+    }
+
     override suspend fun setPreferredBaseUrl(baseUrl: String?) = edit { prefs ->
         if (baseUrl.isNullOrBlank()) prefs.remove(Keys.PREFERRED_BASE_URL) else prefs[Keys.PREFERRED_BASE_URL] = baseUrl
     }
@@ -71,6 +75,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         wifiOnly = this[Keys.WIFI_ONLY] ?: true,
         wallpaperScaling = WallpaperScaling.fromStorageKey(this[Keys.WALLPAPER_SCALING]),
         hideVideos = this[Keys.HIDE_VIDEOS] ?: true,
+        customApiBaseUrl = this[Keys.CUSTOM_API_BASE_URL],
         preferredBaseUrl = this[Keys.PREFERRED_BASE_URL],
         lastSyncAt = this[Keys.LAST_SYNC_AT],
         lastSyncDate = this[Keys.LAST_SYNC_DATE],
@@ -83,6 +88,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         val WIFI_ONLY = booleanPreferencesKey("wifi_only")
         val HIDE_VIDEOS = booleanPreferencesKey("hide_videos")
         val WALLPAPER_SCALING = stringPreferencesKey("wallpaper_scaling")
+        val CUSTOM_API_BASE_URL = stringPreferencesKey("custom_api_base_url")
         val PREFERRED_BASE_URL = stringPreferencesKey("preferred_base_url")
         val LAST_SYNC_AT = longPreferencesKey("last_sync_at")
         val LAST_SYNC_DATE = stringPreferencesKey("last_sync_date")

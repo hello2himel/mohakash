@@ -176,4 +176,22 @@ class ApodRepositoryTest {
         assertEquals("The First Green Star", found?.title)
         assertNull(repository.findCachedEntry("2020-01-01"))
     }
+
+    @Test
+    fun `clearing the metadata cache removes documents and records`() = runTest {
+        val api = FakeApodService(latestJson = latestJson)
+        val documents = FakeCacheDocumentDao()
+        val entries = FakeCachedEntryDao()
+        val repository = repository(api, documents, entries)
+
+        repository.fetchLatest()
+        assertNotNull(documents.get(CacheDocumentEntity.KEY_LATEST))
+        assertNotNull(entries.getByDate("2026-10-22"))
+
+        repository.clearMetadataCache()
+
+        assertNull(documents.get(CacheDocumentEntity.KEY_LATEST))
+        assertNull(entries.getByDate("2026-10-22"))
+        assertNull(repository.cachedLatest())
+    }
 }

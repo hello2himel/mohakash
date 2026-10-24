@@ -168,6 +168,7 @@ fun SecondaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     height: Dp = 48.dp,
     contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
     textStyle: TextStyle = MohakashTextStyles.UiSmallSemiBold,
@@ -178,14 +179,14 @@ fun SecondaryButton(
             .heightIn(min = height)
             .clip(shape)
             .border(BorderStroke(1.dp, MohakashColors.BorderStrong), shape)
-            .clickable(role = Role.Button, onClick = onClick)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
             .padding(contentPadding),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
             style = textStyle,
-            color = MohakashColors.Text,
+            color = if (enabled) MohakashColors.Text else MohakashColors.TextMuted,
             textAlign = TextAlign.Center,
         )
     }
@@ -533,6 +534,62 @@ fun LinkRow(
             )
             Icon(
                 painter = painterResource(R.drawable.ic_external_24),
+                contentDescription = null,
+                tint = MohakashColors.TextMuted,
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .size(20.dp),
+            )
+        }
+    }
+}
+
+/** A settings row that opens another screen, with an optional subtitle and a chevron. */
+@Composable
+fun NavigationRow(
+    title: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    subtitle: String? = null,
+    showDivider: Boolean = true,
+    minHeight: Dp = 64.dp,
+) {
+    Column(modifier = modifier) {
+        if (showDivider) {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(MohakashColors.Divider),
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = minHeight)
+                .clickable(role = Role.Button, onClick = onClick)
+                .padding(vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
+                Text(
+                    text = title,
+                    style = MohakashTextStyles.UiMedium,
+                    color = MohakashColors.Text,
+                )
+                if (subtitle != null) {
+                    EllipsizedText(
+                        text = subtitle,
+                        style = MohakashTextStyles.Helper,
+                        color = MohakashColors.TextMuted,
+                    )
+                }
+            }
+            Icon(
+                painter = painterResource(R.drawable.ic_chevron_right_24),
                 contentDescription = null,
                 tint = MohakashColors.TextMuted,
                 modifier = Modifier

@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.ui.components.EllipsizedText
+import app.mohakash.apod.ui.components.IconActionButton
 import app.mohakash.apod.ui.components.MohakashTopBar
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.PrimaryButton
@@ -47,6 +48,7 @@ import app.mohakash.apod.ui.theme.MohakashTextStyles
 fun SavedScreen(
     onOpenEntry: (String) -> Unit,
     onBrowseArchive: () -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = containerViewModel { container ->
@@ -58,6 +60,7 @@ fun SavedScreen(
         state = state,
         onOpenEntry = onOpenEntry,
         onBrowseArchive = onBrowseArchive,
+        onOpenSettings = onOpenSettings,
         modifier = modifier,
     )
 }
@@ -68,6 +71,7 @@ internal fun SavedContent(
     state: SavedUiState,
     onOpenEntry: (String) -> Unit,
     onBrowseArchive: () -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -87,9 +91,15 @@ internal fun SavedContent(
                         ),
                         style = MohakashTextStyles.Helper,
                         color = MohakashColors.TextMuted,
-                        modifier = Modifier.padding(end = 12.dp),
+                        modifier = Modifier.padding(end = 4.dp),
                     )
                 }
+                IconActionButton(
+                    painter = painterResource(R.drawable.ic_settings_24),
+                    contentDescription = stringResource(R.string.today_settings),
+                    onClick = onOpenSettings,
+                    tint = MohakashColors.TextMuted,
+                )
             },
         )
 

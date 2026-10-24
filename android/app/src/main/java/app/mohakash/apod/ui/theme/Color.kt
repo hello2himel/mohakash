@@ -48,6 +48,9 @@ object MohakashColors {
     /** Text and icons on top of [Accent]. */
     val OnAccent = Color(0xFF0B0D12)
 
+    /** Validation errors and other non-destructive failures. */
+    val Error = Color(0xFFFF8A8A)
+
     /** The dim layer behind sheets and dialogs — `rgba(0, 0, 0, 0.62)`. */
     val Scrim = Color(0x9E000000)
 }

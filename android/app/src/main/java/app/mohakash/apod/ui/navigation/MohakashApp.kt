@@ -36,6 +36,7 @@ import app.mohakash.apod.ui.archive.ArchiveScreen
 import app.mohakash.apod.ui.detail.DetailScreen
 import app.mohakash.apod.ui.onboarding.OnboardingScreen
 import app.mohakash.apod.ui.saved.SavedScreen
+import app.mohakash.apod.ui.settings.AdvancedScreen
 import app.mohakash.apod.ui.settings.SettingsScreen
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.today.TodayScreen
@@ -124,6 +125,7 @@ fun MohakashApp(
                 composable(Routes.ARCHIVE) {
                     ArchiveScreen(
                         onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
+                        onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                     )
                 }
 
@@ -136,11 +138,20 @@ fun MohakashApp(
                                 launchSingleTop = true
                             }
                         },
+                        onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                     )
                 }
 
                 composable(Routes.SETTINGS) {
                     SettingsScreen(
+                        onBack = { navController.popBackStack() },
+                        onOpenLink = { url -> openLink(context, url) },
+                        onOpenAdvanced = { navController.navigate(Routes.ADVANCED) },
+                    )
+                }
+
+                composable(Routes.ADVANCED) {
+                    AdvancedScreen(
                         onBack = { navController.popBackStack() },
                         onOpenLink = { url -> openLink(context, url) },
                     )
@@ -155,6 +166,7 @@ fun MohakashApp(
                         date = date,
                         onBack = { navController.popBackStack() },
                         onOpenLink = { url -> openLink(context, url) },
+                        onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                     )
                 }
             }

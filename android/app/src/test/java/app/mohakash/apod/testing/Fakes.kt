@@ -45,6 +45,9 @@ class FakeSettingsStore(initial: AppSettings = AppSettings()) : SettingsStore {
     override suspend fun setWallpaperScaling(scaling: WallpaperScaling) =
         state.update { it.copy(wallpaperScaling = scaling) }
 
+    override suspend fun setCustomApiBaseUrl(baseUrl: String?) =
+        state.update { it.copy(customApiBaseUrl = baseUrl) }
+
     override suspend fun setPreferredBaseUrl(baseUrl: String?) = state.update { it.copy(preferredBaseUrl = baseUrl) }
 
     override suspend fun setLastSync(atMillis: Long, date: String?) =
@@ -107,6 +110,10 @@ class FakeCacheDocumentDao : CacheDocumentDao {
 
     override suspend fun delete(key: String) {
         documents.remove(key)
+    }
+
+    override suspend fun clear() {
+        documents.clear()
     }
 }
 

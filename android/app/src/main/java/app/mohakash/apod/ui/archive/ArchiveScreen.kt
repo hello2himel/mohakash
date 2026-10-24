@@ -48,6 +48,7 @@ import app.mohakash.apod.R
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
 import app.mohakash.apod.ui.components.EllipsizedText
 import app.mohakash.apod.ui.components.FilterChipItem
+import app.mohakash.apod.ui.components.IconActionButton
 import app.mohakash.apod.ui.components.MohakashTopBar
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.SecondaryButton
@@ -67,6 +68,7 @@ private const val QUICK_YEAR_COUNT = 3
 @Composable
 fun ArchiveScreen(
     onOpenEntry: (String) -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = containerViewModel { container ->
@@ -86,6 +88,7 @@ fun ArchiveScreen(
         onSelectYear = viewModel::selectYear,
         onOpenFilters = { showFilters = true },
         onOpenEntry = onOpenEntry,
+        onOpenSettings = onOpenSettings,
         onClearFilters = viewModel::reset,
         onLoadMore = viewModel::loadMore,
         modifier = modifier,
@@ -112,6 +115,7 @@ internal fun ArchiveContent(
     onSelectYear: (Int) -> Unit,
     onOpenFilters: () -> Unit,
     onOpenEntry: (String) -> Unit,
+    onOpenSettings: () -> Unit,
     onClearFilters: () -> Unit,
     onLoadMore: () -> Unit,
     modifier: Modifier = Modifier,
@@ -132,7 +136,17 @@ internal fun ArchiveContent(
             .fillMaxSize()
             .background(MohakashColors.Background),
     ) {
-        MohakashTopBar(title = stringResource(R.string.archive_title))
+        MohakashTopBar(
+            title = stringResource(R.string.archive_title),
+            actions = {
+                IconActionButton(
+                    painter = painterResource(R.drawable.ic_settings_24),
+                    contentDescription = stringResource(R.string.today_settings),
+                    onClick = onOpenSettings,
+                    tint = MohakashColors.TextMuted,
+                )
+            },
+        )
 
         SearchField(
             query = state.query,
