@@ -603,6 +603,9 @@ still matches `config/site.json`.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
 - [x] Automated tests: 98 pipeline, 69 website, 76 Android — all green. The debug APK builds.
+- [x] Signed Android release **v1.0.1** published on GitHub with APK, AAB and `SHA256SUMS.txt`; package `mohakash.stargzr.space`, certificate pinned in the release workflow.
+- [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
+- [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 
 **Needs the repository owner**
 
@@ -613,7 +616,8 @@ still matches `config/site.json`.
 - [ ] Connect the repository to Netlify and deploy.
 - [ ] Decide how the bot commit may pass branch protection (§9.4).
 - [ ] Run the first backfill from the Actions tab (mode `backfill`, `start_year` 1995) if you did not keep the committed archive.
-- [ ] Release the Android app with your own signing key.
+- [ ] Publish the app on Google Play (needs the owner's Play Console account and `PLAY_SERVICE_ACCOUNT_JSON`).
+- [ ] Submit the F-Droid metadata in `fdroid/metadata/` as a merge request to `fdroiddata`.
 
 ### Not verified here
 
