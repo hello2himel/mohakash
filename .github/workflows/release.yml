@@ -1,0 +1,236 @@
+name: Release Android app
+
+# A tag such as v1.0.1 builds, signs and publishes the APK/AAB. Manual runs
+# build the checked-in version and leave the artifacts in the workflow run.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Signed APK and AAB
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      actions: read
+    env:
+      ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      EXPECTED_CERT_SHA256: ${{ vars.ANDROID_CERT_SHA256 }}
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Check the signing secrets
+        run: |
+          set -euo pipefail
+          missing=()
+          for name in \
+            ANDROID_KEYSTORE_BASE64 \
+            ANDROID_KEYSTORE_PASSWORD \
+            ANDROID_KEY_ALIAS \
+            ANDROID_KEY_PASSWORD
+          do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+          if [ "${#missing[@]}" -ne 0 ]; then
+            echo "::error::Missing release signing secrets: ${missing[*]}"
+            echo "See android/RELEASING.md. Refusing to publish an unsigned build."
+            exit 1
+          fi
+
+      - name: Read the checked-in version
+        id: version
+        run: |
+          set -euo pipefail
+          VERSION_NAME=$(sed -n 's/^VERSION_NAME=//p' android/app/version.properties | tr -d '\r')
+          VERSION_CODE=$(sed -n 's/^VERSION_CODE=//p' android/app/version.properties | tr -d '\r')
+          if [ -z "$VERSION_NAME" ] || [ -z "$VERSION_CODE" ]; then
+            echo "::error::android/app/version.properties is missing VERSION_NAME or VERSION_CODE"
+            exit 1
+          fi
+          if [ "$GITHUB_REF_TYPE" = "tag" ] && [ "$GITHUB_REF_NAME" != "v$VERSION_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match v$VERSION_NAME from version.properties"
+            exit 1
+          fi
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
+          echo "Building $VERSION_NAME ($VERSION_CODE)"
+
+      - name: Restore the release keystore
+        run: |
+          set -euo pipefail
+          umask 077
+          KEYSTORE="$RUNNER_TEMP/mohakash-release.jks"
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE"
+          echo "ANDROID_KEYSTORE_PATH=$KEYSTORE" >> "$GITHUB_ENV"
+          echo "Release keystore restored ($(wc -c < "$KEYSTORE") bytes)."
+
+      - name: Run the Android unit tests
+        working-directory: android
+        run: ./gradlew --no-daemon :app:testDebugUnitTest
+
+      - name: Build the signed release
+        working-directory: android
+        run: ./gradlew --no-daemon :app:assembleRelease :app:bundleRelease
+
+      - name: Verify package, version and signatures
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          VERSION_CODE: ${{ steps.version.outputs.code }}
+        run: |
+          set -euo pipefail
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          AAB=android/app/build/outputs/bundle/release/app-release.aab
+          test -f "$APK"
+          test -f "$AAB"
+
+          SDK_ROOT="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
+          if [ -z "$SDK_ROOT" ]; then
+            echo "::error::ANDROID_HOME / ANDROID_SDK_ROOT is not set"
+            exit 1
+          fi
+          BUILD_TOOLS=$(find "$SDK_ROOT/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)
+
+          "$BUILD_TOOLS/apksigner" verify --print-certs "$APK" | tee "$RUNNER_TEMP/apk-certs.txt"
+          "$BUILD_TOOLS/aapt2" dump badging "$APK" > "$RUNNER_TEMP/badging.txt"
+
+          grep -q "package: name='mohakash.stargzr.space'" "$RUNNER_TEMP/badging.txt"
+          grep -q "versionCode='$VERSION_CODE'" "$RUNNER_TEMP/badging.txt"
+          grep -q "versionName='$VERSION_NAME'" "$RUNNER_TEMP/badging.txt"
+
+          CERT=$(sed -n 's/.*certificate SHA-256 digest: //p' "$RUNNER_TEMP/apk-certs.txt" | head -n1)
+          echo "APK signing certificate SHA-256: $CERT"
+          if [ -n "${EXPECTED_CERT_SHA256:-}" ] && [ "$CERT" != "$EXPECTED_CERT_SHA256" ]; then
+            echo "::error::Unexpected signing certificate. Expected $EXPECTED_CERT_SHA256"
+            exit 1
+          fi
+
+          jarsigner -verify "$AAB" > "$RUNNER_TEMP/aab-verify.txt"
+          grep -q "jar verified" "$RUNNER_TEMP/aab-verify.txt"
+
+      - name: Stage the release assets
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          cp android/app/build/outputs/apk/release/app-release.apk release/mohakash.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab \
+            "release/mohakash-${VERSION_NAME}.aab"
+          (
+            cd release
+            sha256sum mohakash.apk "mohakash-${VERSION_NAME}.aab" > SHA256SUMS.txt
+          )
+          cat release/SHA256SUMS.txt
+
+      - name: Upload the signed artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mohakash-signed-${{ steps.version.outputs.name }}
+          path: release/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish the GitHub release
+        if: github.event_name == 'push' && github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          VERSION_CODE: ${{ steps.version.outputs.code }}
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION_NAME}"
+          CERT=$(sed -n 's/.*certificate SHA-256 digest: //p' "$RUNNER_TEMP/apk-certs.txt" | head -n1)
+
+          {
+            echo "Signed Android release of **Mohakash**."
+            echo
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Package | \`mohakash.stargzr.space\` |"
+            echo "| Version | \`${VERSION_NAME}\` (versionCode \`${VERSION_CODE}\`) |"
+            echo "| Minimum Android | 7.0 (API 24) |"
+            echo "| Signing certificate SHA-256 | \`${CERT}\` |"
+            echo "| Commit | \`${GITHUB_SHA}\` |"
+            echo
+            echo "**Assets**"
+            echo
+            echo "- \`mohakash.apk\` — signed APK for direct installation."
+            echo "- \`mohakash-${VERSION_NAME}.aab\` — signed Android App Bundle for Google Play."
+            echo "- \`SHA256SUMS.txt\` — checksums for both artifacts."
+            echo
+            echo "**Checksums**"
+            echo
+            echo '```'
+            cat release/SHA256SUMS.txt
+            echo '```'
+            echo
+            echo "The APK is signed with the project release key. Google Play and F-Droid"
+            echo "sign their own builds, so uninstall the direct APK before switching to"
+            echo "a store build (and vice versa)."
+            echo
+            echo "The APK and AAB are also attached to this release by CI; see"
+            echo "\`android/RELEASING.md\` for verification steps."
+          } > "$RUNNER_TEMP/release-notes.md"
+
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" \
+              release/mohakash.apk \
+              "release/mohakash-${VERSION_NAME}.aab" \
+              release/SHA256SUMS.txt \
+              --clobber \
+              --repo "$GITHUB_REPOSITORY"
+            gh release edit "$TAG" \
+              --title "Mohakash ${TAG} — Android app" \
+              --notes-file "$RUNNER_TEMP/release-notes.md" \
+              --latest \
+              --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" \
+              release/mohakash.apk \
+              "release/mohakash-${VERSION_NAME}.aab" \
+              release/SHA256SUMS.txt \
+              --title "Mohakash ${TAG} — Android app" \
+              --notes-file "$RUNNER_TEMP/release-notes.md" \
+              --verify-tag \
+              --latest \
+              --repo "$GITHUB_REPOSITORY"
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Android release"
+            echo
+            echo "- Version: \`${{ steps.version.outputs.name }}\` (\`${{ steps.version.outputs.code }}\`)"
+            echo "- Tag: \`${{ github.ref_name }}\`"
+            echo "- Artifacts: \`mohakash.apk\`, \`mohakash-${{ steps.version.outputs.name }}.aab\`, \`SHA256SUMS.txt\`"
+          } >> "$GITHUB_STEP_SUMMARY"

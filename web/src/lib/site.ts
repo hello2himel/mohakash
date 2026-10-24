@@ -35,6 +35,7 @@ export const SITE = {
   issuesUrl: ISSUES_URL,
   feedUrl: FEED_URL,
   rightsUrl: '/rights',
+  privacyUrl: '/privacy',
 } as const;
 
 export const NAV_LINKS = [

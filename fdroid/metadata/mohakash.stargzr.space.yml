@@ -1,0 +1,43 @@
+# F-Droid metadata for Mohakash.
+#
+# This file is a staging copy for a merge request to
+# https://gitlab.com/fdroid/fdroiddata. F-Droid builds and signs its own APK;
+# the release key in android/keystore/ is only for GitHub and Play uploads.
+#
+# Before opening the merge request, replace the Builds.commit tag with the
+# full commit hash of the tagged release.
+
+Categories:
+  - Science & Education
+License: MIT
+AuthorName: The Mohakash contributors
+WebSite: https://mohakash.netlify.app
+SourceCode: https://github.com/hello2himel/mohakash
+IssueTracker: https://github.com/hello2himel/mohakash/issues
+Changelog: https://github.com/hello2himel/mohakash/releases
+AutoName: Mohakash
+RepoType: git
+Repo: https://github.com/hello2himel/mohakash.git
+
+Builds:
+  - versionName: 1.0.1
+    versionCode: 2
+    commit: v1.0.1
+    subdir: android
+    gradle:
+      - "yes"
+    output: app/build/outputs/apk/release/app-release-unsigned.apk
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags ^v[0-9.]+$
+CurrentVersion: 1.0.1
+CurrentVersionCode: 2
+RequiresRoot: false
+
+MaintainerNotes: |
+  Mohakash is a NASA APOD reader with an Android live-wallpaper service.
+  It has no accounts, analytics, ads or crash reporting. The public API is
+  generated from this repository and can be self-hosted; the default build
+  uses the project's GitHub Pages API. F-Droid signs its own build, so users
+  cannot upgrade between the GitHub/Play APK and the F-Droid APK without
+  uninstalling first.

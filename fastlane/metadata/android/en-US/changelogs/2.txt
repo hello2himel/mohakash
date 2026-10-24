@@ -1,0 +1,9 @@
+First signed release.
+
+- New permanent package name: mohakash.stargzr.space.
+- Today and Entry viewers now show the picture itself, without letterbox panels.
+- The latest picture appears in onboarding and in the wallpaper preview before the system picker opens.
+- Wallpaper installs and storage updates are serialized so the selected picture is the one that gets installed.
+- The wallpaper status now reflects the system wallpaper, and daily updates only run while Mohakash is active.
+- Fixes opening the live-wallpaper preview on Android 15.
+- Adds a privacy policy link in Settings.

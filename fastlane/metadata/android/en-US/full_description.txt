@@ -1,0 +1,13 @@
+Mohakash brings the Astronomy Picture of the Day to your phone.
+
+Read today's picture and the full explanation, browse the archive, keep favourites for offline reading, and put the newest picture on your home screen with a genuine Android live wallpaper.
+
+Features:
+- Today's APOD with the date, credit, title and explanation.
+- Searchable archive with year and media-type filters.
+- Save pictures and read them offline.
+- A real WallpaperService: Fill or Fit, optional daily updates, Wi-Fi-only downloads.
+- HD image option and a clean, dark, Material 3 interface.
+- No account, no ads, no analytics and no tracking.
+
+Mohakash is open source. Pictures and explanations belong to their creators and are shown with the credit supplied by NASA APOD. This is an independent project, not affiliated with or endorsed by NASA.
