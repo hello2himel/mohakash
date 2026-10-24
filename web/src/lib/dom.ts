@@ -116,6 +116,48 @@ export function buildAction(options: ActionOptions): HTMLAnchorElement | HTMLBut
   return button;
 }
 
+/**
+ * Download a URL, even when it is cross-origin (where the `download`
+ * attribute is ignored by browsers). The image is fetched as a CORS blob and
+ * downloaded through a same-origin blob URL. Falls back to opening the URL in
+ * a new tab when the fetch cannot succeed, so the visitor never loses the page.
+ */
+export async function downloadUrl(url: string): Promise<void> {
+  try {
+    const response = await fetch(url, { mode: 'cors' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const filename = url.split('/').pop() ?? '';
+    const anchor = document.createElement('a');
+    anchor.href = blobUrl;
+    anchor.download = filename;
+    anchor.hidden = true;
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(blobUrl);
+    return;
+  } catch {
+    /* fall through to opening the image in a new tab */
+  }
+  window.open(url, '_blank');
+}
+
+/** Build an action link that downloads the target instead of navigating to it. */
+export function downloadLink(options: ActionOptions): HTMLAnchorElement {
+  const variant = options.variant ?? 'secondary';
+  const link = el('a', `btn btn--${variant}`);
+  link.href = options.href ?? '';
+  fillAction(link, options);
+  if (options.ariaLabel) link.setAttribute('aria-label', options.ariaLabel);
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    void downloadUrl(link.href);
+  });
+  return link;
+}
+
 export interface MediaFrameOptions {
   /** Load the image eagerly (used for the first, visible picture). */
   priority?: boolean;
