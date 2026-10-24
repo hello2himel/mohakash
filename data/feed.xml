@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 12:39:01 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2026 12:01:27 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Rosetta's Selfie</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-october-24-rosettas-selfie/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-24-rosettas-selfie/</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <description>This Rosetta spacecraft selfie was snapped on October 7th, 2014. At the time the comet-chasing spacecraft was about 472 million kilometers from planet Earth, but only 16 kilometers from the surface of comet 67P/Churyumov-Gerasimenko. Looming beyond the spacecraft near the top of the frame, dust and gas stream away from the comet's curious double-lobed nucleus. Bright sunlight glints off one of Rosetta's 14 meter long solar arrays. In fact, two exposures, one short and one long, were combined to record the dramatic high contrast scene using the CIVA camera system on Rosetta's still-attached…<br/>Credit: ESA/Rosetta/Philae/CIVA</description>
+    </item>
     <item>
       <title>Andromeda in Southern Spring</title>
       <link>https://science.nasa.gov/image-article/apod-2026-october-23-andromeda-in-southern-spring/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-25-globular-star-cluster-omega-centauri/</guid>
       <pubDate>Fri, 25 Sep 2026 00:00:00 GMT</pubDate>
       <description>Globular star cluster Omega Centauri packs about 10 million stars much older than the Sun into a volume some 150 light-years in diameter. Also known as NGC 5139, at a distance of 15,000 light-years it's the largest and brightest of 200 or so known globular clusters that roam the halo of our Milky Way galaxy. Though most star clusters consist of stars with the same age and composition, the enigmatic Omega Cen exhibits the presence of different stellar populations with a spread of ages and chemical abundances. In fact, Omega Cen may be the remnant core of a small galaxy merging with the Milky…<br/>Credit: Javier O. Cadenas Parra</description>
-    </item>
-    <item>
-      <title>The Ghosts of Five Supernovas</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-september-24-the-ghosts-of-five-supernovas/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-24-the-ghosts-of-five-supernovas/</guid>
-      <pubDate>Thu, 24 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The ghosts of five supernovas haunt this extraordinary image. It was acquired at Oukaïmeden Observatory in Morocco with approximately 200 hours of observations and shows a large patch of the sky, equivalent to the area of one thousand full moons tiled together, in the constellation of Auriga (the Charioteer). From left to right, the five supernova remnants visible across the field are G181.1+9.5, G182.4+4.3, G179.0+2.6, G180.0−1.7 (Sh2-240, the Spaghetti Nebula), and G178.2−4.2. They are highlighted in the annotated image, together with open cluster M37 and the Tadpole Nebula. As each…<br/>Credit: Stephane Vetter, Yann Sainty</description>
     </item>
   </channel>
 </rss>
