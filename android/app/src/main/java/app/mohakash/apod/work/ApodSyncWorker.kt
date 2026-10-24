@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import app.mohakash.apod.MohakashApplication
+import app.mohakash.apod.wallpaper.WallpaperStatus
 
 /**
  * The background job that keeps the metadata — and optionally the live wallpaper — up to date.
@@ -31,8 +32,14 @@ class ApodSyncWorker(
         val wifiOnly = settings?.wifiOnly ?: true
         val pictureAllowed = connected && (!wifiOnly || unmetered)
 
+        // Refreshing the cached metadata is always useful. The picture itself is only replaced
+        // while Mohakash is the selected system wallpaper, so skipping onboarding does not
+        // silently install a wallpaper the user never chose.
+        val updateWallpaper = (settings?.updateAutomatically ?: true) &&
+            WallpaperStatus.isActive(applicationContext)
+
         val outcome = engine.sync(
-            updateWallpaper = settings?.updateAutomatically ?: true,
+            updateWallpaper = updateWallpaper,
             networkAvailable = pictureAllowed,
         )
 

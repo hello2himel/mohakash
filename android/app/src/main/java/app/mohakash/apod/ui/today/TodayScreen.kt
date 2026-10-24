@@ -41,6 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.core.TimeFormatting
@@ -62,6 +64,7 @@ import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import app.mohakash.apod.ui.wallpaper.WallpaperSheet
+import app.mohakash.apod.wallpaper.WallpaperStatus
 import kotlinx.coroutines.launch
 
 /**
@@ -76,6 +79,13 @@ fun TodayScreen(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    var systemWallpaperActive by remember { mutableStateOf(WallpaperStatus.isActive(context)) }
+
+    // The picker is a separate activity, so the label has to be re-checked when Today resumes.
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        systemWallpaperActive = WallpaperStatus.isActive(context)
+    }
+
     val viewModel = containerViewModel { container ->
         TodayViewModel(
             apodRepository = container.apodRepository,
@@ -120,6 +130,7 @@ fun TodayScreen(
         onRetry = viewModel::retry,
         onOpenArchive = onOpenArchive,
         onOpenWallpaper = { showWallpaperSheet = true },
+        systemWallpaperActive = systemWallpaperActive,
         modifier = modifier,
     )
 
@@ -159,6 +170,7 @@ internal fun TodayContent(
     onRetry: () -> Unit,
     onOpenArchive: () -> Unit,
     onOpenWallpaper: () -> Unit,
+    systemWallpaperActive: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -202,6 +214,7 @@ internal fun TodayContent(
                     onShare = onShare,
                     onRetry = onRetry,
                     onOpenWallpaper = onOpenWallpaper,
+                    systemWallpaperActive = systemWallpaperActive,
                 )
             }
         }
@@ -345,10 +358,11 @@ private fun TodayLoadedContent(
     onShare: () -> Unit,
     onRetry: () -> Unit,
     onOpenWallpaper: () -> Unit,
+    systemWallpaperActive: Boolean,
 ) {
     val isVideo = entry.mediaType.isPlayable
     val posterUrl = entry.thumbnailUrl ?: entry.displayImageUrl
-    val wallpaperActive = state.wallpaperMeta?.date == entry.date
+    val wallpaperActive = systemWallpaperActive && state.wallpaperMeta?.date == entry.date
     Column(
         modifier = Modifier
             .fillMaxSize()
