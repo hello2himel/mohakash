@@ -191,6 +191,11 @@ internal fun SettingsContent(
                 minHeight = 56.dp,
             )
             LinkRow(
+                text = stringResource(R.string.settings_privacy),
+                onClick = { onOpenLink(BuildConfig.PRIVACY_URL) },
+                minHeight = 56.dp,
+            )
+            LinkRow(
                 text = stringResource(R.string.settings_source_code),
                 onClick = { onOpenLink(BuildConfig.REPOSITORY_URL) },
                 minHeight = 56.dp,

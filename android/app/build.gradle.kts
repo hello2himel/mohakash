@@ -158,6 +158,7 @@ android {
         buildConfigField("String", "REPOSITORY_URL", "\"$repositoryUrl\"")
         buildConfigField("String", "CONTENT_RIGHTS_URL", "\"$contentRightsUrl\"")
         buildConfigField("String", "WEBSITE_BASE_URL", "\"$websiteBaseUrl\"")
+        buildConfigField("String", "PRIVACY_URL", "\"$websiteBaseUrl/privacy\"")
     }
 
     buildTypes {

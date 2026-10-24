@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Privacy policy · Mohakash"
+  description="What Mohakash stores on your device, what it sends over the network, and what it never collects."
+>
+  <div class="page page--tight">
+    <div class="stack-sm" style="max-width: 68ch;">
+      <h1 class="page-title">Privacy policy</h1>
+      <p class="page-lead">
+        Mohakash is a free, open-source astronomy reader and Android live wallpaper. It has no
+        account, no analytics, no advertising and no tracking.
+      </p>
+      <p class="muted-block">Last updated: 23 October 2026</p>
+    </div>
+
+    <section class="section" aria-labelledby="collect" style="max-width: 68ch;">
+      <h2 class="section-title" id="collect">What we collect</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        Nothing. We do not operate a user database, we do not ask for an email address, and we do
+        not use analytics, crash-reporting or advertising SDKs.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="device" style="max-width: 68ch;">
+      <h2 class="section-title" id="device">What stays on your device</h2>
+      <ul style="color: var(--text-body); display: flex; flex-direction: column; gap: 4px;">
+        <li>Your settings, such as Wi-Fi-only downloads, image scaling and the daily-update switch.</li>
+        <li>Pictures and entry metadata that you save with the heart button.</li>
+        <li>Cached API responses and downloaded images, so the app can work offline.</li>
+        <li>The current wallpaper picture, stored in the app's private storage.</li>
+      </ul>
+      <p class="muted-block">
+        This information stays in the app's private storage. If Android backup is enabled on your
+        device, Android may include app data in your own Google backup. That backup is controlled
+        by your device settings, not by this project.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="network" style="max-width: 68ch;">
+      <h2 class="section-title" id="network">Network requests</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        The app and website fetch the public APOD JSON and the pictures from the original sources.
+        Like any HTTP request, these requests include your IP address, user agent and the requested
+        URL. They go to:
+      </p>
+      <ul style="color: var(--text-body); display: flex; flex-direction: column; gap: 4px;">
+        <li><a href={SITE.publicApiBase}>GitHub Pages</a>, which serves this project's public API.</li>
+        <li><a href="https://science.nasa.gov/">NASA Science</a>, which serves APOD metadata and images.</li>
+        <li><a href={SITE.githubRepo}>GitHub</a>, when you open the source, issue tracker or a release link.</li>
+      </ul>
+      <p class="muted-block">
+        Those providers process requests under their own privacy policies. Mohakash does not add
+        identifiers to the requests and does not send your saved pictures or settings anywhere.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="permissions" style="max-width: 68ch;">
+      <h2 class="section-title" id="permissions">Android permissions</h2>
+      <ul style="color: var(--text-body); display: flex; flex-direction: column; gap: 4px;">
+        <li><strong>Internet</strong> and <strong>network state</strong> — fetch the picture and API data, and respect Wi-Fi-only mode.</li>
+        <li><strong>Notifications</strong> (optional) — tell you when the live wallpaper picture changes.</li>
+        <li><strong>Storage</strong> (Android 7–9 only) — save a picture to your gallery. Android 10 and later use the system photo picker and need no storage permission.</li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="donate" style="max-width: 68ch;">
+      <h2 class="section-title" id="donate">Donations</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        The optional Donate link opens an external page and adds only a <code>source=Mohakash</code>
+        query parameter so the project can see where a visit came from. No personal information is
+        sent by Mohakash.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="children" style="max-width: 68ch;">
+      <h2 class="section-title" id="children">Children</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        Mohakash is intended for a general audience and is not directed to children under 13. We do
+        not knowingly collect personal information from anyone.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="changes" style="max-width: 68ch;">
+      <h2 class="section-title" id="changes">Changes and contact</h2>
+      <p class="page-lead" style="font-size: 15px;">
+        If this policy changes, the new version will be published at this address with a new date.
+        Questions or corrections are welcome in the <a href={SITE.issuesUrl}>issue tracker</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>

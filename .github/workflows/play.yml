@@ -1,0 +1,76 @@
+name: Publish to Google Play
+
+# Manual only. The app must already exist in Play Console and the service
+# account must have access to it. The first AAB is normally uploaded by hand
+# from Play Console; later releases can use this workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: GitHub release tag containing the signed AAB (for example v1.0.1)
+        required: true
+        default: v1.0.1
+      track:
+        description: Play track
+        type: choice
+        default: internal
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      status:
+        description: Release status
+        type: choice
+        default: draft
+        options:
+          - draft
+          - inProgress
+          - completed
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    name: Upload AAB to Play
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check the Play credentials
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -z "$PLAY_SERVICE_ACCOUNT_JSON" ]; then
+            echo "::error::Missing PLAY_SERVICE_ACCOUNT_JSON."
+            echo "Create a Play Console service account and add its JSON key as a repository secret."
+            echo "See android/RELEASING.md."
+            exit 1
+          fi
+
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Download the signed AAB from the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          gh release download "${{ inputs.tag }}" \
+            --pattern "*.aab" \
+            --dir release \
+            --repo "$GITHUB_REPOSITORY"
+          test -n "$(find release -name '*.aab' -print -quit)"
+          ls -lh release
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: mohakash.stargzr.space
+          releaseFiles: release/*.aab
+          track: ${{ inputs.track }}
+          status: ${{ inputs.status }}
+          releaseName: "Mohakash ${{ inputs.tag }}"
+          whatsNewDirectory: fastlane/metadata/android/en-US/changelogs
