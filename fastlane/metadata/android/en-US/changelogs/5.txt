@@ -1,0 +1,7 @@
+Adds a custom API endpoint option and a refreshed icon set.
+
+- Settings → Advanced lets you use a self-hosted HTTPS APOD API.
+- Reset to the built-in endpoint at any time.
+- Today and entry pages reload when the endpoint changes.
+- Settings is now reachable from Archive, Saved and entry pages.
+- New Remix Icon UI icons and third-party notices.
