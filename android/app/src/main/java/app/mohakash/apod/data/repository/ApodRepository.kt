@@ -57,8 +57,8 @@ class ApodRepository(
 
     /** Reads the cached `latest.json` document, if any. */
     suspend fun cachedLatest(): ApodEntry? {
-        val document = cacheDocumentDao.get(CacheDocumentEntity.KEY_LATEST) ?: return null
-        return runCatching { ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(document.json)) }
+        val raw = readDocument(CacheDocumentEntity.KEY_LATEST) ?: return null
+        return runCatching { ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(raw)) }
             .getOrNull()
     }
 
@@ -78,9 +78,33 @@ class ApodRepository(
 
     /** Reads the cached `archive-index.json` document, if any. */
     suspend fun cachedArchiveIndex(): List<ArchiveIndexEntry> {
-        val document = cacheDocumentDao.get(CacheDocumentEntity.KEY_ARCHIVE_INDEX) ?: return emptyList()
-        return runCatching { ApiMapper.toDomain(json.decodeFromString<ArchiveIndexDto>(document.json)) }
+        val raw = readDocument(CacheDocumentEntity.KEY_ARCHIVE_INDEX) ?: return emptyList()
+        return runCatching { ApiMapper.toDomain(json.decodeFromString<ArchiveIndexDto>(raw)) }
             .getOrDefault(emptyList())
+    }
+
+    /**
+     * Reads a cached JSON document in slices.
+     *
+     * `archive-index.json` is several megabytes, which is more than a single SQLite
+     * CursorWindow can hold; reading it as one row throws [android.database.sqlite.SQLiteBlobTooBigException].
+     */
+    private suspend fun readDocument(key: String): String? {
+        val total = cacheDocumentDao.length(key) ?: return null
+        if (total == 0) return ""
+        val builder = StringBuilder(total)
+        var start = 1
+        while (start <= total) {
+            val chunk = cacheDocumentDao.chunk(key, start, DOCUMENT_CHUNK_CHARS) ?: return null
+            builder.append(chunk)
+            start += DOCUMENT_CHUNK_CHARS
+        }
+        return builder.toString()
+    }
+
+    private companion object {
+        /** 256k characters is at most 1 MiB of UTF-8, safely below the CursorWindow limit. */
+        const val DOCUMENT_CHUNK_CHARS = 256_000
     }
 
     /** Fetches a full year file and caches every record it contains. */
@@ -95,14 +119,12 @@ class ApodRepository(
 
     /** Reads the cached records of a year, newest first. */
     suspend fun cachedArchiveYear(year: Int): List<ApodEntry> =
-        cachedEntryDao.getAll()
-            .filter { it.date.startsWith("$year-") }
-            .sortedByDescending { it.date }
+        cachedEntryDao.getByYearPrefix("$year-")
             .map { it.toDomain() }
 
     /** True when the records of the year are already cached. */
     suspend fun hasCachedYear(year: Int): Boolean =
-        cachedEntryDao.getAll().any { it.date.startsWith("$year-") }
+        cachedEntryDao.hasYearPrefix("$year-")
 
     /**
      * Looks a record up in the local cache.

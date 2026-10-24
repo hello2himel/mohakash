@@ -92,6 +92,15 @@ class FakeCacheDocumentDao : CacheDocumentDao {
 
     override suspend fun get(key: String): CacheDocumentEntity? = documents[key]
 
+    override suspend fun length(key: String): Int? = documents[key]?.json?.length
+
+    override suspend fun chunk(key: String, start: Int, length: Int): String? {
+        val json = documents[key]?.json ?: return null
+        if (start < 1 || start > json.length) return ""
+        val end = minOf(start - 1 + length, json.length)
+        return json.substring(start - 1, end)
+    }
+
     override suspend fun put(entity: CacheDocumentEntity) {
         documents[entity.key] = entity
     }
@@ -108,10 +117,14 @@ class FakeCachedEntryDao : CachedEntryDao {
 
     override suspend fun getByDate(date: String): CachedEntryEntity? = entries[date]
 
-    override suspend fun getAll(): List<CachedEntryEntity> = entries.values.toList()
-
     override suspend fun getByDates(dates: List<String>): List<CachedEntryEntity> =
         dates.mapNotNull { entries[it] }
+
+    override suspend fun getByYearPrefix(yearPrefix: String): List<CachedEntryEntity> =
+        entries.values.filter { it.date.startsWith(yearPrefix) }.sortedByDescending { it.date }
+
+    override suspend fun hasYearPrefix(yearPrefix: String): Boolean =
+        entries.keys.any { it.startsWith(yearPrefix) }
 
     override suspend fun upsertAll(entities: List<CachedEntryEntity>) {
         entities.forEach { entries[it.date] = it }
