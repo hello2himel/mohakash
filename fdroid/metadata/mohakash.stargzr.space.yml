@@ -20,9 +20,9 @@ RepoType: git
 Repo: https://github.com/hello2himel/mohakash.git
 
 Builds:
-  - versionName: 1.0.3
-    versionCode: 4
-    commit: 3fac5c40ae8c4e87421a5cc73ff0443770a3c31d
+  - versionName: 1.0.4
+    versionCode: 5
+    commit: 7196cd7d0f07e0f43ef1d6bc69c4fc208e8a3198
     subdir: android
     gradle:
       - "yes"
@@ -30,8 +30,8 @@ Builds:
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$
-CurrentVersion: 1.0.3
-CurrentVersionCode: 4
+CurrentVersion: 1.0.4
+CurrentVersionCode: 5
 RequiresRoot: false
 
 MaintainerNotes: |
