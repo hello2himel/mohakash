@@ -138,6 +138,25 @@ class ApodRepositoryTest {
     }
 
     @Test
+    fun `a large archive index is read back in chunks`() = runTest {
+        val entriesJson = (1..4_000).joinToString(",") { index ->
+            """{"date":"2026-01-01","title":"Entry $index ${"x".repeat(120)}","media_type":"image"}"""
+        }
+        val largeIndexJson = """{"schema_version":"1.0.0","count":4000,"entries":[$entriesJson]}"""
+        val api = FakeApodService(archiveIndexJson = largeIndexJson)
+        val repository = repository(api)
+
+        assertEquals(4_000, repository.fetchArchiveIndex().size)
+
+        api.error = IOException("offline")
+        val cached = repository.cachedArchiveIndex()
+
+        assertEquals(4_000, cached.size)
+        assertEquals("Entry 1 ${"x".repeat(120)}", cached.first().title)
+        assertEquals("Entry 4000 ${"x".repeat(120)}", cached.last().title)
+    }
+
+    @Test
     fun `a single year is fetched and cached`() = runTest {
         val api = FakeApodService(archiveYearJson = """{"year":2026,"records":[$latestJson]}""")
         val entries = FakeCachedEntryDao()
