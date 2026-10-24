@@ -203,9 +203,10 @@ internal fun openWallpaperPicker(context: Context) {
                     putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, service)
                 }
             }
-            if (context.packageManager.resolveActivity(intent, 0) == null) {
-                throw ActivityNotFoundException("No activity resolves ${spec.action}")
-            }
+            // Start directly and let startActivity throw ActivityNotFoundException when no
+            // activity matches. resolveActivity(…, 0) rejects some valid implicit intents whose
+            // filters declare CATEGORY_DEFAULT, which made the live-wallpaper preview fall back
+            // to the display settings on Android 15.
             context.startActivity(intent)
             true
         }.isSuccess
