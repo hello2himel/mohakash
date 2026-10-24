@@ -127,6 +127,7 @@ private fun PreviewSurface(content: @Composable () -> Unit) {
 @Composable
 private fun TodayPreviewContent(
     state: TodayUiState,
+    systemWallpaperActive: Boolean = false,
     onOpenArchive: () -> Unit = {},
 ) {
     TodayContent(
@@ -140,6 +141,7 @@ private fun TodayPreviewContent(
         onRetry = {},
         onOpenArchive = onOpenArchive,
         onOpenWallpaper = {},
+        systemWallpaperActive = systemWallpaperActive,
     )
 }
 
@@ -198,12 +200,13 @@ private fun TodayErrorPreview() {
 private fun TodayWallpaperActivePreview() {
     PreviewSurface {
         TodayPreviewContent(
-            TodayUiState(
+            state = TodayUiState(
                 isLoading = false,
                 entry = previewEntry(),
                 syncedAt = previewSyncedAt,
                 wallpaperMeta = previewWallpaperMeta,
             ),
+            systemWallpaperActive = true,
         )
     }
 }
