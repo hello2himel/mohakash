@@ -67,6 +67,7 @@ fun DetailScreen(
     date: String,
     onBack: () -> Unit,
     onOpenLink: (String) -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -109,6 +110,7 @@ fun DetailScreen(
         onShare = viewModel::share,
         onSaveImage = saveImage,
         onOpenLink = onOpenLink,
+        onOpenSettings = onOpenSettings,
         onSetWallpaper = { showWallpaperSheet = true },
         onRetry = viewModel::retry,
         modifier = modifier,
@@ -140,6 +142,7 @@ internal fun DetailContent(
     onShare: () -> Unit,
     onSaveImage: () -> Unit,
     onOpenLink: (String) -> Unit,
+    onOpenSettings: () -> Unit,
     onSetWallpaper: () -> Unit,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
@@ -166,6 +169,12 @@ internal fun DetailContent(
                     painter = painterResource(R.drawable.ic_share_24),
                     contentDescription = stringResource(R.string.today_share),
                     onClick = onShare,
+                )
+                IconActionButton(
+                    painter = painterResource(R.drawable.ic_settings_24),
+                    contentDescription = stringResource(R.string.today_settings),
+                    onClick = onOpenSettings,
+                    tint = MohakashColors.TextMuted,
                 )
             },
         )

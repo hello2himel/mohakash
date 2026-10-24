@@ -38,7 +38,8 @@ class ApodApi(
     /** Downloads a raw document, probing every candidate base URL until one answers. */
     override suspend fun getString(path: String): String = withContext(Dispatchers.IO) {
         var lastError: Throwable? = null
-        for (baseUrl in baseUrlResolver.orderedCandidates()) {
+        val candidates = baseUrlResolver.orderedCandidates()
+        for (baseUrl in candidates) {
             val url = baseUrl.trimEnd('/') + path
             try {
                 val request = Request.Builder().url(url).get().build()
@@ -57,6 +58,6 @@ class ApodApi(
                 lastError = error
             }
         }
-        throw lastError ?: IOException("No usable API base URL (tried ${baseUrlResolver.candidates.size})")
+        throw lastError ?: IOException("No usable API base URL (tried ${candidates.size})")
     }
 }

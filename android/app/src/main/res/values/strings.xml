@@ -119,13 +119,41 @@
     <string name="settings_image_cache">Image cache</string>
     <string name="settings_image_cache_size">%1$s used</string>
     <string name="settings_clear">Clear</string>
+    <string name="settings_section_advanced">Advanced</string>
+    <string name="settings_api_endpoint">API endpoint</string>
+    <string name="settings_api_endpoint_default">Default endpoint</string>
+    <string name="settings_api_endpoint_custom">Custom endpoint</string>
     <string name="settings_section_about">About</string>
     <string name="settings_last_synced">Last synced</string>
     <string name="settings_content_rights">Content rights</string>
     <string name="settings_privacy">Privacy policy</string>
     <string name="settings_source_code">Source code and licence</string>
+    <string name="settings_third_party_notices">Third-party notices</string>
     <string name="settings_version">Version</string>
     <string name="settings_rights_note">Image rights belong to their creators. Not affiliated with or endorsed by NASA.</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">Advanced</string>
+    <string name="settings_advanced_intro">Use your own server for the APOD JSON. It must serve the same files as the public API.</string>
+    <string name="settings_advanced_field_label">API base URL</string>
+    <string name="settings_advanced_field_helper">Leave empty to use the default. HTTPS only.</string>
+    <string name="settings_advanced_save">Save endpoint</string>
+    <string name="settings_advanced_saving">Saving…</string>
+    <string name="settings_advanced_reset">Reset to default</string>
+    <string name="settings_advanced_saved">Endpoint saved. Refreshing data…</string>
+    <string name="settings_advanced_reset_done">Using the default endpoint</string>
+    <string name="settings_advanced_already_default">Already using the default endpoint</string>
+    <string name="settings_advanced_already_using">Already using this endpoint</string>
+    <string name="settings_advanced_invalid">Enter a valid HTTPS URL without a query or fragment.</string>
+    <string name="settings_advanced_save_failed">Could not save the endpoint. Try again.</string>
+    <string name="settings_advanced_current">Current endpoint</string>
+    <string name="settings_advanced_status">Status</string>
+    <string name="settings_advanced_clear_note">Changing the endpoint clears cached APOD metadata. Saved pictures and the current wallpaper are kept.</string>
+    <string name="settings_advanced_format_note">The endpoint must serve latest.json, archive-index.json and archive/YYYY.json. No API key is sent.</string>
+    <string name="settings_advanced_section_guides">API guides</string>
+    <string name="settings_advanced_api_docs">API documentation</string>
+    <string name="settings_advanced_api_reference">Public API reference</string>
+    <string name="settings_advanced_latest_example">Example latest.json</string>
 
     <!-- Clear cache dialog -->
     <string name="clear_cache_title">Clear image cache?</string>

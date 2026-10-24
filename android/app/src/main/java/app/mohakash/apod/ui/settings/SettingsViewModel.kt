@@ -23,6 +23,7 @@ data class SettingsUiState(
     val wifiOnly: Boolean = true,
     val scaling: WallpaperScaling = WallpaperScaling.FILL,
     val hideVideos: Boolean = true,
+    val customApiBaseUrl: String? = null,
     val cacheSizeBytes: Long = 0L,
     val lastSyncAt: Long? = null,
 )
@@ -50,6 +51,20 @@ class SettingsViewModel(
 
     init {
         refresh()
+        // Keep the endpoint row in sync when the advanced screen changes the setting.
+        viewModelScope.launch {
+            settingsStore.settings.collect { settings ->
+                _state.value = _state.value.copy(
+                    updateAutomatically = settings.updateAutomatically,
+                    preferHd = settings.preferHd,
+                    wifiOnly = settings.wifiOnly,
+                    scaling = settings.wallpaperScaling,
+                    hideVideos = settings.hideVideos,
+                    customApiBaseUrl = settings.customApiBaseUrl,
+                    lastSyncAt = settings.lastSyncAt,
+                )
+            }
+        }
     }
 
     /** Reloads the settings and the cache size. */
@@ -62,6 +77,7 @@ class SettingsViewModel(
                 wifiOnly = settings.wifiOnly,
                 scaling = settings.wallpaperScaling,
                 hideVideos = settings.hideVideos,
+                customApiBaseUrl = settings.customApiBaseUrl,
                 lastSyncAt = settings.lastSyncAt,
                 cacheSizeBytes = cacheManager.cacheSizeBytes(),
             )

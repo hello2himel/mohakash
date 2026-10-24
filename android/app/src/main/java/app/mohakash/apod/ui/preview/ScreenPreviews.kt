@@ -22,6 +22,8 @@ import app.mohakash.apod.ui.detail.DetailUiState
 import app.mohakash.apod.ui.onboarding.OnboardingContent
 import app.mohakash.apod.ui.saved.SavedContent
 import app.mohakash.apod.ui.saved.SavedUiState
+import app.mohakash.apod.ui.settings.AdvancedContent
+import app.mohakash.apod.ui.settings.AdvancedUiState
 import app.mohakash.apod.ui.settings.ClearCacheDialogContent
 import app.mohakash.apod.ui.settings.SettingsContent
 import app.mohakash.apod.ui.settings.SettingsUiState
@@ -220,6 +222,7 @@ private fun DetailPreviewContent(state: DetailUiState) {
         onShare = {},
         onSaveImage = {},
         onOpenLink = {},
+        onOpenSettings = {},
         onSetWallpaper = {},
         onRetry = {},
     )
@@ -273,6 +276,7 @@ private fun ArchivePreviewContent(state: ArchiveUiState) {
         onSelectYear = {},
         onOpenFilters = {},
         onOpenEntry = {},
+        onOpenSettings = {},
         onClearFilters = {},
         onLoadMore = {},
     )
@@ -320,6 +324,7 @@ private fun SavedPreview() {
             ),
             onOpenEntry = {},
             onBrowseArchive = {},
+            onOpenSettings = {},
         )
     }
 }
@@ -332,6 +337,7 @@ private fun SavedEmptyPreview() {
             state = SavedUiState(isLoading = false, entries = emptyList()),
             onOpenEntry = {},
             onBrowseArchive = {},
+            onOpenSettings = {},
         )
     }
 }
@@ -351,11 +357,32 @@ private fun SettingsPreview() {
             ),
             onBack = {},
             onOpenLink = {},
+            onOpenAdvanced = {},
             onUpdateAutomaticallyChange = {},
             onPreferHdChange = {},
             onWifiOnlyChange = {},
             onScalingChange = {},
             onClearCache = {},
+        )
+    }
+}
+
+@Preview(name = "Advanced settings", widthDp = 390, heightDp = 844, showBackground = true)
+@Composable
+private fun AdvancedSettingsPreview() {
+    PreviewSurface {
+        AdvancedContent(
+            state = AdvancedUiState(
+                isLoading = false,
+                input = "https://example.org/api/v1",
+                savedCustomUrl = "https://example.org/api/v1",
+                defaultUrl = "https://hello2himel.github.io/mohakash/api/v1",
+            ),
+            onBack = {},
+            onInputChange = {},
+            onSave = {},
+            onReset = {},
+            onOpenLink = {},
         )
     }
 }
