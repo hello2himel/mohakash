@@ -10,7 +10,7 @@
 import { formatDate } from './format';
 import { SITE } from './site';
 import type { ApodRecord } from './types';
-import { buildAction, el, renderProse } from './dom';
+import { buildAction, downloadLink, el, renderProse } from './dom';
 import { mediaPresentation } from './media';
 
 export interface DrawerContent {
@@ -71,14 +71,14 @@ function fill(content: DrawerContent): void {
   footer.replaceChildren();
   const presentation = mediaPresentation(record);
   if (presentation.kind === 'image' && (record.hd_image_url || record.image_url)) {
-    const save = buildAction({
-      label: 'Save HD image',
-      variant: 'primary',
-      href: record.hd_image_url ?? record.image_url ?? '',
-      icon: 'ri-download-line',
-    });
-    if (save instanceof HTMLAnchorElement) save.setAttribute('download', '');
-    footer.append(save);
+    footer.append(
+      downloadLink({
+        label: 'Save HD image',
+        variant: 'primary',
+        href: record.hd_image_url ?? record.image_url ?? '',
+        icon: 'ri-download-line',
+      }),
+    );
   } else if (record.apod_url) {
     footer.append(
       buildAction({
