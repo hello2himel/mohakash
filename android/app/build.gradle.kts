@@ -145,6 +145,14 @@ android {
         applicationId = appId
         minSdk = 24
         targetSdk = 36
+
+        // fdroidserver's checkupdates parser only understands literal values
+        // in this file. Keep these in sync with version.properties; the
+        // appVersionCode/appVersionName assignments below are the actual
+        // source of truth for builds and CI overrides.
+        versionCode = 5
+        versionName = "1.0.4"
+
         versionCode = appVersionCode
         versionName = appVersionName
 
