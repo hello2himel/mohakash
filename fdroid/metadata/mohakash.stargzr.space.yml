@@ -1,11 +1,13 @@
-# F-Droid metadata for Mohakash.
+# Staging copy of metadata/mohakash.stargzr.space.yml for
+# https://gitlab.com/fdroid/fdroiddata. The file submitted to fdroiddata has
+# no comments; this copy keeps the context.
 #
-# This file is a staging copy for a merge request to
-# https://gitlab.com/fdroid/fdroiddata. F-Droid builds and signs its own APK;
-# the release key in android/keystore/ is only for GitHub and Play uploads.
+# The build commit below is the metadata-only follow-up that contains the
+# refreshed Fastlane title and screenshots. The v1.0.4 tag is
+# 7196cd7d0f07e0f43ef1d6bc69c4fc208e8a3198.
 #
-# Before opening the merge request, replace the Builds.commit tag with the
-# full commit hash of the tagged release.
+# F-Droid builds and signs its own APK; the release key in android/keystore/
+# is only for GitHub and Play uploads.
 
 Categories:
   - Science & Education
@@ -15,29 +17,37 @@ WebSite: https://mohakash.netlify.app
 SourceCode: https://github.com/hello2himel/mohakash
 IssueTracker: https://github.com/hello2himel/mohakash/issues
 Changelog: https://github.com/hello2himel/mohakash/releases
-AutoName: "Mohakash: NASA APOD Live Wallpaper and Archive"
+
+AutoName: 'Mohakash: NASA APOD Live Wallpaper and Archive'
+
 RepoType: git
 Repo: https://github.com/hello2himel/mohakash.git
 
 Builds:
   - versionName: 1.0.4
     versionCode: 5
-    commit: 7196cd7d0f07e0f43ef1d6bc69c4fc208e8a3198
+    commit: 9ecc649ba3b6feb02ef5a6929c304a4f9eee6efe
     subdir: android
     gradle:
-      - "yes"
+      - yes
     output: app/build/outputs/apk/release/app-release-unsigned.apk
 
-AutoUpdateMode: Version
-UpdateCheckMode: Tags ^v[0-9.]+$
+MaintainerNotes: |
+  The v1.0.4 tag is 7196cd7d0f07e0f43ef1d6bc69c4fc208e8a3198. The build
+  commit 9ecc649ba3b6feb02ef5a6929c304a4f9eee6efe is a metadata-only
+  follow-up that adds the refreshed Fastlane title and screenshots; the app
+  code and version are unchanged. F-Droid reads the icon, screenshots, summary
+  and description from the Fastlane metadata in the source repository.
+
+  UpdateCheckMode is None because the 1.0.4 tag keeps its version numbers in
+  android/app/version.properties, which fdroidserver's checkupdates parser
+  does not read. build.gradle.kts now carries literal defaults for the parser;
+  the next tagged release can use UpdateCheckMode: Tags.
+
+  F-Droid signs its own build. Users cannot upgrade between the GitHub/Play
+  APK and the F-Droid APK without uninstalling first.
+
+AutoUpdateMode: None
+UpdateCheckMode: None
 CurrentVersion: 1.0.4
 CurrentVersionCode: 5
-RequiresRoot: false
-
-MaintainerNotes: |
-  Mohakash is a NASA APOD reader with an Android live-wallpaper service.
-  It has no accounts, analytics, ads or crash reporting. The public API is
-  generated from this repository and can be self-hosted; the default build
-  uses the project's GitHub Pages API. F-Droid signs its own build, so users
-  cannot upgrade between the GitHub/Play APK and the F-Droid APK without
-  uninstalling first.
