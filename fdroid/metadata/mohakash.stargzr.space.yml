@@ -15,7 +15,7 @@ WebSite: https://mohakash.netlify.app
 SourceCode: https://github.com/hello2himel/mohakash
 IssueTracker: https://github.com/hello2himel/mohakash/issues
 Changelog: https://github.com/hello2himel/mohakash/releases
-AutoName: Mohakash
+AutoName: "Mohakash: NASA APOD Live Wallpaper and Archive"
 RepoType: git
 Repo: https://github.com/hello2himel/mohakash.git
 
