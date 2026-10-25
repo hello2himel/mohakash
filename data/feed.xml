@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 24 Oct 2026 12:01:27 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2026 12:35:34 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Dark Matter in a Simulated Universe</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-october-25-dark-matter-in-a-simulated-universe/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-25-dark-matter-in-a-simulated-universe/</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Is our universe haunted? It might look that way on this dark matter map. The gravity of unseen dark matter is the leading explanation for why galaxies rotate so fast, why galaxies orbit clusters so fast, why gravitational lenses so strongly deflect light, and how visible matter is distributed. The featured image from the American Museum of Natural History's Hayden Planetarium Space Show, Dark Universe, highlights one example of how pervasive dark matter might haunt our universe. In this frame from a detailed computer simulation, complex filaments of dark matter, shown in black, are strewn…<br/>Credit: Tom Abel &amp; Ralf Kaehler (KIPAC , SLAC), AMNH</description>
+    </item>
     <item>
       <title>Rosetta's Selfie</title>
       <link>https://science.nasa.gov/image-article/apod-2026-october-24-rosettas-selfie/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-26-mirrored-meteor-and-milky-way/</guid>
       <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
       <description>On August 15, this perseid meteor streaked through night skies over the Observatorio del Roque de los Muchachos at La Palma, Canary Islands, Spain. The bright and colorful meteor trail was captured next to the central Milky Way, whose dark interstellar dust clouds and luminous starlight reach above the horizon. In the foreground of this tantalizing celestial scene is the 23 meter diameter mirror of the prototype Large-Sized Telescope (LST-1). LST-1 is the first telescope constructed at the northern hemisphere site of the innovative Cherenkov Telescope Array Observatory. With 198 hexagonal…<br/>Credit: Jeff Dai (TWAN)</description>
-    </item>
-    <item>
-      <title>Globular Cluster Omega Centauri</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-september-25-globular-star-cluster-omega-centauri/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-25-globular-star-cluster-omega-centauri/</guid>
-      <pubDate>Fri, 25 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Globular star cluster Omega Centauri packs about 10 million stars much older than the Sun into a volume some 150 light-years in diameter. Also known as NGC 5139, at a distance of 15,000 light-years it's the largest and brightest of 200 or so known globular clusters that roam the halo of our Milky Way galaxy. Though most star clusters consist of stars with the same age and composition, the enigmatic Omega Cen exhibits the presence of different stellar populations with a spread of ages and chemical abundances. In fact, Omega Cen may be the remnant core of a small galaxy merging with the Milky…<br/>Credit: Javier O. Cadenas Parra</description>
     </item>
   </channel>
 </rss>

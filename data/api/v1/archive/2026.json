@@ -1,9 +1,28 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "generated_at": "2026-10-24T12:01:27Z",
-  "count": 297,
+  "generated_at": "2026-10-25T12:35:34Z",
+  "count": 298,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-10-25",
+      "title": "Dark Matter in a Simulated Universe",
+      "explanation": "Is our universe haunted? It might look that way on this dark matter map. The gravity of unseen dark matter is the leading explanation for why galaxies rotate so fast, why galaxies orbit clusters so fast, why gravitational lenses so strongly deflect light, and how visible matter is distributed. The featured image from the American Museum of Natural History's Hayden Planetarium Space Show, Dark Universe, highlights one example of how pervasive dark matter might haunt our universe. In this frame from a detailed computer simulation, complex filaments of dark matter, shown in black, are strewn about the universe like spider webs, while the relatively rare clumps of familiar baryonic matter are colored orange. These simulations are good statistical matches to astronomical observations. In what is perhaps a scarier turn of events, dark matter -- although quite strange and in an unknown form -- is no longer thought to be the strangest source of gravity in the universe. That honor now falls to dark energy, a more uniform source of repulsive gravity that seems to now dominate the expansion of the entire universe.\n\nTomorrow's picture: Orion the Great",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2021/october/DarkMatter_KipacAmnh_1200.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2021/october/DarkMatter_KipacAmnh_1200.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2021/october/DarkMatter_KipacAmnh_1200.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-25-dark-matter-in-a-simulated-universe/",
+      "copyright": "Tom Abel & Ralf Kaehler (KIPAC , SLAC), AMNH",
+      "credit": "Tom Abel & Ralf Kaehler (KIPAC , SLAC), AMNH",
+      "alt_text": "The picture shows a computer simulation of the matter distribution in our universe with dark matter shown in a dark color on a light background. Please see the explanation for more detailed information.",
+      "source": "NASA APOD",
+      "source_id": "1503107",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-10-25T12:35:34Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-10-24",
