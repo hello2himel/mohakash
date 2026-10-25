@@ -92,9 +92,13 @@ Rules:
 - The tag must be exactly `v` + `VERSION_NAME`, for example `v1.0.1`.
 - `v1.0.0` already exists and contains the old debug-signed package. Do not
   reuse it.
+- Keep the literal `versionCode`/`versionName` defaults at the top of
+  `defaultConfig` in `android/app/build.gradle.kts` in sync with
+  `version.properties`. fdroidserver's `checkupdates` parser reads those
+  literals, while the build still uses the checked-in/env values below them.
 
-To prepare the next release, update both values, commit them, then create the
-matching tag.
+To prepare the next release, update the values in both files, commit them, then
+create the matching tag.
 
 ---
 
