@@ -26,16 +26,23 @@ published entry therefore works without rebuilding the site.
 
 ## Shell, sharing and the Android invitation
 
-The document shell keeps the header and footer visible at every viewport size:
-the page itself does not scroll, only the `<main>` area does. Below 700px the
-main navigation collapses into the accessible full-screen menu, and the footer
-invitation to the Android app becomes a compact one-line note.
+On desktop the document shell keeps the header and footer visible: the page
+itself does not scroll, only the `<main>` area does. On phones and small
+tablets the page scrolls normally with a sticky header and a traditional footer
+at the end of the document, so the footer is reached by scrolling to the bottom
+and never overflows the viewport. Below 700px the main navigation collapses
+into the accessible full-screen menu.
 
 The Today page has a **Share** button that copies the canonical entry URL
 (`https://<domain>/archive/YYYY-MM-DD`) for the picture currently on screen and
-shows a short "Copied" state. The footer throughout the site carries a quiet
-invitation to the Android app (live wallpaper, automatic updates, no tracking)
-and links to the latest release; the About page explains the app in more detail.
+shows a short "Copied" state.
+
+The footer carries an expandable Android invitation. Closed, it reads *“Your
+home screen is missing the sky.”*; opening it reveals a tilted phone showing
+today's APOD, the reason to install the app (automatic live wallpaper, no
+tracking), and a quiet download link. It is a native `<details>` disclosure,
+not a modal or an automatic pop-up; the preview image is requested only when
+the card is opened. The About page explains the app in more detail.
 
 ## Data
 

@@ -200,9 +200,12 @@ development the Astro dev server proxies `/api/apod/v1/*` to GitHub Pages (see
 | `/rights` | Content rights |
 | anything else | 404 |
 
-The shell keeps the header and footer visible at every viewport size: only the
-main area scrolls. Below 700px the main navigation moves into the accessible
-full-screen menu, and the footer invitation to the Android app stays compact.
+The shell keeps the header/footer visible on desktop: the document itself does
+not scroll, only the main area does. On phones and small tablets the page
+scrolls normally with a **sticky header** and a **traditional footer at the end
+of the document**; the footer is reached by scrolling to the bottom, so it never
+overflows or eats into the reading area. Below 700px the main navigation moves
+into the accessible full-screen menu.
 
 **Share on Today.** The share button on the Today page copies the canonical
 entry URL (`https://<website>/archive/YYYY-MM-DD`) for the picture currently on
@@ -210,10 +213,12 @@ screen, with a short "Copied" confirmation. It does not copy the bare `/`
 address, so the recipient opens that day's picture with its explanation and
 credit.
 
-The footer also carries a quiet invitation to the Android app — the daily APOD
-as a live wallpaper, updated automatically, free and open source, no tracking.
-It is a plain footer note with one link, not a modal or an automatic pop-up; the
-[About page](web/src/pages/about.astro) explains the app in more detail.
+**Android invitation.** The first footer line asks *“Your home screen is missing
+the sky.”* and expands into a small preview of today's APOD inside a tilted
+phone, a short explanation of the live wallpaper, and one quiet download link.
+It is a native `<details>` disclosure, not a modal or an automatic pop-up; the
+image is fetched only when the card is opened, and the [About page](web/src/pages/about.astro)
+explains the app in more detail.
 
 ---
 

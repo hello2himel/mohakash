@@ -1,27 +1,93 @@
 ---
 /**
- * A quiet invitation to the Android app.
+ * The Android invitation.
  *
- * It is deliberately part of the footer rather than a modal or an automatic
- * pop-up: one sentence about what the app adds (live wallpaper, automatic
- * updates, no tracking) and one plain link. No countdowns, no bright banner.
+ * A small, expandable footer note rather than a banner or a modal: the closed
+ * line asks "Your home screen is missing the sky." and opening it shows a
+ * real preview of today's APOD inside a tilted phone, why the app is useful,
+ * and one quiet download link. The image comes from the same public API as
+ * the rest of the site; without JavaScript the copy still makes sense.
  */
 import { SITE } from '../lib/site';
 ---
 
-<a class="site-footer__app" href={SITE.androidReleaseUrl}>
-  <i class="icon ri-smartphone-line" aria-hidden="true"></i>
-  <span class="site-footer__app-copy">
-    <span class="site-footer__app-title">Mohakash for Android</span>
-    <span class="site-footer__app-text site-footer__app-text--long">
-      The daily picture as a live wallpaper, updated automatically. Free and open source, no ads
-      or tracking.
+<details class="app-invite" data-app-invite>
+  <summary class="app-invite__summary">
+    <span class="app-invite__eyebrow">Mohakash for Android</span>
+    <span class="app-invite__title">Your home screen is missing the sky.</span>
+    <span class="app-invite__hint">
+      <span class="app-invite__hint-closed">See the app</span>
+      <span class="app-invite__hint-open">Close</span>
+      <i class="icon ri-arrow-down-s-line" aria-hidden="true"></i>
     </span>
-    <span class="site-footer__app-text site-footer__app-text--short">
-      Live wallpaper, updated daily.
-    </span>
-  </span>
-  <span class="site-footer__app-cta">
-    Get the app <i class="icon ri-arrow-right-line" aria-hidden="true"></i>
-  </span>
-</a>
+  </summary>
+
+  <div class="app-invite__panel">
+    <div class="app-invite__visual" aria-hidden="true">
+      <div class="app-invite__phone">
+        <div class="app-invite__screen">
+          <img class="app-invite__image" alt="" loading="lazy" decoding="async" hidden />
+          <span class="app-invite__date" data-app-invite-date></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-invite__copy">
+      <p class="app-invite__panel-title">The website is the reading room. The app is the wallpaper.</p>
+      <p class="app-invite__panel-text">
+        Mohakash for Android turns each day's picture into a live wallpaper and refreshes it in
+        the background. The full archive stays with you, and there is no account, no advertising
+        and no tracking.
+      </p>
+      <div class="app-invite__actions">
+        <a class="btn btn--secondary" href={SITE.androidReleaseUrl}>
+          <i class="icon ri-download-line" aria-hidden="true"></i>
+          Get the Android app
+        </a>
+        <a class="app-invite__how" href="/about#wp">How it works</a>
+      </div>
+      <p class="app-invite__meta">Android 7.0+ · direct APK · free and open source</p>
+    </div>
+  </div>
+</details>
+
+<script>
+  import { fetchLatestImage } from '../lib/api';
+  import { formatDateShort } from '../lib/format';
+
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-app-invite]')];
+  let preview: Promise<void> | null = null;
+
+  /** The preview image is only requested when someone actually opens the card. */
+  function loadPreview(): Promise<void> {
+    if (preview) return preview;
+    preview = fetchLatestImage()
+      .then((record) => {
+        const src = record.image_url ?? record.hd_image_url ?? record.thumbnail_url;
+        if (!src) return;
+        const date = formatDateShort(record.date);
+
+        for (const card of cards) {
+          const image = card.querySelector<HTMLImageElement>('.app-invite__image');
+          const label = card.querySelector<HTMLElement>('[data-app-invite-date]');
+          if (image) {
+            image.src = src;
+            image.hidden = false;
+          }
+          if (label) label.textContent = date;
+          card.classList.add('is-ready');
+        }
+      })
+      .catch(() => {
+        // The copy still works; the phone keeps its neutral gradient.
+      });
+    return preview;
+  }
+
+  for (const card of cards) {
+    card.addEventListener('toggle', () => {
+      if ((card as HTMLDetailsElement).open) void loadPreview();
+    });
+    if ((card as HTMLDetailsElement).open) void loadPreview();
+  }
+</script>

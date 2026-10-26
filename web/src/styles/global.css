@@ -331,68 +331,196 @@ pre {
   color: var(--text);
 }
 
-/* ------------------------------ footer app invitation (quiet, never modal) */
+/* ------------------------------ footer Android invitation (expandable) */
 
-.site-footer__app {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.app-invite {
   width: 100%;
-  padding: 2px 0 6px;
   border-bottom: var(--border-width) solid var(--divider);
   color: var(--text-muted);
-  text-decoration: none;
 }
 
-.site-footer__app:hover {
-  text-decoration: none;
-}
-
-.site-footer__app .icon {
-  color: var(--accent);
-  font-size: 18px;
-  flex: 0 0 auto;
-}
-
-.site-footer__app-copy {
+.app-invite__summary {
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
-  gap: 0 8px;
-  min-width: 0;
-  line-height: 1.45;
+  gap: 8px;
+  padding: 4px 0 8px;
+  list-style: none;
+  cursor: pointer;
 }
 
-.site-footer__app-title {
-  color: var(--text);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.site-footer__app-text {
-  min-width: 0;
-}
-
-.site-footer__app-text--short {
+.app-invite__summary::-webkit-details-marker {
   display: none;
 }
 
-.site-footer__app-cta {
-  margin-left: auto;
+.app-invite__eyebrow {
+  color: var(--text-muted);
+  font-size: var(--text-11);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.app-invite__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.app-invite__hint {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   color: var(--accent);
+  font-size: var(--text-12);
   font-weight: 600;
   white-space: nowrap;
 }
 
-.site-footer__app:hover .site-footer__app-cta {
-  text-decoration: underline;
+.app-invite__hint .icon {
+  font-size: 14px;
+  transition: transform 160ms ease;
 }
 
-.site-footer__app .icon:last-child {
-  font-size: 14px;
+.app-invite__hint-open {
+  display: none;
+}
+
+.app-invite[open] .app-invite__hint-closed {
+  display: none;
+}
+
+.app-invite[open] .app-invite__hint-open {
+  display: inline;
+}
+
+.app-invite[open] .app-invite__hint .icon {
+  transform: rotate(180deg);
+}
+
+.app-invite__panel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding: 20px var(--gutter) 24px;
+  background: var(--surface);
+  border-top: var(--border-width) solid var(--border);
+}
+
+.app-invite__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* A small, intentionally physical phone mock-up — the picture is the point. */
+.app-invite__phone {
+  width: 92px;
+  height: 184px;
+  padding: 4px;
+  border: 1px solid var(--border-strong);
+  border-radius: 22px;
+  background: #05070c;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  transform: rotate(-4deg);
+}
+
+.app-invite__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  background: linear-gradient(160deg, #1b2030, #0b0d12);
+}
+
+/* Speaker slot; purely decorative. */
+.app-invite__screen::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  z-index: 2;
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(5, 7, 12, 0.82);
+  transform: translateX(-50%);
+}
+
+.app-invite__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.app-invite__date {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: rgba(5, 7, 12, 0.62);
+  color: #fff;
+  font-size: 9px;
+  line-height: 1.2;
+}
+
+.app-invite__panel-title {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.app-invite__panel-text {
+  max-width: 68ch;
+  margin-top: 6px;
+  color: var(--text-body);
+  font-size: var(--text-14);
+  line-height: 1.6;
+}
+
+.app-invite__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.app-invite__how {
+  color: var(--accent);
+  font-size: var(--text-13);
+  font-weight: 600;
+}
+
+.app-invite__meta {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: var(--text-11);
+}
+
+@media (min-width: 900px) {
+  .site-footer {
+    position: relative;
+  }
+
+  .app-invite[open] .app-invite__panel {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    left: 0;
+    z-index: 50;
+    border: var(--border-width) solid var(--border);
+    border-bottom: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.45);
+  }
 }
 
 /* --------------------------------------------------------- hide videos */
@@ -1658,35 +1786,55 @@ body.has-drawer-open {
     padding: 8px 0;
   }
 
+  .state-panel--full {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+/*
+ * On phones and small tablets the page scrolls normally and the footer sits at
+ * the end of the document (a traditional footer). Only the header is sticky,
+ * so navigation is always one glance away; the footer is reached by scrolling.
+ */
+@media (max-width: 899px) {
+  .shell {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .shell > main {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+
   .site-footer {
-    padding: 8px 20px 10px;
-  }
-
-  .site-footer__app {
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 4px 10px;
-  }
-
-  .site-footer__app-copy {
-    flex: 1 1 260px;
-  }
-
-  .site-footer__app-cta {
-    margin-left: 28px;
+    padding: 18px 20px 20px;
+    gap: 10px;
   }
 
   .site-footer__bottom {
-    flex-wrap: wrap;
-    gap: 0 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .site-footer__note {
-    flex: 1 1 100%;
     white-space: normal;
   }
 
   .site-footer__links {
+    width: 100%;
     flex-wrap: wrap;
     gap: 0 16px;
   }
@@ -1695,9 +1843,18 @@ body.has-drawer-open {
     min-height: 36px;
   }
 
-  .state-panel--full {
-    grid-column: auto;
-    grid-row: auto;
+  .app-invite__summary {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  .app-invite__hint {
+    margin-left: auto;
+  }
+
+  .app-invite__panel {
+    gap: 18px;
+    padding: 18px 20px 22px;
   }
 }
 
@@ -1722,49 +1879,30 @@ body.has-drawer-open {
     padding: 0 12px 0 20px;
   }
 
-  .site-footer__note {
+  .app-invite__eyebrow {
     display: none;
   }
 
-  .site-footer__app {
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 2px 8px;
-    padding-bottom: 4px;
+  .app-invite__title {
+    font-size: 15px;
   }
 
-  .site-footer__app .icon:first-child {
-    display: none;
-  }
-
-  .site-footer__app-copy {
-    flex: 1 1 auto;
-    gap: 0 6px;
-  }
-
-  .site-footer__app-title {
-    font-size: var(--text-12);
-  }
-
-  .site-footer__app-text {
+  .app-invite__hint {
     font-size: var(--text-11);
   }
 
-  .site-footer__app-text--long {
-    display: none;
+  .app-invite__panel {
+    gap: 16px;
+    padding: 16px 20px 20px;
   }
 
-  .site-footer__app-text--short {
-    display: inline;
+  .app-invite__phone {
+    width: 72px;
+    height: 144px;
   }
 
-  .site-footer__app-cta {
-    margin-left: 0;
-    align-self: center;
-  }
-
-  .site-footer__bottom {
-    min-height: 0;
+  .app-invite__panel-title {
+    font-size: 20px;
   }
 
   .doc-main {
@@ -1785,12 +1923,34 @@ body.has-drawer-open {
 }
 
 @media (max-width: 599px) {
-  .site-footer__bottom {
-    align-items: flex-start;
+  .app-invite__summary {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  .app-invite__hint {
+    margin-left: auto;
+  }
+
+  .app-invite__panel {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .app-invite__visual {
+    justify-content: flex-start;
+  }
+
+  .app-invite__phone {
+    width: 64px;
+    height: 128px;
+  }
+
+  .app-invite__actions {
+    gap: 12px;
   }
 
   .site-footer__links {
-    flex: 1 1 100%;
     gap: 0 10px;
   }
 
@@ -2045,7 +2205,7 @@ body.has-drawer-open {
   .donate-prompt {
     left: 16px;
     right: 16px;
-    bottom: calc(var(--footer-height) + 100px);
+    bottom: 16px;
     width: auto;
     max-width: none;
   }
