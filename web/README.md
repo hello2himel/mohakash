@@ -24,6 +24,19 @@ so a single shell (`/archive/entry/index.html`) is rewritten for every date by
 Netlify and the record itself is loaded from the API at runtime. A newly
 published entry therefore works without rebuilding the site.
 
+## Shell, sharing and the Android invitation
+
+The document shell keeps the header and footer visible at every viewport size:
+the page itself does not scroll, only the `<main>` area does. Below 700px the
+main navigation collapses into the accessible full-screen menu, and the footer
+invitation to the Android app becomes a compact one-line note.
+
+The Today page has a **Share** button that copies the canonical entry URL
+(`https://<domain>/archive/YYYY-MM-DD`) for the picture currently on screen and
+shows a short "Copied" state. The footer throughout the site carries a quiet
+invitation to the Android app (live wallpaper, automatic updates, no tracking)
+and links to the latest release; the About page explains the app in more detail.
+
 ## Data
 
 Every request goes to the **same origin**:

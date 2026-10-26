@@ -1,24 +1,27 @@
 ---
 /**
- * Site footer — the rights note on the left, the secondary links on the right.
- * 40px high on desktop, exactly as the shell spec requires.
+ * Site footer — a quiet Android invitation, the rights note and the secondary
+ * links. The shell keeps the footer visible at every viewport size.
  */
+import AppInvite from './AppInvite.astro';
 import { NOT_AFFILIATED, SITE } from '../lib/site';
 ---
 
 <footer class="site-footer">
-  <p class="site-footer__note">{NOT_AFFILIATED}</p>
-  <nav class="site-footer__links" aria-label="Footer">
-    <a href="/api">API docs</a>
-    <a href="/rights">Content rights</a>
-    <a href={SITE.privacyUrl}>Privacy</a>
-    <a href="/feed.xml">RSS</a>
-    <a href={SITE.androidReleaseUrl}>Android app</a>
-    <a
-      href={SITE.donateUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      data-donate-link>Donate</a
-    >
-  </nav>
+  <AppInvite />
+  <div class="site-footer__bottom">
+    <p class="site-footer__note">{NOT_AFFILIATED}</p>
+    <nav class="site-footer__links" aria-label="Footer">
+      <a href="/api">API docs</a>
+      <a href="/rights">Content rights</a>
+      <a href={SITE.privacyUrl}>Privacy</a>
+      <a href="/feed.xml">RSS</a>
+      <a
+        href={SITE.donateUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-donate-link>Donate</a
+      >
+    </nav>
+  </div>
 </footer>
