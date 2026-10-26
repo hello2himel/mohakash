@@ -1,0 +1,4 @@
+- Tapping Feed returns to the newest APOD, even from an older picture or an active filter.
+- Double-tap any picture in the feed to add or remove it from Favorites; single tap still hides the overlays.
+- Accessibility: Favorites is available as a custom action on each feed picture.
+- Refreshed the Play/F-Droid feature graphic and store screenshots.
