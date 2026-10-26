@@ -2,8 +2,8 @@
 /**
  * The Today-page support slot: either the Android invitation or a quiet
  * donation note, chosen once per browser session. Both use the same compact
- * card, are dismissible, and never open by themselves. The app screenshot is
- * only loaded when the Android variant is actually shown.
+ * card, stay visible while a variant is selected, and never open by themselves.
+ * The app screenshot is only loaded when the Android variant is actually shown.
  */
 import { SITE } from '../lib/site';
 ---
@@ -35,16 +35,6 @@ import { SITE } from '../lib/site';
         />
       </div>
     </div>
-    <button
-      class="app-promo__close"
-      type="button"
-      data-promo-close
-      aria-label="Close download banner"
-      title="Close download banner"
-      hidden
-    >
-      <i class="icon ri-close-line" aria-hidden="true"></i>
-    </button>
   </aside>
 
   <aside
@@ -78,17 +68,6 @@ import { SITE } from '../lib/site';
     <div class="app-promo__visual app-promo__visual--donate" aria-hidden="true">
       <span class="app-promo__heart"><i class="icon ri-heart-line"></i></span>
     </div>
-
-    <button
-      class="app-promo__close"
-      type="button"
-      data-promo-close
-      aria-label="Close support banner"
-      title="Close support banner"
-      hidden
-    >
-      <i class="icon ri-close-line" aria-hidden="true"></i>
-    </button>
   </aside>
 
 </div>
@@ -97,9 +76,7 @@ import { SITE } from '../lib/site';
   const slot = document.querySelector<HTMLElement>('[data-promo-slot]');
 
   if (slot) {
-    const DISMISS_KEY = 'mohakash-promo-dismissed-until';
     const VARIANT_KEY = 'mohakash-promo-variant';
-    const DISMISS_DAYS = 14;
 
     const read = (storage: Storage, key: string): string | null => {
       try {
@@ -117,37 +94,25 @@ import { SITE } from '../lib/site';
       }
     };
 
-    const dismissedUntil = Number(read(localStorage, DISMISS_KEY) ?? 0);
-    if (Number.isFinite(dismissedUntil) && Date.now() < dismissedUntil) {
-      slot.hidden = true;
-    } else {
-      const variants = Array.from(
-        slot.querySelectorAll<HTMLElement>('[data-promo-variant]'),
-      );
-      const stored = read(sessionStorage, VARIANT_KEY);
-      let choice = stored === 'app' || stored === 'donate' ? stored : null;
-      if (choice === null) {
-        // Keep the site's reading-room tone: the app appears most of the time,
-        // the donation note occasionally replaces it.
-        choice = Math.random() < 0.7 ? 'app' : 'donate';
-        write(sessionStorage, VARIANT_KEY, choice);
-      }
-
-      const selected =
-        variants.find((variant) => variant.dataset.promoVariant === choice) ?? variants[0];
-      for (const variant of variants) variant.hidden = variant !== selected;
-      selected?.removeAttribute('hidden');
-
-      for (const close of slot.querySelectorAll<HTMLButtonElement>('[data-promo-close]')) {
-        close.hidden = false;
-        close.addEventListener('click', () => {
-          const until = Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000;
-          write(localStorage, DISMISS_KEY, String(until));
-          slot.hidden = true;
-        });
-      }
-
-      slot.setAttribute('data-promo-ready', '');
+    // The promotion and the donation note are permanent parts of the page now;
+    // only the variant is remembered for this browser session.
+    const variants = Array.from(
+      slot.querySelectorAll<HTMLElement>('[data-promo-variant]'),
+    );
+    const stored = read(sessionStorage, VARIANT_KEY);
+    let choice = stored === 'app' || stored === 'donate' ? stored : null;
+    if (choice === null) {
+      // Keep the site's reading-room tone: the app appears most of the time,
+      // the donation note occasionally replaces it.
+      choice = Math.random() < 0.7 ? 'app' : 'donate';
+      write(sessionStorage, VARIANT_KEY, choice);
     }
+
+    const selected =
+      variants.find((variant) => variant.dataset.promoVariant === choice) ?? variants[0];
+    for (const variant of variants) variant.hidden = variant !== selected;
+    selected?.removeAttribute('hidden');
+
+    slot.setAttribute('data-promo-ready', '');
   }
 </script>
