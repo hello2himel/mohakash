@@ -252,6 +252,9 @@ fingerprint of every build users install. The GitHub release key is listed
 there; update it with the Play App Signing certificate (if Play re-signs the
 bundle) and the F-Droid certificate when those listings go live, then redeploy
 the website. A stale fingerprint makes the links fall back to the browser.
+Published builds older than the one that introduced the intent filters (v1.0.4
+and earlier) cannot open the links; the next release signed with the same key
+will.
 
 The share button shares the public `/archive/YYYY-MM-DD` URL as plain text
 together with the title, date and credit. It does not attach the picture, so
@@ -680,7 +683,7 @@ a well-formed SHA-256 certificate fingerprint.
 - [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.4**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
-- [x] App Links and archive-URL sharing verified on an Android 15 emulator: root, archive and archive-entry links open the right screen, query strings/fragments are ignored, a link that arrives during onboarding opens after it finishes, and the share button opens a text share sheet with the archive URL.
+- [x] App Links and archive-URL sharing verified on an Android 15 emulator: root, archive and archive-entry links open the right screen, query strings/fragments are ignored, a link that arrives during onboarding opens after it finishes, and the share button opens a text share sheet with the archive URL. The signed release APK was verified against the deployed `assetlinks.json` (`pm get-app-links` reports `verified`).
 
 **Needs the repository owner**
 
@@ -703,11 +706,6 @@ after deployment:
 * The **real Netlify proxy** and the **real GitHub Pages publication** — the
   rewrite rules were exercised against a local server that mimics them
   (`scripts/serve_site.py`), not against Netlify.
-* **Verified App Links** (domain verification): the navigation was tested on an
-  Android 15 emulator with explicit intents, but Android verifies the domain by
-  downloading `.well-known/assetlinks.json` from the deployed website. Confirm
-  with `adb shell pm get-app-links mohakash.stargzr.space` after the next Netlify
-  deployment.
 * **Store signing certificates**: only the GitHub release key fingerprint is in
   `assetlinks.json`; the Play App Signing and F-Droid fingerprints must be added
   when those builds exist.
