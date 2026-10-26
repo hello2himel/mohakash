@@ -331,25 +331,16 @@ pre {
   color: var(--text);
 }
 
-/* ------------------------------ footer Android invitation (expandable) */
+/* -------------------------------- footer Android invitation + modal */
 
 .app-invite {
-  width: 100%;
-  border-bottom: var(--border-width) solid var(--divider);
-  color: var(--text-muted);
-}
-
-.app-invite__summary {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 12px;
+  width: 100%;
   padding: 4px 0 8px;
-  list-style: none;
-  cursor: pointer;
-}
-
-.app-invite__summary::-webkit-details-marker {
-  display: none;
+  border-bottom: var(--border-width) solid var(--divider);
+  color: var(--text-muted);
 }
 
 .app-invite__eyebrow {
@@ -369,62 +360,136 @@ pre {
   line-height: 1.2;
 }
 
-.app-invite__hint {
+.app-invite__trigger {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  min-height: 32px;
   color: var(--accent);
   font-size: var(--text-12);
   font-weight: 600;
   white-space: nowrap;
 }
 
-.app-invite__hint .icon {
+.app-invite__trigger .icon {
   font-size: 14px;
-  transition: transform 160ms ease;
 }
 
-.app-invite__hint-open {
-  display: none;
+.app-invite__trigger:hover {
+  text-decoration: underline;
 }
 
-.app-invite[open] .app-invite__hint-closed {
-  display: none;
+/* The centred modal: fixed width, two balanced columns, one close button. */
+.app-invite-dialog {
+  width: min(760px, calc(100vw - 32px));
+  max-height: min(88dvh, 680px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
 }
 
-.app-invite[open] .app-invite__hint-open {
-  display: inline;
+.app-invite-dialog::backdrop {
+  background: rgba(5, 7, 12, 0.72);
+  backdrop-filter: blur(5px);
 }
 
-.app-invite[open] .app-invite__hint .icon {
-  transform: rotate(180deg);
+@media (prefers-reduced-motion: no-preference) {
+  .app-invite-dialog[open] {
+    animation: app-invite-dialog-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .app-invite-dialog[open]::backdrop {
+    animation: app-invite-backdrop-in 220ms ease both;
+  }
 }
 
-.app-invite__panel {
+@keyframes app-invite-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes app-invite-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.app-invite-dialog__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.app-invite-dialog__close:hover {
+  background: var(--surface-strong);
+  color: var(--text);
+}
+
+.app-invite-dialog__close .icon {
+  font-size: 20px;
+}
+
+.app-invite-dialog__content {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 24px;
-  padding: 20px var(--gutter) 24px;
-  background: var(--surface);
-  border-top: var(--border-width) solid var(--border);
+  gap: 36px;
+  max-height: min(88dvh, 680px);
+  overflow-y: auto;
+  padding: 40px 44px;
 }
 
-.app-invite__visual {
+.app-invite-dialog__visual {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* A small, intentionally physical phone mock-up — the picture is the point. */
+.app-invite-dialog__visual::before {
+  content: '';
+  position: absolute;
+  inset: -22px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(143, 176, 255, 0.18), transparent 68%);
+  filter: blur(8px);
+}
+
 .app-invite__phone {
-  width: 92px;
-  height: 184px;
+  width: 110px;
+  height: 220px;
   padding: 4px;
   border: 1px solid var(--border-strong);
-  border-radius: 22px;
+  border-radius: 26px;
   background: #05070c;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
   transform: rotate(-4deg);
 }
 
@@ -433,7 +498,7 @@ pre {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 22px;
   background: linear-gradient(160deg, #1b2030, #0b0d12);
 }
 
@@ -444,7 +509,7 @@ pre {
   top: 4px;
   left: 50%;
   z-index: 2;
-  width: 22px;
+  width: 26px;
   height: 4px;
   border-radius: 2px;
   background: rgba(5, 7, 12, 0.82);
@@ -460,67 +525,50 @@ pre {
 
 .app-invite__date {
   position: absolute;
-  left: 8px;
-  bottom: 8px;
-  padding: 2px 5px;
+  left: 9px;
+  bottom: 9px;
+  padding: 2px 6px;
   border-radius: 4px;
   background: rgba(5, 7, 12, 0.62);
   color: #fff;
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.2;
 }
 
-.app-invite__panel-title {
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: 24px;
-  line-height: 1.15;
-}
-
-.app-invite__panel-text {
-  max-width: 68ch;
-  margin-top: 6px;
-  color: var(--text-body);
-  font-size: var(--text-14);
-  line-height: 1.6;
-}
-
-.app-invite__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  margin-top: 14px;
-}
-
-.app-invite__how {
-  color: var(--accent);
-  font-size: var(--text-13);
-  font-weight: 600;
-}
-
-.app-invite__meta {
-  margin-top: 10px;
+.app-invite-dialog__eyebrow {
   color: var(--text-muted);
   font-size: var(--text-11);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-@media (min-width: 900px) {
-  .site-footer {
-    position: relative;
-  }
+.app-invite-dialog__title {
+  max-width: 22ch;
+  margin-top: 6px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1.12;
+}
 
-  .app-invite[open] .app-invite__panel {
-    position: absolute;
-    right: 0;
-    bottom: 100%;
-    left: 0;
-    z-index: 50;
-    border: var(--border-width) solid var(--border);
-    border-bottom: 0;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.45);
-  }
+.app-invite-dialog__text {
+  max-width: 56ch;
+  margin-top: 12px;
+  color: var(--text-body);
+  font-size: var(--text-15);
+  line-height: 1.65;
+}
+
+.app-invite-dialog__download {
+  min-height: 48px;
+  margin-top: 22px;
+  padding: 0 22px;
+}
+
+.app-invite-dialog__meta {
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: var(--text-11);
 }
 
 /* --------------------------------------------------------- hide videos */
@@ -1878,18 +1926,27 @@ body.has-drawer-open {
     min-height: 36px;
   }
 
-  .app-invite__summary {
+  .app-invite {
     flex-wrap: wrap;
-    row-gap: 2px;
+    gap: 2px 10px;
   }
 
-  .app-invite__hint {
+  .app-invite__trigger {
     margin-left: auto;
   }
 
-  .app-invite__panel {
-    gap: 18px;
-    padding: 18px 20px 22px;
+  .app-invite-dialog__content {
+    gap: 24px;
+    padding: 32px 28px;
+  }
+
+  .app-invite-dialog__title {
+    font-size: 26px;
+  }
+
+  .app-invite__phone {
+    width: 92px;
+    height: 184px;
   }
 }
 
@@ -1922,22 +1979,18 @@ body.has-drawer-open {
     font-size: 15px;
   }
 
-  .app-invite__hint {
-    font-size: var(--text-11);
+  .app-invite-dialog__content {
+    gap: 20px;
+    padding: 30px 24px;
   }
 
-  .app-invite__panel {
-    gap: 16px;
-    padding: 16px 20px 20px;
+  .app-invite-dialog__title {
+    font-size: 24px;
   }
 
   .app-invite__phone {
-    width: 72px;
-    height: 144px;
-  }
-
-  .app-invite__panel-title {
-    font-size: 20px;
+    width: 84px;
+    height: 168px;
   }
 
   .doc-main {
@@ -1958,22 +2011,15 @@ body.has-drawer-open {
 }
 
 @media (max-width: 599px) {
-  .app-invite__summary {
-    flex-wrap: wrap;
-    row-gap: 2px;
+  .app-invite-dialog__content {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+    padding: 30px 20px 22px;
   }
 
-  .app-invite__hint {
-    margin-left: auto;
-  }
-
-  .app-invite__panel {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .app-invite__visual {
-    justify-content: flex-start;
+  .app-invite-dialog__visual {
+    justify-content: center;
   }
 
   .app-invite__phone {
@@ -1981,8 +2027,34 @@ body.has-drawer-open {
     height: 128px;
   }
 
-  .app-invite__actions {
-    gap: 12px;
+  .app-invite-dialog__title {
+    max-width: none;
+    font-size: 22px;
+  }
+
+  .app-invite-dialog__text {
+    margin-top: 8px;
+    font-size: var(--text-13);
+    line-height: 1.55;
+  }
+
+  .app-invite-dialog__download {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 16px;
+    padding: 0 14px;
+    justify-content: center;
+    font-size: var(--text-13);
+  }
+
+  .app-invite-dialog__meta {
+    margin-top: 8px;
+    font-size: 10px;
+  }
+
+  .app-invite-dialog__close {
+    top: 8px;
+    right: 8px;
   }
 
   .site-footer__links {
