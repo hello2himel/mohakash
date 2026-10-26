@@ -9,25 +9,25 @@ and F-Droid consume:
 
 ## Campaign
 
-Campaign line: **“The sky, every day.”**
+Campaign line: **“New wallpaper, every day.”**
 
-| # | Beat | Headline | Support | Screen |
-|---|------|----------|---------|--------|
-| 01 | Daily feed | **The sky, every day.** | A new picture of the universe, each day. | *The Tail of the Hamburger Galaxy*, 8 May 2014 |
-| 02 | Live wallpaper | **Your wallpaper, alive.** | A live wallpaper that follows the day's picture. | first-run wallpaper screen, M42 preview |
-| 03 | Random pick | **Let the sky surprise you.** | One tap opens a random picture from the archive. | random picker over *Comet NEAT*, 6 Mar 2003 |
-| 04 | Archive | **Every picture, kept.** | Search three decades, save what you love. | Archive filtered to 2024 |
-| 05 | Full entry | **More than a pretty picture.** | The title, the credit, the whole explanation. | *Asperitas Clouds Over New Zealand*, 17 Aug 2025 |
-| 06 | Languages | **In your language.** | The interface, in fourteen languages. | Bengali UI on *Plato and the Lunar Alps*, 15 Jan 2026 |
+| # | Install driver | Headline | Support | Screen |
+|---|----------------|----------|---------|--------|
+| 01 | Fresh wallpaper daily | **New wallpaper, every day.** | Fresh astronomy, ready for your home screen. | *M42: The Great Nebula in Orion* |
+| 02 | Set-and-forget live wallpaper | **Set it once. Updated daily.** | Automatic live wallpaper. HD. Wi-Fi only. | Wallpaper settings |
+| 03 | Discovery | **Random wallpapers, at your fingertips.** | One tap. A surprise from the whole archive. | Random picker over *Comet NEAT* |
+| 04 | Keep offline | **Keep the ones you love.** | Save favourites. Read them offline. | Archive and Saved, 2024 filter |
+| 05 | Full-quality downloads | **Full resolution. Save or set it.** | The original image, one tap away. | *Asperitas Clouds* entry |
+| 06 | Trust | **No ads. No account.** | Open source. No tracking. Just astronomy. | First-run screen |
 
 Feature graphic copy: **“The sky, on your home screen.”**
 Product line: “A new astronomy wallpaper every day.”
 Colophon: “OPEN SOURCE · NO ADS”
 
 All claims are verifiable in the app: no account, no ads, open source, APOD
-metadata and images, 13 non-English UI locales plus English variants, live
-wallpaper, archive and saved list. The live wallpaper is a still picture
-redrawn when the day changes—not an animated video.
+metadata and images, automatic wallpaper updates, fill/fit scaling, HD option,
+Wi-Fi-only downloads, searchable archive and saved/offline entries. The live
+wallpaper is a still picture redrawn when the day changes—not an animated video.
 
 **Image rights:** APOD photographs remain under their publishers' terms; each
 campaign frame shows the individual photographer credit inside the real app UI.
@@ -40,8 +40,9 @@ or swap the hero frame for a public-domain APOD image and re-render.
 - Background: Deep Space `#0B0D12` / brand `#0B1020`, with a subtle generated
   starfield and low-opacity orbit lines.
 - Surfaces: `#151922`, borders `#323849`; accent Glow `#8FB0FF`.
-- Headline: Newsreader Medium (serif), Starlight `#F4F6FF`.
-- Kicker/support/UI: Inter Regular/Medium; muted `#A3ABBD`.
+- Headline: Newsreader Medium (serif), Starlight `#F4F6FF`, 96 px on the 1080 canvas.
+- Support: Inter Regular 34 px, `#D9DFED`, with a soft dark text shadow and a stronger top scrim so it survives thumbnail scale.
+- Backgrounds are quieter than the first cut: 260 stars max, no orbit/registration marks, reduced crest wash. The phone is 620 px wide so the UI reads at small sizes.
 - Campaign plates deliberately omit a separate wordmark/folio/kicker so the
   real app screenshot is the interface; the app's own in-screen wordmark stays.
 - Device frames are intentionally understated; the app screenshot inside is a
