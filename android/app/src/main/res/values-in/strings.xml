@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">Feed</string>
     <string name="nav_archive">Arsip</string>
-    <string name="nav_saved">Disimpan</string>
-    <string name="nav_random_description">Buka gambar acak</string>
+<string name="nav_random_description">Buka gambar acak</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Pratinjau wallpaper</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">Wallpaper aktif</string>
     <string name="feed_watch_on_apod">Lihat di APOD</string>
     <string name="feed_clear_filters">Hapus filter</string>
-    <string name="feed_offline_chip">Salinan offline</string>
-    <string name="feed_random_title">Memilih gambar…</string>
+<string name="feed_random_title">Memilih gambar…</string>
     <string name="feed_random_body">Mencari gambar acak di arsip.</string>
     <string name="feed_random_cancel">Batal</string>
-    <string name="feed_random_unavailable">Saat ini tidak ada gambar acak yang tersedia.</string>
-    <string name="feed_hide_chrome">Sembunyikan detail</string>
+<string name="feed_hide_chrome">Sembunyikan detail</string>
     <string name="feed_show_chrome">Tampilkan detail</string>
     <string name="feed_swipe_hint_title">Geser ke atas</string>
     <string name="feed_swipe_hint_body">untuk melihat gambar lainnya</string>
@@ -207,4 +204,9 @@
     <string name="notification_action_open_app">Buka aplikasi</string>
     <string name="notification_action_view_apod">Lihat di APOD</string>
     <string name="notification_action_settings">Pengaturan</string>
+    <string name="settings_synced_never">Belum pernah disinkronkan</string>
+    <string name="settings_synced_just_now">Baru saja</string>
+    <string name="archive_error_title">Arsip tidak tersedia</string>
+    <string name="archive_error_body">Periksa koneksi dan coba lagi.</string>
+    <string name="archive_retry">Coba lagi</string>
 </resources>

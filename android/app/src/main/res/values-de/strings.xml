@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">Feed</string>
     <string name="nav_archive">Archiv</string>
-    <string name="nav_saved">Gespeichert</string>
-    <string name="nav_random_description">Ein zufälliges Bild öffnen</string>
+<string name="nav_random_description">Ein zufälliges Bild öffnen</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Hintergrundvorschau</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">Hintergrund aktiv</string>
     <string name="feed_watch_on_apod">Auf APOD ansehen</string>
     <string name="feed_clear_filters">Filter zurücksetzen</string>
-    <string name="feed_offline_chip">Offline-Kopie</string>
-    <string name="feed_random_title">Bild wird ausgewählt…</string>
+<string name="feed_random_title">Bild wird ausgewählt…</string>
     <string name="feed_random_body">Ein zufälliges Bild aus dem Archiv wird gesucht.</string>
     <string name="feed_random_cancel">Abbrechen</string>
-    <string name="feed_random_unavailable">Derzeit ist kein zufälliges Bild verfügbar.</string>
-    <string name="feed_hide_chrome">Details ausblenden</string>
+<string name="feed_hide_chrome">Details ausblenden</string>
     <string name="feed_show_chrome">Details einblenden</string>
     <string name="feed_swipe_hint_title">Nach oben wischen</string>
     <string name="feed_swipe_hint_body">um weitere Bilder zu sehen</string>
@@ -209,4 +206,9 @@
     <string name="notification_action_open_app">App öffnen</string>
     <string name="notification_action_view_apod">Auf APOD ansehen</string>
     <string name="notification_action_settings">Einstellungen</string>
+    <string name="settings_synced_never">Noch nie synchronisiert</string>
+    <string name="settings_synced_just_now">Gerade eben</string>
+    <string name="archive_error_title">Das Archiv ist nicht verfügbar</string>
+    <string name="archive_error_body">Prüfe deine Verbindung und versuche es erneut.</string>
+    <string name="archive_retry">Erneut versuchen</string>
 </resources>

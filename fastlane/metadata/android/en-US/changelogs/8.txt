@@ -1,0 +1,6 @@
+- A floating Launch Cradle replaces the old bottom bar; Feed and Archive are anchored by the mohakash mark.
+- First-visit swipe guidance, a calmer latest-page refresh, and edge-to-edge feed content under the dock.
+- The whole interface is now translated into 14 languages and follows the phone or Android 13+ per-app language.
+- Archive now recovers cleanly when its index cannot load, and jump-to-date no longer sticks to later filters.
+- Onboarding and landscape feed layouts are scrollable/compact instead of overlapping.
+- Fixed notification permission handling, cache clearing, endpoint refresh races, gallery save races and several localization issues.

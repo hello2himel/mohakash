@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">Feed</string>
     <string name="nav_archive">Archive</string>
-    <string name="nav_saved">Saved</string>
-    <string name="nav_random_description">Open a random picture</string>
+<string name="nav_random_description">Open a random picture</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Wallpaper preview</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">Wallpaper active</string>
     <string name="feed_watch_on_apod">Watch on APOD</string>
     <string name="feed_clear_filters">Clear filters</string>
-    <string name="feed_offline_chip">Offline copy</string>
-    <string name="feed_random_title">Choosing a picture…</string>
+<string name="feed_random_title">Choosing a picture…</string>
     <string name="feed_random_body">Finding a random picture in the archive.</string>
     <string name="feed_random_cancel">Cancel</string>
-    <string name="feed_random_unavailable">No random picture is available right now.</string>
-    <string name="feed_hide_chrome">Hide details</string>
+<string name="feed_hide_chrome">Hide details</string>
     <string name="feed_show_chrome">Show details</string>
     <string name="feed_swipe_hint_title">Swipe up</string>
     <string name="feed_swipe_hint_body">to see more pictures</string>
@@ -209,4 +206,9 @@
     <string name="notification_action_open_app">Open app</string>
     <string name="notification_action_view_apod">View on APOD</string>
     <string name="notification_action_settings">Settings</string>
+    <string name="settings_synced_never">Never synced</string>
+    <string name="settings_synced_just_now">Just now</string>
+    <string name="archive_error_title">The archive isn\'t available</string>
+    <string name="archive_error_body">Check your connection and try again.</string>
+    <string name="archive_retry">Try again</string>
 </resources>

@@ -97,8 +97,8 @@ fun FeedScreen(
     val snackbarHostState = LocalSnackbarHostState.current
 
     var systemWallpaperActive by remember { mutableStateOf(WallpaperStatus.isActive(appContext)) }
-    var showSearch by remember { mutableStateOf(false) }
-    var pendingSaveDate by remember { mutableStateOf<String?>(null) }
+    var showSearch by rememberSaveable { mutableStateOf(false) }
+    var pendingSaveDate by rememberSaveable { mutableStateOf<String?>(null) }
     // A tap on the picture hides every overlay and the bottom bar; a second tap brings them back.
     var chromeVisible by rememberSaveable { mutableStateOf(true) }
 

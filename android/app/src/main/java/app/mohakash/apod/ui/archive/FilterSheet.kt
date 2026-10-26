@@ -27,6 +27,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -118,14 +119,15 @@ internal fun FilterSheetContent(
     onApply: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var selectedYear by remember { mutableStateOf(state.selectedYear) }
+    var selectedYear by remember { mutableIntStateOf(state.selectedYear) }
     var selectedType by remember { mutableStateOf(state.typeFilter) }
     var jumpToDate by remember { mutableStateOf(state.jumpToDate) }
+    var jumpDateDirty by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     var showYearPicker by remember { mutableStateOf(false) }
 
-    val preview = state.copy(selectedYear = selectedYear, typeFilter = selectedType, query = jumpToDate.orEmpty())
-    val olderSelected = state.availableYears.isNotEmpty() && selectedYear !in state.availableYears
+    val preview = state.copy(selectedYear = selectedYear, typeFilter = selectedType)
+    val olderSelected = selectedYear !in state.availableYears.take(QUICK_YEAR_COUNT)
     val defaultYear = ArchiveUiState.defaultYear().let { current ->
         if (current in state.availableYears) current else state.availableYears.firstOrNull() ?: current
     }
@@ -159,7 +161,11 @@ internal fun FilterSheetContent(
                     FilterChipItem(
                         text = year.toString(),
                         selected = year == selectedYear,
-                        onClick = { selectedYear = year },
+                        onClick = {
+                            selectedYear = year
+                            jumpToDate = null
+                            jumpDateDirty = false
+                        },
                     )
                 }
                 FilterChipItem(
@@ -232,6 +238,7 @@ internal fun FilterSheetContent(
                     selectedYear = defaultYear
                     selectedType = MediaFilter.ALL
                     jumpToDate = null
+                    jumpDateDirty = false
                     onReset()
                 },
                 modifier = Modifier.width(110.dp),
@@ -247,7 +254,7 @@ internal fun FilterSheetContent(
                 onClick = {
                     onYearSelected(selectedYear)
                     onTypeSelected(selectedType)
-                    jumpToDate?.let(onJumpToDate)
+                    if (jumpDateDirty) jumpToDate?.let(onJumpToDate)
                     onApply()
                 },
                 modifier = Modifier.weight(1f),
@@ -268,6 +275,7 @@ internal fun FilterSheetContent(
                             timeZone = TimeZone.getTimeZone("UTC")
                         }.format(millis)
                         jumpToDate = formatted
+                        jumpDateDirty = true
                     }
                     showDatePicker = false
                 }) { Text(stringResource(R.string.filter_confirm)) }
@@ -288,6 +296,8 @@ internal fun FilterSheetContent(
             onDismiss = { showYearPicker = false },
             onYearSelected = { year ->
                 selectedYear = year
+                jumpToDate = null
+                jumpDateDirty = false
                 showYearPicker = false
             },
         )

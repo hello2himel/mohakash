@@ -29,8 +29,12 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
@@ -252,6 +256,8 @@ private fun SearchField(
 ) {
     val shape = RoundedCornerShape(MohakashDimens.PillRadius)
     val hint = stringResource(R.string.search_hint)
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
     BasicTextField(
         value = query,
         onValueChange = onQueryChange,
@@ -259,7 +265,7 @@ private fun SearchField(
         textStyle = MohakashTextStyles.BodyMedium.copy(color = MohakashColors.Text),
         cursorBrush = SolidColor(MohakashColors.Accent),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        modifier = modifier.semantics { contentDescription = hint },
+        modifier = modifier.focusRequester(focusRequester),
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier

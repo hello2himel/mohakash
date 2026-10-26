@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -26,7 +25,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -96,6 +97,7 @@ internal fun FeedRandomPickOverlay(onCancel: () -> Unit) {
 @Composable
 private fun RandomCourse() {
     val transition = rememberInfiniteTransition(label = "random-course")
+    val density = LocalDensity.current
     val bob by transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -149,7 +151,9 @@ private fun RandomCourse() {
         BrandMarkBadge(
             badgeSize = 64.dp,
             iconSize = 36.dp,
-            modifier = Modifier.offset(y = (-4 + bob * 5).dp),
+            modifier = Modifier.graphicsLayer {
+                translationY = with(density) { (-4f + bob * 5f).dp.toPx() }
+            },
         )
     }
 }

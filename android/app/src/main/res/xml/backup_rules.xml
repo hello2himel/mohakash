@@ -4,6 +4,15 @@
         domain="database"
         path="mohakash.db" />
     <include
+        domain="database"
+        path="mohakash.db-wal" />
+    <include
+        domain="database"
+        path="mohakash.db-shm" />
+    <include
         domain="file"
         path="wallpaper/" />
+    <include
+        domain="file"
+        path="datastore/mohakash_settings.preferences_pb" />
 </full-backup-content>

@@ -267,8 +267,7 @@ private fun EndpointField(
             imeAction = ImeAction.Done,
         ),
         modifier = modifier
-            .fillMaxWidth()
-            .semantics { contentDescription = label },
+            .fillMaxWidth(),
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier

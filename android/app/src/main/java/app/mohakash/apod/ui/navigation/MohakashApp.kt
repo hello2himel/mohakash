@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -66,7 +67,7 @@ fun MohakashApp(
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = currentRoute == Routes.TODAY || currentRoute == Routes.ARCHIVE
     var feedFullscreen by remember { mutableStateOf(false) }
-    var randomRequest by remember { mutableStateOf(0) }
+    var randomRequest by remember { mutableIntStateOf(0) }
     var openArchiveOnSaved by remember { mutableStateOf(false) }
     var onboardingCompleted by remember {
         mutableStateOf(startDestination != Routes.ONBOARDING)
@@ -228,12 +229,12 @@ fun MohakashApp(
  */
 internal fun NavController.navigateTo(target: DeepLinkTarget) {
     when (target) {
-        DeepLinkTarget.Today -> navigate(Routes.TODAY) {
+        DeepLinkTarget.Today -> navigate(target.destination) {
             popUpTo(Routes.TODAY) { inclusive = false }
             launchSingleTop = true
         }
 
-        DeepLinkTarget.Archive -> navigate(Routes.TODAY) {
+        DeepLinkTarget.Archive -> navigate(target.destination) {
             popUpTo(Routes.TODAY) { inclusive = false }
             launchSingleTop = true
             restoreState = true

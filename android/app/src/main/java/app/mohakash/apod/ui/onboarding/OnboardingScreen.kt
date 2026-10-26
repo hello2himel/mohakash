@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -93,60 +95,59 @@ internal fun OnboardingContent(
             .navigationBarsPadding()
             .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 32.dp),
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
-            contentAlignment = Alignment.Center,
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+                .padding(vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(28.dp),
+            Box(
+                modifier = Modifier
+                    .width(180.dp)
+                    .aspectRatio(9f / 19f)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(MohakashColors.Surface)
+                    .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp)),
+                contentAlignment = Alignment.Center,
             ) {
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .aspectRatio(9f / 19f)
-                        .clip(RoundedCornerShape(28.dp))
-                        .background(MohakashColors.Surface)
-                        .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp)),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (preview.model != null) {
-                        AsyncImage(
-                            model = preview.model,
-                            contentDescription = stringResource(R.string.onboarding_wallpaper_preview),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.matchParentSize(),
-                        )
-                    } else {
-                        Text(
-                            text = stringResource(R.string.onboarding_wallpaper_preview),
-                            style = MohakashTextStyles.Caption,
-                            color = MohakashColors.TextMuted,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(horizontal = 12.dp),
-                        )
-                    }
-                }
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_headline),
-                        style = MohakashTextStyles.OnboardingTitle,
-                        color = MohakashColors.Text,
-                        textAlign = TextAlign.Center,
+                if (preview.model != null) {
+                    AsyncImage(
+                        model = preview.model,
+                        contentDescription = stringResource(R.string.onboarding_wallpaper_preview),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.matchParentSize(),
                     )
+                } else {
                     Text(
-                        text = stringResource(R.string.onboarding_subtitle),
-                        style = MohakashTextStyles.BodyBase,
+                        text = stringResource(R.string.onboarding_wallpaper_preview),
+                        style = MohakashTextStyles.Caption,
                         color = MohakashColors.TextMuted,
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = 12.dp),
                     )
                 }
+            }
+
+            Column(
+                modifier = Modifier.padding(top = 28.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    text = stringResource(R.string.onboarding_headline),
+                    style = MohakashTextStyles.OnboardingTitle,
+                    color = MohakashColors.Text,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = stringResource(R.string.onboarding_subtitle),
+                    style = MohakashTextStyles.BodyBase,
+                    color = MohakashColors.TextMuted,
+                    textAlign = TextAlign.Center,
+                )
             }
         }
 

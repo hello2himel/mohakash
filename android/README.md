@@ -8,8 +8,9 @@ genuine Android **live wallpaper**.
 * The app talks to the public JSON API that the repository publishes on GitHub Pages — there is no
   account, no analytics and no tracking.
 
-Current release: **1.0.6** (version code **7**). The app has a full-screen feed, a dedicated
-Archive tab and Saved.
+Current source version: **2026.10.27.1** (version code **8**). The latest published
+release is **1.0.6** (version code **7**). The app has a full-screen feed, a dedicated Archive tab and
+Saved.
 
 ---
 
@@ -29,7 +30,7 @@ Supported UI locales:
 | Spanish | `es` |
 | French | `fr` |
 | Hindi | `hi` |
-| Indonesian | `id` |
+| Indonesian | `in` |
 | Italian | `it` |
 | Japanese | `ja` |
 | Korean | `ko` |

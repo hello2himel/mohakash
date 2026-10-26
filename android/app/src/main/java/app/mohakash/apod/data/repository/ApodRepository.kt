@@ -12,6 +12,8 @@ import app.mohakash.apod.data.remote.dto.ArchiveIndexDto
 import app.mohakash.apod.data.remote.dto.ArchiveYearDto
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 /**
@@ -40,7 +42,7 @@ class ApodRepository(
 ) : LatestEntrySource {
 
     /** Fetches `latest.json`, caches it and records the successful sync. */
-    override suspend fun fetchLatest(): ApodEntry {
+    override suspend fun fetchLatest(): ApodEntry = withContext(Dispatchers.IO) {
         val raw = api.getString("/latest.json")
         val entry = ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(raw))
         cacheDocumentDao.put(
@@ -52,7 +54,7 @@ class ApodRepository(
         )
         cachedEntryDao.upsertAll(listOf(CachedEntryEntity.from(entry, now())))
         settingsStore.setLastSync(now(), entry.date)
-        return entry
+        entry
     }
 
     /**
@@ -68,9 +70,9 @@ class ApodRepository(
     }
 
     /** Reads the cached `latest.json` document, if any. */
-    suspend fun cachedLatest(): ApodEntry? {
-        val raw = readDocument(CacheDocumentEntity.KEY_LATEST) ?: return null
-        return runCatching { ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(raw)) }
+    suspend fun cachedLatest(): ApodEntry? = withContext(Dispatchers.IO) {
+        val raw = readDocument(CacheDocumentEntity.KEY_LATEST) ?: return@withContext null
+        runCatching { ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(raw)) }
             .getOrNull()
     }
 
@@ -81,10 +83,10 @@ class ApodRepository(
      * archive screen always loads it from the network. Older versions stored it in SQLite, so any
      * leftover copy is removed first.
      */
-    suspend fun fetchArchiveIndex(): List<ArchiveIndexEntry> {
+    suspend fun fetchArchiveIndex(): List<ArchiveIndexEntry> = withContext(Dispatchers.IO) {
         cacheDocumentDao.delete(CacheDocumentEntity.KEY_ARCHIVE_INDEX)
         val raw = api.getString("/archive-index.json")
-        return ApiMapper.toDomain(json.decodeFromString<ArchiveIndexDto>(raw))
+        ApiMapper.toDomain(json.decodeFromString<ArchiveIndexDto>(raw))
     }
 
     /**
@@ -112,13 +114,13 @@ class ApodRepository(
     }
 
     /** Fetches a full year file and caches every record it contains. */
-    suspend fun fetchArchiveYear(year: Int): List<ApodEntry> {
+    suspend fun fetchArchiveYear(year: Int): List<ApodEntry> = withContext(Dispatchers.IO) {
         val raw = api.getString("/archive/$year.json")
         val dto = json.decodeFromString<ArchiveYearDto>(raw)
         val records = dto.records.map { ApiMapper.toDomain(it) }
         val timestamp = now()
         cachedEntryDao.upsertAll(records.map { CachedEntryEntity.from(it, timestamp) })
-        return records
+        records
     }
 
     /** Reads the cached records of a year, newest first. */

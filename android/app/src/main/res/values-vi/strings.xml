@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">Bảng tin</string>
     <string name="nav_archive">Lưu trữ</string>
-    <string name="nav_saved">Đã lưu</string>
-    <string name="nav_random_description">Mở một ảnh ngẫu nhiên</string>
+<string name="nav_random_description">Mở một ảnh ngẫu nhiên</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Xem trước hình nền</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">Hình nền đang hoạt động</string>
     <string name="feed_watch_on_apod">Xem trên APOD</string>
     <string name="feed_clear_filters">Xóa bộ lọc</string>
-    <string name="feed_offline_chip">Bản sao ngoại tuyến</string>
-    <string name="feed_random_title">Đang chọn ảnh…</string>
+<string name="feed_random_title">Đang chọn ảnh…</string>
     <string name="feed_random_body">Đang tìm một ảnh ngẫu nhiên trong kho lưu trữ.</string>
     <string name="feed_random_cancel">Hủy</string>
-    <string name="feed_random_unavailable">Hiện không có ảnh ngẫu nhiên nào.</string>
-    <string name="feed_hide_chrome">Ẩn chi tiết</string>
+<string name="feed_hide_chrome">Ẩn chi tiết</string>
     <string name="feed_show_chrome">Hiện chi tiết</string>
     <string name="feed_swipe_hint_title">Vuốt lên</string>
     <string name="feed_swipe_hint_body">để xem thêm ảnh</string>
@@ -207,4 +204,9 @@
     <string name="notification_action_open_app">Mở ứng dụng</string>
     <string name="notification_action_view_apod">Xem trên APOD</string>
     <string name="notification_action_settings">Cài đặt</string>
+    <string name="settings_synced_never">Chưa đồng bộ bao giờ</string>
+    <string name="settings_synced_just_now">Vừa xong</string>
+    <string name="archive_error_title">Kho lưu trữ không khả dụng</string>
+    <string name="archive_error_body">Kiểm tra kết nối và thử lại.</string>
+    <string name="archive_retry">Thử lại</string>
 </resources>

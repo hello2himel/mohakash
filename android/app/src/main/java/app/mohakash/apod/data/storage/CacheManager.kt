@@ -1,40 +1,44 @@
 package app.mohakash.apod.data.storage
 
 import android.content.Context
+import coil.Coil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 import java.io.File
 
 /**
- * Manages the image cache.
+ * Manages the image and network caches.
  *
- * Clearing the cache never touches the saved pictures (they live in the database) and never
- * touches the live wallpaper (it lives in the private files directory).
+ * Clearing goes through Coil's and OkHttp's own cache APIs so their journal/DB files stay
+ * consistent. Only the extra files written by the explicit save action live outside those
+ * managed caches and are removed directly.
  */
-class CacheManager(context: Context) {
+class CacheManager(
+    context: Context,
+    private val httpClient: OkHttpClient,
+) {
 
     private val appContext = context.applicationContext
 
-    private val cacheDirectories: List<File>
-        get() = listOf(
-            File(appContext.cacheDir, "image_cache"),
-            File(appContext.cacheDir, "http"),
-            File(appContext.cacheDir, "images"),
-        )
+    private val imageLoader get() = Coil.imageLoader(appContext)
 
     /** The number of bytes the cached images occupy. */
     suspend fun cacheSizeBytes(): Long = withContext(Dispatchers.IO) {
-        cacheDirectories.sumOf { directorySize(it) }
+        val coil = imageLoader.diskCache?.size ?: 0L
+        val http = httpClient.cache?.size() ?: 0L
+        coil + http + directorySize(File(appContext.cacheDir, "images"))
     }
 
     /** Removes the cached images and returns the number of freed bytes. */
     suspend fun clear(): Long = withContext(Dispatchers.IO) {
-        var freed = 0L
-        cacheDirectories.forEach { directory ->
-            freed += directorySize(directory)
-            directory.listFiles()?.forEach { it.deleteRecursively() }
-        }
-        freed
+        val before = cacheSizeBytes()
+        imageLoader.diskCache?.clear()
+        imageLoader.memoryCache?.clear()
+        httpClient.cache?.evictAll()
+        File(appContext.cacheDir, "images").deleteRecursively()
+        val after = cacheSizeBytes()
+        (before - after).coerceAtLeast(0L)
     }
 
     private fun directorySize(directory: File): Long {
