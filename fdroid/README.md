@@ -22,3 +22,11 @@ Before opening a merge request:
 F-Droid users cannot upgrade between the GitHub APK, the Play APK and the
 F-Droid APK because each is signed with a different key. They must uninstall
 before switching sources.
+
+F-Droid signs the APK with its own key, so App Links such as
+`https://mohakash.netlify.app/archive/YYYY-MM-DD` cannot verify on an F-Droid
+build until that certificate is added to
+[`web/public/.well-known/assetlinks.json`](../web/public/.well-known/assetlinks.json)
+together with the GitHub release (and Play App Signing) fingerprints. Get the
+F-Droid certificate SHA-256 after the listing is live, add it, and redeploy the
+website.

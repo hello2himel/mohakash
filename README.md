@@ -230,6 +230,40 @@ UI icons come from [Remix Icon](https://remixicon.com); the launcher icon and th
 notification mark are original Mohakash artwork. See
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
+### App Links and sharing
+
+Public website URLs open inside the app when it is installed. The Android
+manifest declares `https://mohakash.netlify.app/` and
+`https://mohakash.netlify.app/archive...` as verified App Links, and
+`MainActivity` maps them to the navigation graph:
+
+| Website URL | App screen |
+|---|---|
+| `https://mohakash.netlify.app/` | Today |
+| `https://mohakash.netlify.app/archive` | Archive |
+| `https://mohakash.netlify.app/archive/YYYY-MM-DD` | Entry detail |
+
+The host is not hard-coded twice: Gradle turns `config/site.json`'s
+`website.base_url` into the `websiteHost` manifest placeholder, and the parser
+uses the same value through `BuildConfig.WEBSITE_BASE_URL`. Verification uses
+[`web/public/.well-known/assetlinks.json`](web/public/.well-known/assetlinks.json),
+which must contain the package name and the SHA-256 signing-certificate
+fingerprint of every build users install. The GitHub release key is listed
+there; update it with the Play App Signing certificate (if Play re-signs the
+bundle) and the F-Droid certificate when those listings go live, then redeploy
+the website. A stale fingerprint makes the links fall back to the browser.
+
+The share button shares the public `/archive/YYYY-MM-DD` URL as plain text
+together with the title, date and credit. It does not attach the picture, so
+the recipient always gets a link to the entry page instead of a bare image.
+
+Test a link on a connected device:
+
+```bash
+adb shell am start -a android.intent.action.VIEW \
+  -d https://mohakash.netlify.app/archive/2026-10-25
+```
+
 Install and enable the wallpaper:
 
 ```bash
@@ -399,7 +433,8 @@ Edit **one file**: `config/site.json`.
   },
   "website": { "base_url": "https://your-site.netlify.app" },
   "android": {
-    "package": "app.mohakash.apod",
+    "package": "mohakash.stargzr.space",
+    "namespace": "app.mohakash.apod",
     "api_base_url_fallbacks": [
       "https://your-github-username.github.io/mohakash/api/v1",
       "https://your-github-username.github.io/api/v1"
@@ -481,6 +516,30 @@ preference:
 
 A personal access token is **not** required and should not be used.
 
+### 9.5 Android App Links
+
+`.well-known/assetlinks.json` is served by the website
+(`web/public/.well-known/assetlinks.json`) and tells Android which signing
+certificates may open `https://mohakash.netlify.app/...` links in the app. It
+must list the SHA-256 certificate fingerprint of **every** build users install:
+
+| Build source | Certificate |
+|---|---|
+| GitHub releases | The release key in `android/keystore/` — already listed. |
+| Google Play | If Play App Signing is enabled, Google re-signs the bundle; copy the *app signing certificate* SHA-256 from Play Console → Setup → App signing and add it. |
+| F-Droid | F-Droid signs with its own key; add its certificate fingerprint once the listing is live. |
+
+After changing the file, deploy the website and confirm the links verify:
+
+```bash
+adb shell pm verify-app-links --re-verify mohakash.stargzr.space
+adb shell pm get-app-links mohakash.stargzr.space
+```
+
+The host comes from `config/site.json` and the paths come from the Android
+manifest; a fingerprint mismatch only makes the links open in the browser, it
+does not break the website.
+
 ---
 
 ## 10. The scheduled workflow
@@ -561,9 +620,9 @@ Current result:
 
 | Suite | Tests | Command |
 |---|---|---|
-| Data pipeline | **98 passed** | `python3 -m pytest scripts/tests -q` |
-| Website | **69 passed** | `cd web && npm test` |
-| Android | **76 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
+| Data pipeline | **102 passed** | `python3 -m pytest scripts/tests -q` |
+| Website | **98 passed** | `cd web && npm test` |
+| Android | **122 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
 | Website type check | 0 errors, 0 warnings | `cd web && npx astro check` |
 | Archive validation | ok | `python3 scripts/sync_apod.py validate` |
 
@@ -582,6 +641,10 @@ The Netlify configuration is covered by a test as well: it parses
 `netlify.toml` and asserts the build base, the publish directory, both
 rewrite targets, the `force` flags and the cache headers, and that the file
 still matches `config/site.json`.
+
+The website tests also validate `web/public/.well-known/assetlinks.json`: the
+package name must match `config/site.json` and every listed fingerprint must be
+a well-formed SHA-256 certificate fingerprint.
 
 ---
 
@@ -613,10 +676,11 @@ still matches `config/site.json`.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests: 98 pipeline, 69 website, 107 Android — all green. The debug APK builds.
+- [x] Automated tests: 102 pipeline, 98 website, 122 Android — all green. The debug APK builds.
 - [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.4**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
+- [x] App Links and archive-URL sharing verified on an Android 15 emulator: root, archive and archive-entry links open the right screen, query strings/fragments are ignored, a link that arrives during onboarding opens after it finishes, and the share button opens a text share sheet with the archive URL.
 
 **Needs the repository owner**
 
@@ -628,6 +692,7 @@ still matches `config/site.json`.
 - [ ] Decide how the bot commit may pass branch protection (§9.4).
 - [ ] Run the first backfill from the Actions tab (mode `backfill`, `start_year` 1995) if you did not keep the committed archive.
 - [ ] Publish the app on Google Play (needs the owner's Play Console account and `PLAY_SERVICE_ACCOUNT_JSON`).
+- [ ] Add the Play App Signing (and, later, F-Droid) certificate fingerprints to `web/public/.well-known/assetlinks.json` and redeploy the website so App Links verify for those builds.
 - [ ] Submit the F-Droid metadata in `fdroid/metadata/` as a merge request to `fdroiddata`.
 
 ### Not verified here
@@ -638,10 +703,16 @@ after deployment:
 * The **real Netlify proxy** and the **real GitHub Pages publication** — the
   rewrite rules were exercised against a local server that mimics them
   (`scripts/serve_site.py`), not against Netlify.
-* The **live wallpaper on a device**: no emulator or physical device was
-  available, so the rendering, the wallpaper picker, the MediaStore save, the
-  Sharesheet and the WorkManager schedule were verified by unit tests and by
-  reading the compiled manifest, not at runtime.
+* **Verified App Links** (domain verification): the navigation was tested on an
+  Android 15 emulator with explicit intents, but Android verifies the domain by
+  downloading `.well-known/assetlinks.json` from the deployed website. Confirm
+  with `adb shell pm get-app-links mohakash.stargzr.space` after the next Netlify
+  deployment.
+* **Store signing certificates**: only the GitHub release key fingerprint is in
+  `assetlinks.json`; the Play App Signing and F-Droid fingerprints must be added
+  when those builds exist.
+* The **WorkManager daily update** has not been observed over a full 24-hour
+  cycle; the worker, scheduling and retry behaviour are covered by unit tests.
 * **The scheduled workflow** never ran on GitHub, so the cron schedule, the
   Pages deployment and the bot commit were verified by inspecting the workflow
   file and by running the same commands locally.
