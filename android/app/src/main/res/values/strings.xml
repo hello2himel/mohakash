@@ -31,6 +31,8 @@
     <string name="feed_filters_active">%1$s · %2$s</string>
     <string name="feed_clear_filters">Clear filters</string>
     <string name="feed_offline_chip">Offline copy</string>
+    <string name="feed_swipe_hint_title">Swipe up</string>
+    <string name="feed_swipe_hint_body">for older pictures</string>
     <string name="feed_explanation_unavailable">Description unavailable offline</string>
     <string name="feed_hydration_failed">Couldn\'t load details</string>
     <string name="feed_retry">Retry</string>

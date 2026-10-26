@@ -64,6 +64,8 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         if (date.isNullOrBlank()) prefs.remove(Keys.LAST_SYNC_DATE) else prefs[Keys.LAST_SYNC_DATE] = date
     }
 
+    override suspend fun setFeedSwipeHintSeen(value: Boolean) = edit { it[Keys.FEED_SWIPE_HINT_SEEN] = value }
+
     private suspend fun edit(block: (MutablePreferences) -> Unit) {
         dataStore.edit(block)
     }
@@ -79,6 +81,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         preferredBaseUrl = this[Keys.PREFERRED_BASE_URL],
         lastSyncAt = this[Keys.LAST_SYNC_AT],
         lastSyncDate = this[Keys.LAST_SYNC_DATE],
+        feedSwipeHintSeen = this[Keys.FEED_SWIPE_HINT_SEEN] ?: false,
     )
 
     private object Keys {
@@ -92,5 +95,6 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         val PREFERRED_BASE_URL = stringPreferencesKey("preferred_base_url")
         val LAST_SYNC_AT = longPreferencesKey("last_sync_at")
         val LAST_SYNC_DATE = stringPreferencesKey("last_sync_date")
+        val FEED_SWIPE_HINT_SEEN = booleanPreferencesKey("feed_swipe_hint_seen")
     }
 }

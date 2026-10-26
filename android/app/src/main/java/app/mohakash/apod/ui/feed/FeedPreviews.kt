@@ -310,6 +310,8 @@ private fun FeedContentPreview() {
             onBackToLatest = {},
             onOpenSaved = {},
             onRetryAll = {},
+            showSwipeHint = false,
+            onDismissSwipeHint = {},
         )
     }
 }

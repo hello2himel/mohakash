@@ -93,6 +93,9 @@ class FeedViewModel(
     private var indexUnavailable = false
     private var pendingWallpaperDate: String? = null
 
+    /** Set as soon as the first-run cue is dismissed; never shows it again this session. */
+    private var swipeHintDismissed = false
+
     private var latestJob: Job? = null
     private var indexJob: Job? = null
     private var refreshJob: Job? = null
@@ -112,6 +115,19 @@ class FeedViewModel(
     // ---------------------------------------------------------------------------------------
     // Public actions
     // ---------------------------------------------------------------------------------------
+
+    /**
+     * Dismisses the one-time swipe cue and records it. Called by the cue timer, a swipe, or any
+     * explicit navigation so the hint never comes back on the next launch.
+     */
+    fun dismissSwipeHint() {
+        if (swipeHintDismissed) return
+        swipeHintDismissed = true
+        _state.update { it.copy(showSwipeHint = false) }
+        viewModelScope.launch {
+            runCatching { settingsStore.setFeedSwipeHintSeen(true) }
+        }
+    }
 
     /** Called when the pager settles on a page: records the position and hydrates it. */
     fun onPageSettled(pageIndex: Int) {
@@ -803,6 +819,11 @@ class FeedViewModel(
                         scaling = settings.wallpaperScaling,
                         updateDaily = settings.updateAutomatically,
                         syncedAt = settings.lastSyncAt ?: it.syncedAt,
+                        showSwipeHint = when {
+                            settings.feedSwipeHintSeen -> false
+                            swipeHintDismissed -> it.showSwipeHint
+                            else -> true
+                        },
                     )
                 }
             }
