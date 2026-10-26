@@ -274,7 +274,18 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
 Then open the app and press **Set live wallpaper**, or pick
-*Settings → Wallpaper → Mohakash* in Android's own wallpaper picker.
+*Settings → Wallpaper → Mohakash* in Android's own wallpaper picker. Android
+asks for confirmation only the first time; afterwards the app applies a chosen
+archive picture or a new APOD directly to the active live wallpaper without
+re-opening the system picker.
+
+The wallpaper is a genuine `WallpaperService` (not a static bitmap set through
+`WallpaperManager`). A `WorkManager` job checks for a new APOD every 6 hours,
+downloads the picture only when the date or image URL changed and swaps it in
+atomically; it works without opening or refreshing the app, subject to Android's
+battery/Doze delays. Fill/Fit is honoured both in the sheet preview and by the
+engine, Wi-Fi only is off by default, and *Hide videos* / *Image scaling* /
+*Prefer HD* are in Settings.
 
 ---
 
@@ -584,11 +595,11 @@ does not break the website.
   happen in the same run, but GitHub Pages can take a minute to serve the new
   files. The website treats this as a stale-data condition, not an error.
 * **Background updates are not exact.** The Android app schedules a
-  24-hour `PeriodicWorkRequest`. Android decides when that actually runs:
-  it may be delayed by battery optimisation, Doze, app-standby buckets or
-  the device being in use. The app never promises a specific update time, and
-  a foreground refresh happens whenever the app is opened and its metadata is
-  stale.
+  6-hour `PeriodicWorkRequest` (four checks a day, so a delayed run does not skip
+  an APOD). Android decides when each run actually happens: it may be delayed by
+  battery optimisation, Doze, app-standby buckets or the device being in use. The
+  app never promises a specific update time, and a foreground refresh happens
+  whenever the app is opened and its metadata is stale.
 
 ---
 
@@ -625,7 +636,7 @@ Current result:
 |---|---|---|
 | Data pipeline | **102 passed** | `python3 -m pytest scripts/tests -q` |
 | Website | **98 passed** | `cd web && npm test` |
-| Android | **122 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
+| Android | **127 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
 | Website type check | 0 errors, 0 warnings | `cd web && npx astro check` |
 | Archive validation | ok | `python3 scripts/sync_apod.py validate` |
 
@@ -661,7 +672,7 @@ a well-formed SHA-256 certificate fingerprint.
 | The workflow fails at the push step | Branch protection blocks the bot commit | See §9.4. |
 | The workflow fails with `400` on the date-range request | NASA's `date_from`/`date_to` are broken upstream | Nothing to do — the adapter falls back to pagination automatically. |
 | The Android app shows "You're offline" | The API base URL does not match your Pages site | Fix `android.api_base_url_fallbacks` in `config/site.json` and rebuild the app. |
-| The wallpaper does not change | Android deferred the background work | Open the app to force a foreground refresh, or check that *Settings → Apps → Mohakash → Battery* is not set to *Restricted*. |
+| The wallpaper does not change | Android deferred the background work, or the wallpaper is not active | The worker checks every 6 hours; open the app to force a foreground refresh, check *Update automatically* in Settings and make sure Mohakash is the selected live wallpaper, then check *Settings → Apps → Mohakash → Battery* is not *Restricted*. |
 | The live wallpaper is not in the picker | The service is not registered | Rebuild and reinstall the APK; check `AndroidManifest.xml` for the `WallpaperService` and `res/xml/wallpaper.xml`. |
 | `python3 scripts/sync_apod.py validate` fails | The archive or the generated files are inconsistent | Re-run `python3 scripts/sync_apod.py build` and commit the result. |
 
@@ -679,9 +690,10 @@ a well-formed SHA-256 certificate fingerprint.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests: 102 pipeline, 98 website, 122 Android — all green. The debug APK builds.
+- [x] Automated tests: 102 pipeline, 98 website, 127 Android — all green. The debug APK builds.
 - [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.4**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
+- [x] Wallpaper audit on the Android 15 emulator: the system picker is shown only on first activation; choosing an archive picture updates the active wallpaper in place without a dialog; the background worker replaced that archive picture with the latest APOD without opening the app; a 6-hour periodic job is scheduled; Fill/Fit matches in the sheet preview and on the live wallpaper and changes while active; Wi-Fi only is off by default and Hide videos is in Settings.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 - [x] App Links and archive-URL sharing verified on an Android 15 emulator: root, archive and archive-entry links open the right screen, query strings/fragments are ignored, a link that arrives during onboarding opens after it finishes, and the share button opens a text share sheet with the archive URL. The signed release APK was verified against the deployed `assetlinks.json` (`pm get-app-links` reports `verified`).
 
@@ -709,8 +721,10 @@ after deployment:
 * **Store signing certificates**: only the GitHub release key fingerprint is in
   `assetlinks.json`; the Play App Signing and F-Droid fingerprints must be added
   when those builds exist.
-* The **WorkManager daily update** has not been observed over a full 24-hour
-  cycle; the worker, scheduling and retry behaviour are covered by unit tests.
+* The **WorkManager periodic delivery** has not been observed over a full 24-hour cycle;
+  the worker itself was exercised on an emulator (it replaced an archive wallpaper with the
+  latest APOD in the background) and the 6-hour job is visible in `dumpsys jobscheduler`, but
+  OEM battery optimisation can still delay it.
 * **The scheduled workflow** never ran on GitHub, so the cron schedule, the
   Pages deployment and the bot commit were verified by inspecting the workflow
   file and by running the same commands locally.

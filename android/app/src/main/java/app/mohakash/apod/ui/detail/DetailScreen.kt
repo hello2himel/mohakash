@@ -34,6 +34,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.domain.model.ApodEntry
@@ -54,6 +56,7 @@ import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import app.mohakash.apod.ui.wallpaper.WallpaperSheet
+import app.mohakash.apod.wallpaper.WallpaperStatus
 import kotlinx.coroutines.launch
 
 /**
@@ -71,6 +74,11 @@ fun DetailScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val appContext = context.applicationContext
+    var systemWallpaperActive by remember { mutableStateOf(WallpaperStatus.isActive(appContext)) }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        systemWallpaperActive = WallpaperStatus.isActive(appContext)
+    }
     val viewModel = containerViewModel(key = "detail-$date") { container ->
         DetailViewModel(
             apodRepository = container.apodRepository,
@@ -80,6 +88,8 @@ fun DetailScreen(
             shareHelper = container.shareHelper,
             wallpaperStorage = container.wallpaperStorage,
             syncEngine = container.syncEngine,
+            syncController = container.syncController,
+            isWallpaperActive = { WallpaperStatus.isActive(appContext) },
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -129,6 +139,7 @@ fun DetailScreen(
                 showWallpaperSheet = false
                 viewModel.setAsWallpaper()
             },
+            isWallpaperActive = systemWallpaperActive,
         )
     }
 }

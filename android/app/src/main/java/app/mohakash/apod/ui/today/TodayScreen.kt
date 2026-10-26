@@ -78,12 +78,13 @@ fun TodayScreen(
     onOpenArchive: () -> Unit = {},
 ) {
     val context = LocalContext.current
+    val appContext = context.applicationContext
     val scope = rememberCoroutineScope()
-    var systemWallpaperActive by remember { mutableStateOf(WallpaperStatus.isActive(context)) }
+    var systemWallpaperActive by remember { mutableStateOf(WallpaperStatus.isActive(appContext)) }
 
     // The picker is a separate activity, so the label has to be re-checked when Today resumes.
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        systemWallpaperActive = WallpaperStatus.isActive(context)
+        systemWallpaperActive = WallpaperStatus.isActive(appContext)
     }
 
     val viewModel = containerViewModel { container ->
@@ -95,6 +96,8 @@ fun TodayScreen(
             shareHelper = container.shareHelper,
             wallpaperStorage = container.wallpaperStorage,
             syncEngine = container.syncEngine,
+            syncController = container.syncController,
+            isWallpaperActive = { WallpaperStatus.isActive(appContext) },
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -147,6 +150,7 @@ fun TodayScreen(
                 showWallpaperSheet = false
                 viewModel.previewAndSetWallpaper()
             },
+            isWallpaperActive = systemWallpaperActive,
         )
     }
 }

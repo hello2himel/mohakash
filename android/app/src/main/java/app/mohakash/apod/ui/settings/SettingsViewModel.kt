@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 data class SettingsUiState(
     val updateAutomatically: Boolean = true,
     val preferHd: Boolean = false,
-    val wifiOnly: Boolean = true,
+    val wifiOnly: Boolean = false,
     val scaling: WallpaperScaling = WallpaperScaling.FILL,
     val hideVideos: Boolean = true,
     val customApiBaseUrl: String? = null,

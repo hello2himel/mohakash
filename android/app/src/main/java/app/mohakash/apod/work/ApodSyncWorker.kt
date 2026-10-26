@@ -9,8 +9,8 @@ import app.mohakash.apod.wallpaper.WallpaperStatus
 /**
  * The background job that keeps the metadata — and optionally the live wallpaper — up to date.
  *
- * It runs once a day. Every failure keeps the last successful picture, so the wallpaper is never
- * replaced by an empty or broken image.
+ * It runs several times a day (see [SyncScheduler]). Every failure keeps the last successful
+ * picture, so the wallpaper is never replaced by an empty or broken image.
  */
 class ApodSyncWorker(
     context: Context,
@@ -27,16 +27,19 @@ class ApodSyncWorker(
 
         // The metadata is always refreshed; the picture is only downloaded when the connection
         // suits the "Wi-Fi only" preference.
-        val connected = container.networkMonitor.isConnected()
-        val unmetered = container.networkMonitor.isUnmetered()
-        val wifiOnly = settings?.wifiOnly ?: true
-        val pictureAllowed = connected && (!wifiOnly || unmetered)
+        val pictureAllowed = SyncPolicy.pictureDownloadAllowed(
+            settings = settings,
+            connected = container.networkMonitor.isConnected(),
+            unmetered = container.networkMonitor.isUnmetered(),
+        )
 
         // Refreshing the cached metadata is always useful. The picture itself is only replaced
         // while Mohakash is the selected system wallpaper, so skipping onboarding does not
         // silently install a wallpaper the user never chose.
-        val updateWallpaper = (settings?.updateAutomatically ?: true) &&
-            WallpaperStatus.isActive(applicationContext)
+        val updateWallpaper = SyncPolicy.shouldUpdateWallpaper(
+            settings = settings,
+            isWallpaperActive = WallpaperStatus.isActive(applicationContext),
+        )
 
         val outcome = engine.sync(
             updateWallpaper = updateWallpaper,

@@ -94,18 +94,32 @@ fails. **No URL is hard-coded in the Kotlin sources.**
 1. Open the app and tap **Set live wallpaper** (Today screen or the onboarding screen), or
 2. go to **Settings → Wallpaper → Mohakash** in the system wallpaper picker.
 
-Android shows its own confirmation dialog (*"Set this wallpaper?"*). The wallpaper is a **still
-picture** — there is no animation and no continuous redraw.
+Mohakash is a real Android `WallpaperService` (**live wallpaper**), not a bitmap set through
+`WallpaperManager`. It draws a still astronomy picture and redraws it whenever the picture changes;
+there is no animation loop.
 
-* The picture that is used is the newest **validated static image** that was stored in the app's
-  private storage (`filesDir/wallpaper/`).
+Android asks for confirmation the **first time only** (the system live-wallpaper preview). After
+that, the app recognises that its service is the active wallpaper and swaps new pictures in place
+— choosing an archive entry or an automatic APOD update does not open the system dialog again.
+
+* The picture that is used is the newest **validated static image** stored in the app's private
+  storage (`filesDir/wallpaper/`).
 * **Fill** crops the picture to the screen, **Fit** shows the whole picture and letterboxes the
-  rest with the app background (`#0B0D12`). The mode can be changed in the app (wallpaper sheet or
-  Settings → Image scaling) and is picked up by the engine.
-* The wallpaper is refreshed once a day by a `WorkManager` job. The new picture is downloaded,
-  validated and swapped in **atomically**; a failed download, a missing picture or a video entry
-  never replaces a working wallpaper.
-* A video entry cannot become a wallpaper — the app keeps the previous picture and says so.
+  rest with the app background (`#0B0D12`). The wallpaper-sheet preview draws the same Fill/Fit
+  mode, and the engine observes the setting so changing it in the sheet or in *Settings → Image
+  scaling* redraws an already-active wallpaper immediately.
+* A `WorkManager` job checks for a new APOD **four times a day** (every 6 hours) instead of once,
+  so an early or delayed run cannot skip a day. Only the tiny metadata document is fetched each
+  time; the picture is downloaded only when the date or URL actually changed, then swapped in
+  **atomically**. It runs without opening or refreshing the app, as long as the user has
+  *Update automatically* on and Mohakash is the selected wallpaper. Android can still delay
+  background work for battery reasons.
+* The worker respects *Wi-Fi only* (off by default, so the daily picture also arrives on mobile
+  data) and never downloads over a metered connection when it is on.
+* A video entry cannot become a wallpaper; with *Hide videos* on (the default) video entries are
+  skipped and the previous picture stays, otherwise their poster is used.
+* If the wallpaper is not active, background sync still refreshes the cached metadata but does
+  not replace the user's wallpaper.
 
 ---
 
@@ -113,17 +127,17 @@ picture** — there is no animation and no continuous redraw.
 
 | Screen | What it does |
 |---|---|
-| **Onboarding** | Shown once. Phone preview, headline, *Set live wallpaper* / *Skip for now*, Wi-Fi hint. Triggers the first synchronisation. |
+| **Onboarding** | Shown once. Phone preview, headline, *Set live wallpaper* / *Skip for now*, download note. Triggers the first synchronisation. |
 | **Today** | Hero picture, date · credit, title, three-line explanation preview, heart / download / share row, *Set live wallpaper* pill, *Synced X ago*. |
 | **Today (offline)** | Banner *“You're offline. Showing the saved copy from {date}.”* with a **Retry** button, then the cached entry. |
-| **Wallpaper sheet** | Preview, current image (date · title), Fill/Fit, *Update daily* switch, *Preview and set*, helper text. |
+| **Wallpaper sheet** | Fill/Fit preview that matches the engine, current image (date · title), Fill/Fit selector, *Update daily* switch, *Set live wallpaper* (first time) or *Apply now* (already active), helper text. |
 | **Entry detail** | Back / heart / share, picture, date · credit, title, *Save image* + *Set as wallpaper*, the full explanation, *Original APOD page* and *HD image* rows. |
 | **Video entry** | Poster with play glyph and *Video* chip, *Watch on original page*, the note that videos cannot be wallpapers. No save / wallpaper buttons. |
 | **Archive** | Search pill, year chips, *Filters*, list rows (72 × 56 thumbnail, date over title), incremental loading. |
 | **Filter sheet** | Year chips, jump-to-date, All / Images / Videos, *Reset* and *Show N entries*. |
 | **Saved** | Header with the count and *available offline*, two-column square grid. |
 | **Saved (empty)** | Heart glyph, *Nothing saved yet*, hint, *Browse archive*. |
-| **Settings** | Wallpaper section (update automatically, prefer HD, Wi-Fi only, image scaling), storage section (image cache + clear), about section (last synced, content rights, source code, version). |
+| **Settings** | Wallpaper section (update automatically, prefer HD, Wi-Fi only, hide videos, image scaling), storage section (image cache + clear), about section (last synced, content rights, source code, version). |
 | **Clear cache dialog** | *Clear image cache?* with the exact size, *Cancel* / *Clear*. |
 | **Bottom navigation** | Today · Archive · Saved (72 dp, no shadow). Detail and Settings have a back arrow and no bottom bar. |
 
@@ -203,7 +217,7 @@ The app itself declares only:
 
 `RECEIVE_BOOT_COMPLETED`, `WAKE_LOCK` and `FOREGROUND_SERVICE` are contributed by **AndroidX
 WorkManager** — the app has no boot receiver of its own, but WorkManager's reschedule receiver is
-what makes the daily update survive a reboot.
+what makes the periodic update survive a reboot.
 
 `android:usesCleartextTraffic="false"` — only HTTPS is used.
 
@@ -211,25 +225,25 @@ what makes the daily update survive a reboot.
 
 ## 8. Known limitations
 
-* **Background updates are deferred by Android.** `PeriodicWorkRequest` asks for a 24-hour
-  interval, but Android decides when the job actually runs. It can be delayed by battery
-  optimisation, Doze or the app being swiped away. The exact update time is **not** guaranteed.
+* **Background updates are deferred by Android.** `PeriodicWorkRequest` checks every 6 hours, but
+  Android decides when the job actually runs. It can be delayed by battery optimisation, Doze or
+  the app being swiped away. The exact update time is **not** guaranteed; four daily checks give
+  the next APOD several chances to arrive the same day.
 * The first picture is only downloaded when the device is online; until then the wallpaper stays
   empty (or keeps the previous picture).
 * `MediaStore` writes need a few seconds on some devices; the app reports success or failure
   with a snackbar, it never stays silent.
-* The *Prefer HD images* and *Update automatically* switches trigger an immediate refresh so the
-  change is visible right away.
-* The content-rights link points at `CONTENT_RIGHTS.md` in the repository and assumes the default
-  branch is called `master`.
-* The app was **not** tested on a physical device or an emulator in this environment — see the
-  build report for what has and has not been verified.
+* The *Prefer HD images*, *Update automatically* and *Hide videos* switches trigger an immediate
+  metadata refresh so the change is visible right away.
+* The content-rights link points at `CONTENT_RIGHTS.md` on the repository's default branch.
+* The app has been exercised on an Android 15 emulator (live wallpaper, daily worker, scaling and
+  settings); a physical device can still behave differently with OEM battery optimisation.
 
 ---
 
 ## 9. Tests
 
-`./gradlew :app:testDebugUnitTest` runs 122 pure-JVM unit tests (no emulator needed):
+`./gradlew :app:testDebugUnitTest` runs 127 pure-JVM unit tests (no emulator needed):
 
 | Test file | Covers |
 |---|---|
@@ -244,3 +258,4 @@ what makes the daily update survive a reboot.
 | `DeepLinkParserTest` | Website URL → app destination mapping: root, archive index, entries, query/fragment/trailing slash, invalid dates, foreign hosts and schemes. |
 | `DeepLinkManifestTest` | The manifest keeps the verified https App Links and the `/` + `/archive` paths. |
 | `ShareHelperTest` | Archive URL construction and the share text: archive link instead of the NASA page, title/date/credit preserved. |
+| `SyncPolicyTest` | Automatic updates only while the wallpaper is active; Wi-Fi only off by default and honoured on metered connections. |

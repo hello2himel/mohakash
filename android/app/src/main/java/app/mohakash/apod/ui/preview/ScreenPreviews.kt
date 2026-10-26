@@ -350,7 +350,7 @@ private fun SettingsPreview() {
             state = SettingsUiState(
                 updateAutomatically = true,
                 preferHd = false,
-                wifiOnly = true,
+                wifiOnly = false,
                 scaling = WallpaperScaling.FILL,
                 cacheSizeBytes = 84L * 1024L * 1024L,
                 lastSyncAt = previewSyncedAt,
@@ -361,6 +361,7 @@ private fun SettingsPreview() {
             onUpdateAutomaticallyChange = {},
             onPreferHdChange = {},
             onWifiOnlyChange = {},
+            onHideVideosChange = {},
             onScalingChange = {},
             onClearCache = {},
         )

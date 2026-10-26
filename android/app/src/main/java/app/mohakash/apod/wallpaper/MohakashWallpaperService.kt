@@ -19,7 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
@@ -78,25 +81,37 @@ class MohakashWallpaperService : WallpaperService() {
         }
 
         /**
-         * Reads the scaling setting once, then re-renders whenever the picture changes.
+         * Observes the scaling preference and the picture-change signal.
          *
-         * `settingsStore.current()` is suspending, so it must not run on the render thread. The
-         * coroutine reads it off the main thread and hands the result back via [postRender].
+         * Both are collected off the render thread; drawing is always posted back to it. Keeping
+         * the settings flow alive means changing Fill/Fit in the app redraws the already-active
+         * wallpaper immediately, without re-opening the system picker.
          */
         private fun loadScalingAndObserveSignals() {
             observeJob?.cancel()
             observeJob = CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
-                val mode = runCatching {
-                    (applicationContext as? MohakashApplication)
-                        ?.container
-                        ?.settingsStore
-                        ?.current()
-                        ?.wallpaperScaling
-                }.getOrNull() ?: WallpaperScaling.FILL
-                postRender {
-                    scalingMode = mode
-                    render(redecode = false)
+                val settingsStore = runCatching {
+                    (applicationContext as? MohakashApplication)?.container?.settingsStore
+                }.getOrNull()
+
+                if (settingsStore != null) {
+                    launch {
+                        settingsStore.settings
+                            .map { it.wallpaperScaling }
+                            .distinctUntilChanged()
+                            // A settings read failure must not stop the picture observer below.
+                            .catch { }
+                            .collect { mode ->
+                                postRender {
+                                    if (scalingMode != mode) {
+                                        scalingMode = mode
+                                        render(redecode = false)
+                                    }
+                                }
+                            }
+                    }
                 }
+
                 WallpaperSignal.revision.collectLatest { revision ->
                     // Never block in the collector: hand the work back to the render thread.
                     postRender {

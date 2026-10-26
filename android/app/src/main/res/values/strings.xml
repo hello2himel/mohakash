@@ -13,7 +13,7 @@
     <string name="onboarding_subtitle">A new astronomy picture each day. No account needed.</string>
     <string name="onboarding_set_wallpaper">Set live wallpaper</string>
     <string name="onboarding_skip">Skip for now</string>
-    <string name="onboarding_wifi_note">Images download on Wi-Fi only by default. Change this in Settings.</string>
+    <string name="onboarding_wifi_note">Pictures download automatically. You can switch on Wi-Fi only downloads in Settings.</string>
 
     <!-- Today -->
     <string name="today_title">Today</string>
@@ -42,8 +42,10 @@
     <string name="wallpaper_selected_image">Selected image</string>
     <string name="wallpaper_scaling">Scaling</string>
     <string name="wallpaper_update_daily">Update daily</string>
-    <string name="wallpaper_preview_and_set">Preview and set</string>
-    <string name="wallpaper_helper">Android will ask you to confirm. Updates arrive about once a day and can be delayed by battery settings.</string>
+    <string name="wallpaper_preview_and_set">Set live wallpaper</string>
+    <string name="wallpaper_apply_now">Apply now</string>
+    <string name="wallpaper_helper">Android will ask you once to activate the live wallpaper. After that, new pictures are applied automatically; battery optimisation can delay them.</string>
+    <string name="wallpaper_helper_active">The live wallpaper is active. The selected picture and scaling are applied directly, without opening the system picker.</string>
     <string name="wallpaper_scaling_fill">Fill</string>
     <string name="wallpaper_scaling_fit">Fit</string>
 
@@ -113,7 +115,7 @@
     <string name="settings_prefer_hd_hint">Larger downloads</string>
     <string name="settings_wifi_only">Wi-Fi only</string>
     <string name="settings_hide_videos">Hide videos</string>
-    <string name="settings_hide_videos_hint">Show pictures only. Video entries are skipped.</string>
+    <string name="settings_hide_videos_hint">Skip video entries when picking the wallpaper picture.</string>
     <string name="settings_image_scaling">Image scaling</string>
     <string name="settings_section_storage">Storage</string>
     <string name="settings_image_cache">Image cache</string>

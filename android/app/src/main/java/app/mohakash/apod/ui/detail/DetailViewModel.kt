@@ -12,6 +12,8 @@ import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.work.ApodSyncEngine
+import app.mohakash.apod.work.InstallOutcome
+import app.mohakash.apod.work.SyncController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,6 +56,9 @@ class DetailViewModel(
     private val shareHelper: ShareHelper,
     private val wallpaperStorage: WallpaperStorage,
     private val syncEngine: ApodSyncEngine,
+    private val syncController: SyncController,
+    /** Reports whether Mohakash is already the selected live wallpaper. */
+    private val isWallpaperActive: () -> Boolean = { false },
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DetailUiState())
@@ -165,7 +170,11 @@ class DetailViewModel(
     }
 
     /**
-     * Installs the picture of this entry as the live wallpaper and opens the system preview.
+     * Applies the picture of this entry to the live wallpaper.
+     *
+     * The first activation still needs the system confirmation dialog (installed before the
+     * picker opens so the preview is already correct). Once Mohakash is the active live
+     * wallpaper, the picture is swapped in place and the engine redraws without any dialog.
      */
     fun setAsWallpaper() {
         val entry = _state.value.entry ?: return
@@ -175,22 +184,36 @@ class DetailViewModel(
         }
         viewModelScope.launch {
             val settings = settingsStore.current()
-            val outcome = syncEngine.install(entry, settings.preferHd, settings.hideVideos)
-            when (outcome) {
-                app.mohakash.apod.work.InstallOutcome.INSTALLED -> {
-                    _state.value = _state.value.copy(
-                        wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
-                        wallpaperMeta = wallpaperStorage.readMeta(),
-                    )
-                    _events.send(DetailEvent.OpenWallpaperPicker)
+            when (syncEngine.install(entry, settings.preferHd, settings.hideVideos)) {
+                InstallOutcome.INSTALLED -> {
+                    updateWallpaperState()
+                    if (isWallpaperActive()) {
+                        _events.send(DetailEvent.ShowMessage(MESSAGE_WALLPAPER_UPDATED))
+                    } else {
+                        _events.send(DetailEvent.OpenWallpaperPicker)
+                    }
                 }
-                app.mohakash.apod.work.InstallOutcome.UNCHANGED -> _events.send(DetailEvent.OpenWallpaperPicker)
-                app.mohakash.apod.work.InstallOutcome.NOT_USABLE ->
-                    _events.send(DetailEvent.ShowMessage(MESSAGE_VIDEO_NO_WALLPAPER))
-                app.mohakash.apod.work.InstallOutcome.FAILED ->
-                    _events.send(DetailEvent.ShowMessage(MESSAGE_WALLPAPER_FAILED))
+
+                InstallOutcome.UNCHANGED -> {
+                    updateWallpaperState()
+                    if (isWallpaperActive()) {
+                        _events.send(DetailEvent.ShowMessage(MESSAGE_WALLPAPER_ALREADY_SET))
+                    } else {
+                        _events.send(DetailEvent.OpenWallpaperPicker)
+                    }
+                }
+
+                InstallOutcome.NOT_USABLE -> _events.send(DetailEvent.ShowMessage(MESSAGE_VIDEO_NO_WALLPAPER))
+                InstallOutcome.FAILED -> _events.send(DetailEvent.ShowMessage(MESSAGE_WALLPAPER_FAILED))
             }
         }
+    }
+
+    private fun updateWallpaperState() {
+        _state.value = _state.value.copy(
+            wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
+            wallpaperMeta = wallpaperStorage.readMeta(),
+        )
     }
 
     /** Changes the scaling mode used by the live wallpaper. */
@@ -206,6 +229,9 @@ class DetailViewModel(
         viewModelScope.launch {
             settingsStore.setUpdateAutomatically(enabled)
             _state.value = _state.value.copy(updateDaily = enabled)
+            // Keep WorkManager in sync with the switch shown in this sheet as well.
+            syncController.apply(settingsStore.current())
+            if (enabled) syncController.runOnce()
         }
     }
 
@@ -227,6 +253,8 @@ class DetailViewModel(
         const val MESSAGE_FAVOURITE_FAILED = "Could not update the saved list."
         const val MESSAGE_VIDEO_NO_WALLPAPER =
             "Video entries can't be used as wallpaper. Your current wallpaper stays as it is."
+        const val MESSAGE_WALLPAPER_UPDATED = "Live wallpaper updated."
+        const val MESSAGE_WALLPAPER_ALREADY_SET = "Live wallpaper is already up to date."
         const val MESSAGE_WALLPAPER_FAILED = "Could not prepare the wallpaper."
     }
 }
