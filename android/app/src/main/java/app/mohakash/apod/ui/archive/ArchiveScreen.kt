@@ -30,6 +30,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -54,6 +55,7 @@ import app.mohakash.apod.ui.components.MohakashTopBar
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.SecondaryButton
 import app.mohakash.apod.ui.components.SkeletonBlock
+import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.components.busySemantics
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
@@ -81,7 +83,7 @@ fun ArchiveScreen(
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
-    var showFilters by remember { mutableStateOf(false) }
+    var showFilters by rememberSaveable { mutableStateOf(false) }
 
     // The index is shared with the feed and cached on disk, so opening the tab is cheap.
     LaunchedEffect(Unit) {
@@ -97,6 +99,7 @@ fun ArchiveScreen(
         onOpenSettings = onOpenSettings,
         onClearFilters = viewModel::reset,
         onLoadMore = viewModel::loadMore,
+        onRetry = viewModel::load,
         modifier = modifier,
         showTopBar = showTopBar,
         bottomContentPadding = bottomContentPadding,
@@ -126,6 +129,7 @@ internal fun ArchiveContent(
     onOpenSettings: () -> Unit,
     onClearFilters: () -> Unit,
     onLoadMore: () -> Unit,
+    onRetry: () -> Unit = {},
     modifier: Modifier = Modifier,
     showTopBar: Boolean = true,
     bottomContentPadding: Dp = 0.dp,
@@ -184,7 +188,10 @@ internal fun ArchiveContent(
             item {
                 FilterChipItem(
                     text = stringResource(R.string.archive_filters),
-                    selected = false,
+                    selected = state.selectedYear !in state.availableYears.take(QUICK_YEAR_COUNT) ||
+                        state.typeFilter != MediaFilter.ALL ||
+                        state.query.isNotBlank() ||
+                        state.jumpToDate != null,
                     onClick = onOpenFilters,
                 )
             }
@@ -192,6 +199,13 @@ internal fun ArchiveContent(
 
         when {
             state.isLoading && state.visible.isEmpty() -> ArchiveSkeleton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            )
+
+            state.hasError && state.entries.isEmpty() -> ArchiveErrorState(
+                onRetry = onRetry,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
@@ -241,8 +255,7 @@ private fun SearchField(
         cursorBrush = SolidColor(MohakashColors.Accent),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         modifier = modifier
-            .fillMaxWidth()
-            .semantics { contentDescription = hint },
+            .fillMaxWidth(),
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
@@ -313,6 +326,38 @@ private fun ArchiveSkeleton(modifier: Modifier = Modifier) {
                     .background(MohakashColors.Divider),
             )
         }
+    }
+}
+
+/** The archive index could not be loaded and there is no cached copy to show. */
+@Composable
+private fun ArchiveErrorState(
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.padding(horizontal = MohakashDimens.SidePadding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = stringResource(R.string.archive_error_title),
+            style = MohakashTextStyles.SectionHeading,
+            color = MohakashColors.Text,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = stringResource(R.string.archive_error_body),
+            style = MohakashTextStyles.BodyBase,
+            color = MohakashColors.TextMuted,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 8.dp),
+        )
+        PrimaryButton(
+            text = stringResource(R.string.archive_retry),
+            onClick = onRetry,
+            modifier = Modifier.padding(top = 16.dp),
+        )
     }
 }
 

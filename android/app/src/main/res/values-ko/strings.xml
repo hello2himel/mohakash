@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">피드</string>
     <string name="nav_archive">아카이브</string>
-    <string name="nav_saved">저장한 항목</string>
-    <string name="nav_random_description">무작위 사진 열기</string>
+<string name="nav_random_description">무작위 사진 열기</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">배경화면 미리보기</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">배경화면 적용됨</string>
     <string name="feed_watch_on_apod">APOD에서 보기</string>
     <string name="feed_clear_filters">필터 지우기</string>
-    <string name="feed_offline_chip">오프라인 사본</string>
-    <string name="feed_random_title">사진을 고르는 중…</string>
+<string name="feed_random_title">사진을 고르는 중…</string>
     <string name="feed_random_body">아카이브에서 무작위 사진을 찾고 있습니다.</string>
     <string name="feed_random_cancel">취소</string>
-    <string name="feed_random_unavailable">지금은 무작위 사진을 사용할 수 없습니다.</string>
-    <string name="feed_hide_chrome">세부정보 숨기기</string>
+<string name="feed_hide_chrome">세부정보 숨기기</string>
     <string name="feed_show_chrome">세부정보 표시</string>
     <string name="feed_swipe_hint_title">위로 밀기</string>
     <string name="feed_swipe_hint_body">다른 사진 더 보기</string>
@@ -207,4 +204,9 @@
     <string name="notification_action_open_app">앱 열기</string>
     <string name="notification_action_view_apod">APOD에서 보기</string>
     <string name="notification_action_settings">설정</string>
+    <string name="settings_synced_never">동기화한 적 없음</string>
+    <string name="settings_synced_just_now">방금 전</string>
+    <string name="archive_error_title">아카이브를 사용할 수 없습니다</string>
+    <string name="archive_error_body">연결을 확인한 후 다시 시도하세요.</string>
+    <string name="archive_retry">다시 시도</string>
 </resources>

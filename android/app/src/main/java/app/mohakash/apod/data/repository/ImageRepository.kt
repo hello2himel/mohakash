@@ -27,7 +27,13 @@ class ImageRepository(
             return@withContext Result.failure(IllegalStateException("This entry has no picture that can be saved."))
         }
         val fileName = entry.galleryFileName()
-        val target = File(cacheDir(), fileName)
+        // A unique temporary path prevents a double tap from writing and deleting the same
+        // cache file while the first gallery save is still running.
+        val target = runCatching {
+            File.createTempFile("gallery-", ".img", cacheDir())
+        }.getOrElse {
+            return@withContext Result.failure(it)
+        }
         val downloaded = downloader.download(url, target)
         if (downloaded.isFailure) {
             return@withContext Result.failure(downloaded.exceptionOrNull() ?: IllegalStateException("The download failed."))

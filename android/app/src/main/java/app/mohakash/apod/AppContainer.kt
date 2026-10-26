@@ -108,7 +108,7 @@ class AppContainer(context: Context) {
 
     val gallerySaver: GallerySaver by lazy { GallerySaver(appContext) }
 
-    val cacheManager: CacheManager by lazy { CacheManager(appContext) }
+    val cacheManager: CacheManager by lazy { CacheManager(appContext, httpClient) }
 
     val syncController: SyncController by lazy { SyncController(appContext) }
 

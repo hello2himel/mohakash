@@ -173,6 +173,24 @@ function renderNeighbours(
 
 /* --------------------------------------------------------------- render */
 
+/** Update the shell's canonical/OG metadata once the requested entry is known. */
+function updateSocialMetadata(record: ApodRecord): void {
+  const canonical = `${location.origin}/archive/${record.date}`;
+  const title = `${record.title} · Mohakash`;
+  const description = (record.explanation ?? '').replace(/\s+/g, ' ').trim().slice(0, 180);
+  const set = (selector: string, attribute: string, value: string): void => {
+    const node = document.querySelector(selector);
+    if (node) node.setAttribute(attribute, value);
+  };
+  set('link[rel="canonical"]', 'href', canonical);
+  set('meta[property="og:url"]', 'content', canonical);
+  set('meta[property="og:title"]', 'content', title);
+  set('meta[property="og:description"]', 'content', description);
+  set('meta[name="twitter:title"]', 'content', title);
+  set('meta[name="twitter:description"]', 'content', description);
+  set('meta[name="description"]', 'content', description);
+}
+
 function render(record: ApodRecord, index: ArchiveIndexEntry[]): void {
   const presentation = mediaPresentation(record);
 
@@ -185,6 +203,7 @@ function render(record: ApodRecord, index: ArchiveIndexEntry[]): void {
 
   title.textContent = record.title;
   document.title = `${record.title} · Mohakash`;
+  updateSocialMetadata(record);
 
   const year = yearOf(record.date);
   yearLink.textContent = String(year);

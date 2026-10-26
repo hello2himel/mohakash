@@ -1,5 +1,6 @@
 package app.mohakash.apod.data.storage
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,6 +10,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import app.mohakash.apod.MainActivity
 import app.mohakash.apod.R
 import app.mohakash.apod.domain.model.ApodEntry
@@ -43,6 +45,9 @@ class NotificationHelper private constructor(private val context: Context) {
     }
 
     companion object {
+        // The singleton deliberately keeps the *application* context only, never an Activity.
+        // Lint flags any Context field; this one cannot leak a screen.
+        @SuppressLint("StaticFieldLeak")
         @Volatile private var instance: NotificationHelper? = null
 
         const val NOTIFICATION_ID = 1001
@@ -59,6 +64,9 @@ class NotificationHelper private constructor(private val context: Context) {
      * @param entry the new APOD entry whose picture is now the wallpaper
      */
     fun notifyWallpaperChanged(entry: ApodEntry) {
+        // Android 13+ can revoke/never grant POST_NOTIFICATIONS; never pretend a notification
+        // was shown when the system will silently drop it.
+        if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) return
         val title = entry.title
         val description = entry.explanation.take(512)
 

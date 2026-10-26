@@ -1,5 +1,6 @@
 package app.mohakash.apod.data.storage
 
+import android.graphics.BitmapFactory
 import app.mohakash.apod.core.ImageUrlValidator
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +62,11 @@ class ImageDownloader(private val httpClient: OkHttpClient) : PictureDownloader 
                     }
                 }
                 if (target.length() == 0L) throw IOException("Downloaded an empty file for $url")
+                val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                BitmapFactory.decodeFile(target.absolutePath, bounds)
+                if (bounds.outWidth <= 0 || bounds.outHeight <= 0) {
+                    throw IOException("Downloaded file is not a decodable image: $url")
+                }
             }
             Result.success(target)
         } catch (cancellation: CancellationException) {
