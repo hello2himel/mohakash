@@ -117,7 +117,9 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
         variant: 'secondary',
         href: record.apod_url,
         external: true,
-        icon: 'ri-external-link-line',
+        icon: 'ri-information-line',
+        iconOnly: true,
+        ariaLabel: 'Open the original APOD page',
       }),
     );
   }
