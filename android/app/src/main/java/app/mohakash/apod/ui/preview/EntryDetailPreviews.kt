@@ -3,7 +3,6 @@ package app.mohakash.apod.ui.preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -12,7 +11,6 @@ import app.mohakash.apod.domain.model.ImageStatus
 import app.mohakash.apod.domain.model.MediaType
 import app.mohakash.apod.ui.detail.DetailContent
 import app.mohakash.apod.ui.detail.DetailUiState
-import app.mohakash.apod.ui.detail.EntryZoomHintRow
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTheme
 
@@ -172,15 +170,5 @@ private fun EntryLoadingPreview() {
 private fun EntryErrorPreview() {
     PreviewSurface {
         EntryPreviewContent(state = DetailUiState(isLoading = false, hasError = true))
-    }
-}
-
-@Preview(name = "Entry · zoom hint", widthDp = 390, heightDp = 120, showBackground = true)
-@Composable
-private fun EntryZoomHintPreview() {
-    PreviewSurface {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            EntryZoomHintRow(zoomed = true, onReset = {})
-        }
     }
 }
