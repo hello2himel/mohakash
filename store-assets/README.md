@@ -45,9 +45,9 @@ or swap the hero frame for a public-domain APOD image and re-render.
 - Backgrounds are quieter than the first cut: 260 stars max, no orbit/registration marks, reduced crest wash. The phone is 620 px wide so the UI reads at small sizes.
 - Campaign plates deliberately omit a separate wordmark/folio/kicker so the
   real app screenshot is the interface; the app's own in-screen wordmark stays.
-- Plate 02 is a three-phone feed showcase: Earth, Sun Storm and the Hamburger
-  Galaxy sit behind each other like a wallpaper lineup, with the Sun Storm feed
-  as the centre card.
+- Plate 02 is a three-phone feed showcase: Earth, the 1 January 2017 aurora and the
+  Hamburger Galaxy sit behind each other like a wallpaper lineup, with the
+  1 January 2017 feed as the centre card.
 - Device frames are intentionally understated; the app screenshot inside is a
   real 1080 × 2400 capture, uniformly scaled (never stretched).
 - Feature graphic keeps critical type well inside the central 80% safe area;
