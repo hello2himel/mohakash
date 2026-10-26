@@ -215,15 +215,17 @@ credit. The action row stays compact: icon + text for the primary *Save HD
 image* and 44px icon-only buttons with tooltips for *Share*, *Original APOD
 page* (using the info “i” icon) and *Browse archive*.
 
-The Today description is a short preview that ends on a sentence; **Read full
-explanation** opens the complete text in the existing drawer.
+The Today description is a readable preview ending on a sentence (up to six
+lines on desktop); **Read full explanation** opens the complete text in the
+existing drawer.
 
-**Android invitation.** The Today column now carries the invitation inline
-under the short description — a quiet card with a real app screenshot, the
-live-wallpaper pitch and one focused **Download for Android** button (direct
-APK). It replaces the old footer ribbon and modal, leaving the footer to the
-rights note and secondary links. The [About page](web/src/pages/about.astro)
-explains the app in more detail.
+**Today support card.** Under that preview sits a quiet dismissible card. Most
+sessions show the Android invitation — a compact real-app screenshot, a short
+“update your wallpaper with astronomy pictures daily” line and one **Download
+for Android** button (direct APK). Occasionally it becomes a polite donation
+note instead. It is chosen once per session, can be dismissed for 14 days, and
+is never a footer ribbon or an auto-opening modal. The
+[About page](web/src/pages/about.astro) explains the app in more detail.
 
 ---
 
