@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1024, initial-scale=1">
+<title>mohakash — feature graphic 1024×500</title>
+<!--
+  mohakash · Google Play / F-Droid feature graphic
+  ------------------------------------------------------------------
+  Canvas   1024 × 500 px @1x (export at exactly 1×, sRGB, no alpha)
+  Render   ./render.sh  →  featureGraphic-1024x500.png
+  Source   all layout is CSS; the phone panel is a live crop of the
+           real 1080×2400 app screenshot in assets/app-feed.png.
+  Grid     x = 112 / 439 (copy ink), x = 604 / 1024 (screen), y = 113 / 388.
+  Safe     Headline, product line and colophon sit inside Play's
+           conservative 800×400 centre zone (x 112–912, y 50–450).
+           The 120 px centre circle is empty; the longest headline
+           line ends at x≈439 measured.
+  Copy     Edit the .copy block only. This cut deliberately has no
+           wordmark, kicker or journal subline — the store listing
+           carries the name. Keep the credit line inside the screenshot;
+           it is the photographer's attribution.
+-->
+<style>
+@font-face{font-family:"Newsreader";src:url("assets/fonts/newsreader_medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/inter_regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/inter_medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:block}
+
+:root{
+  /* brand palette */
+  --deep-space:#0B1020;
+  --ink:#0B0D12;
+  --surface:#151922;
+  --starlight:#F4F6FF;
+  --glow:#8FA5FF;
+  --nova:#4F6BFF;
+  --dust:#8A93B2;
+  --text:#E8EAF0;
+  --accent:#8FB0FF;
+
+  /* type */
+  --serif:"Newsreader",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;
+
+  /* grid */
+  --pad:112px;
+  --type-col:358px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#05070B;overflow:hidden}
+.stage{
+  position:relative;
+  width:1024px;height:500px;
+  overflow:hidden;
+  background:var(--ink);
+  isolation:isolate;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+
+/* ---------- atmosphere ---------- */
+.bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(115% 125% at 18% 46%, rgba(11,13,18,0) 32%, rgba(4,6,10,.64) 100%),
+    linear-gradient(100deg,#07090E 0%,#0B0D12 44%,#0B1020 100%);
+}
+/* a soft, heavily defocused spill of the same sky — light escaping the
+   screen, not a second image. Generated from app-feed.png by tools.sh. */
+.ambient{
+  position:absolute;z-index:1;
+  left:280px;top:-70px;width:820px;height:640px;
+  background:url("assets/ambient.png") center/cover no-repeat;
+  opacity:.30;
+  -webkit-mask-image:linear-gradient(90deg,transparent 8%,rgba(0,0,0,.35) 38%,#000 72%);
+          mask-image:linear-gradient(90deg,transparent 8%,rgba(0,0,0,.35) 38%,#000 72%);
+}
+.aura{
+  position:absolute;
+  right:-180px;top:-210px;
+  width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(79,107,255,.17),rgba(79,107,255,.055) 54%,rgba(79,107,255,0) 72%);
+  filter:blur(26px);
+}
+.aura-b{
+  position:absolute;
+  left:-140px;bottom:-330px;
+  width:900px;height:640px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(79,107,255,.15),rgba(79,107,255,.03) 55%,rgba(79,107,255,0) 74%);
+  filter:blur(34px);
+}
+/* one orbit line, and one body on it: the mark at poster scale */
+.orbit{position:absolute;inset:0;z-index:1;pointer-events:none}
+.stars{position:absolute;inset:0}
+.star{position:absolute;border-radius:50%;background:#DDE5FF;box-shadow:0 0 6px rgba(221,229,255,.45)}
+.star.b{background:var(--glow);box-shadow:0 0 9px rgba(143,165,255,.5)}
+.grain{
+  position:absolute;inset:0;z-index:8;
+  background-image:url("assets/grain.png");
+  background-size:160px 160px;
+  opacity:.045;
+  mix-blend-mode:overlay;
+  pointer-events:none;
+}
+
+/* ---------- real app screen, full-bleed on the right ---------- */
+.screen{
+  position:absolute;
+  left:604px;top:0;
+  width:420px;height:500px;
+  overflow:hidden;
+  background:#07090E;
+  box-shadow:-46px 0 80px -44px rgba(0,0,0,.95);
+  z-index:3;
+}
+/* 420/1080 × 1114 px into the 1080×2400 screenshot: the hero image,
+   credit, title, Set wallpaper and the real bottom navigation. */
+.shot{
+  position:absolute;
+  left:0;top:-433.3px;
+  width:420px;height:auto;
+  display:block;
+}
+.screen-edge{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(7,9,14,.55) 0,rgba(7,9,14,0) 16px);
+  box-shadow:inset 1px 0 0 rgba(143,165,255,.20);
+}
+
+/* ---------- editorial column ---------- */
+.copy{
+  position:absolute;
+  left:var(--pad);top:114px;
+  width:var(--type-col);
+  z-index:5;
+  text-align:center;
+}
+h1{
+  font-family:var(--serif);font-weight:500;
+  font-size:62px;line-height:.96;letter-spacing:-.012em;
+  color:var(--starlight);
+}
+h1 .period{color:var(--glow)}
+.rule{
+  width:44px;height:1px;
+  margin:24px auto 0;
+  background:linear-gradient(90deg,rgba(143,165,255,.08),rgba(143,165,255,.72),rgba(143,165,255,.08));
+}
+.sub{
+  margin-top:18px;
+  font-family:var(--sans);font-weight:400;
+  font-size:18px;line-height:1.5;letter-spacing:-.004em;
+  color:#BAC3DA;
+  white-space:nowrap;
+}
+.micro{
+  margin-top:15px;
+  font-family:var(--sans);font-weight:500;
+  font-size:14px;line-height:1;letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(138,147,178,.88);
+}
+.micro .sep{color:rgba(143,165,255,.55);padding:0 .35em}
+</style>
+</head>
+<body>
+<main class="stage" role="img" aria-label="mohakash: The sky, on your home screen. A new astronomy wallpaper every day. The app showing the M42 nebula, its credit and a Set wallpaper action.">
+  <div class="bg"></div>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="aura" aria-hidden="true"></div>
+  <div class="aura-b" aria-hidden="true"></div>
+
+  <svg class="orbit" width="1024" height="500" viewBox="0 0 1024 500" aria-hidden="true">
+    <circle cx="780" cy="735" r="640" fill="none" stroke="#8FA5FF" stroke-opacity="0.10" stroke-width="1"/>
+    <circle cx="540" cy="142" r="11" fill="url(#orbGlow)"/>
+    <circle cx="540" cy="142" r="2.6" fill="#CBD7FF"/>
+    <defs>
+      <radialGradient id="orbGlow">
+        <stop offset="0" stop-color="#8FA5FF" stop-opacity="0.55"/>
+        <stop offset="0.45" stop-color="#8FA5FF" stop-opacity="0.16"/>
+        <stop offset="1" stop-color="#8FA5FF" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <div class="stars" aria-hidden="true">
+    <i class="star" style="left:64px;top:86px;width:1px;height:1px;opacity:.55"></i>
+    <i class="star" style="left:91px;top:302px;width:1.5px;height:1.5px;opacity:.34"></i>
+    <i class="star b" style="left:57px;top:430px;width:1.5px;height:1.5px;opacity:.30"></i>
+    <i class="star" style="left:486px;top:92px;width:1.5px;height:1.5px;opacity:.46"></i>
+    <i class="star" style="left:520px;top:182px;width:1px;height:1px;opacity:.32"></i>
+    <i class="star b" style="left:566px;top:338px;width:1px;height:1px;opacity:.30"></i>
+    <i class="star" style="left:600px;top:118px;width:2px;height:2px;opacity:.28"></i>
+    <i class="star" style="left:548px;top:448px;width:1px;height:1px;opacity:.34"></i>
+    <i class="star" style="left:360px;top:470px;width:1px;height:1px;opacity:.22"></i>
+    <i class="star" style="left:238px;top:42px;width:1px;height:1px;opacity:.38"></i>
+    <i class="star" style="left:402px;top:62px;width:1px;height:1px;opacity:.28"></i>
+    <i class="star b" style="left:594px;top:430px;width:1.5px;height:1.5px;opacity:.22"></i>
+  </div>
+
+  <div class="screen" aria-hidden="true">
+    <img class="shot" src="assets/app-feed.png" alt="">
+    <div class="screen-edge"></div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="copy">
+    <h1>The sky,<br>on your<br>home screen<span class="period">.</span></h1>
+    <div class="rule"></div>
+    <p class="sub">A new astronomy wallpaper every day.</p>
+    <p class="micro">Open source <span class="sep">·</span> No ads</p>
+  </div>
+</main>
+</body>
+</html>

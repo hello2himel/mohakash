@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mohakash — The Horizon Rail · navigation study</title>
+<link rel="stylesheet" href="assets/icons.css">
+<style>
+@font-face{font-family:Inter;src:url(assets/inter_regular.ttf);font-weight:400;font-display:block}
+@font-face{font-family:Inter;src:url(assets/inter_medium.ttf);font-weight:500;font-display:block}
+@font-face{font-family:Inter;src:url(assets/inter_semibold.ttf);font-weight:600;font-display:block}
+@font-face{font-family:Newsreader;src:url(assets/newsreader_medium.ttf);font-weight:500;font-display:block}
+
+:root{
+  --bg:#0B0D12; --surface:#151922; --raised:#11141B; --strong:#1B2030;
+  --border:#232838; --border-strong:#323849; --divider:#1B2030;
+  --text:#E8EAF0; --body:#D3D8E3; --preview:#C5CBD9; --muted:#A3ABBD;
+  --accent:#8FB0FF; --onaccent:#0B0D12;
+  --page:#07080C; --page-2:#0A0C11;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--page)}
+body{
+  background:
+    radial-gradient(900px 420px at 78% -8%, rgba(143,176,255,.07), transparent 60%),
+    radial-gradient(700px 380px at 12% 4%, rgba(143,176,255,.035), transparent 60%),
+    var(--page);
+  color:var(--text);font-family:Inter,system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 72px;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.ico{display:inline-block;background:currentColor;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;flex:none}
+.kicker{font-weight:600;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker b{color:var(--accent);font-weight:600}
+
+/* ---------- masthead ---------- */
+.masthead{padding:34px 0 30px;border-bottom:1px solid #1a1e28}
+.masttop{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.masttop .meta{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:#6f788c;display:flex;gap:18px;text-transform:uppercase}
+.masthead h1{
+  font-family:Newsreader,serif;font-weight:500;font-size:56px;line-height:1.02;
+  letter-spacing:-.015em;margin-top:22px;max-width:780px;
+}
+.masthead h1 em{font-style:normal;color:var(--accent)}
+.lede{display:flex;gap:48px;margin-top:18px;align-items:flex-start}
+.lede p{max-width:560px;font-size:14px;line-height:23px;color:var(--body)}
+.lede p + p{max-width:330px;color:var(--muted);font-size:12.5px;line-height:21px}
+.lede .rule{width:1px;align-self:stretch;background:var(--border)}
+.controls{display:flex;align-items:center;gap:26px;margin-top:26px;flex-wrap:wrap}
+.ctl-label{font-weight:600;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#6f788c;margin-right:-12px}
+.seg{display:flex;border:1px solid var(--border-strong);border-radius:2px;overflow:hidden}
+.seg button{
+  appearance:none;background:transparent;border:0;color:var(--muted);
+  font-family:Inter;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  padding:9px 14px;cursor:pointer;transition:color .15s,background .15s;
+}
+.seg button + button{border-left:1px solid var(--border-strong)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--text)}
+.seg button:hover{color:var(--text)}
+.toggle{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;user-select:none}
+.toggle .box{width:14px;height:14px;border:1px solid var(--border-strong);border-radius:2px;position:relative;background:var(--raised)}
+.toggle input{position:absolute;opacity:0;pointer-events:none}
+.toggle input:checked + .box{background:rgba(143,176,255,.16);border-color:var(--accent)}
+.toggle input:checked + .box:after{content:"";position:absolute;left:3px;top:0px;width:5px;height:9px;border:solid var(--accent);border-width:0 1.5px 1.5px 0;transform:rotate(42deg)}
+.hint{font-family:var(--mono);font-size:9.5px;color:#5f6879;letter-spacing:.04em}
+
+/* ---------- boards ---------- */
+.boards{display:flex;gap:64px;align-items:flex-start;padding-top:44px;flex-wrap:wrap}
+.board{display:flex;flex-direction:column;gap:16px}
+.board-head{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--border);padding-top:12px}
+.board-head .num{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.06em}
+.board-head .name{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text)}
+.board-head .dim{margin-left:auto;font-family:var(--mono);font-size:10px;color:#6f788c;letter-spacing:.04em}
+
+.screenframe{position:relative;width:360px;height:800px;background:var(--bg);overflow:hidden;outline:1px solid #1f2430;outline-offset:0;border-radius:2px}
+.screenframe.w411{width:411px;height:800px}
+.screenframe:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scrim{position:absolute;left:0;right:0;bottom:96px;height:440px;background:linear-gradient(to bottom,rgba(11,13,18,0) 0%,rgba(11,13,18,.5) 38%,rgba(11,13,18,.88) 70%,var(--bg) 100%)}
+.status{position:absolute;left:0;right:0;top:0;height:26px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:500;color:#fff;z-index:4;letter-spacing:.01em}
+.status .right{display:flex;align-items:center;gap:5px;opacity:.95}
+.status .bars{display:flex;align-items:flex-end;gap:1.5px;height:9px}
+.status .bars i{width:2.5px;background:#fff;display:block}
+.status .bars i:nth-child(1){height:3px}.status .bars i:nth-child(2){height:5px}.status .bars i:nth-child(3){height:7px}.status .bars i:nth-child(4){height:9px}
+.status .battery{width:17px;height:9px;border:1px solid rgba(255,255,255,.9);border-radius:2px;position:relative;padding:1px}
+.status .battery:after{content:"";display:block;height:100%;width:72%;background:#fff;border-radius:1px}
+.status .battery:before{content:"";position:absolute;right:-3px;top:2px;width:2px;height:3px;background:rgba(255,255,255,.9);border-radius:0 1px 1px 0}
+.chrome{position:absolute;top:34px;left:20px;right:20px;display:flex;justify-content:space-between;z-index:4}
+.glass{width:44px;height:44px;border-radius:50%;background:rgba(17,20,27,.72);border:1px solid rgba(35,40,56,.95);display:flex;align-items:center;justify-content:center;color:var(--text);backdrop-filter:blur(2px)}
+.glass .ico{width:20px;height:20px}
+.caption{position:absolute;left:20px;right:20px;bottom:116px;z-index:3}
+.credit{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;gap:7px;align-items:center}
+.credit b{color:var(--preview);font-weight:400}
+.title{font-family:Newsreader,serif;font-size:26px;line-height:31px;font-weight:500;letter-spacing:.1px}
+.teaser{font-size:15px;line-height:25px;color:var(--preview);margin-top:8px;max-width:284px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.actions{display:flex;align-items:center;gap:12px;margin-top:14px}
+.pill{height:40px;padding:0 18px;border-radius:20px;background:var(--accent);color:var(--onaccent);display:flex;align-items:center;font-size:13px;font-weight:600}
+.textaction{font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--text);display:flex;align-items:center;gap:6px}
+.textaction .ico{width:12px;height:12px}
+.rail{position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;gap:14px;align-items:center;z-index:3}
+.railitem{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text)}
+.railitem .ico{width:22px;height:22px}
+.railitem span{font-size:8.5px;color:var(--muted);letter-spacing:.02em}
+
+/* ---------- the bar ---------- */
+.navbar{position:absolute;left:0;right:0;bottom:0;background:var(--raised);z-index:6}
+.nav-hair{position:absolute;left:0;right:0;top:0;height:1px;background:var(--border)}
+.nav-bed{position:relative;height:72px;padding:0 20px;display:flex;align-items:center}
+.nav-pair{display:flex;align-items:center;gap:41px;height:100%}
+.dest{
+  display:flex;align-items:center;gap:9px;height:48px;color:var(--muted);
+  text-decoration:none;cursor:pointer;border:0;background:none;padding:0;font:inherit;
+  transition:color .16s ease;
+}
+.dest .ico{width:20px;height:20px;transition:color .16s ease}
+.dest .word{
+  font-family:Newsreader,serif;font-size:19px;line-height:19px;font-weight:500;color:inherit;
+  display:inline-block;padding-bottom:5px;border-bottom:1px solid transparent;
+  transition:border-color .16s ease,color .16s ease;
+}
+.dest.on{color:var(--text)}
+.dest.on .word{border-bottom-color:var(--accent)}
+.dest:focus-visible{outline:1px dashed var(--accent);outline-offset:3px}
+.nav-gutter{width:1px;height:40px;background:var(--border);margin-left:auto;margin-right:24px}
+.launch{
+  width:64px;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  gap:5px;background:none;border:0;padding:4px 0 0;cursor:pointer;color:var(--accent);
+  font:inherit;transition:transform .12s ease,opacity .12s;
+}
+.launch .ico{width:21px;height:21px}
+.launch .caps{font-size:10px;line-height:1;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.launch:hover{opacity:.85}
+.launch:active{transform:translateY(1px)}
+.launch:focus-visible{outline:1px dashed var(--accent);outline-offset:2px}
+.nav-system{position:relative;height:24px;display:flex;align-items:center;justify-content:center}
+.nav-system .gesture{width:108px;height:4px;border-radius:2px;background:#565C6B}
+
+/* hit targets */
+.hit{position:absolute;border:1px dashed rgba(143,176,255,.55);background:rgba(143,176,255,.05);pointer-events:none;display:none}
+.hit span{position:absolute;left:0;top:-15px;font-family:var(--mono);font-size:8px;letter-spacing:.06em;color:var(--accent);white-space:nowrap}
+body.show-hits .hit{display:block}
+.hit-feed{left:16px;top:12px;width:73px;height:48px}
+.hit-archive{left:124px;top:12px;width:101px;height:48px}
+.hit-launch{left:276px;top:8px;width:64px;height:56px}
+
+/* archive screen */
+.status.ontop{position:relative;height:26px;color:var(--text);text-shadow:none;padding:0 20px;background:var(--bg)}
+.archbar{height:56px;display:flex;align-items:center;padding:0 8px 0 20px}
+.archbar .t{font-family:Newsreader,serif;font-size:22px;line-height:28px;font-weight:500;flex:1}
+.archbar .iconbtn{width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.archbar .iconbtn .ico{width:20px;height:20px}
+.archbody{padding:0 20px}
+.segmented{display:flex;border:1px solid var(--border-strong);border-radius:2px;height:40px;margin-top:4px}
+.segmented div{flex:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+.segmented div.on{background:var(--strong);color:var(--text)}
+.segmented div + div{border-left:1px solid var(--border-strong)}
+.archmeta{display:flex;align-items:center;justify-content:space-between;margin:20px 0 8px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.archmeta .range{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.archmeta .jump{font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--text);display:flex;align-items:center;gap:5px;opacity:.9}
+.archmeta .jump .ico{width:11px;height:11px;opacity:.7}
+.arow{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--divider)}
+.athumb{width:72px;height:56px;border-radius:8px;overflow:hidden;flex:none;position:relative;background:var(--surface)}
+.athumb img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.85)}
+.atxt{min-width:0;flex:1}
+.arow .h{font-size:15px;line-height:21px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .m{font-size:12px;line-height:18px;color:var(--muted);margin-top:3px;display:flex;gap:8px;align-items:center}
+.arow .m .dot{width:2px;height:2px;border-radius:50%;background:#5b6475}
+.arow .end{font-size:10px;color:#6f788c;font-family:var(--mono)}
+
+/* board annotations */
+.notes{display:flex;flex-direction:column;gap:7px;max-width:410px}
+.notes div{display:flex;gap:9px;font-size:11px;line-height:16px;color:var(--muted)}
+.notes div b{color:var(--body);font-weight:500}
+.notes .tick{width:5px;height:5px;border:1px solid var(--accent);border-radius:50%;flex:none;margin-top:5px;opacity:.7}
+.legend{display:flex;gap:18px;align-items:center;font-family:var(--mono);font-size:9.5px;color:#6f788c;letter-spacing:.04em}
+.legend .sw{width:9px;height:9px;display:inline-block;margin-right:6px;vertical-align:-1px}
+
+/* ---------- anatomy / spec ---------- */
+.anatomy{margin-top:56px;border-top:1px solid var(--border);padding-top:26px}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px}
+.section-head h2{font-family:Newsreader,serif;font-size:30px;line-height:1.1;font-weight:500}
+.section-head .sub{font-family:var(--mono);font-size:10px;color:#6f788c;letter-spacing:.05em;text-transform:uppercase}
+.anatomy-panel{padding:10px 14px 4px;margin-bottom:18px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{border:1px solid var(--border);background:rgba(17,20,27,.55);border-radius:3px;padding:18px 18px 14px}
+.panel h3{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:14px}
+.dimtable{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:10.5px}
+.dimtable td{padding:7px 0;border-bottom:1px solid #191d27;vertical-align:top;color:var(--body)}
+.dimtable td:first-child{color:var(--muted);width:58%}
+.dimtable td:last-child{text-align:right;color:var(--text)}
+.dimtable tr:last-child td{border-bottom:0}
+.tok{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;color:var(--muted);padding:5px 0;border-bottom:1px solid #191d27}
+.tok:last-child{border-bottom:0}
+.tok .sw{width:12px;height:12px;border-radius:2px;border:1px solid rgba(255,255,255,.08);flex:none}
+.tok .val{margin-left:auto;color:var(--text)}
+.noteline{font-size:11px;line-height:17px;color:#7f889b;margin-top:10px}
+svg.anat{width:100%;height:auto;display:block;font-family:Inter,system-ui,sans-serif}
+svg.anat .targetlabel{font-family:var(--mono);font-size:6.4px;fill:#8FB0FF;letter-spacing:.04em}
+svg.anat .hitrect{fill:rgba(143,176,255,.055);stroke:#8FB0FF;stroke-width:.5;stroke-dasharray:2 2}
+svg.anat .lbl{font-size:8px;fill:#8b94a8;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+svg.anat .num{font-family:var(--mono);font-size:7.4px;fill:#aeb6c6;letter-spacing:.02em}
+svg.anat .dim{stroke:#5d677b;stroke-width:.6;fill:none}
+svg.anat .dim-acc{stroke:#8FB0FF;stroke-width:.7;fill:none}
+svg.anat .tick{stroke:#5d677b;stroke-width:.5}
+svg.anat .bar-bg{fill:#11141B;stroke:#232838;stroke-width:1}
+svg.anat .content{fill:#E8EAF0}
+svg.anat .muted{fill:#A3ABBD}
+svg.anat .acc{fill:#8FB0FF}
+svg.anat .hit{fill:rgba(143,176,255,.055);stroke:#8FB0FF;stroke-width:.6;stroke-dasharray:2 2}
+
+/* ---------- alternatives ---------- */
+.alts{margin-top:56px;border-top:1px solid var(--border);padding-top:26px}
+.altrow{display:flex;gap:44px;flex-wrap:wrap}
+.alt{width:360px;display:flex;flex-direction:column;gap:12px}
+.alt .mini{width:360px;height:220px;position:relative;overflow:hidden;outline:1px solid #1f2430}
+.alt .mini .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85}
+.alt .mini:before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(11,13,18,0) 30%,rgba(11,13,18,.85) 100%);z-index:1}
+.alt .barwrap{position:absolute;left:0;right:0;bottom:0;z-index:2}
+.alt h4{font-family:Newsreader,serif;font-size:20px;font-weight:500;line-height:1.25}
+.alt .why{font-size:11px;line-height:17px;color:var(--muted)}
+.alt .why b{color:var(--body);font-weight:500}
+.alt .tag{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#6f788c}
+
+/* alt A: horizon command */
+.altA .navbar{position:relative;height:96px}
+.altA .nav-bed{height:72px;padding:0 20px;position:relative;display:block}
+.altA .horizon{position:absolute;left:20px;right:20px;top:17px;height:1px;background:var(--border)}
+.altA .cmd{position:absolute;left:58%;transform:translateX(-50%);top:0;height:48px;display:flex;align-items:center;gap:8px;background:var(--raised);padding:0 12px;color:var(--accent)}
+.altA .cmd .ico{width:14px;height:14px}
+.altA .cmd span{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.altA .stack{position:absolute;bottom:10px;display:flex;flex-direction:column;gap:5px;color:var(--muted)}
+.altA .stack .ico{width:17px;height:17px}
+.altA .stack .serif{font-family:Newsreader,serif;font-size:18px;line-height:18px;padding-bottom:4px;border-bottom:1px solid transparent}
+.altA .stack.on{color:var(--text)}
+.altA .stack.on .serif{border-bottom-color:var(--accent)}
+.altA .stack.l{left:20px}.altA .stack.r{right:20px;align-items:flex-end}
+.altA .nav-system{position:absolute;left:0;right:0;bottom:0;height:24px;display:flex;align-items:center;justify-content:center;background:var(--raised)}
+
+/* alt B: split console */
+.altB .navbar{position:relative;height:96px}
+.altB .nav-bed{height:72px;padding:0 20px;display:flex;align-items:center;position:relative}
+.altB .split{display:flex;align-items:center;gap:0;border:1px solid var(--border-strong);height:44px;padding:0 0 0 13px}
+.altB .split .main{display:flex;align-items:center;gap:8px;color:var(--text);padding-right:12px}
+.altB .split .main .ico{width:17px;height:17px}
+.altB .split .main .serif{font-family:Newsreader,serif;font-size:18px;padding-bottom:4px;border-bottom:1px solid var(--accent)}
+.altB .split .draw{width:44px;height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-left:1px solid var(--border-strong);color:var(--accent)}
+.altB .split .draw .ico{width:14px;height:14px}
+.altB .split .draw span{font-size:7px;letter-spacing:.14em;font-weight:600;color:var(--muted);text-transform:uppercase}
+.altB .arch{display:flex;align-items:center;gap:8px;margin-left:auto;color:var(--muted)}
+.altB .arch .ico{width:17px;height:17px}
+.altB .arch .serif{font-family:Newsreader,serif;font-size:18px}
+.altB .nav-system{position:absolute;left:0;right:0;bottom:0;height:24px;display:flex;align-items:center;justify-content:center;background:var(--raised)}
+
+/* ---------- decisions ---------- */
+.decisions{margin-top:44px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.decision{background:var(--page-2);padding:18px 18px 16px}
+.decision h4{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:9px}
+.decision p{font-size:11px;line-height:18px;color:var(--muted)}
+.decision p b{color:var(--body);font-weight:500}
+footer{margin-top:44px;border-top:1px solid var(--border);padding-top:16px;display:flex;justify-content:space-between;gap:20px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:#5f6879;text-transform:uppercase}
+@media (max-width:1100px){.twocol{grid-template-columns:1fr}.boards{gap:40px}.masthead h1{font-size:44px}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ================= masthead ================= -->
+  <header class="masthead">
+    <div class="masttop">
+      <div class="kicker">Mohakash · Design lab · <b>Nav / horizon</b></div>
+      <div class="meta"><span>Study 01</span><span>27 Oct 2026</span><span>360 / 411 dp</span></div>
+    </div>
+    <h1>The horizon rail —<br><em>a footer, not a tab bar.</em></h1>
+    <div class="lede">
+      <p>Feed and Archive become a contents pair set in Newsreader at the left margin. A hairline gutter, then one command in the right margin: a small rocket over a tracked <span style="color:var(--accent);font-weight:600">RANDOM</span> readout. The bar is one thin rule and negative space — no floating circle, no centre slot, nothing protruding over the photograph.</p>
+      <div class="rule"></div>
+      <p>The launch sits where the thumb rests. The two sections sit where the eye starts. Tiny caps, a 1&nbsp;dp gutter and a 20&nbsp;dp margin do the instrumentation; the accent is used once, for the action.</p>
+    </div>
+    <div class="controls">
+      <span class="ctl-label">Preview state</span>
+      <div class="seg" role="group" aria-label="Preview state">
+        <button type="button" data-state="feed" aria-pressed="true">Feed</button>
+        <button type="button" data-state="archive" aria-pressed="false">Archive</button>
+      </div>
+      <label class="toggle"><input type="checkbox" id="hits"><span class="box"></span>Show 48 dp hit areas</label>
+      <span class="hint">1 CSS px = 1 dp · mdpi reference</span>
+    </div>
+  </header>
+
+  <!-- ================= boards ================= -->
+  <section class="boards">
+
+    <!-- 360 feed -->
+    <figure class="board" style="margin:0">
+      <div class="board-head"><span class="num">01</span><span class="name">Feed · live plate</span><span class="dim">360 × 800 dp</span></div>
+      <div class="screenframe" id="feedScreen">
+        <img class="photo" src="assets/orion.jpg" alt="The Orion Nebula">
+        <div class="scrim"></div>
+        <div class="status">
+          <span>9:41</span>
+          <span class="right"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="battery"></span></span>
+        </div>
+        <div class="chrome">
+          <div class="glass"><span class="ico ico-search"></span></div>
+          <div class="glass"><span class="ico ico-settings"></span></div>
+        </div>
+
+        <div class="caption">
+          <div class="credit"><span>26 October 2026</span><span>·</span><b>Roberto Palaia</b></div>
+          <div class="title">M42: The Great Nebula in Orion</div>
+          <div class="teaser">The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomy's nebulas.</div>
+          <div class="actions">
+            <div class="pill">Wallpaper</div>
+            <div class="textaction">Full entry <span class="ico ico-chevron_right"></span></div>
+          </div>
+        </div>
+        <div class="rail">
+          <div class="railitem"><span class="ico ico-heart"></span><span>Save</span></div>
+          <div class="railitem"><span class="ico ico-download"></span><span>Save</span></div>
+          <div class="railitem"><span class="ico ico-share"></span><span>Share</span></div>
+        </div>
+
+        <nav class="navbar" aria-label="Primary">
+          <div class="nav-hair"></div>
+          <div class="nav-bed">
+            <div class="nav-pair">
+              <a class="dest dest-feed on" href="#" aria-current="page">
+                <span class="ico ico-today"></span><span class="word">Feed</span>
+              </a>
+              <a class="dest dest-archive" href="#">
+                <span class="ico ico-archive"></span><span class="word">Archive</span>
+              </a>
+            </div>
+            <div class="nav-gutter" aria-hidden="true"></div>
+            <button class="launch" type="button" aria-label="Send a rocket to a random picture">
+              <span class="ico ico-rocket"></span><span class="caps">Random</span>
+            </button>
+          </div>
+          <div class="nav-system"><span class="gesture"></span></div>
+          <span class="hit hit-feed"><span>73 × 48</span></span>
+          <span class="hit hit-archive"><span>101 × 48</span></span>
+          <span class="hit hit-launch"><span>64 × 56</span></span>
+        </nav>
+      </div>
+      <div class="legend"><span><span class="sw" style="background:#E8EAF0"></span>Selected</span><span><span class="sw" style="background:#A3ABBD"></span>Resting</span><span><span class="sw" style="background:#8FB0FF"></span>Action / rule</span></div>
+      <div class="notes">
+        <div><span class="tick"></span><span><b>The pair reads as a folio.</b> Feed and Archive sit together at the 20&nbsp;dp margin; the eye travels left to right from section to command.</span></div>
+        <div><span class="tick"></span><span><b>The launch is the only accent.</b> A 21&nbsp;dp rocket over 10&nbsp;sp / 600 caps, right-aligned in a 64 × 56&nbsp;dp target. It is a command, not a tab.</span></div>
+        <div><span class="tick"></span><span><b>No protrusion.</b> The strip stays 72&nbsp;dp inside the Scaffold; nothing is painted over the caption or the plate.</span></div>
+      </div>
+    </figure>
+
+    <!-- 411 archive -->
+    <figure class="board" style="margin:0">
+      <div class="board-head"><span class="num">02</span><span class="name">Archive · library</span><span class="dim">411 × 800 dp</span></div>
+      <div class="screenframe w411">
+        <div class="status ontop">
+          <span>9:41</span>
+          <span class="right"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="battery"></span></span>
+        </div>
+        <div class="archbar">
+          <span class="t">Archive</span>
+          <span class="iconbtn"><span class="ico ico-settings"></span></span>
+        </div>
+        <div class="archbody">
+          <div class="segmented"><div class="on">Archive</div><div>Saved</div></div>
+          <div class="archmeta">
+            <span class="range">1995 — 2026 · 11 447 plates</span>
+            <span class="jump">Jump to date <span class="ico ico-chevron_right"></span></span>
+          </div>
+          <div class="alist">
+            <div class="arow">
+              <div class="athumb"><img src="assets/orion.jpg" alt=""></div>
+              <div class="atxt"><div class="h">M42: The Great Nebula in Orion</div><div class="m"><span>26 Oct 2026</span><span class="dot"></span><span>Image</span></div></div>
+            </div>
+            <div class="arow">
+              <div class="athumb"><img src="assets/andromeda.jpg" alt=""></div>
+              <div class="atxt"><div class="h">Andromeda in Southern Spring</div><div class="m"><span>23 Oct 2026</span><span class="dot"></span><span>Image</span></div></div>
+            </div>
+            <div class="arow">
+              <div class="athumb"><img src="assets/orion.jpg" alt="" style="object-position:20% 40%"></div>
+              <div class="atxt"><div class="h">The First Green Star, WD J1330+6435</div><div class="m"><span>22 Oct 2026</span><span class="dot"></span><span>Image</span></div></div>
+            </div>
+            <div class="arow">
+              <div class="athumb"><img src="assets/andromeda.jpg" alt="" style="object-position:70% 30%"></div>
+              <div class="atxt"><div class="h">Rosetta's Selfie</div><div class="m"><span>24 Oct 2026</span><span class="dot"></span><span>Image</span></div></div>
+            </div>
+            <div class="arow">
+              <div class="athumb"><img src="assets/orion.jpg" alt="" style="object-position:80% 60%"></div>
+              <div class="atxt"><div class="h">Dark Matter in a Simulated Universe</div><div class="m"><span>25 Oct 2026</span><span class="dot"></span><span>Image</span></div></div>
+            </div>
+            <div class="arow">
+              <div class="athumb"><img src="assets/andromeda.jpg" alt="" style="object-position:30% 70%"></div>
+              <div class="atxt"><div class="h">Auroral Corona</div><div class="m"><span>01 Jan 2026</span><span class="dot"></span><span>Image</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="navbar" aria-label="Primary">
+          <div class="nav-hair"></div>
+          <div class="nav-bed">
+            <div class="nav-pair">
+              <a class="dest dest-feed" href="#">
+                <span class="ico ico-today"></span><span class="word">Feed</span>
+              </a>
+              <a class="dest dest-archive on" href="#" aria-current="page">
+                <span class="ico ico-archive"></span><span class="word">Archive</span>
+              </a>
+            </div>
+            <div class="nav-gutter" aria-hidden="true"></div>
+            <button class="launch" type="button" aria-label="Send a rocket to a random picture">
+              <span class="ico ico-rocket"></span><span class="caps">Random</span>
+            </button>
+          </div>
+          <div class="nav-system"><span class="gesture"></span></div>
+        </nav>
+      </div>
+      <div class="legend"><span>Left pair fixed to the 20 dp margin</span><span>Gutter at 24 dp before the launch</span></div>
+      <div class="notes">
+        <div><span class="tick"></span><span><b>Same footer on both screens.</b> The active underline simply moves from Feed to Archive; the command does not move at all.</span></div>
+        <div><span class="tick"></span><span><b>The gutter is a margin rule,</b> not a divider between tabs. It separates the contents from the one action — a console boundary.</span></div>
+        <div><span class="tick"></span><span><b>Wide screens breathe.</b> At 411 the contents pair stays anchored; the extra width becomes margin before the gutter.</span></div>
+      </div>
+    </figure>
+
+  </section>
+
+  <!-- ================= anatomy ================= -->
+  <section class="anatomy">
+    <div class="section-head">
+      <h2>Anatomy of the strip</h2>
+      <span class="sub">360 dp reference · 72 dp + system inset</span>
+    </div>
+    <div class="panel anatomy-panel">
+      <svg class="anat" viewBox="0 0 560 330" role="img" aria-label="Dimensioned elevation and tap-target map of the horizon rail">
+        <!-- header -->
+        <text class="lbl" x="80" y="26">HORIZON RAIL · ELEVATION</text>
+        <text class="num" x="440" y="26" text-anchor="end">360 dp · 1 px = 1 dp</text>
+
+        <!-- overall width + margins -->
+        <line class="dim" x1="80" y1="50" x2="440" y2="50"/>
+        <line class="tick" x1="80" y1="46" x2="80" y2="54"/><line class="tick" x1="440" y1="46" x2="440" y2="54"/>
+        <text class="num" x="260" y="45" text-anchor="middle">360</text>
+        <line class="dim" x1="80" y1="64" x2="100" y2="64"/><line class="tick" x1="80" y1="60" x2="80" y2="68"/><line class="tick" x1="100" y1="60" x2="100" y2="68"/>
+        <text class="num" x="90" y="59" text-anchor="middle">20</text>
+        <line class="dim" x1="420" y1="64" x2="440" y2="64"/><line class="tick" x1="420" y1="60" x2="420" y2="68"/><line class="tick" x1="440" y1="60" x2="440" y2="68"/>
+        <text class="num" x="430" y="59" text-anchor="middle">20</text>
+
+        <!-- bar -->
+        <rect x="80" y="94" width="360" height="72" fill="#11141B" stroke="#232838" stroke-width=".8"/>
+        <line x1="80" y1="94.4" x2="440" y2="94.4" stroke="#232838" stroke-width="1"/>
+
+        <!-- contents : feed -->
+        <g transform="translate(100,120) scale(.8333)" fill="#E8EAF0"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/></g>
+        <text x="129" y="138.5" font-family="Newsreader,serif" font-size="19" fill="#E8EAF0">Feed</text>
+        <line x1="129" y1="145.5" x2="165" y2="145.5" stroke="#8FB0FF" stroke-width="1"/>
+
+        <!-- contents : archive -->
+        <g transform="translate(206,120) scale(.8333)" fill="#A3ABBD"><path d="M3 10H2V4.00293C2 3.44903 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.43788 22 4.00293V10H21V20.0015C21 20.553 20.5551 21 20.0066 21H3.9934C3.44476 21 3 20.5525 3 20.0015V10ZM19 10H5V19H19V10ZM4 5V8H20V5H4ZM9 12H15V14H9V12Z"/></g>
+        <text x="235" y="138.5" font-family="Newsreader,serif" font-size="19" fill="#A3ABBD">Archive</text>
+
+        <!-- gutter -->
+        <line x1="332" y1="114" x2="332" y2="154" stroke="#232838" stroke-width="1"/>
+
+        <!-- launch -->
+        <g transform="translate(377.5,114) scale(.875)" fill="#8FB0FF"><path d="M4.99958,12.9999C4.99958,7.91198 7.90222,3.5636 11.9996,1.81799C16.0969,3.5636 18.9996,7.91198 18.9996,12.9999C18.9996,13.8229 18.9236,14.6264 18.779,15.4027L20.7194,17.2353C20.8845,17.3913 20.9238,17.6389 20.815,17.8383L18.3196,22.4133C18.1873,22.6557 17.8836,22.7451 17.6412,22.6128C17.5993,22.59 17.5608,22.5612 17.5271,22.5274L15.2925,20.2928C15.1049,20.1053 14.8506,19.9999 14.5854,19.9999H9.41379C9.14857,19.9999 8.89422,20.1053 8.70668,20.2928L6.47209,22.5274C6.27683,22.7227 5.96025,22.7227 5.76498,22.5274C5.73122,22.4937 5.70246,22.4552 5.67959,22.4133L3.18412,17.8383C3.07537,17.6389 3.11464,17.3913 3.27975,17.2353L5.22014,15.4027C5.07551,14.6264 4.99958,13.8229 4.99958,12.9999ZM6.47542,19.6957L7.29247,18.8786C7.85508,18.316 8.61814,17.9999 9.41379,17.9999H14.5854C15.381,17.9999 16.1441,18.316 16.7067,18.8786L17.5237,19.6957L18.5056,17.8955L17.4058,16.8568C16.9117,16.3901 16.6884,15.7045 16.8128,15.0364C16.9366,14.3722 16.9996,13.6911 16.9996,12.9999C16.9996,9.13037 15.0045,5.69965 11.9996,4.04033C8.99462,5.69965 6.99958,9.13037 6.99958,12.9999C6.99958,13.6911 7.06255,14.3722 7.18631,15.0364C7.31078,15.7045 7.08746,16.3901 6.59338,16.8568L5.49353,17.8955L6.47542,19.6957ZM11.9996,12.9999C10.895,12.9999 9.99958,12.1045 9.99958,10.9999C9.99958,9.89537 10.895,8.99994 11.9996,8.99994C13.1041,8.99994 13.9996,9.89537 13.9996,10.9999C13.9996,12.1045 13.1041,12.9999 11.9996,12.9999Z"/></g>
+        <text x="388" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="600" letter-spacing="1.8" fill="#8FB0FF">RANDOM</text>
+
+        <!-- gaps, inside the bar -->
+        <line class="dim" x1="165" y1="112" x2="206" y2="112"/>
+        <line class="tick" x1="165" y1="108" x2="165" y2="116"/><line class="tick" x1="206" y1="108" x2="206" y2="116"/>
+        <text class="num" x="185.5" y="107" text-anchor="middle">41</text>
+        <line class="dim" x1="332" y1="112" x2="356" y2="112"/>
+        <line class="tick" x1="332" y1="108" x2="332" y2="116"/><line class="tick" x1="356" y1="108" x2="356" y2="116"/>
+        <text class="num" x="344" y="107" text-anchor="middle">24</text>
+
+        <!-- vertical dims -->
+        <line class="dim" x1="456" y1="94" x2="456" y2="166"/><line class="tick" x1="452" y1="94" x2="460" y2="94"/><line class="tick" x1="452" y1="166" x2="460" y2="166"/>
+        <text class="num" x="466" y="130" transform="rotate(90 466 130)" text-anchor="middle">72</text>
+        <line class="dim" x1="456" y1="166" x2="456" y2="190"/><line class="tick" x1="452" y1="190" x2="460" y2="190"/>
+        <text class="num" x="466" y="178" transform="rotate(90 466 178)" text-anchor="middle">24</text>
+
+        <!-- system inset -->
+        <line x1="80" y1="166" x2="440" y2="166" stroke="#232838" stroke-width=".4" stroke-dasharray="2 2"/>
+        <rect x="80" y="166" width="360" height="24" fill="#0E1117"/>
+        <rect x="236" y="176" width="48" height="4" rx="2" fill="#565C6B"/>
+        <text class="lbl" x="80" y="205">72 dp content · 24 dp gesture inset (48 dp with 3-button nav)</text>
+
+        <!-- tap target map -->
+        <text class="lbl" x="80" y="234">TAP TARGETS · EVERY TARGET ≥ 48 × 48</text>
+        <rect class="hitrect" x="96" y="252" width="73" height="48"/>
+        <rect class="hitrect" x="206" y="252" width="101" height="48"/>
+        <rect class="hitrect" x="356" y="248" width="64" height="56"/>
+        <text class="targetlabel" x="132.5" y="279" text-anchor="middle">73 × 48</text>
+        <text class="targetlabel" x="256.5" y="279" text-anchor="middle">101 × 48</text>
+        <text class="targetlabel" x="388" y="279" text-anchor="middle">64 × 56</text>
+        <text class="targetlabel" x="132.5" y="247" text-anchor="middle">FEED</text>
+        <text class="targetlabel" x="256.5" y="247" text-anchor="middle">ARCHIVE</text>
+        <text class="targetlabel" x="388" y="243" text-anchor="middle">RANDOM</text>
+
+        <text class="num" x="80" y="316">20 dp margin · 41 dp between sections · 24 dp gutter gap · 1 dp rules · no elevation</text>
+      </svg>
+    </div>
+
+    <div class="twocol">
+      <div class="panel">
+        <h3>Dimensions</h3>
+        <table class="dimtable">
+          <tr><td>Strip height (content)</td><td>72 dp + system inset</td></tr>
+          <tr><td>Horizontal margin</td><td>20 dp</td></tr>
+          <tr><td>Contents gap (Feed → Archive)</td><td>41 dp</td></tr>
+          <tr><td>Archive → gutter</td><td>auto · min 24 dp</td></tr>
+          <tr><td>Gutter → launch target</td><td>24 dp</td></tr>
+          <tr><td>Anchor target height</td><td>48 dp · 73 / 101 dp wide</td></tr>
+          <tr><td>Launch target</td><td>64 × 56 dp</td></tr>
+          <tr><td>Serif word</td><td>Newsreader 19 sp / 19 sp · 500</td></tr>
+          <tr><td>Command caps</td><td>Inter 10 sp · 600 · .18 em</td></tr>
+          <tr><td>Icons</td><td>20 dp anchor · 21 dp launch</td></tr>
+          <tr><td>Active rule</td><td>1 dp accent, 5 dp under baseline</td></tr>
+          <tr><td>Gutter</td><td>1 × 40 dp, Border</td></tr>
+          <tr><td>System inset</td><td>24 dp gesture / 48 dp 3-button</td></tr>
+        </table>
+      </div>
+      <div class="panel">
+        <h3>Tokens in use</h3>
+        <div class="tok"><span class="sw" style="background:#11141B"></span>SurfaceRaised<span class="val">#11141B</span></div>
+        <div class="tok"><span class="sw" style="background:#232838"></span>Border<span class="val">#232838</span></div>
+        <div class="tok"><span class="sw" style="background:#E8EAF0"></span>Text<span class="val">#E8EAF0</span></div>
+        <div class="tok"><span class="sw" style="background:#A3ABBD"></span>TextMuted<span class="val">#A3ABBD</span></div>
+        <div class="tok"><span class="sw" style="background:#8FB0FF"></span>Accent<span class="val">#8FB0FF</span></div>
+        <div class="noteline">Text 15.3 : 1 · Muted 8.0 : 1 · Accent 8.6 : 1 on SurfaceRaised. All three clear WCAG AAA for normal text; the 1 dp rules are decorative, never the only cue.</div>
+      </div>
+    </div>
+
+    <div class="decisions">
+      <div class="decision"><h4>Why not centre</h4><p>A centre slot makes three equal tabs and forces every item into a symmetric column. The asymmetry here is structural: <b>contents left, command right</b> — a composition, not a nudged balance.</p></div>
+      <div class="decision"><h4>Why the launch is quiet</h4><p>No filled circle, no ring, no elevation. The rocket is a mark plus a word; its weight comes from the <b>single accent</b> and the 24 dp gutter, not from size. Still 64 × 56 dp to press.</p></div>
+      <div class="decision"><h4>Why serif here</h4><p>These are section names, not controls: Feed and Archive are set in <b>Newsreader 19</b>, like a contents page. The one action speaks Inter caps. The type split does the hierarchy.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= alternatives ================= -->
+  <section class="alts">
+    <div class="section-head">
+      <h2>Two other ways we looked at the horizon</h2>
+      <span class="sub">considered · not recommended</span>
+    </div>
+    <div class="altrow">
+
+      <div class="alt altA">
+        <div class="mini">
+          <img class="photo" src="assets/andromeda.jpg" alt="">
+          <div class="barwrap">
+            <div class="navbar">
+              <div class="nav-hair"></div>
+              <div class="nav-bed">
+                <div class="horizon"></div>
+                <div class="cmd"><span class="ico ico-rocket"></span><span>Random</span></div>
+                <div class="stack l on"><span class="ico ico-today"></span><span class="serif">Feed</span></div>
+                <div class="stack r"><span class="ico ico-archive"></span><span class="serif">Archive</span></div>
+              </div>
+              <div class="nav-system"><span class="gesture"></span></div>
+            </div>
+          </div>
+        </div>
+        <span class="tag">Alternative A · two levels</span>
+        <h4>The horizon command</h4>
+        <div class="why">The launch sits <b>on</b> the horizon rule, right of centre; the two sections sit below it at the edges. The most literal "instrument" reading, but the command floats free of the page and its label can collide with Archive at large type.</div>
+      </div>
+
+      <div class="alt altB">
+        <div class="mini">
+          <img class="photo" src="assets/orion.jpg" alt="">
+          <div class="barwrap">
+            <div class="navbar">
+              <div class="nav-hair"></div>
+              <div class="nav-bed">
+                <div class="split">
+                  <div class="main"><span class="ico ico-today"></span><span class="serif">Feed</span></div>
+                  <div class="draw"><span class="ico ico-rocket"></span><span>Random</span></div>
+                </div>
+                <div class="arch"><span class="serif">Archive</span><span class="ico ico-archive"></span></div>
+              </div>
+              <div class="nav-system"><span class="gesture"></span></div>
+            </div>
+          </div>
+        </div>
+        <span class="tag">Alternative B · split key</span>
+        <h4>The draw key</h4>
+        <div class="why">Random is welded to Feed inside one bracketed key — the action acts on the page it sits next to. Strong semantics, but it shrinks the Feed target, makes Archive the only unpaired item, and reads as a segmented control.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <span>Mohakash · nav study 01 · design-lab/nav-horizon</span>
+    <span>Assets: Newsreader / Inter (OFL) · Remix Icon paths · NASA APOD imagery</span>
+  </footer>
+</div>
+
+<script>
+  const feedScreen = document.getElementById('feedScreen');
+  const destFeed = feedScreen.querySelector('.dest-feed');
+  const destArchive = feedScreen.querySelector('.dest-archive');
+  const buttons = document.querySelectorAll('[data-state]');
+  buttons.forEach((b) => {
+    b.addEventListener('click', () => {
+      const state = b.dataset.state;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      const feed = state === 'feed';
+      destFeed.classList.toggle('on', feed);
+      destArchive.classList.toggle('on', !feed);
+      if (feed) { destFeed.setAttribute('aria-current', 'page'); destArchive.removeAttribute('aria-current'); }
+      else { destArchive.setAttribute('aria-current', 'page'); destFeed.removeAttribute('aria-current'); }
+    });
+  });
+  document.getElementById('hits').addEventListener('change', (e) => {
+    document.body.classList.toggle('show-hits', e.target.checked);
+  });
+</script>
+</body>
+</html>
