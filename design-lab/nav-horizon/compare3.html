@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mohakash nav — direction D refinement</title>
+<link rel="stylesheet" href="assets/icons.css">
+<style>
+@font-face{font-family:Inter;src:url(assets/inter_regular.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(assets/inter_medium.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(assets/inter_semibold.ttf);font-weight:600}
+@font-face{font-family:Newsreader;src:url(assets/newsreader_medium.ttf);font-weight:500}
+:root{
+  --bg:#0B0D12; --surface:#151922; --raised:#11141B; --strong:#1B2030;
+  --border:#232838; --border-strong:#323849; --divider:#1B2030;
+  --text:#E8EAF0; --body:#D3D8E3; --preview:#C5CBD9; --muted:#A3ABBD;
+  --accent:#8FB0FF; --onaccent:#0B0D12;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07080C;color:var(--text);font-family:Inter,sans-serif;padding:26px;display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;gap:10px}
+.col h2{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.col h2 b{color:var(--accent);font-weight:600}
+.screen{width:360px;height:780px;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 0 1px #1b1f28}
+.screen.w411{width:411px;height:891px}
+.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scrim{position:absolute;left:0;right:0;bottom:100px;height:420px;background:linear-gradient(to bottom,rgba(11,13,18,0) 0%,rgba(11,13,18,.55) 40%,rgba(11,13,18,.9) 72%,var(--bg) 100%)}
+.status{position:absolute;left:0;right:0;top:0;height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:500;color:#fff;z-index:4;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.status .right{display:flex;gap:4px;align-items:center;opacity:.9}
+.chrome{position:absolute;top:38px;left:20px;right:20px;display:flex;justify-content:space-between;z-index:4}
+.glass{width:44px;height:44px;border-radius:50%;background:rgba(17,20,27,.72);border:1px solid rgba(35,40,56,.9);display:flex;align-items:center;justify-content:center;color:var(--text)}
+.glass .ico{width:20px;height:20px}
+.caption{position:absolute;left:20px;right:20px;bottom:128px;z-index:3}
+.credit{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;gap:6px}
+.credit b{color:var(--preview);font-weight:400}
+.title{font-family:Newsreader,serif;font-size:26px;line-height:31px;font-weight:500;letter-spacing:.1px}
+.teaser{font-size:15px;line-height:25px;color:var(--preview);margin-top:8px;max-width:286px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.actions{display:flex;align-items:center;gap:12px;margin-top:14px}
+.pill{height:40px;padding:0 18px;border-radius:20px;background:var(--accent);color:var(--onaccent);display:flex;align-items:center;font-size:13px;font-weight:600}
+.textaction{font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--text);display:flex;align-items:center;gap:6px}
+.textaction .ico{width:12px;height:12px}
+.rail{position:absolute;right:12px;bottom:142px;display:flex;flex-direction:column;gap:14px;align-items:center;z-index:3}
+.railitem{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text)}
+.railitem .ico{width:22px;height:22px}
+.railitem span{font-size:8.5px;color:var(--muted);letter-spacing:.02em}
+
+.bar{position:absolute;left:0;right:0;bottom:0;height:100px;padding-bottom:24px;background:var(--raised);z-index:5}
+.topline{position:absolute;left:0;right:0;top:0;height:1px;background:var(--border)}
+.ico{display:inline-block;background:currentColor;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;flex:none}
+.caps{font-weight:600;font-size:10px;letter-spacing:.2em;text-transform:uppercase;line-height:1}
+.serif{font-family:Newsreader,serif;font-size:19px;line-height:1;font-weight:500}
+.anchor{position:absolute;bottom:38px;display:flex;align-items:center;gap:9px;color:var(--muted);height:40px}
+.anchor.on{color:var(--text)}
+.anchor .ico{width:18px;height:18px}
+.anchor .w{position:relative;padding-bottom:5px;display:inline-block}
+.anchor.on .w:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent)}
+.anchor.left{left:20px}
+.anchor.second{left:128px}
+
+.launch{position:absolute;right:20px;bottom:36px;width:84px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--accent)}
+.launch .ico{width:21px;height:21px}
+.launch .caps{font-size:9px;letter-spacing:.18em;color:var(--muted)}
+.divider{position:absolute;right:120px;top:12px;height:52px;width:1px;background:var(--border)}
+
+/* variant: key */
+.keylaunch{border:1px solid var(--border-strong);width:40px;height:40px;justify-content:center;gap:0;right:32px;bottom:50px}
+.keylaunch .ico{width:17px;height:17px}
+.keylaunch + .keyleg{position:absolute;right:20px;bottom:35px;width:64px;text-align:center;font-size:8px;letter-spacing:.18em;font-weight:600;color:var(--muted)}
+/* variant: ticks */
+.tick{position:absolute;top:0;width:1px;height:4px;background:var(--border-strong)}
+.tick.on{width:2px;height:8px;background:var(--accent)}
+/* variant: baseline rule */
+.baseline{position:absolute;left:20px;right:120px;bottom:54px;height:1px;background:var(--border)}
+.navbar{position:absolute;left:0;right:0;bottom:0;height:24px;display:flex;align-items:center;justify-content:center;z-index:6;background:var(--raised)}
+.pillnav{width:108px;height:4px;border-radius:2px;background:#565C6B}
+
+/* A2 stacked two-level */
+.a2 .anchor.stack{flex-direction:column;align-items:flex-start;gap:5px;height:auto;bottom:36px;width:auto}
+.a2 .anchor.stack.right{left:auto;right:20px;align-items:flex-end}
+.a2 .anchor.stack .ico{width:18px;height:18px}
+.a2 .anchor.stack .w{padding-bottom:5px}
+.a2 .horizon{position:absolute;left:20px;right:20px;top:17px;height:1px;background:var(--border)}
+.a2 .launch{position:absolute;left:58%;transform:translateX(-50%);right:auto;bottom:auto;top:0;height:48px;width:auto;flex-direction:row;gap:8px;padding:0 12px;background:var(--raised)}
+.a2 .launch .ico{width:14px;height:14px}
+.a2 .launch .caps{font-size:10px;letter-spacing:.2em;color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="col"><h2>D1 — <b>bare launch</b>, 10px caps</h2>
+  <div class="screen">
+    <img class="photo" src="assets/orion.jpg"><div class="scrim"></div>
+    <div class="status"><span>9:41</span><span class="right">▮▮▮ 100%</span></div>
+    <div class="chrome"><div class="glass"><span class="ico ico-search"></span></div><div class="glass"><span class="ico ico-settings"></span></div></div>
+    <div class="caption"><div class="credit"><span>26 October 2026</span><span>·</span><b>Roberto Palaia</b></div><div class="title">M42: The Great Nebula in Orion</div><div class="teaser">The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomy's nebulas.</div><div class="actions"><div class="pill">Wallpaper</div><div class="textaction">Full entry <span class="ico ico-chevron_right"></span></div></div></div>
+    <div class="rail"><div class="railitem"><span class="ico ico-heart"></span><span>Save</span></div><div class="railitem"><span class="ico ico-download"></span><span>Save</span></div><div class="railitem"><span class="ico ico-share"></span><span>Share</span></div></div>
+    <div class="bar">
+      <div class="topline"></div><div class="divider"></div>
+      <div class="anchor left on"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+      <div class="anchor second"><span class="ico ico-archive"></span><span class="serif w">Archive</span></div>
+      <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+    </div>
+    <div class="navbar"><div class="pillnav"></div></div>
+  </div>
+</div>
+
+<div class="col"><h2>D2 — bare launch + <b>horizon ticks</b></h2>
+  <div class="screen">
+    <img class="photo" src="assets/orion.jpg"><div class="scrim"></div>
+    <div class="status"><span>9:41</span><span class="right">▮▮▮ 100%</span></div>
+    <div class="chrome"><div class="glass"><span class="ico ico-search"></span></div><div class="glass"><span class="ico ico-settings"></span></div></div>
+    <div class="caption"><div class="credit"><span>26 October 2026</span><span>·</span><b>Roberto Palaia</b></div><div class="title">M42: The Great Nebula in Orion</div><div class="teaser">The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomy's nebulas.</div><div class="actions"><div class="pill">Wallpaper</div><div class="textaction">Full entry <span class="ico ico-chevron_right"></span></div></div></div>
+    <div class="rail"><div class="railitem"><span class="ico ico-heart"></span><span>Save</span></div><div class="railitem"><span class="ico ico-download"></span><span>Save</span></div><div class="railitem"><span class="ico ico-share"></span><span>Share</span></div></div>
+    <div class="bar">
+      <div class="topline"></div>
+      <div class="tick on" style="left:20px"></div><div class="tick" style="left:128px"></div><div class="tick" style="right:62px"></div>
+      <div class="divider"></div>
+      <div class="anchor left on"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+      <div class="anchor second"><span class="ico ico-archive"></span><span class="serif w">Archive</span></div>
+      <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+    </div>
+    <div class="navbar"><div class="pillnav"></div></div>
+  </div>
+</div>
+
+<div class="col"><h2>D3 — <b>instrument key</b> in margin</h2>
+  <div class="screen">
+    <img class="photo" src="assets/orion.jpg"><div class="scrim"></div>
+    <div class="status"><span>9:41</span><span class="right">▮▮▮ 100%</span></div>
+    <div class="chrome"><div class="glass"><span class="ico ico-search"></span></div><div class="glass"><span class="ico ico-settings"></span></div></div>
+    <div class="caption"><div class="credit"><span>26 October 2026</span><span>·</span><b>Roberto Palaia</b></div><div class="title">M42: The Great Nebula in Orion</div><div class="teaser">The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomy's nebulas.</div><div class="actions"><div class="pill">Wallpaper</div><div class="textaction">Full entry <span class="ico ico-chevron_right"></span></div></div></div>
+    <div class="rail"><div class="railitem"><span class="ico ico-heart"></span><span>Save</span></div><div class="railitem"><span class="ico ico-download"></span><span>Save</span></div><div class="railitem"><span class="ico ico-share"></span><span>Share</span></div></div>
+    <div class="bar">
+      <div class="topline"></div><div class="divider"></div>
+      <div class="anchor left on"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+      <div class="anchor second"><span class="ico ico-archive"></span><span class="serif w">Archive</span></div>
+      <div class="launch keylaunch"><span class="ico ico-rocket"></span></div>
+      <div class="keyleg">Random</div>
+    </div>
+    <div class="navbar"><div class="pillnav"></div></div>
+  </div>
+</div>
+
+<div class="col"><h2>D4 — baseline rule under the pair</h2>
+  <div class="screen">
+    <img class="photo" src="assets/orion.jpg"><div class="scrim"></div>
+    <div class="status"><span>9:41</span><span class="right">▮▮▮ 100%</span></div>
+    <div class="chrome"><div class="glass"><span class="ico ico-search"></span></div><div class="glass"><span class="ico ico-settings"></span></div></div>
+    <div class="caption"><div class="credit"><span>26 October 2026</span><span>·</span><b>Roberto Palaia</b></div><div class="title">M42: The Great Nebula in Orion</div><div class="teaser">The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomy's nebulas.</div><div class="actions"><div class="pill">Wallpaper</div><div class="textaction">Full entry <span class="ico ico-chevron_right"></span></div></div></div>
+    <div class="rail"><div class="railitem"><span class="ico ico-heart"></span><span>Save</span></div><div class="railitem"><span class="ico ico-download"></span><span>Save</span></div><div class="railitem"><span class="ico ico-share"></span><span>Share</span></div></div>
+    <div class="bar">
+      <div class="topline"></div><div class="baseline"></div><div class="divider"></div>
+      <div class="anchor left on"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+      <div class="anchor second"><span class="ico ico-archive"></span><span class="serif w">Archive</span></div>
+      <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+    </div>
+    <div class="navbar"><div class="pillnav"></div></div>
+  </div>
+</div>
+
+<div class="col"><h2>A2 — two-level <b>horizon command</b></h2>
+  <div class="screen">
+    <img class="photo" src="assets/orion.jpg"><div class="scrim"></div>
+    <div class="status"><span>9:41</span><span class="right">▮▮▮ 100%</span></div>
+    <div class="chrome"><div class="glass"><span class="ico ico-search"></span></div><div class="glass"><span class="ico ico-settings"></span></div></div>
+    <div class="caption"><div class="credit"><span>26 October 2026</span><span>·</span><b>Roberto Palaia</b></div><div class="title">M42: The Great Nebula in Orion</div><div class="teaser">The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomy's nebulas.</div><div class="actions"><div class="pill">Wallpaper</div><div class="textaction">Full entry <span class="ico ico-chevron_right"></span></div></div></div>
+    <div class="rail"><div class="railitem"><span class="ico ico-heart"></span><span>Save</span></div><div class="railitem"><span class="ico ico-download"></span><span>Save</span></div><div class="railitem"><span class="ico ico-share"></span><span>Share</span></div></div>
+    <div class="bar a2">
+      <div class="topline"></div><div class="horizon"></div>
+      <div class="anchor stack left on"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+      <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+      <div class="anchor stack right"><span class="ico ico-archive"></span><span class="serif w">Archive</span></div>
+    </div>
+    <div class="navbar"><div class="pillnav"></div></div>
+  </div>
+</div>
+
+<div class="col"><h2>D1 at <b>411</b> — Archive active</h2>
+  <div class="screen w411">
+    <img class="photo" src="assets/orion.jpg"><div class="scrim"></div>
+    <div class="status"><span>9:41</span><span class="right">▮▮▮ 100%</span></div>
+    <div class="chrome"><div class="glass"><span class="ico ico-search"></span></div><div class="glass"><span class="ico ico-settings"></span></div></div>
+    <div class="caption"><div class="credit"><span>26 October 2026</span><span>·</span><b>Roberto Palaia</b></div><div class="title">M42: The Great Nebula in Orion</div><div class="teaser">The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomy's nebulas.</div><div class="actions"><div class="pill">Wallpaper</div><div class="textaction">Full entry <span class="ico ico-chevron_right"></span></div></div></div>
+    <div class="rail"><div class="railitem"><span class="ico ico-heart"></span><span>Save</span></div><div class="railitem"><span class="ico ico-download"></span><span>Save</span></div><div class="railitem"><span class="ico ico-share"></span><span>Share</span></div></div>
+    <div class="bar">
+      <div class="topline"></div><div class="divider"></div>
+      <div class="anchor left"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+      <div class="anchor second on"><span class="ico ico-archive"></span><span class="serif w">Archive</span></div>
+      <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+    </div>
+    <div class="navbar"><div class="pillnav"></div></div>
+  </div>
+</div>
+
+</body>
+</html>
