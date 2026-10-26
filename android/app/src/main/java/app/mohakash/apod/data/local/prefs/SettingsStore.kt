@@ -44,4 +44,7 @@ interface SettingsStore {
 
     /** Records the time of the last successful synchronisation. */
     suspend fun setLastSync(atMillis: Long, date: String?)
+
+    /** Remembers that the first-run feed swipe cue has been shown. */
+    suspend fun setFeedSwipeHintSeen(value: Boolean)
 }

@@ -25,4 +25,6 @@ data class AppSettings(
     val lastSyncAt: Long? = null,
     /** The APOD date of the last successful metadata sync. */
     val lastSyncDate: String? = null,
+    /** True once the first-run "swipe up" cue on the feed has been shown. */
+    val feedSwipeHintSeen: Boolean = false,
 )

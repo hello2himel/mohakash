@@ -1,8 +1,16 @@
 package app.mohakash.apod.ui.feed
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,8 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,6 +38,7 @@ import app.mohakash.apod.ui.navigation.openWallpaperPicker
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.wallpaper.WallpaperSheet
 import app.mohakash.apod.wallpaper.WallpaperStatus
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -100,6 +111,19 @@ fun FeedScreen(
         }
     }
 
+    // A new reader gets one quiet, non-blocking cue that the feed is vertical. It is also
+    // dismissed as soon as the pager starts moving; the preference makes it a once-only event.
+    val canShowSwipeHint = state.showSwipeHint &&
+        state.pages.count { !it.isEnd } > 1 &&
+        state.currentPageKey != FeedPage.End.key &&
+        !state.filters.isActive
+
+    LaunchedEffect(canShowSwipeHint) {
+        if (!canShowSwipeHint) return@LaunchedEffect
+        delay(SWIPE_HINT_VISIBLE_MILLIS)
+        viewModel.dismissSwipeHint()
+    }
+
     val actions = remember(viewModel, onOpenEntry, onOpenSettings, onOpenLink) {
         FeedPageActions(
             onOpenEntry = onOpenEntry,
@@ -140,6 +164,8 @@ fun FeedScreen(
         },
         onOpenSaved = onOpenSaved,
         onRetryAll = viewModel::retry,
+        showSwipeHint = canShowSwipeHint,
+        onDismissSwipeHint = viewModel::dismissSwipeHint,
         modifier = modifier,
     )
 
@@ -207,13 +233,16 @@ internal fun FeedContent(
     onBackToLatest: () -> Unit,
     onOpenSaved: () -> Unit,
     onRetryAll: () -> Unit,
+    showSwipeHint: Boolean,
+    onDismissSwipeHint: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    BoxWithConstraints(
         modifier = modifier
             .fillMaxSize()
             .background(MohakashColors.Background),
     ) {
+        val hintBottomPadding = (maxHeight * 0.38f).coerceIn(140.dp, 320.dp)
         when {
             state.pages.isEmpty() && state.hasFatalError -> FeedFatalError(
                 onRetry = onRetryAll,
@@ -231,7 +260,22 @@ internal fun FeedContent(
                 onBackToLatest = onBackToLatest,
                 onOpenSaved = onOpenSaved,
                 onRetryAll = onRetryAll,
+                showSwipeHint = showSwipeHint,
+                onDismissSwipeHint = onDismissSwipeHint,
             )
+        }
+
+        AnimatedVisibility(
+            visible = showSwipeHint,
+            enter = fadeIn(tween(220)) +
+                slideInVertically(tween(220)) { height -> height / 2 },
+            exit = fadeOut(tween(160)),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = hintBottomPadding)
+                .padding(horizontal = 24.dp),
+        ) {
+            FeedSwipeHint()
         }
     }
 }
@@ -247,6 +291,8 @@ private fun FeedPager(
     onBackToLatest: () -> Unit,
     onOpenSaved: () -> Unit,
     onRetryAll: () -> Unit,
+    showSwipeHint: Boolean,
+    onDismissSwipeHint: () -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0) { state.pages.size }
     val pullState = rememberPullToRefreshState()
@@ -298,6 +344,14 @@ private fun FeedPager(
             .collect { (index, count) -> if (count > 0) onPageSettled(index) }
     }
 
+    // The cue has done its job the moment the reader starts dragging the feed. Watching the
+    // drag interaction (rather than isScrollInProgress) keeps programmatic page reconciliation
+    // from dismissing the cue before the reader has seen it.
+    val isDragging by pagerState.interactionSource.collectIsDraggedAsState()
+    LaunchedEffect(showSwipeHint, isDragging) {
+        if (showSwipeHint && isDragging) onDismissSwipeHint()
+    }
+
     PullToRefreshBox(
         isRefreshing = state.isRefreshing,
         onRefresh = actions.onRefresh,
@@ -343,3 +397,6 @@ private fun FeedPager(
 
 /** Shown when the legacy storage permission is refused. */
 private const val MESSAGE_PERMISSION_DENIED = "Storage permission is needed to save the image."
+
+/** How long the one-time swipe cue stays on screen when the reader does nothing. */
+private const val SWIPE_HINT_VISIBLE_MILLIS = 6_000L
