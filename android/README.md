@@ -129,7 +129,37 @@ picture** — there is no animation and no continuous redraw.
 
 ---
 
-## 5. Architecture
+## 5. App Links and sharing
+
+Public website links open in the app when it is installed. The manifest declares
+`https://mohakash.netlify.app/` and `https://mohakash.netlify.app/archive...` as App Links, and
+`MainActivity` routes them through `DeepLinkParser`:
+
+| Website URL | Screen |
+|---|---|
+| `/` | Today |
+| `/archive` and `/archive/` | Archive |
+| `/archive/YYYY-MM-DD` (including query/fragment) | Entry detail |
+
+The host is generated from `config/site.json`: Gradle exposes it as the `websiteHost` manifest
+placeholder and as `BuildConfig.WEBSITE_BASE_URL`, so the intent filters and the parser always
+match. Links that do not map to an app screen (`/about`, `/privacy`, `/api`, ...) stay in the
+browser, and the intent filters only claim `/` and `/archive...`.
+
+Android verifies the links against
+[`web/public/.well-known/assetlinks.json`](../web/public/.well-known/assetlinks.json). The file
+contains the application ID and the SHA-256 certificate fingerprint of the build users install.
+It currently lists the GitHub release key; add the Play App Signing certificate (if Play re-signs
+the bundle) and the F-Droid certificate when those listings go live, then redeploy the website.
+The parser and manifest are covered by `DeepLinkParserTest` and `DeepLinkManifestTest`.
+
+The share button shares the public `/archive/YYYY-MM-DD` URL as `text/plain`, together with the
+title, date and credit. It does not download or attach the picture; tapping the link opens the
+entry page (in the app, if installed).
+
+---
+
+## 6. Architecture
 
 ```
 app/src/main/java/app/mohakash/apod/
@@ -141,7 +171,7 @@ app/src/main/java/app/mohakash/apod/
 │   ├── remote/              HTTP client, base-URL fallback, DTOs, JSON → domain mapping
 │   ├── local/               Room database (favourites, cached records, cached documents)
 │   │   └── prefs/           DataStore (Preferences) settings
-│   ├── repository/          APOD metadata, favourites, image download / save / share
+│   ├── repository/          APOD metadata, favourites, image download / save
 │   └── storage/             wallpaper storage, gallery saver, share helper, cache manager
 ├── domain/
 │   ├── model/               ApodEntry, ArchiveIndexEntry, MediaType, ImageStatus, settings
@@ -159,7 +189,7 @@ Data flow: `ViewModel → Repository → (ApodService | Room | DataStore) → St
 
 ---
 
-## 6. Permissions
+## 7. Permissions
 
 The app itself declares only:
 
@@ -177,7 +207,7 @@ what makes the daily update survive a reboot.
 
 ---
 
-## 7. Known limitations
+## 8. Known limitations
 
 * **Background updates are deferred by Android.** `PeriodicWorkRequest` asks for a 24-hour
   interval, but Android decides when the job actually runs. It can be delayed by battery
@@ -195,9 +225,9 @@ what makes the daily update survive a reboot.
 
 ---
 
-## 8. Tests
+## 9. Tests
 
-`./gradlew :app:testDebugUnitTest` runs 76 pure-JVM unit tests (no emulator needed):
+`./gradlew :app:testDebugUnitTest` runs 122 pure-JVM unit tests (no emulator needed):
 
 | Test file | Covers |
 |---|---|
@@ -209,3 +239,6 @@ what makes the daily update survive a reboot.
 | `ApodSyncEngineTest` | Download skipping when the date and the URL are unchanged, atomic metadata update, failure keeps the last picture, no download without a connection. |
 | `ApodRepositoryTest` | Caching of `latest.json` / `archive-index.json`, recovery after a failed request. |
 | `FavouritesRepositoryTest` | Saving and removing pictures, the full metadata survives for offline use. |
+| `DeepLinkParserTest` | Website URL → app destination mapping: root, archive index, entries, query/fragment/trailing slash, invalid dates, foreign hosts and schemes. |
+| `DeepLinkManifestTest` | The manifest keeps the verified https App Links and the `/` + `/archive` paths. |
+| `ShareHelperTest` | Archive URL construction and the share text: archive link instead of the NASA page, title/date/credit preserved. |

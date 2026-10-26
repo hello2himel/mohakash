@@ -197,18 +197,10 @@ class TodayViewModel(
         }
     }
 
-    /** Opens the share sheet with the picture and the credit. */
+    /** Opens the share sheet with the public archive URL of the entry. */
     fun share() {
         val entry = _state.value.entry ?: return
-        viewModelScope.launch {
-            val file = imageRepository.prepareShareImage(entry).getOrNull()
-            if (file == null) {
-                // Without a picture the text — including the credit — is still shared.
-                shareHelper.share(entry, null)
-            } else {
-                shareHelper.share(entry, file)
-            }
-        }
+        shareHelper.share(entry)
     }
 
     /** Changes the scaling mode used by the live wallpaper. */

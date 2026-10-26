@@ -34,6 +34,36 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!--
+                App Links for the pages that also exist in the app. The host comes from
+                config/site.json through the websiteHost manifest placeholder. Other
+                website pages (about, privacy, API documentation) stay in the browser.
+                Verification relies on /.well-known/assetlinks.json on the website.
+            -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="${websiteHost}"
+                    android:path="/archive" />
+                <data
+                    android:scheme="https"
+                    android:host="${websiteHost}"
+                    android:pathPrefix="/archive/" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="${websiteHost}"
+                    android:path="/" />
+            </intent-filter>
         </activity>
 
         <service
@@ -49,16 +79,6 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/wallpaper" />
         </service>
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
     </application>
 
 </manifest>

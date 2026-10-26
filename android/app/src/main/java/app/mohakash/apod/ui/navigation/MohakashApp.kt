@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -51,6 +52,7 @@ import app.mohakash.apod.wallpaper.WallpaperIntentBuilder
 @Composable
 fun MohakashApp(
     startDestination: String,
+    deepLinkRequest: DeepLinkRequest? = null,
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
@@ -61,6 +63,17 @@ fun MohakashApp(
     val showBottomBar = currentRoute == Routes.TODAY ||
         currentRoute == Routes.ARCHIVE ||
         currentRoute == Routes.SAVED
+    var onboardingCompleted by remember {
+        mutableStateOf(startDestination != Routes.ONBOARDING)
+    }
+
+    // A deep link that arrives while onboarding is showing is kept until the
+    // user finishes; a link that arrives later is followed immediately.
+    LaunchedEffect(deepLinkRequest, onboardingCompleted) {
+        val request = deepLinkRequest ?: return@LaunchedEffect
+        if (!onboardingCompleted) return@LaunchedEffect
+        navController.navigateTo(request.target)
+    }
 
     CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
         Scaffold(
@@ -100,6 +113,7 @@ fun MohakashApp(
                 composable(Routes.ONBOARDING) {
                     OnboardingScreen(
                         onFinished = {
+                            onboardingCompleted = true
                             navController.navigate(Routes.TODAY) {
                                 popUpTo(Routes.ONBOARDING) { inclusive = true }
                             }
@@ -170,6 +184,31 @@ fun MohakashApp(
                     )
                 }
             }
+        }
+    }
+}
+
+/**
+ * Follows a [DeepLinkTarget].
+ *
+ * The primary destinations are opened on top of Today instead of stacking duplicate copies of
+ * the bottom-navigation screens, so Back from a deep link returns to the previous context rather
+ * than replaying the link.
+ */
+internal fun NavController.navigateTo(target: DeepLinkTarget) {
+    when (target) {
+        DeepLinkTarget.Today -> navigate(Routes.TODAY) {
+            popUpTo(Routes.TODAY) { inclusive = false }
+            launchSingleTop = true
+        }
+
+        DeepLinkTarget.Archive -> navigate(Routes.ARCHIVE) {
+            popUpTo(Routes.TODAY) { inclusive = false }
+            launchSingleTop = true
+        }
+
+        is DeepLinkTarget.Detail -> navigate(Routes.detail(target.date)) {
+            launchSingleTop = true
         }
     }
 }

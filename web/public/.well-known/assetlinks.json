@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "mohakash.stargzr.space",
+      "sha256_cert_fingerprints": [
+        "04:41:88:79:E6:5E:35:34:6F:C4:06:F5:70:85:8E:EE:D3:EE:21:B0:E5:F8:B5:8E:2A:0F:F3:7F:0A:14:C0:AB"
+      ]
+    }
+  }
+]
