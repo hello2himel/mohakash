@@ -20,7 +20,7 @@ Campaign line: **“New wallpaper, every day.”**
 | 05 | Full-quality downloads | **Full resolution. Save or set it.** | The original image, one tap away. | *Asperitas Clouds* entry |
 | 06 | Trust | **No ads. No account.** | Open source. No tracking. Just astronomy. | First-run screen |
 
-Feature graphic copy: **“The sky, on your home screen.”**
+Feature graphic copy (centred in the editorial panel): **“The sky, on your home screen.”**
 Product line: “A new astronomy wallpaper every day.”
 Colophon: “OPEN SOURCE · NO ADS”
 
@@ -40,8 +40,8 @@ or swap the hero frame for a public-domain APOD image and re-render.
 - Background: Deep Space `#0B0D12` / brand `#0B1020`, with a subtle generated
   starfield and low-opacity orbit lines.
 - Surfaces: `#151922`, borders `#323849`; accent Glow `#8FB0FF`.
-- Headline: Newsreader Medium (serif), Starlight `#F4F6FF`, 96 px on the 1080 canvas.
-- Support: Inter Regular 34 px, `#D9DFED`, with a soft dark text shadow and a stronger top scrim so it survives thumbnail scale.
+- Headline: Newsreader Medium (serif), Starlight `#F4F6FF`, 96 px, centred on the 1080 canvas.
+- Support: Inter Regular 34 px, `#D9DFED`, centred, with a soft dark text shadow and a stronger top scrim so it survives thumbnail scale.
 - Backgrounds are quieter than the first cut: 260 stars max, no orbit/registration marks, reduced crest wash. The phone is 620 px wide so the UI reads at small sizes.
 - Campaign plates deliberately omit a separate wordmark/folio/kicker so the
   real app screenshot is the interface; the app's own in-screen wordmark stays.
