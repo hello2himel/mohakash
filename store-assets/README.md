@@ -19,8 +19,8 @@ and F-Droid consume:
 | 06 | Languages | **In your language.** | The interface, in fourteen languages. |
 
 Feature graphic copy: **“The sky, on your home screen.”**
-Support: “A quiet astronomy journal. New every day.”
-Trust line: “OPEN SOURCE · NO ACCOUNT · NO ADS”
+Product line: “A new astronomy wallpaper every day.”
+Colophon: “OPEN SOURCE · NO ADS”
 
 All claims are verifiable in the app: no account, no ads, open source, APOD
 metadata and images, 13 non-English UI locales plus English variants, live
