@@ -1,0 +1,7 @@
+A refreshed Android interface built around one full-screen picture feed.
+
+- Today and Archive are now one feed: swipe between older and newer pictures.
+- Search the feed, filter by year and media type, or jump to a date.
+- Saved is now a dedicated tab, with your pictures available offline.
+- Feed images follow the app's Fill or Fit image scaling setting.
+- The full entry view shows the whole picture, uncropped, with the description below.

@@ -180,6 +180,13 @@ jobs:
             echo "| Signing certificate SHA-256 | \`${CERT}\` |"
             echo "| Commit | \`${GITHUB_SHA}\` |"
             echo
+            CHANGELOG_FILE="fastlane/metadata/android/en-US/changelogs/${VERSION_CODE}.txt"
+            if [ -f "$CHANGELOG_FILE" ]; then
+              echo "**What's new in ${VERSION_NAME}**"
+              echo
+              cat "$CHANGELOG_FILE"
+              echo
+            fi
             echo "**Assets**"
             echo
             echo "- \`mohakash.apk\` — signed APK for direct installation."

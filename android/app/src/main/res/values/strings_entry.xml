@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Strings of the rebuilt entry viewer (Builder B).
+
+    Shared strings that already exist in `strings.xml` (`detail_*`) are reused; only new wording
+    lives here so the two builders never edit the same resource file.
+-->
+<resources>
+
+    <!-- Header and metadata -->
+    <string name="entry_credit_value">Credit: %1$s</string>
+    <string name="entry_media_image">Image</string>
+    <string name="entry_media_video">Video</string>
+    <string name="entry_media_interactive">Interactive</string>
+    <string name="entry_meta_section">Details</string>
+    <string name="entry_meta_date">Date</string>
+    <string name="entry_meta_media_type">Media type</string>
+    <string name="entry_meta_credit">Credit</string>
+    <string name="entry_meta_updated">Updated</string>
+    <string name="entry_meta_source">Source</string>
+    <string name="entry_not_provided">Not provided</string>
+    <string name="entry_links_section">Links</string>
+
+    <!-- Image viewer -->
+    <string name="entry_zoom_hint">Pinch or double-tap to zoom</string>
+    <string name="entry_zoom_reset">Reset zoom</string>
+    <string name="entry_image_loading">Loading image</string>
+    <string name="entry_image_retry">Retry</string>
+    <string name="entry_image_description">Astronomy picture</string>
+    <string name="entry_image_placeholder_note">The publisher provides a placeholder image for this entry.</string>
+    <string name="entry_image_missing_note">This entry has no image.</string>
+
+    <!-- Notes and actions -->
+    <string name="entry_offline_note">Showing the saved copy. The description may be incomplete.</string>
+    <string name="entry_action_save">Add to saved</string>
+    <string name="entry_action_unsave">Remove from saved</string>
+    <string name="entry_action_share">Share</string>
+    <string name="entry_action_settings">Settings</string>
+
+</resources>

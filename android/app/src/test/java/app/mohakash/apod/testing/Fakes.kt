@@ -8,6 +8,8 @@ import app.mohakash.apod.data.local.db.entity.CachedEntryEntity
 import app.mohakash.apod.data.local.db.entity.FavouriteEntity
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.remote.ApodService
+import app.mohakash.apod.data.repository.ArchiveIndexRepository
+import app.mohakash.apod.data.repository.ArchiveIndexSnapshot
 import app.mohakash.apod.data.repository.LatestEntrySource
 import app.mohakash.apod.data.storage.PictureDownloader
 import app.mohakash.apod.data.storage.WallpaperMeta
@@ -18,6 +20,7 @@ import app.mohakash.apod.domain.model.ArchiveIndexEntry
 import app.mohakash.apod.domain.model.WallpaperScaling
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import java.io.File
@@ -228,5 +231,73 @@ class FakePictureDownloader(
         target.parentFile?.mkdirs()
         target.writeBytes(content)
         return Result.success(target)
+    }
+}
+
+/**
+ * A [ArchiveIndexRepository] whose disk cache and network are plain in-memory values.
+ *
+ * Used by the feed tests: the ViewModel sees the same states as with the file-backed repository,
+ * but a test never touches the filesystem or a socket.
+ */
+class FakeArchiveIndexRepository(
+    initial: List<ArchiveIndexEntry> = emptyList(),
+    private val savedAtMillis: Long? = null,
+) : ArchiveIndexRepository {
+
+    private val memory = MutableStateFlow(initial)
+    override val entries: StateFlow<List<ArchiveIndexEntry>> = memory
+
+    private val snapshotState = MutableStateFlow(
+        initial.takeIf { it.isNotEmpty() }?.let { ArchiveIndexSnapshot(it, savedAtMillis ?: 0L, null) },
+    )
+    override val snapshot: StateFlow<ArchiveIndexSnapshot?> = snapshotState
+
+    private val loading = MutableStateFlow(false)
+    override val isLoading: StateFlow<Boolean> = loading
+
+    private val error = MutableStateFlow(false)
+    override val hasError: StateFlow<Boolean> = error
+
+    /** What the next [refresh] returns. */
+    var nextEntries: List<ArchiveIndexEntry> = initial
+
+    /** When true, [refresh] fails and keeps the cached copy. */
+    var failRefresh: Boolean = false
+
+    /** Number of [refresh] calls, so a test can assert "at most once". */
+    var refreshCount: Int = 0
+        private set
+
+    /** Number of [clear] calls. */
+    var clearCount: Int = 0
+        private set
+
+    override fun hasCachedIndex(): Boolean = memory.value.isNotEmpty()
+
+    override suspend fun loadCached(): List<ArchiveIndexEntry>? =
+        memory.value.takeIf { it.isNotEmpty() }
+
+    override suspend fun refresh(): Result<List<ArchiveIndexEntry>> {
+        refreshCount++
+        if (failRefresh) {
+            error.value = true
+            return Result.failure(IOException("offline"))
+        }
+        val entries = nextEntries
+        if (entries.isEmpty()) return Result.failure(IOException("empty index"))
+        memory.value = entries
+        snapshotState.value = ArchiveIndexSnapshot(entries, savedAtMillis ?: 0L, null)
+        error.value = false
+        return Result.success(entries)
+    }
+
+    override suspend fun ensureLoaded(allowNetwork: Boolean): List<ArchiveIndexEntry>? =
+        loadCached() ?: if (allowNetwork) refresh().getOrNull() else null
+
+    override suspend fun clear() {
+        clearCount++
+        memory.value = emptyList()
+        snapshotState.value = null
     }
 }

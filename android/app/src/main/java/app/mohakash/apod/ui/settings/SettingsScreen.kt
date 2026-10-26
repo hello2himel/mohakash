@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -142,10 +143,27 @@ internal fun SettingsContent(
                 .fillMaxWidth()
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
                 .padding(horizontal = MohakashDimens.SidePadding)
                 .padding(top = 8.dp, bottom = 32.dp),
         ) {
-            SectionLabel(stringResource(R.string.settings_section_wallpaper))
+            SectionLabel(stringResource(R.string.settings_section_display))
+
+            ScalingRow(
+                scaling = state.scaling,
+                onScalingChange = onScalingChange,
+            )
+            Text(
+                text = stringResource(R.string.settings_image_scaling_hint),
+                style = MohakashTextStyles.Helper,
+                color = MohakashColors.TextMuted,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+
+            SectionLabel(
+                text = stringResource(R.string.settings_section_wallpaper),
+                modifier = Modifier.padding(top = 24.dp),
+            )
 
             SwitchRow(
                 title = stringResource(R.string.settings_update_automatically),
@@ -170,11 +188,6 @@ internal fun SettingsContent(
                 subtitle = stringResource(R.string.settings_hide_videos_hint),
                 checked = state.hideVideos,
                 onCheckedChange = onHideVideosChange,
-            )
-
-            ScalingRow(
-                scaling = state.scaling,
-                onScalingChange = onScalingChange,
             )
 
             SectionLabel(

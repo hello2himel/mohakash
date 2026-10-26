@@ -10,7 +10,6 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -33,21 +32,20 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import app.mohakash.apod.ui.LocalSnackbarHostState
-import app.mohakash.apod.ui.archive.ArchiveScreen
 import app.mohakash.apod.ui.detail.DetailScreen
+import app.mohakash.apod.ui.feed.FeedScreen
 import app.mohakash.apod.ui.onboarding.OnboardingScreen
 import app.mohakash.apod.ui.saved.SavedScreen
 import app.mohakash.apod.ui.settings.AdvancedScreen
 import app.mohakash.apod.ui.settings.SettingsScreen
 import app.mohakash.apod.ui.theme.MohakashColors
-import app.mohakash.apod.ui.today.TodayScreen
 import app.mohakash.apod.wallpaper.WallpaperIntentBuilder
 
 /**
  * The navigation graph of the app.
  *
- * The three primary screens have a bottom navigation bar; the detail screen and the settings
- * screen have a back arrow and no bottom bar.
+ * The two primary screens (Feed, Saved) have a bottom navigation bar; the detail screen and the
+ * settings screens have a back arrow and no bottom bar.
  */
 @Composable
 fun MohakashApp(
@@ -60,9 +58,7 @@ fun MohakashApp(
     val snackbarHostState = remember { SnackbarHostState() }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
-    val showBottomBar = currentRoute == Routes.TODAY ||
-        currentRoute == Routes.ARCHIVE ||
-        currentRoute == Routes.SAVED
+    val showBottomBar = currentRoute == Routes.TODAY || currentRoute == Routes.SAVED
     var onboardingCompleted by remember {
         mutableStateOf(startDestination != Routes.ONBOARDING)
     }
@@ -79,7 +75,9 @@ fun MohakashApp(
         Scaffold(
             modifier = modifier,
             containerColor = MohakashColors.Background,
-            contentWindowInsets = WindowInsets.systemBars,
+            // The feed draws its image under the status bar; every top bar and scrollable
+            // screen adds its own insets instead.
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
             snackbarHost = {
                 SnackbarHost(snackbarHostState) { data ->
                     Snackbar(
@@ -123,11 +121,12 @@ fun MohakashApp(
                 }
 
                 composable(Routes.TODAY) {
-                    TodayScreen(
+                    FeedScreen(
                         onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
                         onOpenSettings = { navController.navigate(Routes.SETTINGS) },
-                        onOpenArchive = {
-                            navController.navigate(Routes.ARCHIVE) {
+                        onOpenLink = { url -> openLink(context, url) },
+                        onOpenSaved = {
+                            navController.navigate(Routes.SAVED) {
                                 popUpTo(Routes.TODAY) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
@@ -136,20 +135,14 @@ fun MohakashApp(
                     )
                 }
 
-                composable(Routes.ARCHIVE) {
-                    ArchiveScreen(
-                        onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
-                        onOpenSettings = { navController.navigate(Routes.SETTINGS) },
-                    )
-                }
-
                 composable(Routes.SAVED) {
                     SavedScreen(
                         onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
-                        onBrowseArchive = {
-                            navController.navigate(Routes.ARCHIVE) {
+                        onBrowseFeed = {
+                            navController.navigate(Routes.TODAY) {
                                 popUpTo(Routes.TODAY) { saveState = true }
                                 launchSingleTop = true
+                                restoreState = true
                             }
                         },
                         onOpenSettings = { navController.navigate(Routes.SETTINGS) },
@@ -191,7 +184,7 @@ fun MohakashApp(
 /**
  * Follows a [DeepLinkTarget].
  *
- * The primary destinations are opened on top of Today instead of stacking duplicate copies of
+ * The primary destinations are opened on top of the feed instead of stacking duplicate copies of
  * the bottom-navigation screens, so Back from a deep link returns to the previous context rather
  * than replaying the link.
  */
@@ -202,9 +195,10 @@ internal fun NavController.navigateTo(target: DeepLinkTarget) {
             launchSingleTop = true
         }
 
-        DeepLinkTarget.Archive -> navigate(Routes.ARCHIVE) {
+        DeepLinkTarget.Archive -> navigate(Routes.TODAY) {
             popUpTo(Routes.TODAY) { inclusive = false }
             launchSingleTop = true
+            restoreState = true
         }
 
         is DeepLinkTarget.Detail -> navigate(Routes.detail(target.date)) {

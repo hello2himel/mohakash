@@ -37,6 +37,13 @@ data class DetailUiState(
     val updateDaily: Boolean = true,
     val wallpaperPreviewPath: String? = null,
     val wallpaperMeta: WallpaperMeta? = null,
+    /**
+     * True when the entry is shown from the local cache because the network fetch failed.
+     *
+     * Only used for the offline note of the viewer; every other behaviour of the screen is
+     * unchanged.
+     */
+    val isShowingCachedCopy: Boolean = false,
 )
 
 /** One-shot events of the entry detail screen. */
@@ -99,6 +106,7 @@ class DetailViewModel(
             val settings = settingsStore.current()
             _state.value = _state.value.copy(
                 isLoading = true,
+                isShowingCachedCopy = false,
                 scaling = settings.wallpaperScaling,
                 updateDaily = settings.updateAutomatically,
                 wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
@@ -116,11 +124,19 @@ class DetailViewModel(
 
             val remote = runCatching { apodRepository.fetchEntry(date) }.getOrNull()
             if (remote != null) {
-                _state.value = _state.value.copy(isLoading = false, entry = remote, hasError = false)
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    entry = remote,
+                    hasError = false,
+                    isShowingCachedCopy = false,
+                )
                 observeFavourite(remote)
             } else if (local == null) {
                 _state.value = _state.value.copy(isLoading = false, hasError = true)
                 _events.send(DetailEvent.ShowMessage(MESSAGE_LOAD_FAILED))
+            } else {
+                // The cached record stays on screen; the viewer explains that it is the saved copy.
+                _state.value = _state.value.copy(isLoading = false, isShowingCachedCopy = true)
             }
         }
     }

@@ -154,8 +154,8 @@ android {
         // in this file. Keep these in sync with version.properties; the
         // appVersionCode/appVersionName assignments below are the actual
         // source of truth for builds and CI overrides.
-        versionCode = 5
-        versionName = "1.0.4"
+        versionCode = 6
+        versionName = "1.0.5"
 
         versionCode = appVersionCode
         versionName = appVersionName

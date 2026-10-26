@@ -8,6 +8,8 @@ import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.remote.ApodApi
 import app.mohakash.apod.data.remote.BaseUrlResolver
 import app.mohakash.apod.data.repository.ApodRepository
+import app.mohakash.apod.data.repository.ArchiveIndexRepository
+import app.mohakash.apod.data.repository.FileArchiveIndexRepository
 import app.mohakash.apod.data.repository.FavouritesRepository
 import app.mohakash.apod.data.repository.ImageRepository
 import app.mohakash.apod.data.storage.CacheManager
@@ -84,6 +86,20 @@ class AppContainer(context: Context) {
 
     val favouritesRepository: FavouritesRepository by lazy {
         FavouritesRepository(database.favouriteDao())
+    }
+
+    /**
+     * The archive index, cached in `cacheDir/feed/archive-index.json`.
+     *
+     * One app-scoped instance is shared by the feed, its search and its filter sheet: parsing the
+     * 5 MiB payload once and keeping the result in memory is what makes the combined screen cheap.
+     */
+    val archiveIndexRepository: ArchiveIndexRepository by lazy {
+        FileArchiveIndexRepository(
+            api = api,
+            json = json,
+            cacheFile = java.io.File(appContext.cacheDir, "feed/archive-index.json"),
+        )
     }
 
     val imageDownloader: ImageDownloader by lazy { ImageDownloader(httpClient) }

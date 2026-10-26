@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
@@ -62,6 +63,9 @@ import app.mohakash.apod.ui.theme.MohakashTextStyles
  * The bar is at least 56 dp high — it can grow when the font scaling is turned up. It either
  * shows a screen title or — on the detail and settings screens — a back arrow followed by the
  * title.
+ *
+ * It applies the status-bar inset itself: the app is edge-to-edge so the feed can paint under the
+ * status bar, which means every other top bar has to reserve that strip here, in one place.
  */
 @Composable
 fun MohakashTopBar(
@@ -74,6 +78,7 @@ fun MohakashTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .statusBarsPadding()
             .heightIn(min = MohakashDimens.TopBarHeight)
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
