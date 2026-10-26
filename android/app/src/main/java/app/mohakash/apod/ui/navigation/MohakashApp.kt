@@ -68,6 +68,7 @@ fun MohakashApp(
     val showBottomBar = currentRoute == Routes.TODAY || currentRoute == Routes.ARCHIVE
     var feedFullscreen by remember { mutableStateOf(false) }
     var randomRequest by remember { mutableIntStateOf(0) }
+    var latestRequest by remember { mutableIntStateOf(0) }
     var openArchiveOnSaved by remember { mutableStateOf(false) }
     var onboardingCompleted by remember {
         mutableStateOf(startDestination != Routes.ONBOARDING)
@@ -115,6 +116,7 @@ fun MohakashApp(
                             randomRequest += 1
                         },
                         onSelect = { destination ->
+                            if (destination == BottomDestination.FEED) latestRequest += 1
                             navController.navigate(destination.route) {
                                 popUpTo(Routes.TODAY) { saveState = true }
                                 launchSingleTop = true
@@ -166,6 +168,8 @@ fun MohakashApp(
                         },
                         randomRequest = randomRequest,
                         onRandomRequestConsumed = { randomRequest = 0 },
+                        latestRequest = latestRequest,
+                        onLatestRequestConsumed = { latestRequest = 0 },
                         onFullscreenChange = { feedFullscreen = it },
                         bottomBarInset = bottomBarInset,
                     )
@@ -176,6 +180,7 @@ fun MohakashApp(
                         onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
                         onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                         onBrowseFeed = {
+                            latestRequest += 1
                             navController.navigate(Routes.TODAY) {
                                 popUpTo(Routes.TODAY) { saveState = true }
                                 launchSingleTop = true

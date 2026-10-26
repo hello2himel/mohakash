@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,7 +47,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -119,6 +123,9 @@ internal fun FeedPageContent(
     val credit = entry?.displayCredit ?: indexEntry?.displayCredit
     val teaser = entry?.explanation?.takeIf { it.isNotBlank() }
     val hydrationFailed = page.hydration == Hydration.FAILED
+    val favoriteActionLabel = stringResource(
+        if (isFavourite) R.string.feed_remove_favorite else R.string.feed_save,
+    )
 
     Box(
         modifier = modifier
@@ -132,12 +139,13 @@ internal fun FeedPageContent(
             contentDescription = entry?.altText ?: title.ifBlank { null },
         )
 
-        // A tap anywhere on the picture hides the reading overlay and the app's bottom bar.
-        // It sits below the chrome, so buttons and links keep their own clicks.
+        // A single tap hides the reading overlay and the app's bottom bar; a double tap
+        // favourites this APOD. The layer sits below the chrome, so buttons and links keep
+        // their own clicks.
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable(
+                .combinedClickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
                     role = Role.Button,
@@ -145,7 +153,16 @@ internal fun FeedPageContent(
                         if (chromeVisible) R.string.feed_hide_chrome else R.string.feed_show_chrome,
                     ),
                     onClick = onToggleChrome,
-                ),
+                    onDoubleClick = { actions.onToggleFavourite(date) },
+                )
+                .semantics {
+                    customActions = listOf(
+                        CustomAccessibilityAction(favoriteActionLabel) {
+                            actions.onToggleFavourite(date)
+                            true
+                        },
+                    )
+                },
         )
 
         AnimatedVisibility(
