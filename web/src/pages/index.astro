@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ExplanationDrawer from '../components/ExplanationDrawer.astro';
+import AppPromo from '../components/AppPromo.astro';
 import { SITE } from '../lib/site';
 ---
 
@@ -49,6 +50,9 @@ import { SITE } from '../lib/site';
       <button class="btn btn--text panel__more" type="button" data-drawer-trigger>
         Read full explanation <i class="icon ri-arrow-right-line" aria-hidden="true"></i>
       </button>
+      <div class="panel__promo">
+        <AppPromo />
+      </div>
       <div class="panel__nav" id="today-nav" hidden>
         <a class="btn btn--secondary" id="today-previous" href="/archive">
           <i class="icon ri-arrow-left-s-line" aria-hidden="true"></i>

@@ -212,17 +212,18 @@ entry URL (`https://<website>/archive/YYYY-MM-DD`) for the picture currently on
 screen, with a short "Copied" confirmation. It does not copy the bare `/`
 address, so the recipient opens that day's picture with its explanation and
 credit. The action row stays compact: icon + text for the primary *Save HD
-image* and the less obvious *Original APOD page*, and 44px icon-only buttons
-with tooltips for the obvious *Share* and *Browse archive* actions.
+image* and 44px icon-only buttons with tooltips for *Share*, *Original APOD
+page* (using the info “i” icon) and *Browse archive*.
 
-**Android invitation.** The footer asks *“Your home screen is missing the sky.”*
-with a quiet **See the app** link. That opens a centred, accessible modal — a
-tilted phone showing today's APOD, a short explanation of the live wallpaper,
-and one focused **Download for Android** button (direct APK). It has a close
-button in the top-right, a subtle fade/scale entrance and a blurred backdrop;
-it is never opened automatically, and the preview image is fetched only on the
-first open. The [About page](web/src/pages/about.astro) explains the app in
-more detail.
+The Today description is a short preview that ends on a sentence; **Read full
+explanation** opens the complete text in the existing drawer.
+
+**Android invitation.** The Today column now carries the invitation inline
+under the short description — a quiet card with a real app screenshot, the
+live-wallpaper pitch and one focused **Download for Android** button (direct
+APK). It replaces the old footer ribbon and modal, leaving the footer to the
+rights note and secondary links. The [About page](web/src/pages/about.astro)
+explains the app in more detail.
 
 ---
 

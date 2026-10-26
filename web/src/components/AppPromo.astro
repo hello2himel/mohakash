@@ -1,0 +1,43 @@
+---
+/**
+ * The Android invitation, inline on the Today page.
+ *
+ * It sits in the right-hand column under the short description, where the
+ * reading column has room to breathe. The card is deliberately quiet: real
+ * app screenshot, one clear download action, no modal and no gradient.
+ */
+import { SITE } from '../lib/site';
+---
+
+<aside class="app-promo" aria-labelledby="app-promo-title">
+  <div class="app-promo__copy">
+    <p class="app-promo__eyebrow">Mohakash for Android</p>
+    <h2 class="app-promo__title" id="app-promo-title">
+      Your home screen is missing the sky.
+    </h2>
+    <p class="app-promo__text">
+      Each day's picture becomes a live wallpaper and refreshes itself. The full archive stays
+      with you — no account, no advertising, no tracking.
+    </p>
+    <div class="app-promo__actions">
+      <a class="btn btn--primary app-promo__download" href={SITE.androidApkUrl}>
+        <i class="icon ri-download-line" aria-hidden="true"></i>
+        Download for Android
+      </a>
+      <span class="app-promo__meta">Android 7.0+ · direct APK · free and open source</span>
+    </div>
+  </div>
+
+  <div class="app-promo__visual" aria-hidden="true">
+    <div class="app-promo__phone">
+      <img
+        class="app-promo__image"
+        src="/images/app-feed.webp"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <span class="app-promo__badge">Live wallpaper</span>
+  </div>
+</aside>
