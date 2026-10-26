@@ -47,7 +47,7 @@ import app.mohakash.apod.ui.theme.MohakashTextStyles
 @Composable
 fun SavedScreen(
     onOpenEntry: (String) -> Unit,
-    onBrowseArchive: () -> Unit,
+    onBrowseFeed: () -> Unit,
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -59,7 +59,7 @@ fun SavedScreen(
     SavedContent(
         state = state,
         onOpenEntry = onOpenEntry,
-        onBrowseArchive = onBrowseArchive,
+        onBrowseFeed = onBrowseFeed,
         onOpenSettings = onOpenSettings,
         modifier = modifier,
     )
@@ -70,7 +70,7 @@ fun SavedScreen(
 internal fun SavedContent(
     state: SavedUiState,
     onOpenEntry: (String) -> Unit,
-    onBrowseArchive: () -> Unit,
+    onBrowseFeed: () -> Unit,
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -96,7 +96,7 @@ internal fun SavedContent(
                 }
                 IconActionButton(
                     painter = painterResource(R.drawable.ic_settings_24),
-                    contentDescription = stringResource(R.string.today_settings),
+                    contentDescription = stringResource(R.string.feed_settings),
                     onClick = onOpenSettings,
                     tint = MohakashColors.TextMuted,
                 )
@@ -105,7 +105,7 @@ internal fun SavedContent(
 
         when {
             state.isLoading -> SavedSkeleton()
-            state.entries.isEmpty() -> SavedEmptyState(onBrowseArchive = onBrowseArchive)
+            state.entries.isEmpty() -> SavedEmptyState(onBrowseFeed = onBrowseFeed)
             else -> LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
@@ -201,7 +201,7 @@ private fun SavedSkeleton() {
 
 /** The empty state of the saved screen. */
 @Composable
-private fun SavedEmptyState(onBrowseArchive: () -> Unit) {
+private fun SavedEmptyState(onBrowseFeed: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -230,8 +230,8 @@ private fun SavedEmptyState(onBrowseArchive: () -> Unit) {
             modifier = Modifier.padding(top = 12.dp),
         )
         PrimaryButton(
-            text = stringResource(R.string.saved_browse_archive),
-            onClick = onBrowseArchive,
+            text = stringResource(R.string.saved_browse_feed),
+            onClick = onBrowseFeed,
             modifier = Modifier.padding(top = 8.dp),
             contentPadding = PaddingValues(horizontal = 28.dp, vertical = 10.dp),
         )

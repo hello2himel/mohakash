@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import app.mohakash.apod.core.ApiEndpoint
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.repository.ApodRepository
+import app.mohakash.apod.data.repository.ArchiveIndexRepository
 import app.mohakash.apod.work.SyncController
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
@@ -51,6 +52,7 @@ sealed interface AdvancedEvent {
 class AdvancedViewModel(
     private val settingsStore: SettingsStore,
     private val apodRepository: ApodRepository,
+    private val archiveIndexRepository: ArchiveIndexRepository,
     private val syncController: SyncController,
     private val defaultUrl: String,
 ) : ViewModel() {
@@ -127,8 +129,11 @@ class AdvancedViewModel(
         viewModelScope.launch {
             try {
                 // Clear the old server's metadata first: the settings flow emits as soon as the
-                // endpoint is written, and Today must not reload the previous cache in between.
+                // endpoint is written, and the feed must not reload the previous cache in between.
                 apodRepository.clearMetadataCache()
+                // The feed also keeps the archive index in a disk cache; drop it so entries from
+                // the old server can never mix with the new one.
+                archiveIndexRepository.clear()
                 settingsStore.setCustomApiBaseUrl(customUrl)
                 settingsStore.setPreferredBaseUrl(null)
                 // Fetch the new endpoint's latest record in the background. The wallpaper worker

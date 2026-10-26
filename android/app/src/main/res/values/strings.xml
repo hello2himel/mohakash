@@ -3,8 +3,7 @@
     <string name="app_name">mohakash</string>
 
     <!-- Navigation -->
-    <string name="nav_today">Today</string>
-    <string name="nav_archive">Archive</string>
+    <string name="nav_feed">Feed</string>
     <string name="nav_saved">Saved</string>
 
     <!-- Onboarding -->
@@ -15,26 +14,49 @@
     <string name="onboarding_skip">Skip for now</string>
     <string name="onboarding_wifi_note">Pictures download automatically. You can switch on Wi-Fi only downloads in Settings.</string>
 
-    <!-- Today -->
-    <string name="today_title">Today</string>
-    <string name="today_save">Add to saved</string>
-    <string name="today_download">Save image</string>
-    <string name="today_share">Share</string>
-    <string name="today_set_wallpaper">Set live wallpaper</string>
-    <string name="today_wallpaper_active">Wallpaper active</string>
-    <string name="today_settings">Settings</string>
-    <string name="today_open_entry">Open full entry</string>
-    <string name="today_loading">Loading today\'s picture</string>
-    <string name="today_error_title">Today\'s picture isn\'t available</string>
-    <string name="today_error_body">Check your connection and try again.</string>
-    <string name="today_error_try_again">Try again</string>
-    <string name="today_error_archive">Archive</string>
-    <string name="synced_ago">Synced %1$s</string>
-    <string name="last_synced_ago">Last synced %1$s</string>
+    <!-- Feed -->
+    <string name="feed_latest">Latest</string>
+    <string name="feed_latest_synced">Latest · %1$s</string>
+    <string name="feed_refresh_latest">Refresh the latest picture</string>
+    <string name="feed_full_entry">Full entry</string>
+    <string name="feed_search">Search</string>
+    <string name="feed_filters">Filters</string>
+    <string name="feed_settings">Settings</string>
+    <string name="feed_save">Add to saved</string>
+    <string name="feed_download">Save image</string>
+    <string name="feed_share">Share</string>
+    <string name="feed_set_wallpaper">Wallpaper</string>
+    <string name="feed_wallpaper_active">Wallpaper active</string>
+    <string name="feed_watch_on_apod">Watch on APOD</string>
+    <string name="feed_filters_active">%1$s · %2$s</string>
+    <string name="feed_clear_filters">Clear filters</string>
+    <string name="feed_offline_chip">Offline copy</string>
+    <string name="feed_explanation_unavailable">Description unavailable offline</string>
+    <string name="feed_hydration_failed">Couldn\'t load details</string>
+    <string name="feed_retry">Retry</string>
+    <string name="feed_pull_refresh">Pull to refresh</string>
+    <string name="feed_release_refresh">Release to refresh</string>
+    <string name="feed_refreshing">Refreshing…</string>
+    <string name="feed_loading">Loading the feed</string>
+    <string name="feed_loading_older">Loading older years…</string>
+    <string name="feed_end_title">Beginning of the archive</string>
+    <string name="feed_end_body">The first picture is from 16 June 1995.</string>
+    <string name="feed_end_filtered">No older pictures match this filter.</string>
+    <string name="feed_end_offline">Older pictures need a connection.</string>
+    <string name="feed_end_retry">The rest of the archive is not downloaded yet.</string>
+    <string name="feed_back_to_latest">Back to latest</string>
+    <string name="feed_open_saved">Open Saved</string>
+    <string name="feed_error_title">The feed isn\'t available</string>
+    <string name="feed_error_body">Check your connection and try again. Pictures you saved are always available.</string>
+    <string name="feed_error_try_again">Try again</string>
 
-    <!-- Offline -->
-    <string name="offline_banner">You\'re offline. Showing the saved copy from %1$s.</string>
-    <string name="offline_retry">Retry</string>
+    <!-- Search sheet -->
+    <string name="search_hint">Search titles or dates</string>
+    <string name="search_close">Close search</string>
+    <string name="search_no_results">No pictures match &quot;%1$s&quot;</string>
+    <string name="search_no_matches_filter">No pictures match these filters.</string>
+    <string name="search_offline">Search needs a connection the first time.</string>
+    <string name="search_refine">Refine your search to see fewer results.</string>
 
     <!-- Wallpaper sheet -->
     <string name="wallpaper_sheet_title">Live wallpaper</string>
@@ -49,7 +71,7 @@
     <string name="wallpaper_scaling_fill">Fill</string>
     <string name="wallpaper_scaling_fit">Fit</string>
 
-    <!-- Detail -->
+    <!-- Detail (Builder B owns the new entry_* strings in strings_entry.xml) -->
     <string name="detail_back">Back</string>
     <string name="detail_save_image">Save image</string>
     <string name="detail_set_wallpaper">Set as wallpaper</string>
@@ -66,19 +88,10 @@
     <string name="detail_error_body">Check your connection and try again.</string>
     <string name="detail_error_try_again">Try again</string>
 
-    <!-- Archive -->
-    <string name="archive_title">Archive</string>
-    <string name="archive_search_hint">Search titles</string>
-    <string name="archive_filters">Filters</string>
-    <string name="archive_empty_query">No entries match &quot;%1$s&quot;</string>
-    <string name="archive_empty_filters">No entries match your filters.</string>
-    <string name="archive_clear_filters">Clear filters</string>
-    <string name="archive_thumbnail">Thumbnail</string>
-    <string name="archive_loading">Loading archive</string>
-
     <!-- Filter sheet -->
     <string name="filter_title">Filter</string>
     <string name="filter_year">Year</string>
+    <string name="filter_all_years">All years</string>
     <string name="filter_jump_to_date">Jump to date</string>
     <string name="filter_jump_to_date_placeholder">Select a date</string>
     <string name="filter_type">Type</string>
@@ -88,12 +101,9 @@
     <string name="filter_reset">Reset</string>
     <string name="filter_confirm">OK</string>
     <plurals name="filter_show_entries">
-        <item quantity="one">Show %d entry</item>
-        <item quantity="other">Show %d entries</item>
+        <item quantity="one">Show %d picture</item>
+        <item quantity="other">Show %d pictures</item>
     </plurals>
-    <string name="filter_older">Older</string>
-    <string name="filter_close">Close</string>
-    <string name="filter_year_picker_title">Choose a year</string>
 
     <!-- Saved -->
     <string name="saved_title">Saved</string>
@@ -103,11 +113,13 @@
     </plurals>
     <string name="saved_empty_title">Nothing saved yet</string>
     <string name="saved_empty_body">Tap the heart on any picture to keep it here, even offline.</string>
-    <string name="saved_browse_archive">Browse archive</string>
+    <string name="saved_browse_feed">Browse the feed</string>
     <string name="saved_loading">Loading saved pictures</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
+    <string name="settings_section_display">Display</string>
+    <string name="settings_image_scaling_hint">Applies to the feed and the live wallpaper.</string>
     <string name="settings_section_wallpaper">Wallpaper</string>
     <string name="settings_update_automatically">Update automatically</string>
     <string name="settings_update_automatically_hint">Once a day, when Android allows</string>

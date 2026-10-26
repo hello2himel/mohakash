@@ -20,9 +20,11 @@ class DeepLinkParserTest {
     }
 
     @Test
-    fun `archive index opens Archive`() {
+    fun `archive index opens the feed`() {
         assertEquals(DeepLinkTarget.Archive, DeepLinkParser.parse("$website/archive"))
         assertEquals(DeepLinkTarget.Archive, DeepLinkParser.parse("$website/archive/"))
+        // The archive list screen was merged into the feed; the deep link must follow it.
+        assertEquals(Routes.TODAY, DeepLinkTarget.Archive.destination)
     }
 
     @Test

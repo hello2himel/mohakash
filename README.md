@@ -238,6 +238,11 @@ cd android
 > (this machine has JDK 27), point `JAVA_HOME` at a 17 or 21 installation:
 > `export JAVA_HOME=/path/to/jdk-21`.
 
+Since **1.0.5** the app is built around one full-screen feed: page 0 is the latest
+picture, swiping up goes to older pictures and down to newer ones (the list never
+wraps), and search, year/media filters and the uncropped full entry view sit on top
+of it. The bottom bar is **Feed · Saved**; the old Today and Archive screens are gone.
+
 The API base URL is read from `config/site.json` at build time and turned into
 a `BuildConfig` field, so there is no URL in the Kotlin sources. The app tries
 the configured candidates in order (a GitHub **project** site first, then a
@@ -246,9 +251,9 @@ GitHub **user** site) and remembers the one that works.
 **Settings → Advanced → API endpoint** lets you point the app at a self-hosted
 server instead. The endpoint must use HTTPS and serve the same JSON files as the
 public API (`latest.json`, `archive-index.json` and `archive/YYYY.json`). Changing
-it clears cached APOD metadata and schedules a refresh; saved pictures, the
-image cache and the current live wallpaper are kept. The reset button returns to
-the built-in endpoint.
+it clears the cached APOD metadata and the cached archive index and schedules a
+refresh; saved pictures, the image cache and the current live wallpaper are kept.
+The reset button returns to the built-in endpoint.
 
 UI icons come from [Remix Icon](https://remixicon.com); the launcher icon and the
 notification mark are original Mohakash artwork. See
@@ -263,9 +268,9 @@ manifest declares `https://mohakash.netlify.app/` and
 
 | Website URL | App screen |
 |---|---|
-| `https://mohakash.netlify.app/` | Today |
-| `https://mohakash.netlify.app/archive` | Archive |
-| `https://mohakash.netlify.app/archive/YYYY-MM-DD` | Entry detail |
+| `https://mohakash.netlify.app/` | Feed, opened on the latest picture |
+| `https://mohakash.netlify.app/archive` | Feed |
+| `https://mohakash.netlify.app/archive/YYYY-MM-DD` | Full entry |
 
 The host is not hard-coded twice: Gradle turns `config/site.json`'s
 `website.base_url` into the `websiteHost` manifest placeholder, and the parser
@@ -277,12 +282,13 @@ there; update it with the Play App Signing certificate (if Play re-signs the
 bundle) and the F-Droid certificate when those listings go live, then redeploy
 the website. A stale fingerprint makes the links fall back to the browser.
 Published builds older than the one that introduced the intent filters (v1.0.4
-and earlier) cannot open the links; the next release signed with the same key
-will.
+and earlier) cannot open the links; **1.0.5** and later signed with the same key
+can.
 
-The share button shares the public `/archive/YYYY-MM-DD` URL as plain text
-together with the title, date and credit. It does not attach the picture, so
-the recipient always gets a link to the entry page instead of a bare image.
+The share button (in the feed overlay and the full entry view) shares the public
+`/archive/YYYY-MM-DD` URL as plain text together with the title, date and credit. It
+does not attach the picture, so the recipient always gets a link to the entry page
+instead of a bare image.
 
 Test a link on a connected device:
 
@@ -297,18 +303,18 @@ Install and enable the wallpaper:
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Then open the app and press **Set live wallpaper**, or pick
-*Settings → Wallpaper → Mohakash* in Android's own wallpaper picker. Android
-asks for confirmation only the first time; afterwards the app applies a chosen
-archive picture or a new APOD directly to the active live wallpaper without
-re-opening the system picker.
+Then open the app and press **Set live wallpaper** during onboarding or
+**Wallpaper** on a feed picture, or pick *Settings → Wallpaper → Mohakash* in
+Android's own wallpaper picker. Android asks for confirmation only the first
+time; afterwards the app applies a chosen picture or a new APOD directly to the
+active live wallpaper without re-opening the system picker.
 
 The wallpaper is a genuine `WallpaperService` (not a static bitmap set through
 `WallpaperManager`). A `WorkManager` job checks for a new APOD every 6 hours,
 downloads the picture only when the date or image URL changed and swaps it in
 atomically; it works without opening or refreshing the app, subject to Android's
-battery/Doze delays. Fill/Fit is honoured both in the sheet preview and by the
-engine, Wi-Fi only is off by default, and *Hide videos* / *Image scaling* /
+battery/Doze delays. Fill/Fit is honoured by the feed, the sheet preview and by
+the engine, Wi-Fi only is off by default, and *Hide videos* / *Image scaling* /
 *Prefer HD* are in Settings.
 
 ---
@@ -613,8 +619,8 @@ does not break the website.
 * The website caches the last successful `latest.json` and
   `archive-index.json` in the browser so a brief API outage still shows
   something useful, with a status banner and a retry button.
-* The Android app keeps the last successful metadata and image in
-  app-private storage and shows them when the network is unavailable.
+* The Android app keeps the last successful metadata, the archive index and image
+  in app-private storage and shows them when the network is unavailable.
 * **A short mismatch is normal.** The data commit and the Pages publication
   happen in the same run, but GitHub Pages can take a minute to serve the new
   files. The website treats this as a stale-data condition, not an error.
@@ -660,7 +666,7 @@ Current result:
 |---|---|---|
 | Data pipeline | **102 passed** | `python3 -m pytest scripts/tests -q` |
 | Website | **99 passed** | `cd web && npm test` |
-| Android | **127 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
+| Android | **197 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
 | Website type check | 0 errors, 0 warnings | `cd web && npx astro check` |
 | Archive validation | ok | `python3 scripts/sync_apod.py validate` |
 
@@ -714,8 +720,8 @@ a well-formed SHA-256 certificate fingerprint.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests: 102 pipeline, 99 website, 127 Android — all green. The debug APK builds.
-- [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.4**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
+- [x] Automated tests: 102 pipeline, 99 website, 197 Android — all green. The debug APK builds.
+- [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.5**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Wallpaper audit on the Android 15 emulator: the system picker is shown only on first activation; choosing an archive picture updates the active wallpaper in place without a dialog; the background worker replaced that archive picture with the latest APOD without opening the app; a 6-hour periodic job is scheduled; Fill/Fit matches in the sheet preview and on the live wallpaper and changes while active; Wi-Fi only is off by default and Hide videos is in Settings.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.

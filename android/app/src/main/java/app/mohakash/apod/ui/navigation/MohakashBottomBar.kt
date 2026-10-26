@@ -28,20 +28,22 @@ import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 
-/** The three primary destinations of the app. */
+/** The two primary destinations of the app: the feed (which is also the archive) and Saved. */
 enum class BottomDestination(
     val route: String,
     val labelRes: Int,
     val iconRes: Int,
     val activeIconRes: Int,
 ) {
-    TODAY(Routes.TODAY, R.string.nav_today, R.drawable.ic_today_24, R.drawable.ic_today_24),
-    ARCHIVE(Routes.ARCHIVE, R.string.nav_archive, R.drawable.ic_archive_24, R.drawable.ic_archive_24),
+    FEED(Routes.TODAY, R.string.nav_feed, R.drawable.ic_today_24, R.drawable.ic_today_24),
     SAVED(Routes.SAVED, R.string.nav_saved, R.drawable.ic_heart_24, R.drawable.ic_heart_filled_24),
 }
 
 /**
  * The bottom navigation bar.
+ *
+ * It stays solid `SurfaceRaised` — not translucent — so the selected tab and its label keep their
+ * contrast over any picture.
  */
 @Composable
 fun MohakashBottomBar(

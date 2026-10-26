@@ -77,4 +77,10 @@ object MohakashDimens {
 
     /** The radius of an archive thumbnail. */
     val ThumbnailRadius = 8.dp
+
+    /** The radius of the top corners of the feed's bottom overlay. */
+    val FeedOverlayRadius = 20.dp
+
+    /** The size of the glass icon buttons in the feed's top chrome. */
+    val FeedGlassButton = 44.dp
 }
