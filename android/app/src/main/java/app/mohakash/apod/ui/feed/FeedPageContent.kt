@@ -10,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,10 +18,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.rotate
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -36,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -43,18 +45,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.disabled
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import app.mohakash.apod.R
 import app.mohakash.apod.domain.model.MediaType
 import app.mohakash.apod.domain.model.WallpaperScaling
-import app.mohakash.apod.ui.components.IconActionButton
 import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.components.SecondaryButton
 import app.mohakash.apod.ui.components.SkeletonBlock
@@ -68,7 +68,6 @@ import app.mohakash.apod.ui.theme.MohakashTextStyles
  * The overlay chrome is deliberately solid, not a gradient: contrast over a bright photograph
  * comes from a translucent panel and a hairline, never from a blurred pseudo-glass effect.
  */
-private const val OVERLAY_ALPHA = 0.97f
 private const val GLASS_ALPHA = 0.72f
 
 /** Everything the feed page needs from the screen. Grouped so the page stays a small function. */
@@ -116,12 +115,11 @@ internal fun FeedPageContent(
     val teaser = entry?.explanation?.takeIf { it.isNotBlank() }
     val hydrationFailed = page.hydration == Hydration.FAILED
 
-    BoxWithConstraints(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(MohakashColors.Background),
     ) {
-        val overlayMaxHeight = maxHeight * 0.62f
         FeedImageLayer(
             page = page,
             scaling = scaling,
@@ -179,148 +177,235 @@ internal fun FeedPageContent(
             }
         }
 
-        // ---- Bottom overlay --------------------------------------------------------------
-        // Solid translucent panel with a 1 dp hairline at its top edge. Deliberately not a
-        // gradient: the photograph stays the only "effect" on screen.
+        // ---- Bottom gradient, reading copy and the action rail -------------------------
+        // The gradient is functional rather than decorative: the picture stays visible at the
+        // top while the title, teaser and controls remain readable over its bottom edge.
         AnimatedVisibility(
             visible = chromeVisible,
             enter = fadeIn(tween(180)),
             exit = fadeOut(tween(180)),
-            modifier = Modifier.align(Alignment.BottomCenter),
+            modifier = Modifier.fillMaxSize(),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(max = overlayMaxHeight)
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = MohakashDimens.FeedOverlayRadius,
-                            topEnd = MohakashDimens.FeedOverlayRadius,
+            Box(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                0f to Color.Transparent,
+                                0.42f to Color.Transparent,
+                                0.66f to MohakashColors.Background.copy(alpha = 0.62f),
+                                0.84f to MohakashColors.Background.copy(alpha = 0.9f),
+                                1f to MohakashColors.Background,
+                            ),
                         ),
-                    )
-                    .background(MohakashColors.Background.copy(alpha = OVERLAY_ALPHA)),
-            ) {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(MohakashColors.Border),
-            )
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = MohakashDimens.SidePadding)
-                    .padding(top = 14.dp, bottom = 12.dp),
-            ) {
-                Text(
-                    text = feedCreditLine(date, credit),
-                    style = MohakashTextStyles.Caption,
-                    color = MohakashColors.TextMuted,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
                 )
-                Spacer(Modifier.height(6.dp))
-                Text(
-                    text = title.ifBlank { stringResource(R.string.detail_image_unavailable) },
-                    style = MohakashTextStyles.PageTitle,
-                    color = MohakashColors.Text,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                if (teaser != null) {
-                    Spacer(Modifier.height(6.dp))
-                    Text(
-                        text = teaser,
-                        style = MohakashTextStyles.BodyBase,
-                        color = MohakashColors.TextPreview,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                } else if (isOffline) {
-                    Spacer(Modifier.height(6.dp))
-                    Text(
-                        text = stringResource(R.string.feed_explanation_unavailable),
-                        style = MohakashTextStyles.Caption,
-                        color = MohakashColors.TextMuted,
-                    )
-                }
 
-                if (hydrationFailed) {
-                    Spacer(Modifier.height(8.dp))
-                    HydrationFailureRow(onRetry = { actions.onRetryHydration(date) })
-                }
-
-                Spacer(Modifier.height(12.dp))
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .fillMaxWidth()
+                        .padding(start = MohakashDimens.SidePadding, end = 92.dp, bottom = 14.dp),
+                    verticalAlignment = Alignment.Bottom,
                 ) {
-                    FeedActionIcon(
+                    val dateLabel = feedDisplayDate(date).uppercase()
+                    if (dateLabel.isNotBlank()) {
+                        FeedDateRail(dateLabel)
+                        Spacer(Modifier.width(10.dp))
+                    }
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        if (!credit.isNullOrBlank()) {
+                            Text(
+                                text = credit,
+                                style = MohakashTextStyles.Caption,
+                                color = MohakashColors.TextMuted,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
+                        Text(
+                            text = title.ifBlank { stringResource(R.string.detail_image_unavailable) },
+                            style = MohakashTextStyles.PageTitle,
+                            color = MohakashColors.Text,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        if (teaser != null) {
+                            Text(
+                                text = teaser,
+                                style = MohakashTextStyles.BodyBase,
+                                color = MohakashColors.TextPreview,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        } else if (isOffline) {
+                            Text(
+                                text = stringResource(R.string.feed_explanation_unavailable),
+                                style = MohakashTextStyles.Caption,
+                                color = MohakashColors.TextMuted,
+                            )
+                        }
+                        if (hydrationFailed) {
+                            HydrationFailureRow(onRetry = { actions.onRetryHydration(date) })
+                        }
+                        Row(
+                            modifier = Modifier.padding(top = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        ) {
+                            when {
+                                isVideo -> WatchOnApodPill(
+                                    onClick = {
+                                        val url = entry?.apodUrl ?: indexEntry?.apodUrl
+                                        if (!url.isNullOrBlank()) actions.onOpenLink(url) else actions.onOpenEntry(date)
+                                    },
+                                )
+
+                                isOffline -> TextAction(
+                                    text = stringResource(R.string.feed_retry),
+                                    onClick = actions.onRefresh,
+                                )
+
+                                else -> WallpaperPill(
+                                    active = wallpaperActive,
+                                    enabled = entry != null,
+                                    onClick = { actions.onOpenWallpaper(date) },
+                                )
+                            }
+                            TextAction(
+                                text = stringResource(R.string.feed_full_entry),
+                                onClick = { actions.onOpenEntry(date) },
+                            )
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 10.dp, bottom = 18.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(13.dp),
+                ) {
+                    FeedRailAction(
                         painter = painterResource(
                             if (isFavourite) R.drawable.ic_heart_filled_24 else R.drawable.ic_heart_24,
                         ),
+                        label = stringResource(if (isFavourite) R.string.feed_saved_state else R.string.feed_save_label),
                         contentDescription = stringResource(R.string.feed_save),
-                        onClick = { actions.onToggleFavourite(date) },
                         tint = if (isFavourite) MohakashColors.Accent else MohakashColors.Text,
                         enabled = entry != null,
-                    )
-                    FeedActionIcon(
-                        painter = painterResource(R.drawable.ic_share_24),
-                        contentDescription = stringResource(R.string.feed_share),
-                        onClick = { actions.onShare(date) },
-                        tint = MohakashColors.Text,
+                        onClick = { actions.onToggleFavourite(date) },
                     )
                     if (!isVideo && !isOffline) {
-                        FeedActionIcon(
+                        FeedRailAction(
                             painter = painterResource(R.drawable.ic_download_24),
+                            label = stringResource(R.string.feed_download_label),
                             contentDescription = stringResource(R.string.feed_download),
-                            onClick = { actions.onSaveImage(date) },
                             tint = MohakashColors.Text,
                             enabled = entry != null,
+                            onClick = { actions.onSaveImage(date) },
                         )
                     }
-                    Spacer(Modifier.weight(1f))
-                    if (isVideo) {
-                        WatchOnApodPill(
-                            onClick = {
-                                val url = entry?.apodUrl ?: indexEntry?.apodUrl
-                                if (!url.isNullOrBlank()) actions.onOpenLink(url) else actions.onOpenEntry(date)
-                            },
-                        )
-                    } else if (!isOffline) {
-                        WallpaperPill(
-                            active = wallpaperActive,
-                            enabled = entry != null,
-                            onClick = { actions.onOpenWallpaper(date) },
-                        )
-                    }
+                    FeedRailAction(
+                        painter = painterResource(R.drawable.ic_share_24),
+                        label = stringResource(R.string.feed_share),
+                        contentDescription = stringResource(R.string.feed_share),
+                        tint = MohakashColors.Text,
+                        onClick = { actions.onShare(date) },
+                    )
                 }
-
-                Spacer(Modifier.height(12.dp))
-                FullEntryButton(onClick = { actions.onOpenEntry(date) })
-
-                if (isOffline) {
-                    Spacer(Modifier.height(4.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        Text(
-                            text = stringResource(R.string.feed_offline_chip),
-                            style = MohakashTextStyles.Caption,
-                            color = MohakashColors.TextMuted,
-                            modifier = Modifier.weight(1f),
-                        )
-                        TextAction(
-                            text = stringResource(R.string.feed_retry),
-                            onClick = actions.onRefresh,
-                        )
-                    }
-                }
-            }
             }
         }
+
+    }
+}
+
+/** The vertical date on the left edge, in the style of a short-video caption rail. */
+@Composable
+private fun FeedDateRail(label: String) {
+    Column(
+        modifier = Modifier
+            .width(22.dp)
+            .height(150.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom,
+    ) {
+        Box(
+            modifier = Modifier
+                .width(2.dp)
+                .height(24.dp)
+                .background(MohakashColors.Accent),
+        )
+        Spacer(Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = label,
+                style = MohakashTextStyles.Caption.copy(
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.2.sp,
+                ),
+                color = MohakashColors.TextMuted,
+                maxLines = 1,
+                softWrap = false,
+                // The text is measured horizontally, then rotated into the narrow rail.
+                modifier = Modifier
+                    .requiredWidth(140.dp)
+                    .rotate(-90f),
+            )
+        }
+    }
+}
+
+/** One labelled action in the right-hand rail. */
+@Composable
+private fun FeedRailAction(
+    painter: Painter,
+    label: String,
+    contentDescription: String,
+    tint: Color,
+    onClick: () -> Unit,
+    enabled: Boolean = true,
+) {
+    Column(
+        modifier = Modifier.width(56.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(46.dp)
+                .clip(CircleShape)
+                .background(MohakashColors.Surface.copy(alpha = 0.62f))
+                .border(1.dp, MohakashColors.BorderStrong, CircleShape)
+                .clickable(enabled = enabled, role = Role.Button, onClick = onClick),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                painter = painter,
+                contentDescription = contentDescription,
+                tint = if (enabled) tint else tint.copy(alpha = 0.45f),
+                modifier = Modifier.size(23.dp),
+            )
+        }
+        Spacer(Modifier.height(3.dp))
+        Text(
+            text = label,
+            style = MohakashTextStyles.Caption.copy(
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Medium,
+            ),
+            color = MohakashColors.Text,
+            maxLines = 1,
+        )
     }
 }
 
@@ -480,24 +565,6 @@ private fun FeedGlassIconButton(
     }
 }
 
-/** A 48 dp action icon that can be disabled while its page is still loading. */
-@Composable
-private fun FeedActionIcon(
-    painter: Painter,
-    contentDescription: String,
-    onClick: () -> Unit,
-    tint: Color,
-    enabled: Boolean = true,
-) {
-    IconActionButton(
-        painter = painter,
-        contentDescription = contentDescription,
-        onClick = { if (enabled) onClick() },
-        tint = if (enabled) tint else tint.copy(alpha = 0.45f),
-        modifier = if (enabled) Modifier else Modifier.semantics { disabled() },
-    )
-}
-
 /** The "Wallpaper" / "Wallpaper active" pill of the action row. */
 @Composable
 private fun WallpaperPill(active: Boolean, enabled: Boolean, onClick: () -> Unit) {
@@ -556,36 +623,6 @@ private fun WatchOnApodPill(onClick: () -> Unit) {
             text = stringResource(R.string.feed_watch_on_apod),
             style = MohakashTextStyles.UiSmall.copy(fontWeight = FontWeight.SemiBold),
             color = MohakashColors.Text,
-        )
-    }
-}
-
-/** The full-width outlined button that opens the uncropped detail viewer. */
-@Composable
-private fun FullEntryButton(onClick: () -> Unit) {
-    val shape = RoundedCornerShape(MohakashDimens.ButtonRadius)
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 48.dp)
-            .clip(shape)
-            .border(1.dp, MohakashColors.BorderStrong, shape)
-            .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            text = stringResource(R.string.feed_full_entry),
-            style = MohakashTextStyles.UiSmallSemiBold,
-            color = MohakashColors.Text,
-        )
-        Spacer(Modifier.width(4.dp))
-        Icon(
-            painter = painterResource(R.drawable.ic_chevron_right_24),
-            contentDescription = null,
-            tint = MohakashColors.TextMuted,
-            modifier = Modifier.size(18.dp),
         )
     }
 }
