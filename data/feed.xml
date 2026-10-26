@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 25 Oct 2026 12:35:34 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2026 14:17:59 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>M42: The Great Nebula in Orion</title>
+      <link>https://science.nasa.gov/image-article/apod/2026-october-26-m42-the-great-nebula-in-orion/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod/2026-october-26-m42-the-great-nebula-in-orion/</guid>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The Great Nebula in Orion, an immense, nearby starbirth region, is one the most famous of all astronomical nebulas. Here, glowing gas surrounds hot young stars at the edge of an immense interstellar molecular cloud only 1500 light-years away. In the featured deep image in assigned colors highlighted by emission in hydrogen, wisps and sheets of dust and gas are particularly evident. The Great Nebula in Orion can be found with the unaided eye near the easily identifiable belt of three stars in the popular constellation Orion. In addition to housing a bright open cluster of stars known as the…<br/>Credit: Roberto Palaia</description>
+    </item>
     <item>
       <title>Dark Matter in a Simulated Universe</title>
       <link>https://science.nasa.gov/image-article/apod-2026-october-25-dark-matter-in-a-simulated-universe/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-27-andromeda-before-photoshop/</guid>
       <pubDate>Sun, 27 Sep 2026 00:00:00 GMT</pubDate>
       <description>What does the Andromeda galaxy really look like? The featured before image shows how our Milky Way Galaxy's closest major galactic neighbor really appears in a long exposure through Earth's busy skies and with a digital camera that introduces normal imperfections. The picture is a stack of 223 images, each a 300 second exposure, taken from a garden observatory in Portugal during 2019. Obvious image deficiencies include bright parallel airplane trails, long and continuous satellite trails, short cosmic ray streaks, and bad pixels. In the after image, these imperfections were actually not…<br/>Credit: Kees Scherer</description>
-    </item>
-    <item>
-      <title>Mirrored Meteor and Milky Way</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-september-26-mirrored-meteor-and-milky-way/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-26-mirrored-meteor-and-milky-way/</guid>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>On August 15, this perseid meteor streaked through night skies over the Observatorio del Roque de los Muchachos at La Palma, Canary Islands, Spain. The bright and colorful meteor trail was captured next to the central Milky Way, whose dark interstellar dust clouds and luminous starlight reach above the horizon. In the foreground of this tantalizing celestial scene is the 23 meter diameter mirror of the prototype Large-Sized Telescope (LST-1). LST-1 is the first telescope constructed at the northern hemisphere site of the innovative Cherenkov Telescope Array Observatory. With 198 hexagonal…<br/>Credit: Jeff Dai (TWAN)</description>
     </item>
   </channel>
 </rss>
