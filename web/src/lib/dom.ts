@@ -76,6 +76,11 @@ export interface ActionOptions {
   ariaLabel?: string;
   /** RemixIcon class, e.g. `ri-download-line`. */
   icon?: string;
+  /**
+   * Render only the icon, with the label kept for assistive technology and the
+   * native title tooltip. Use this only for actions whose icon is obvious.
+   */
+  iconOnly?: boolean;
 }
 
 /** Fill an action with an optional leading RemixIcon and its label. */
@@ -83,6 +88,21 @@ function fillAction(
   node: HTMLAnchorElement | HTMLButtonElement,
   options: ActionOptions,
 ): void {
+  if (options.iconOnly) {
+    node.classList.add('btn--icon-only');
+    if (options.icon) {
+      const icon = document.createElement('i');
+      icon.className = `icon ${options.icon}`;
+      icon.setAttribute('aria-hidden', 'true');
+      node.append(icon);
+    }
+    node.append(el('span', 'visually-hidden btn__label', options.label));
+    const name = options.ariaLabel ?? options.label;
+    node.setAttribute('aria-label', name);
+    node.title = name;
+    return;
+  }
+
   const label = el('span', 'btn__label', options.label);
   if (!options.icon) {
     node.append(label);

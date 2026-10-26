@@ -118,6 +118,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
     label: 'Copy link',
     variant: 'secondary',
     icon: 'ri-link',
+    iconOnly: true,
   }) as HTMLButtonElement;
   copy.addEventListener('click', () => {
     void copyWithFeedback(copy, window.location.href);

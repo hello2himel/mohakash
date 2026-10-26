@@ -211,7 +211,9 @@ into the accessible full-screen menu.
 entry URL (`https://<website>/archive/YYYY-MM-DD`) for the picture currently on
 screen, with a short "Copied" confirmation. It does not copy the bare `/`
 address, so the recipient opens that day's picture with its explanation and
-credit.
+credit. The action row stays compact: icon + text for the primary *Save HD
+image* and the less obvious *Original APOD page*, and 44px icon-only buttons
+with tooltips for the obvious *Share* and *Browse archive* actions.
 
 **Android invitation.** The first footer line asks *“Your home screen is missing
 the sky.”* and expands into a small preview of today's APOD inside a tilted

@@ -856,6 +856,41 @@ pre {
   line-height: 1;
 }
 
+/* Obvious, secondary actions can be a single 44px icon. */
+.btn--icon-only {
+  position: relative;
+  width: 44px;
+  min-width: 44px;
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+.btn--icon-only .icon {
+  font-size: 19px;
+}
+
+.btn__feedback {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 15;
+  padding: 4px 8px;
+  border: var(--border-width) solid var(--border);
+  border-radius: 5px;
+  background: var(--surface-strong);
+  color: var(--text);
+  font-size: var(--text-11);
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.btn--feedback-visible .icon {
+  color: var(--accent);
+}
+
 .btn:hover {
   text-decoration: none;
 }
