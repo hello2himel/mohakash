@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
@@ -295,7 +296,9 @@ internal fun FeedPageContent(
                             if (isFavourite) R.drawable.ic_heart_filled_24 else R.drawable.ic_heart_24,
                         ),
                         label = stringResource(if (isFavourite) R.string.feed_saved_state else R.string.feed_save_label),
-                        contentDescription = stringResource(R.string.feed_save),
+                        contentDescription = stringResource(
+                            if (isFavourite) R.string.feed_remove_favorite else R.string.feed_save,
+                        ),
                         tint = if (isFavourite) MohakashColors.Accent else MohakashColors.Text,
                         enabled = entry != null,
                         onClick = { actions.onToggleFavourite(date) },
@@ -321,6 +324,15 @@ internal fun FeedPageContent(
             }
         }
 
+        // A 4 dp opaque skirt covers the pixel seam between the feed and the bottom bar on
+        // fractional densities.
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(4.dp)
+                .background(MohakashColors.Background),
+        )
     }
 }
 
@@ -329,6 +341,7 @@ internal fun FeedPageContent(
 private fun FeedDateRail(label: String) {
     Column(
         modifier = Modifier
+            .offset(y = (-24).dp)
             .width(22.dp)
             .height(150.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

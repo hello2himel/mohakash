@@ -70,6 +70,7 @@ fun ArchiveScreen(
     onOpenEntry: (String) -> Unit,
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
+    showTopBar: Boolean = true,
 ) {
     val viewModel = containerViewModel { container ->
         ArchiveViewModel(
@@ -95,6 +96,7 @@ fun ArchiveScreen(
         onClearFilters = viewModel::reset,
         onLoadMore = viewModel::loadMore,
         modifier = modifier,
+        showTopBar = showTopBar,
     )
 
     if (showFilters) {
@@ -122,6 +124,7 @@ internal fun ArchiveContent(
     onClearFilters: () -> Unit,
     onLoadMore: () -> Unit,
     modifier: Modifier = Modifier,
+    showTopBar: Boolean = true,
 ) {
     val listState = rememberLazyListState()
 
@@ -139,17 +142,19 @@ internal fun ArchiveContent(
             .fillMaxSize()
             .background(MohakashColors.Background),
     ) {
-        MohakashTopBar(
-            title = stringResource(R.string.archive_title),
-            actions = {
-                IconActionButton(
-                    painter = painterResource(R.drawable.ic_settings_24),
-                    contentDescription = stringResource(R.string.feed_settings),
-                    onClick = onOpenSettings,
-                    tint = MohakashColors.TextMuted,
-                )
-            },
-        )
+        if (showTopBar) {
+            MohakashTopBar(
+                title = stringResource(R.string.archive_title),
+                actions = {
+                    IconActionButton(
+                        painter = painterResource(R.drawable.ic_settings_24),
+                        contentDescription = stringResource(R.string.feed_settings),
+                        onClick = onOpenSettings,
+                        tint = MohakashColors.TextMuted,
+                    )
+                },
+            )
+        }
 
         SearchField(
             query = state.query,
