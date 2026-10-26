@@ -30,8 +30,8 @@
 
     <!-- Notes and actions -->
     <string name="entry_offline_note">Showing the saved copy. The description may be incomplete.</string>
-    <string name="entry_action_save">Add to saved</string>
-    <string name="entry_action_unsave">Remove from saved</string>
+    <string name="entry_action_save">Add to favorites</string>
+    <string name="entry_action_unsave">Remove from favorites</string>
     <string name="entry_action_share">Share</string>
     <string name="entry_action_settings">Settings</string>
 
