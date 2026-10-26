@@ -885,6 +885,12 @@ pre {
   padding: 0 var(--space-2);
 }
 
+/* Keep the button's comfortable height/touch target, but line its text up
+   with the description above; this needs to beat the shorthand above. */
+.panel__more.btn--text {
+  padding-left: 0;
+}
+
 .btn[disabled],
 .btn[aria-disabled='true'] {
   opacity: 0.45;
