@@ -247,6 +247,11 @@ list never wraps), and search sits in the top-left corner. Tapping a picture hid
 every overlay and the bottom bar; tapping again brings them back. Archive keeps the
 year/media filters and jump-to-date, and the uncropped entry view is still a tap away.
 
+The interface follows the phone language, and on Android 13+ Mohakash appears in the
+system per-app language picker. The UI is translated into English (including UK/US
+spellings), Bengali, Hindi, German, Spanish, French, Indonesian, Italian, Portuguese, Japanese,
+Korean, Turkish, Vietnamese and Simplified Chinese; NASA's APOD copy remains in English.
+
 The API base URL is read from `config/site.json` at build time and turned into
 a `BuildConfig` field, so there is no URL in the Kotlin sources. The app tries
 the configured candidates in order (a GitHub **project** site first, then a

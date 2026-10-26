@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">피드</string>
+    <string name="nav_archive">아카이브</string>
+    <string name="nav_saved">저장한 항목</string>
+    <string name="nav_random_description">무작위 사진 열기</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">배경화면 미리보기</string>
+    <string name="onboarding_headline">오늘의 하늘을 홈 화면에서</string>
+    <string name="onboarding_subtitle">매일 새로운 천체 사진을 만나보세요. 계정이 필요 없습니다.</string>
+    <string name="onboarding_set_wallpaper">라이브 배경화면 설정</string>
+    <string name="onboarding_skip">나중에 하기</string>
+    <string name="onboarding_wifi_note">사진은 자동으로 다운로드됩니다. 설정에서 Wi-Fi에서만 다운로드하도록 바꿀 수 있습니다.</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">자세히 보기</string>
+    <string name="feed_search">검색</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">설정</string>
+    <string name="feed_save">즐겨찾기에 추가</string>
+    <string name="feed_save_label">즐겨찾기</string>
+    <string name="feed_saved_state">즐겨찾기됨</string>
+    <string name="feed_download_label">다운로드</string>
+    <string name="feed_remove_favorite">즐겨찾기에서 삭제</string>
+    <string name="feed_download">이미지 다운로드</string>
+    <string name="feed_share">공유</string>
+    <string name="feed_set_wallpaper">배경화면 설정</string>
+    <string name="feed_wallpaper_active">배경화면 적용됨</string>
+    <string name="feed_watch_on_apod">APOD에서 보기</string>
+    <string name="feed_clear_filters">필터 지우기</string>
+    <string name="feed_offline_chip">오프라인 사본</string>
+    <string name="feed_random_title">사진을 고르는 중…</string>
+    <string name="feed_random_body">아카이브에서 무작위 사진을 찾고 있습니다.</string>
+    <string name="feed_random_cancel">취소</string>
+    <string name="feed_random_unavailable">지금은 무작위 사진을 사용할 수 없습니다.</string>
+    <string name="feed_hide_chrome">세부정보 숨기기</string>
+    <string name="feed_show_chrome">세부정보 표시</string>
+    <string name="feed_swipe_hint_title">위로 밀기</string>
+    <string name="feed_swipe_hint_body">다른 사진 더 보기</string>
+    <string name="feed_explanation_unavailable">오프라인에서는 설명을 볼 수 없습니다</string>
+    <string name="feed_hydration_failed">세부정보를 불러오지 못했습니다</string>
+    <string name="feed_retry">다시 시도</string>
+    <string name="feed_pull_refresh">당겨서 새로고침</string>
+    <string name="feed_release_refresh">놓아서 새로고침</string>
+    <string name="feed_refreshing">새로고침 중…</string>
+    <string name="feed_loading">피드를 불러오는 중</string>
+    <string name="feed_loading_older">이전 연도 불러오는 중…</string>
+    <string name="feed_end_title">아카이브의 시작</string>
+    <string name="feed_end_body">첫 사진은 1995년 6월 16일의 사진입니다.</string>
+    <string name="feed_end_filtered">이 필터에 맞는 이전 사진이 없습니다.</string>
+    <string name="feed_end_offline">이전 사진을 보려면 연결이 필요합니다.</string>
+    <string name="feed_end_retry">나머지 아카이브는 아직 다운로드되지 않았습니다.</string>
+    <string name="feed_back_to_latest">최신으로 돌아가기</string>
+    <string name="feed_open_saved">저장한 항목 열기</string>
+    <string name="feed_error_title">피드를 사용할 수 없습니다</string>
+    <string name="feed_error_body">연결을 확인하고 다시 시도해 주세요. 저장한 사진은 언제든 볼 수 있습니다.</string>
+    <string name="feed_error_try_again">다시 시도</string>
+
+    <!-- Archive -->
+    <string name="archive_title">아카이브</string>
+    <string name="archive_search_hint">제목 검색</string>
+    <string name="archive_filters">필터</string>
+    <string name="archive_empty_query">‘%1$s’에 해당하는 항목이 없습니다</string>
+    <string name="archive_empty_filters">필터에 맞는 항목이 없습니다.</string>
+    <string name="archive_clear_filters">필터 지우기</string>
+    <string name="archive_loading">아카이브 불러오는 중</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">제목 또는 날짜 검색</string>
+    <string name="search_close">검색 닫기</string>
+    <string name="search_no_results">‘%1$s’에 해당하는 사진이 없습니다</string>
+    <string name="search_no_matches_filter">이 필터에 맞는 사진이 없습니다.</string>
+    <string name="search_offline">검색은 처음 한 번만 연결이 필요합니다.</string>
+    <string name="search_refine">검색 범위를 좁히면 결과가 줄어듭니다.</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">라이브 배경화면</string>
+    <string name="wallpaper_preview">미리보기</string>
+    <string name="wallpaper_selected_image">선택한 이미지</string>
+    <string name="wallpaper_scaling">배율</string>
+    <string name="wallpaper_update_daily">매일 업데이트</string>
+    <string name="wallpaper_preview_and_set">라이브 배경화면 설정</string>
+    <string name="wallpaper_apply_now">지금 적용</string>
+    <string name="wallpaper_helper">라이브 배경화면 활성화는 Android에서 한 번만 요청합니다. 이후에는 새 사진이 자동으로 적용되며, 배터리 최적화 때문에 지연될 수 있습니다.</string>
+    <string name="wallpaper_helper_active">라이브 배경화면이 활성화되어 있습니다. 선택한 사진과 배율은 시스템 선택 화면을 열지 않고 바로 적용됩니다.</string>
+    <string name="wallpaper_scaling_fill">채우기</string>
+    <string name="wallpaper_scaling_fit">맞추기</string>
+
+    <!-- Detail (Builder B owns the new entry_* strings in strings_entry.xml) -->
+    <string name="detail_back">뒤로</string>
+    <string name="detail_save_image">이미지 저장</string>
+    <string name="detail_set_wallpaper">배경화면으로 설정</string>
+    <string name="detail_original_page">APOD 원본 페이지</string>
+    <string name="detail_hd_image">HD 이미지</string>
+    <string name="detail_video_chip">동영상</string>
+    <string name="detail_watch_original">원본 페이지에서 보기</string>
+    <string name="detail_video_note">동영상 항목은 배경화면으로 사용할 수 없습니다. 현재 배경화면은 그대로 유지됩니다.</string>
+    <string name="detail_image_unavailable">이미지를 사용할 수 없음</string>
+    <string name="detail_loading">항목 불러오는 중</string>
+    <string name="detail_error_title">이 항목을 사용할 수 없습니다</string>
+    <string name="detail_error_body">연결을 확인하고 다시 시도해 주세요.</string>
+    <string name="detail_error_try_again">다시 시도</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">필터</string>
+    <string name="filter_year">연도</string>
+    <string name="filter_all_years">모든 연도</string>
+    <string name="filter_jump_to_date">날짜로 이동</string>
+    <string name="filter_jump_to_date_placeholder">날짜 선택</string>
+    <string name="filter_type">유형</string>
+    <string name="filter_all">전체</string>
+    <string name="filter_images">이미지</string>
+    <string name="filter_videos">동영상</string>
+    <string name="filter_older">이전</string>
+    <string name="filter_close">닫기</string>
+    <string name="filter_year_picker_title">연도 선택</string>
+    <string name="filter_reset">초기화</string>
+    <string name="filter_confirm">확인</string>
+    <plurals name="filter_show_entries">
+        <item quantity="other">사진 %d장 표시</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">저장한 항목</string>
+    <plurals name="saved_count">
+        <item quantity="other">사진 %d장 · 오프라인에서 사용 가능</item>
+    </plurals>
+    <string name="saved_empty_title">저장한 항목이 아직 없습니다</string>
+    <string name="saved_empty_body">사진의 하트를 탭하면 오프라인에서도 여기에 보관됩니다.</string>
+    <string name="saved_browse_feed">피드 둘러보기</string>
+    <string name="saved_loading">저장한 사진 불러오는 중</string>
+
+    <!-- Settings -->
+    <string name="settings_title">설정</string>
+    <string name="settings_section_display">화면</string>
+    <string name="settings_image_scaling_hint">피드와 라이브 배경화면에 적용됩니다.</string>
+    <string name="settings_section_wallpaper">배경화면</string>
+    <string name="settings_update_automatically">자동 업데이트</string>
+    <string name="settings_update_automatically_hint">Android가 허용할 때 하루에 한 번</string>
+    <string name="settings_prefer_hd">HD 이미지 우선</string>
+    <string name="settings_prefer_hd_hint">다운로드 용량이 커집니다</string>
+    <string name="settings_wifi_only">Wi-Fi에서만</string>
+    <string name="settings_hide_videos">동영상 숨기기</string>
+    <string name="settings_hide_videos_hint">배경화면 사진을 고를 때 동영상 항목을 제외합니다.</string>
+    <string name="settings_image_scaling">이미지 배율</string>
+    <string name="settings_section_storage">저장공간</string>
+    <string name="settings_image_cache">이미지 캐시</string>
+    <string name="settings_image_cache_size">%1$s 사용 중</string>
+    <string name="settings_clear">지우기</string>
+    <string name="settings_section_advanced">고급</string>
+    <string name="settings_api_endpoint">API 엔드포인트</string>
+    <string name="settings_api_endpoint_default">기본 엔드포인트</string>
+    <string name="settings_api_endpoint_custom">사용자 지정 엔드포인트</string>
+    <string name="settings_section_about">정보</string>
+    <string name="settings_last_synced">마지막 동기화</string>
+    <string name="settings_content_rights">콘텐츠 권리</string>
+    <string name="settings_privacy">개인정보 처리방침</string>
+    <string name="settings_source_code">소스 코드 및 라이선스</string>
+    <string name="settings_third_party_notices">서드파티 라이선스 고지</string>
+    <string name="settings_version">버전</string>
+    <string name="settings_rights_note">이미지에 대한 권리는 제작자에게 있습니다. NASA와 제휴하거나 NASA의 승인을 받은 앱이 아닙니다.</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">고급</string>
+    <string name="settings_advanced_intro">APOD JSON에 자체 서버를 사용할 수 있습니다. 공개 API와 동일한 파일을 제공해야 합니다.</string>
+    <string name="settings_advanced_field_label">API 기본 URL</string>
+    <string name="settings_advanced_field_helper">비워 두면 기본값을 사용합니다. HTTPS만 지원됩니다.</string>
+    <string name="settings_advanced_save">엔드포인트 저장</string>
+    <string name="settings_advanced_saving">저장 중…</string>
+    <string name="settings_advanced_reset">기본값으로 초기화</string>
+    <string name="settings_advanced_saved">엔드포인트를 저장했습니다. 데이터를 새로고침하는 중…</string>
+    <string name="settings_advanced_reset_done">기본 엔드포인트를 사용 중입니다</string>
+    <string name="settings_advanced_already_default">이미 기본 엔드포인트를 사용 중입니다</string>
+    <string name="settings_advanced_already_using">이미 이 엔드포인트를 사용 중입니다</string>
+    <string name="settings_advanced_invalid">쿼리나 프래그먼트가 없는 올바른 HTTPS URL을 입력하세요.</string>
+    <string name="settings_advanced_save_failed">엔드포인트를 저장하지 못했습니다. 다시 시도해 주세요.</string>
+    <string name="settings_advanced_current">현재 엔드포인트</string>
+    <string name="settings_advanced_status">상태</string>
+    <string name="settings_advanced_clear_note">엔드포인트를 변경하면 캐시된 APOD 메타데이터가 지워집니다. 저장한 사진과 현재 배경화면은 유지됩니다.</string>
+    <string name="settings_advanced_format_note">엔드포인트는 latest.json, archive-index.json, archive/YYYY.json을 제공해야 합니다. API 키는 전송되지 않습니다.</string>
+    <string name="settings_advanced_section_guides">API 가이드</string>
+    <string name="settings_advanced_api_docs">API 문서</string>
+    <string name="settings_advanced_api_reference">공개 API 레퍼런스</string>
+    <string name="settings_advanced_latest_example">latest.json 예시</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">이미지 캐시를 지울까요?</string>
+    <string name="clear_cache_body">다운로드한 이미지 중 %1$s가 삭제됩니다. 저장한 사진과 현재 배경화면은 유지됩니다.</string>
+    <string name="clear_cache_cancel">취소</string>
+    <string name="clear_cache_confirm">지우기</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">이미지 캐시를 지웠습니다</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">홈 화면에서 만나는 오늘의 천문 사진.</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">배경화면 업데이트</string>
+    <string name="notification_channel_wallpaper_description">라이브 배경화면 사진이 바뀌면 알려줍니다.</string>
+    <string name="notification_no_description">설명이 없습니다.</string>
+    <string name="notification_action_open_app">앱 열기</string>
+    <string name="notification_action_view_apod">APOD에서 보기</string>
+    <string name="notification_action_settings">설정</string>
+</resources>

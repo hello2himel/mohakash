@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">Fil</string>
+    <string name="nav_archive">Archives</string>
+    <string name="nav_saved">Enregistrés</string>
+    <string name="nav_random_description">Ouvrir une image au hasard</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">Aperçu du fond d\'écran</string>
+    <string name="onboarding_headline">Le ciel du jour, sur votre écran d\'accueil</string>
+    <string name="onboarding_subtitle">Une nouvelle image astronomique chaque jour. Sans compte.</string>
+    <string name="onboarding_set_wallpaper">Définir un fond animé</string>
+    <string name="onboarding_skip">Passer pour l\'instant</string>
+    <string name="onboarding_wifi_note">Les images se téléchargent automatiquement. Vous pouvez activer les téléchargements Wi-Fi uniquement dans les paramètres.</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">En savoir plus</string>
+    <string name="feed_search">Rechercher</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">Paramètres</string>
+    <string name="feed_save">Ajouter aux favoris</string>
+    <string name="feed_save_label">Favori</string>
+    <string name="feed_saved_state">Enregistré</string>
+    <string name="feed_download_label">Télécharger</string>
+    <string name="feed_remove_favorite">Retirer des favoris</string>
+    <string name="feed_download">Télécharger l\'image</string>
+    <string name="feed_share">Partager</string>
+    <string name="feed_set_wallpaper">Définir comme fond</string>
+    <string name="feed_wallpaper_active">Fond actif</string>
+    <string name="feed_watch_on_apod">Voir sur APOD</string>
+    <string name="feed_clear_filters">Effacer les filtres</string>
+    <string name="feed_offline_chip">Copie hors ligne</string>
+    <string name="feed_random_title">Choix d\'une image…</string>
+    <string name="feed_random_body">Recherche d\'une image au hasard dans les archives.</string>
+    <string name="feed_random_cancel">Annuler</string>
+    <string name="feed_random_unavailable">Aucune image au hasard n\'est disponible pour le moment.</string>
+    <string name="feed_hide_chrome">Masquer les détails</string>
+    <string name="feed_show_chrome">Afficher les détails</string>
+    <string name="feed_swipe_hint_title">Balayez vers le haut</string>
+    <string name="feed_swipe_hint_body">pour voir plus d\'images</string>
+    <string name="feed_explanation_unavailable">Description indisponible hors ligne</string>
+    <string name="feed_hydration_failed">Impossible de charger les détails</string>
+    <string name="feed_retry">Réessayer</string>
+    <string name="feed_pull_refresh">Tirez pour actualiser</string>
+    <string name="feed_release_refresh">Relâchez pour actualiser</string>
+    <string name="feed_refreshing">Actualisation…</string>
+    <string name="feed_loading">Chargement du fil</string>
+    <string name="feed_loading_older">Chargement des années précédentes…</string>
+    <string name="feed_end_title">Début des archives</string>
+    <string name="feed_end_body">La première image date du 16 juin 1995.</string>
+    <string name="feed_end_filtered">Aucune image plus ancienne ne correspond à ce filtre.</string>
+    <string name="feed_end_offline">Les images plus anciennes nécessitent une connexion.</string>
+    <string name="feed_end_retry">Le reste des archives n\'est pas encore téléchargé.</string>
+    <string name="feed_back_to_latest">Retour aux plus récentes</string>
+    <string name="feed_open_saved">Ouvrir les enregistrés</string>
+    <string name="feed_error_title">Le fil n\'est pas disponible</string>
+    <string name="feed_error_body">Vérifiez votre connexion et réessayez. Les images enregistrées restent toujours disponibles.</string>
+    <string name="feed_error_try_again">Réessayer</string>
+
+    <!-- Archive -->
+    <string name="archive_title">Archives</string>
+    <string name="archive_search_hint">Rechercher des titres</string>
+    <string name="archive_filters">Filtres</string>
+    <string name="archive_empty_query">Aucune entrée ne correspond à &quot;%1$s&quot;</string>
+    <string name="archive_empty_filters">Aucune entrée ne correspond à vos filtres.</string>
+    <string name="archive_clear_filters">Effacer les filtres</string>
+    <string name="archive_loading">Chargement des archives</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">Rechercher des titres ou des dates</string>
+    <string name="search_close">Fermer la recherche</string>
+    <string name="search_no_results">Aucune image ne correspond à &quot;%1$s&quot;</string>
+    <string name="search_no_matches_filter">Aucune image ne correspond à ces filtres.</string>
+    <string name="search_offline">La recherche nécessite une connexion la première fois.</string>
+    <string name="search_refine">Affinez votre recherche pour réduire les résultats.</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">Fond d\'écran animé</string>
+    <string name="wallpaper_preview">Aperçu</string>
+    <string name="wallpaper_selected_image">Image sélectionnée</string>
+    <string name="wallpaper_scaling">Échelle</string>
+    <string name="wallpaper_update_daily">Mettre à jour chaque jour</string>
+    <string name="wallpaper_preview_and_set">Définir le fond animé</string>
+    <string name="wallpaper_apply_now">Appliquer</string>
+    <string name="wallpaper_helper">Android vous demandera une fois d\'activer le fond d\'écran animé. Ensuite, les nouvelles images s\'appliquent automatiquement ; l\'optimisation de la batterie peut les retarder.</string>
+    <string name="wallpaper_helper_active">Le fond d\'écran animé est actif. L\'image sélectionnée et l\'échelle s\'appliquent directement, sans ouvrir le sélecteur du système.</string>
+    <string name="wallpaper_scaling_fill">Remplir</string>
+    <string name="wallpaper_scaling_fit">Ajuster</string>
+
+    <!-- Detail -->
+    <string name="detail_back">Retour</string>
+    <string name="detail_save_image">Enregistrer l\'image</string>
+    <string name="detail_set_wallpaper">Définir comme fond</string>
+    <string name="detail_original_page">Page APOD d\'origine</string>
+    <string name="detail_hd_image">Image HD</string>
+    <string name="detail_video_chip">Vidéo</string>
+    <string name="detail_watch_original">Voir sur la page d\'origine</string>
+    <string name="detail_video_note">Les entrées vidéo ne peuvent pas servir de fond d\'écran. Votre fond actuel reste inchangé.</string>
+    <string name="detail_image_unavailable">Image indisponible</string>
+    <string name="detail_loading">Chargement de l\'entrée</string>
+    <string name="detail_error_title">Cette entrée n\'est pas disponible</string>
+    <string name="detail_error_body">Vérifiez votre connexion et réessayez.</string>
+    <string name="detail_error_try_again">Réessayer</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">Filtre</string>
+    <string name="filter_year">Année</string>
+    <string name="filter_all_years">Toutes les années</string>
+    <string name="filter_jump_to_date">Aller à une date</string>
+    <string name="filter_jump_to_date_placeholder">Sélectionner une date</string>
+    <string name="filter_type">Type</string>
+    <string name="filter_all">Tout</string>
+    <string name="filter_images">Images</string>
+    <string name="filter_videos">Vidéos</string>
+    <string name="filter_older">Plus anciennes</string>
+    <string name="filter_close">Fermer</string>
+    <string name="filter_year_picker_title">Choisir une année</string>
+    <string name="filter_reset">Réinitialiser</string>
+    <string name="filter_confirm">OK</string>
+    <plurals name="filter_show_entries">
+        <item quantity="one">Afficher %d image</item>
+        <item quantity="other">Afficher %d images</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">Enregistrés</string>
+    <plurals name="saved_count">
+        <item quantity="one">%d image · disponible hors ligne</item>
+        <item quantity="other">%d images · disponibles hors ligne</item>
+    </plurals>
+    <string name="saved_empty_title">Rien d\'enregistré pour l\'instant</string>
+    <string name="saved_empty_body">Touchez le cœur d\'une image pour la garder ici, même hors ligne.</string>
+    <string name="saved_browse_feed">Parcourir le fil</string>
+    <string name="saved_loading">Chargement des images enregistrées</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_section_display">Affichage</string>
+    <string name="settings_image_scaling_hint">S\'applique au fil et au fond d\'écran animé.</string>
+    <string name="settings_section_wallpaper">Fond d\'écran</string>
+    <string name="settings_update_automatically">Mettre à jour automatiquement</string>
+    <string name="settings_update_automatically_hint">Une fois par jour, quand Android le permet</string>
+    <string name="settings_prefer_hd">Préférer les images HD</string>
+    <string name="settings_prefer_hd_hint">Téléchargements plus volumineux</string>
+    <string name="settings_wifi_only">Wi-Fi uniquement</string>
+    <string name="settings_hide_videos">Masquer les vidéos</string>
+    <string name="settings_hide_videos_hint">Ignorer les entrées vidéo lors du choix de l\'image du fond d\'écran.</string>
+    <string name="settings_image_scaling">Mise à l\'échelle</string>
+    <string name="settings_section_storage">Stockage</string>
+    <string name="settings_image_cache">Cache d\'images</string>
+    <string name="settings_image_cache_size">%1$s utilisés</string>
+    <string name="settings_clear">Vider</string>
+    <string name="settings_section_advanced">Avancé</string>
+    <string name="settings_api_endpoint">Adresse de l\'API</string>
+    <string name="settings_api_endpoint_default">Adresse par défaut</string>
+    <string name="settings_api_endpoint_custom">Adresse personnalisée</string>
+    <string name="settings_section_about">À propos</string>
+    <string name="settings_last_synced">Dernière synchronisation</string>
+    <string name="settings_content_rights">Droits sur le contenu</string>
+    <string name="settings_privacy">Politique de confidentialité</string>
+    <string name="settings_source_code">Code source et licence</string>
+    <string name="settings_third_party_notices">Mentions des tiers</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_rights_note">Les droits sur les images appartiennent à leurs créateurs. Application non affiliée à la NASA et non approuvée par elle.</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">Avancé</string>
+    <string name="settings_advanced_intro">Utilisez votre propre serveur pour le JSON APOD. Il doit fournir les mêmes fichiers que l\'API publique.</string>
+    <string name="settings_advanced_field_label">URL de base de l\'API</string>
+    <string name="settings_advanced_field_helper">Laissez vide pour utiliser l\'adresse par défaut. HTTPS uniquement.</string>
+    <string name="settings_advanced_save">Enregistrer l\'adresse</string>
+    <string name="settings_advanced_saving">Enregistrement…</string>
+    <string name="settings_advanced_reset">Rétablir par défaut</string>
+    <string name="settings_advanced_saved">Adresse enregistrée. Actualisation des données…</string>
+    <string name="settings_advanced_reset_done">Adresse par défaut utilisée</string>
+    <string name="settings_advanced_already_default">L\'adresse par défaut est déjà utilisée</string>
+    <string name="settings_advanced_already_using">Cette adresse est déjà utilisée</string>
+    <string name="settings_advanced_invalid">Saisissez une URL HTTPS valide, sans requête ni fragment.</string>
+    <string name="settings_advanced_save_failed">Impossible d\'enregistrer l\'adresse. Réessayez.</string>
+    <string name="settings_advanced_current">Adresse actuelle</string>
+    <string name="settings_advanced_status">État</string>
+    <string name="settings_advanced_clear_note">Changer d\'adresse efface les métadonnées APOD en cache. Les images enregistrées et le fond d\'écran actuel sont conservés.</string>
+    <string name="settings_advanced_format_note">L\'adresse doit fournir latest.json, archive-index.json et archive/YYYY.json. Aucune clé d\'API n\'est envoyée.</string>
+    <string name="settings_advanced_section_guides">Guides de l\'API</string>
+    <string name="settings_advanced_api_docs">Documentation de l\'API</string>
+    <string name="settings_advanced_api_reference">Référence de l\'API publique</string>
+    <string name="settings_advanced_latest_example">Exemple de latest.json</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">Vider le cache d\'images ?</string>
+    <string name="clear_cache_body">Cela supprime %1$s d\'images téléchargées. Les images enregistrées et votre fond d\'écran actuel sont conservés.</string>
+    <string name="clear_cache_cancel">Annuler</string>
+    <string name="clear_cache_confirm">Vider</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">Cache d\'images vidé</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">L\'image astronomique du jour sur votre écran d\'accueil.</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">Mises à jour du fond d\'écran</string>
+    <string name="notification_channel_wallpaper_description">Prévient lorsque l\'image du fond d\'écran animé change.</string>
+    <string name="notification_no_description">Aucune description disponible.</string>
+    <string name="notification_action_open_app">Ouvrir l\'appli</string>
+    <string name="notification_action_view_apod">Voir sur APOD</string>
+    <string name="notification_action_settings">Paramètres</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Strings of the rebuilt entry viewer (Builder B).
+
+    Shared strings that already exist in `strings.xml` (`detail_*`) are reused; only new wording
+    lives here so the two builders never edit the same resource file.
+-->
+<resources>
+
+    <!-- Header and metadata -->
+    <string name="entry_credit_value">श्रेय: %1$s</string>
+    <string name="entry_media_image">तस्वीर</string>
+    <string name="entry_media_video">वीडियो</string>
+    <string name="entry_media_interactive">इंटरैक्टिव</string>
+    <string name="entry_meta_section">विवरण</string>
+    <string name="entry_meta_date">तारीख़</string>
+    <string name="entry_meta_media_type">मीडिया प्रकार</string>
+    <string name="entry_meta_credit">श्रेय</string>
+    <string name="entry_meta_updated">अपडेट की तारीख़</string>
+    <string name="entry_meta_source">स्रोत</string>
+    <string name="entry_not_provided">नहीं दिया गया</string>
+    <string name="entry_links_section">लिंक</string>
+
+    <!-- Image viewer -->
+    <string name="entry_image_loading">तस्वीर लोड हो रही है</string>
+    <string name="entry_image_retry">फिर से कोशिश करें</string>
+    <string name="entry_image_description">खगोल विज्ञान की तस्वीर</string>
+    <string name="entry_image_placeholder_note">प्रकाशक इस प्रविष्टि के लिए एक प्लेसहोल्डर तस्वीर देता है।</string>
+    <string name="entry_image_missing_note">इस प्रविष्टि में कोई तस्वीर नहीं है।</string>
+
+    <!-- Notes and actions -->
+    <string name="entry_offline_note">सहेजी गई कॉपी दिखाई जा रही है। विवरण अधूरा हो सकता है।</string>
+    <string name="entry_action_save">पसंदीदा में जोड़ें</string>
+    <string name="entry_action_unsave">पसंदीदा से हटाएँ</string>
+    <string name="entry_action_share">शेयर करें</string>
+    <string name="entry_action_settings">सेटिंग्स</string>
+
+</resources>
