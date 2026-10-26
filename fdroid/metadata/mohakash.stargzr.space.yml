@@ -2,9 +2,7 @@
 # https://gitlab.com/fdroid/fdroiddata. The file submitted to fdroiddata has
 # no comments; this copy keeps the context.
 #
-# The build commit below is the metadata-only follow-up that contains the
-# refreshed Fastlane title and screenshots. The v1.0.4 tag is
-# 7196cd7d0f07e0f43ef1d6bc69c4fc208e8a3198.
+# The build commit below is the v2026.10.27.1 release.
 #
 # F-Droid builds and signs its own APK; the release key in android/keystore/
 # is only for GitHub and Play uploads.
@@ -24,30 +22,26 @@ RepoType: git
 Repo: https://github.com/hello2himel/mohakash.git
 
 Builds:
-  - versionName: 1.0.4
-    versionCode: 5
-    commit: 9ecc649ba3b6feb02ef5a6929c304a4f9eee6efe
+  - versionName: 2026.10.27.1
+    versionCode: 8
+    commit: 27f4963d94ba01f072e57fc479b0593b676cf800
     subdir: android
     gradle:
       - yes
     output: app/build/outputs/apk/release/app-release-unsigned.apk
 
 MaintainerNotes: |
-  The v1.0.4 tag is 7196cd7d0f07e0f43ef1d6bc69c4fc208e8a3198. The build
-  commit 9ecc649ba3b6feb02ef5a6929c304a4f9eee6efe is a metadata-only
-  follow-up that adds the refreshed Fastlane title and screenshots; the app
-  code and version are unchanged. F-Droid reads the icon, screenshots, summary
-  and description from the Fastlane metadata in the source repository.
+  The v2026.10.27.1 tag is 27f4963d94ba01f072e57fc479b0593b676cf800. F-Droid
+  reads the icon, screenshots, summary and description from the Fastlane
+  metadata in the source repository.
 
-  UpdateCheckMode is None because the 1.0.4 tag keeps its version numbers in
-  android/app/version.properties, which fdroidserver's checkupdates parser
-  does not read. build.gradle.kts now carries literal defaults for the parser;
-  the next tagged release can use UpdateCheckMode: Tags.
+  build.gradle.kts carries literal version defaults for fdroidserver's
+  checkupdates parser, so this release uses UpdateCheckMode: Tags.
 
   F-Droid signs its own build. Users cannot upgrade between the GitHub/Play
   APK and the F-Droid APK without uninstalling first.
 
 AutoUpdateMode: None
-UpdateCheckMode: None
-CurrentVersion: 1.0.4
-CurrentVersionCode: 5
+UpdateCheckMode: Tags
+CurrentVersion: 2026.10.27.1
+CurrentVersionCode: 8
