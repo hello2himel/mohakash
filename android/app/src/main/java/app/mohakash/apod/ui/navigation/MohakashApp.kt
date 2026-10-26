@@ -62,8 +62,10 @@ fun MohakashApp(
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = currentRoute == Routes.TODAY ||
         currentRoute == Routes.ARCHIVE ||
-        currentRoute == Routes.SAVED
+        currentRoute == Routes.SAVED ||
+        currentRoute == Routes.SETTINGS_TAB
     var feedFullscreen by remember { mutableStateOf(false) }
+    var randomRequest by remember { mutableStateOf(0) }
     var onboardingCompleted by remember {
         mutableStateOf(startDestination != Routes.ONBOARDING)
     }
@@ -101,6 +103,14 @@ fun MohakashApp(
                 if (showBottomBar && !feedFullscreen) {
                     MohakashBottomBar(
                         currentRoute = currentRoute,
+                        onRandom = {
+                            navController.navigate(Routes.TODAY) {
+                                popUpTo(Routes.TODAY) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                            randomRequest += 1
+                        },
                         onSelect = { destination ->
                             navController.navigate(destination.route) {
                                 popUpTo(Routes.TODAY) { saveState = true }
@@ -141,6 +151,8 @@ fun MohakashApp(
                                 restoreState = true
                             }
                         },
+                        randomRequest = randomRequest,
+                        onRandomRequestConsumed = { randomRequest = 0 },
                         onFullscreenChange = { feedFullscreen = it },
                     )
                 }
@@ -171,6 +183,15 @@ fun MohakashApp(
                         onBack = { navController.popBackStack() },
                         onOpenLink = { url -> openLink(context, url) },
                         onOpenAdvanced = { navController.navigate(Routes.ADVANCED) },
+                    )
+                }
+
+                composable(Routes.SETTINGS_TAB) {
+                    SettingsScreen(
+                        onBack = {},
+                        onOpenLink = { url -> openLink(context, url) },
+                        onOpenAdvanced = { navController.navigate(Routes.ADVANCED) },
+                        showBack = false,
                     )
                 }
 

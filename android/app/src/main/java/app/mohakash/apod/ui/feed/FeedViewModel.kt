@@ -9,6 +9,7 @@ import app.mohakash.apod.data.repository.FavouritesRepository
 import app.mohakash.apod.data.repository.ImageRepository
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
+import app.mohakash.apod.core.ImageUrlValidator
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
 import app.mohakash.apod.domain.model.ImageStatus
@@ -96,6 +97,7 @@ class FeedViewModel(
     /** Set as soon as the first-run cue is dismissed; never shows it again this session. */
     private var swipeHintDismissed = false
 
+    private var randomJob: Job? = null
     private var latestJob: Job? = null
     private var indexJob: Job? = null
     private var refreshJob: Job? = null
@@ -127,6 +129,55 @@ class FeedViewModel(
         viewModelScope.launch {
             runCatching { settingsStore.setFeedSwipeHintSeen(true) }
         }
+    }
+
+    /**
+     * Picks a random picture, validates that a real image can actually be shown, then moves the
+     * feed there. Videos are excluded, so the random action obeys the same "pictures only" rule
+     * as the rest of the feed. The index + year caches keep repeated rolls cheap.
+     */
+    fun pickRandom() {
+        if (randomJob?.isActive == true) return
+        randomJob = viewModelScope.launch {
+            _state.update { it.copy(isPickingRandom = true) }
+            try {
+                val index = archiveIndexRepository.ensureLoaded(allowNetwork = true).orEmpty()
+                val current = currentDate
+                val candidates = index
+                    .filter {
+                        it.mediaType.isImage &&
+                            it.date.isNotBlank() &&
+                            it.date != current &&
+                            (it.imageUrl != null || it.thumbnailUrl != null)
+                    }
+                    .shuffled()
+                var picked: ApodEntry? = null
+                for (candidate in candidates.take(MAX_RANDOM_ATTEMPTS)) {
+                    val entry = runCatching { apodRepository.fetchEntry(candidate.date) }.getOrNull()
+                    if (
+                        entry != null &&
+                        entry.supportsWallpaper &&
+                        ImageUrlValidator.isValidImageUrl(entry.displayImageUrl)
+                    ) {
+                        picked = entry
+                        break
+                    }
+                }
+                if (picked != null) {
+                    jumpToDate(picked.date)
+                } else {
+                    _events.trySend(FeedEvent.ShowMessage(MESSAGE_RANDOM_UNAVAILABLE))
+                }
+            } finally {
+                _state.update { it.copy(isPickingRandom = false) }
+            }
+        }
+    }
+
+    /** Cancels an in-flight random pick and closes its overlay. */
+    fun cancelRandomPick() {
+        randomJob?.cancel()
+        _state.update { it.copy(isPickingRandom = false) }
     }
 
     /** Called when the pager settles on a page: records the position and hydrates it. */
@@ -977,3 +1028,9 @@ class FeedViewModel(
         const val SEARCH_DEBOUNCE_MILLIS = 150L
     }
 }
+
+/** How many random candidates may be hydrated before giving up. */
+private const val MAX_RANDOM_ATTEMPTS = 8
+
+/** Shown when every random candidate turned out to have no usable picture. */
+private const val MESSAGE_RANDOM_UNAVAILABLE = "No random picture is available right now."
