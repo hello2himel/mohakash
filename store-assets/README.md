@@ -26,7 +26,7 @@ Colophon: “OPEN SOURCE · NO ADS”
 
 All claims are verifiable in the app: no account, no ads, open source, APOD
 metadata and images, automatic wallpaper updates, fill/fit scaling, HD option,
-Wi-Fi-only downloads, searchable archive and saved/offline entries. The live
+downloads, searchable archive and saved/offline entries. The live
 wallpaper is a still picture redrawn when the day changes—not an animated video.
 
 **Image rights:** APOD photographs remain under their publishers' terms; each
@@ -45,8 +45,9 @@ or swap the hero frame for a public-domain APOD image and re-render.
 - Backgrounds are quieter than the first cut: 260 stars max, no orbit/registration marks, reduced crest wash. The phone is 620 px wide so the UI reads at small sizes.
 - Campaign plates deliberately omit a separate wordmark/folio/kicker so the
   real app screenshot is the interface; the app's own in-screen wordmark stays.
-- Plate 02 is a three-phone showcase: the comet, M42 and galaxy screens sit
-  behind each other like a wallpaper lineup, with the M42 feed as the hero.
+- Plate 02 is a three-phone showcase: comet, Asperitas Clouds and galaxy
+  screens sit behind each other like a wallpaper lineup, with the Asperitas
+  entry as the centre card.
 - Device frames are intentionally understated; the app screenshot inside is a
   real 1080 × 2400 capture, uniformly scaled (never stretched).
 - Feature graphic keeps critical type well inside the central 80% safe area;
