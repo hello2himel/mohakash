@@ -22,13 +22,15 @@ class EntryImageSizingTest {
     }
 
     @Test
-    fun `a portrait picture is capped at 62 percent of the viewport`() {
-        val box = EntryImageSizing.imageBox(viewportWidth, viewportHeight, 2f / 3f)
+    fun `a portrait picture is capped at 62 percent of the viewport and narrows`() {
+        val ratio = 2f / 3f
+        val box = EntryImageSizing.imageBox(viewportWidth, viewportHeight, ratio)
         val cap = viewportHeight * EntryImageSizing.MAX_HEIGHT_FRACTION
 
-        assertEquals(viewportWidth, box.width, epsilon)
+        assertEquals(cap * ratio, box.width, epsilon)
         assertEquals(cap, box.height, epsilon)
-        assertTrue(box.height < viewportWidth / (2f / 3f))
+        assertTrue(box.width < viewportWidth)
+        assertTrue(box.height < viewportWidth / ratio)
     }
 
     @Test
@@ -40,15 +42,15 @@ class EntryImageSizingTest {
     }
 
     @Test
-    fun `portrait content is letterboxed left and right, never cropped`() {
-        val box = EntryImageSizing.imageBox(viewportWidth, viewportHeight, 2f / 3f)
-        val content = EntryImageSizing.fitContent(box.width, box.height, 2f / 3f)
+    fun `a tall picture shrinks its width instead of becoming a letterboxed box`() {
+        val ratio = 2f / 3f
+        val box = EntryImageSizing.imageBox(viewportWidth, viewportHeight, ratio)
+        val content = EntryImageSizing.fitContent(box.width, box.height, ratio)
 
-        // Height-limited: the content touches the box height and is narrower than the box.
+        // The box itself is the picture's aspect-true size: no side letterboxing.
+        assertEquals(box.width, content.width, epsilon)
         assertEquals(box.height, content.height, epsilon)
-        assertEquals(box.height * (2f / 3f), content.width, epsilon)
-        assertTrue(content.width < box.width)
-        assertTrue(content.height <= box.height + epsilon)
+        assertTrue(box.width < viewportWidth)
     }
 
     @Test
