@@ -103,6 +103,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
     variant: 'secondary',
     icon: 'ri-share-line',
     ariaLabel: 'Copy the link to this entry',
+    iconOnly: true,
   }) as HTMLButtonElement;
   share.addEventListener('click', () => {
     void copyWithFeedback(share, entryUrl(record.date));
@@ -127,6 +128,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
       variant: 'secondary',
       href: '/archive',
       icon: 'ri-archive-line',
+      iconOnly: true,
     }),
   );
 }
