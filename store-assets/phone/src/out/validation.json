@@ -1,0 +1,56 @@
+[
+  {
+    "file": "01-new-wallpaper-every-day.png",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1586528
+  },
+  {
+    "file": "02-set-it-once.png",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1395184
+  },
+  {
+    "file": "03-random-wallpapers.png",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1316908
+  },
+  {
+    "file": "04-save-favourites.png",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1042243
+  },
+  {
+    "file": "05-no-ads-no-account.png",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1066843
+  },
+  {
+    "file": "06-full-resolution-explanation.png",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "bytes": 1421919
+  }
+]

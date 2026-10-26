@@ -1,0 +1,77 @@
+{
+  "02": {
+    "plate": "02",
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 1920,
+      "bottom": 1920
+    },
+    "headline": {
+      "x": 60,
+      "y": 150,
+      "w": 960,
+      "h": 195.81,
+      "bottom": 345.81
+    },
+    "support": {
+      "x": 60,
+      "y": 380,
+      "w": 960,
+      "h": 46.23,
+      "bottom": 426.23
+    },
+    "screen": {
+      "x": 270,
+      "y": 488,
+      "w": 540,
+      "h": 1200,
+      "bottom": 1688
+    },
+    "frame": {
+      "x": 260,
+      "y": 478,
+      "w": 560,
+      "h": 1220,
+      "bottom": 1698
+    },
+    "device": {
+      "x": 260,
+      "y": 478,
+      "w": 560,
+      "h": 1220,
+      "bottom": 1698
+    },
+    "headlineWidth": 960,
+    "headlineOverflow": 0,
+    "supportWidth": 960,
+    "supportOverflow": 0,
+    "screenNatural": {
+      "w": 1080,
+      "h": 2400
+    },
+    "lineWidths": [
+      {
+        "left": 318.92,
+        "right": 761.06,
+        "width": 442.14
+      },
+      {
+        "left": 246.8,
+        "right": 833.19,
+        "width": 586.39
+      }
+    ],
+    "supportInk": {
+      "left": 241.05,
+      "right": 838.95,
+      "width": 597.91
+    },
+    "maxInkRight": 838.95,
+    "fonts": {
+      "newsreader": true,
+      "inter": true
+    }
+  }
+}

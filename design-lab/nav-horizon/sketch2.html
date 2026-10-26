@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mohakash nav — launch treatments</title>
+<link rel="stylesheet" href="assets/icons.css">
+<style>
+@font-face{font-family:Inter;src:url(assets/inter_regular.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(assets/inter_semibold.ttf);font-weight:600}
+@font-face{font-family:Newsreader;src:url(assets/newsreader_medium.ttf);font-weight:500}
+:root{
+  --bg:#0B0D12; --surface:#151922; --raised:#11141B; --strong:#1B2030;
+  --border:#232838; --border-strong:#323849; --text:#E8EAF0; --body:#D3D8E3;
+  --muted:#A3ABBD; --accent:#8FB0FF; --onaccent:#0B0D12;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07080C;color:var(--text);font-family:Inter,sans-serif;padding:24px;display:grid;grid-template-columns:360px 360px;gap:26px 34px}
+h2{grid-column:1/-1;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.cell h3{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.stage{height:104px;overflow:hidden;position:relative;background:#000}
+.stage img{width:100%;height:100%;object-fit:cover;opacity:.8}
+.bar{background:var(--raised);position:relative}
+.ico{display:inline-block;background:currentColor;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;flex:none}
+.caps{font-weight:600;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;line-height:1}
+.serif{font-family:Newsreader,serif;font-weight:500;font-size:19px;line-height:1}
+.hair{position:absolute;left:0;right:0;top:0;height:1px;background:var(--border)}
+.base{height:76px;padding:0 20px;position:relative;display:flex;align-items:center}
+.anchor{display:flex;align-items:center;gap:9px;color:var(--muted);height:48px;position:relative}
+.anchor.on{color:var(--text)}
+.anchor .ico{width:18px;height:18px}
+.anchor .w{position:relative;padding-bottom:6px}
+.anchor.on .w:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent)}
+.sp{flex:1}
+.launch{display:flex;align-items:center;justify-content:center;height:48px;gap:7px;color:var(--accent);position:relative;padding:0 4px}
+.launch .ico{width:15px;height:15px}
+.launch .caps{color:var(--accent)}
+/* station ticks */
+.ticks{position:absolute;top:1px;left:20px;right:20px;height:8px;pointer-events:none}
+.ticks i{position:absolute;top:0;width:1px;height:4px;background:var(--border-strong)}
+.ticks i.on{width:2px;height:8px;background:var(--accent);left:0}
+/* variants */
+.k1 .launch{position:absolute;left:190px;top:14px}
+.k2 .launch{border:1px solid var(--border-strong);height:46px;width:52px;flex-direction:column;gap:3px;position:absolute;left:184px;top:15px}
+.k2 .launch .ico{width:17px;height:17px}
+.k2 .launch .caps{font-size:8px;color:var(--muted)}
+.k3 .launch{position:absolute;left:186px;top:14px}
+.k3 .launch:before,.k3 .launch:after{content:"";width:1px;height:16px;background:var(--border-strong);position:absolute;top:6px}
+.k3 .launch:before{left:0}.k3 .launch:after{right:0}
+.k4 .launch{position:absolute;left:182px;top:14px;flex-direction:column;gap:6px}
+.k4 .launch .ico{width:24px;height:24px}
+.k5 .launch{position:absolute;left:196px;top:25px;gap:8px}
+.k5 .launch .ico{width:13px;height:13px}
+.k5 .launch .caps{font-size:10px;letter-spacing:.22em}
+.k6 .launch{position:absolute;left:190px;top:14px;border:1px solid var(--border-strong);border-radius:24px;height:44px;width:96px}
+.k6 .launch .ico{width:15px;height:15px}
+/* feed location markers */
+.anchL{position:absolute;left:20px}
+.anchR{position:absolute;right:20px}
+</style>
+</head>
+<body>
+
+<h2>Launch treatments — Feed active, same anchors (serif, inline icon)</h2>
+
+<div class="cell"><h3>K1 · glyph + caps, no container</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k1">
+  <div class="hair"></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<div class="cell"><h3>K2 · small instrument key</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k2">
+  <div class="hair"></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<div class="cell"><h3>K3 · bracketed mark</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k3">
+  <div class="hair"></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<div class="cell"><h3>K4 · stacked glyph over caps</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k4">
+  <div class="hair"></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<div class="cell"><h3>K5 · pure command text (no glyph)</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k5">
+  <div class="hair"></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch"><span class="caps">Random</span><span class="ico ico-rocket"></span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<div class="cell"><h3>K6 · quiet pill (accent outline)</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k6">
+  <div class="hair"></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<h2>Station-mark + anchor hierarchy variants</h2>
+
+<div class="cell"><h3>S1 · top station ticks, 3 marks</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k1" style="height:84px">
+  <div class="hair"></div>
+  <div class="ticks"><i class="on" style="left:9px"></i><i style="left:200px"></i><i style="left:314px"></i></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch" style="left:196px;top:30px"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<div class="cell"><h3>S2 · dotted horizon between anchors</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k1" style="height:84px">
+  <div class="hair"></div>
+  <div style="position:absolute;left:72px;right:112px;top:26px;height:1px;background:repeating-linear-gradient(90deg,var(--border-strong) 0 2px,transparent 2px 8px)"></div>
+  <div class="anchor on anchL"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="launch" style="left:170px;top:8px"><span class="ico ico-rocket"></span><span class="caps">Random</span></div>
+  <div class="anchor anchR"><span class="serif w">Archive</span><span class="ico ico-archive"></span></div>
+</div></div>
+
+<div class="cell"><h3>S3 · caps anchors + serif launch word</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k1" style="height:84px">
+  <div class="hair"></div>
+  <div class="anchor on anchL" style="gap:8px"><span class="ico ico-today" style="width:20px;height:20px"></span><span class="caps w" style="font-size:11px;letter-spacing:.2em">Feed</span></div>
+  <div class="launch" style="left:180px;top:20px;flex-direction:column;gap:4px"><span class="ico ico-rocket" style="width:20px;height:20px"></span><span class="caps" style="font-size:8px;color:var(--muted)">Random</span></div>
+  <div class="anchor anchR" style="gap:8px"><span class="caps w" style="font-size:11px;letter-spacing:.2em">Archive</span><span class="ico ico-archive" style="width:20px;height:20px"></span></div>
+</div></div>
+
+<div class="cell"><h3>S4 · two anchors close-left, action at right margin</h3>
+<div class="stage"><img src="assets/orion.jpg"></div>
+<div class="bar base k1" style="height:84px">
+  <div class="hair"></div>
+  <div class="anchor on" style="position:absolute;left:20px;top:18px"><span class="ico ico-today"></span><span class="serif w">Feed</span></div>
+  <div class="anchor" style="position:absolute;left:118px;top:18px"><span class="serif w">Archive</span></div>
+  <div style="position:absolute;left:228px;top:20px;bottom:20px;width:1px;background:var(--border)"></div>
+  <div class="launch" style="position:absolute;right:16px;top:18px;flex-direction:column;gap:5px"><span class="ico ico-rocket" style="width:20px;height:20px"></span><span class="caps" style="font-size:8px">Random</span></div>
+</div></div>
+
+</body>
+</html>
