@@ -9,14 +9,16 @@ and F-Droid consume:
 
 ## Campaign
 
-| # | Beat | Headline | Support |
-|---|------|----------|---------|
-| 01 | Daily feed | **The sky, every day.** | A new picture of the universe, each day. |
-| 02 | Live wallpaper | **Your wallpaper, alive.** | A genuine live wallpaper, updated with the day's picture. |
-| 03 | Random pick | **Let the universe choose.** | One tap opens a random picture from the archive. |
-| 04 | Archive & Saved | **Every picture, kept.** | Search three decades, save what you love. |
-| 05 | Full entry | **More than a pretty picture.** | Title, credit and explanation, on every entry. |
-| 06 | Languages | **In your language.** | The interface, in fourteen languages. |
+Campaign line: **“The sky, every day.”**
+
+| # | Beat | Headline | Support | Screen |
+|---|------|----------|---------|--------|
+| 01 | Daily feed | **The sky, every day.** | A new picture of the universe, each day. | *The Tail of the Hamburger Galaxy*, 8 May 2014 |
+| 02 | Live wallpaper | **Your wallpaper, alive.** | A live wallpaper that follows the day's picture. | first-run wallpaper screen, M42 preview |
+| 03 | Random pick | **Let the sky surprise you.** | One tap opens a random picture from the archive. | random picker over *Comet NEAT*, 6 Mar 2003 |
+| 04 | Archive | **Every picture, kept.** | Search three decades, save what you love. | Archive filtered to 2024 |
+| 05 | Full entry | **More than a pretty picture.** | The title, the credit, the whole explanation. | *Asperitas Clouds Over New Zealand*, 17 Aug 2025 |
+| 06 | Languages | **In your language.** | The interface, in fourteen languages. | Bengali UI on *Plato and the Lunar Alps*, 15 Jan 2026 |
 
 Feature graphic copy: **“The sky, on your home screen.”**
 Product line: “A new astronomy wallpaper every day.”
@@ -24,10 +26,11 @@ Colophon: “OPEN SOURCE · NO ADS”
 
 All claims are verifiable in the app: no account, no ads, open source, APOD
 metadata and images, 13 non-English UI locales plus English variants, live
-wallpaper, archive and saved list.
+wallpaper, archive and saved list. The live wallpaper is a still picture
+redrawn when the day changes—not an animated video.
 
-**Image rights:** APOD photographs remain under their publishers' terms; the
-M42 frame in the campaign carries its photographer credit inside the artwork.
+**Image rights:** APOD photographs remain under their publishers' terms; each
+campaign frame shows the individual photographer credit inside the real app UI.
 The artwork contains no NASA logo and implies no NASA endorsement. Confirm the
 specific photographer/APOD promotional-use terms before publishing the listing,
 or swap the hero frame for a public-domain APOD image and re-render.
@@ -39,6 +42,8 @@ or swap the hero frame for a public-domain APOD image and re-render.
 - Surfaces: `#151922`, borders `#323849`; accent Glow `#8FB0FF`.
 - Headline: Newsreader Medium (serif), Starlight `#F4F6FF`.
 - Kicker/support/UI: Inter Regular/Medium; muted `#A3ABBD`.
+- Campaign plates deliberately omit a separate wordmark/folio/kicker so the
+  real app screenshot is the interface; the app's own in-screen wordmark stays.
 - Device frames are intentionally understated; the app screenshot inside is a
   real 1080 × 2400 capture, uniformly scaled (never stretched).
 - Feature graphic keeps critical type well inside the central 80% safe area;
