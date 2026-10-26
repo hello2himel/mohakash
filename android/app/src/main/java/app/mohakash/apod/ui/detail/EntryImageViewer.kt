@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -124,6 +125,7 @@ internal fun EntryImageViewer(
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         val viewportWidthPx = with(density) { maxWidth.toPx() }
         val pictureBox = EntryImageSizing.imageBox(viewportWidthPx, viewportHeightPx, aspectRatio)
+        val pictureBoxWidth = with(density) { pictureBox.width.toDp() }
         val pictureBoxHeight = with(density) { pictureBox.height.toDp() }
         val contentSize = EntryImageSizing.fitContent(
             boxWidth = pictureBox.width,
@@ -200,10 +202,16 @@ internal fun EntryImageViewer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(pictureBoxHeight)
-                    .background(MohakashColors.Background),
+                    .height(pictureBoxHeight),
                 contentAlignment = Alignment.Center,
             ) {
+                Box(
+                    modifier = Modifier
+                        .width(pictureBoxWidth)
+                        .height(pictureBoxHeight)
+                        .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                        .background(MohakashColors.Background),
+                ) {
                 when {
                     url.isNullOrBlank() -> EntryImageUnavailable(
                         label = if (isVideo) null else unavailableLabel,
@@ -284,6 +292,7 @@ internal fun EntryImageViewer(
                         }
                     }
                 }
+                }
             }
 
             if (!isVideo && imageState == EntryImageState.SUCCESS) {
@@ -306,7 +315,6 @@ internal fun EntryZoomHintRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = MohakashDimens.SidePadding)
             .padding(top = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,

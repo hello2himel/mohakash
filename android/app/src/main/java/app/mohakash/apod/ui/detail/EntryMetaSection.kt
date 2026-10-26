@@ -4,7 +4,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -43,6 +42,9 @@ internal fun EntryHeading(
     val locale = Locale.getDefault()
     val displayDate = EntryDetailFormatting.formatDisplayDate(entry.date, locale)
     val credit = entry.displayCredit?.trim()?.takeIf { it.isNotEmpty() }
+    val creditLine = credit?.let { stringResource(R.string.entry_credit_value, it) }
+    val metaLine = listOfNotNull(displayDate.takeIf { it.isNotEmpty() }, creditLine)
+        .joinToString(" · ")
 
     Column(
         modifier = modifier
@@ -51,31 +53,18 @@ internal fun EntryHeading(
             .padding(top = 18.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-            if (displayDate.isNotEmpty()) {
-                Text(
-                    text = displayDate,
-                    style = MohakashTextStyles.Caption,
-                    color = MohakashColors.TextMuted,
-                )
-            }
-            EntryMediaChip(entry.mediaType)
+        if (metaLine.isNotEmpty()) {
+            Text(
+                text = metaLine,
+                style = MohakashTextStyles.Caption,
+                color = MohakashColors.TextMuted,
+            )
         }
         Text(
             text = entry.title,
             style = MohakashTextStyles.PageTitle,
             color = MohakashColors.Text,
         )
-        if (credit != null) {
-            Text(
-                text = stringResource(R.string.entry_credit_value, credit),
-                style = MohakashTextStyles.UiSmall,
-                color = MohakashColors.TextMuted,
-            )
-        }
     }
 }
 

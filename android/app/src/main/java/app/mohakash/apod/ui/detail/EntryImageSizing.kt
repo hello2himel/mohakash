@@ -1,7 +1,6 @@
 package app.mohakash.apod.ui.detail
 
 import kotlin.math.max
-import kotlin.math.min
 
 /**
  * The geometry of the uncropped picture in the entry viewer.
@@ -49,10 +48,12 @@ object EntryImageSizing {
     }
 
     /**
-     * The box the picture is drawn into: always the full viewport width, and as tall as the
-     * aspect ratio needs — capped at [maxHeightFraction] of the viewport.
+     * The box the picture is drawn into.
      *
-     * When the cap is hit the picture is letterboxed inside the box; it is never cropped.
+     * A picture that is short enough takes the full viewport width and the height its ratio
+     * needs. If that would be taller than [maxHeightFraction] of the viewport, the box takes the
+     * maximum height and shrinks its width so the picture keeps its true proportions. The result
+     * is never a letterboxed oversized box: the box itself is the picture's aspect-true size.
      */
     fun imageBox(
         viewportWidth: Float,
@@ -68,10 +69,17 @@ object EntryImageSizing {
         } else {
             naturalHeight
         }
-        return EntryImageBox(
-            width = viewportWidth,
-            height = min(naturalHeight, cap).coerceAtLeast(MIN_BOX_HEIGHT),
-        )
+        return if (naturalHeight <= cap) {
+            EntryImageBox(
+                width = viewportWidth,
+                height = naturalHeight.coerceAtLeast(MIN_BOX_HEIGHT),
+            )
+        } else {
+            EntryImageBox(
+                width = (cap * ratio).coerceAtMost(viewportWidth),
+                height = cap.coerceAtLeast(MIN_BOX_HEIGHT),
+            )
+        }
     }
 
     /**
@@ -137,7 +145,7 @@ object EntryImageSizing {
     }
 }
 
-/** The picture box: full width, aspect-true height, capped by the viewport. */
+/** The picture box: aspect-true, full width when short enough, height-capped otherwise. */
 data class EntryImageBox(val width: Float, val height: Float)
 
 /** The size the whole picture occupies inside its box under `ContentScale.Fit`. */

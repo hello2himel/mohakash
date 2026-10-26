@@ -197,6 +197,9 @@ internal fun DetailContent(
                         isVideo = entry.mediaType.isPlayable,
                         viewportHeight = viewportHeight,
                         previewAspectRatio = imagePreviewAspectRatio,
+                        modifier = Modifier
+                            .padding(horizontal = MohakashDimens.SidePadding)
+                            .padding(top = 12.dp),
                     )
                     EntryHeading(entry)
                     if (EntryDetailFormatting.offlineNoteVisible(state.isShowingCachedCopy, entry)) {
