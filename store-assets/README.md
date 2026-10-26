@@ -14,7 +14,7 @@ Campaign line: **“New wallpaper, every day.”**
 | # | Install driver | Headline | Support | Screen |
 |---|----------------|----------|---------|--------|
 | 01 | Fresh wallpaper daily | **New wallpaper, every day.** | Fresh astronomy, ready for your home screen. | *M42: The Great Nebula in Orion* |
-| 02 | Set-and-forget live wallpaper | **Set it once. Updated daily.** | Automatic live wallpaper. HD. Wi-Fi only. | Wallpaper settings |
+| 02 | Set-and-forget live wallpaper | **Set it once. Updated daily.** | Automatic live wallpaper. HD. Wi-Fi only. | Three-phone wallpaper showcase |
 | 03 | Discovery | **Random wallpapers, at your fingertips.** | One tap. A surprise from the whole archive. | Random picker over *Comet NEAT* |
 | 04 | Keep offline | **Keep the ones you love.** | Save favourites. Read them offline. | Archive and Saved, 2024 filter |
 | 05 | Full-quality downloads | **Full resolution. Save or set it.** | The original image, one tap away. | *Asperitas Clouds* entry |
@@ -45,6 +45,8 @@ or swap the hero frame for a public-domain APOD image and re-render.
 - Backgrounds are quieter than the first cut: 260 stars max, no orbit/registration marks, reduced crest wash. The phone is 620 px wide so the UI reads at small sizes.
 - Campaign plates deliberately omit a separate wordmark/folio/kicker so the
   real app screenshot is the interface; the app's own in-screen wordmark stays.
+- Plate 02 is a three-phone showcase: the comet, M42 and galaxy screens sit
+  behind each other like a wallpaper lineup, with the M42 feed as the hero.
 - Device frames are intentionally understated; the app screenshot inside is a
   real 1080 × 2400 capture, uniformly scaled (never stretched).
 - Feature graphic keeps critical type well inside the central 80% safe area;
