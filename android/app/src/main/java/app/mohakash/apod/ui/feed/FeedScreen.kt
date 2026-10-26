@@ -61,6 +61,8 @@ fun FeedScreen(
     modifier: Modifier = Modifier,
     onOpenLink: (String) -> Unit = {},
     onOpenSaved: () -> Unit = {},
+    randomRequest: Int = 0,
+    onRandomRequestConsumed: () -> Unit = {},
     onFullscreenChange: (Boolean) -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -149,6 +151,13 @@ fun FeedScreen(
         }
     }
 
+    LaunchedEffect(randomRequest) {
+        if (randomRequest > 0) {
+            onRandomRequestConsumed()
+            viewModel.pickRandom()
+        }
+    }
+
     val actions = remember(viewModel, onOpenEntry, onOpenSettings, onOpenLink) {
         FeedPageActions(
             onOpenEntry = onOpenEntry,
@@ -221,6 +230,10 @@ fun FeedScreen(
             onPreviewAndSet = viewModel::previewAndSetWallpaper,
             isWallpaperActive = systemWallpaperActive,
         )
+    }
+
+    if (state.isPickingRandom) {
+        FeedRandomPickOverlay(onCancel = viewModel::cancelRandomPick)
     }
 }
 

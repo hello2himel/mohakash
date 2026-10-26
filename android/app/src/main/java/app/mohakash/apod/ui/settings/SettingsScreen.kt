@@ -60,6 +60,7 @@ fun SettingsScreen(
     onOpenLink: (String) -> Unit,
     onOpenAdvanced: () -> Unit,
     modifier: Modifier = Modifier,
+    showBack: Boolean = true,
 ) {
     val viewModel = containerViewModel { container ->
         SettingsViewModel(
@@ -84,7 +85,7 @@ fun SettingsScreen(
 
     SettingsContent(
         state = state,
-        onBack = onBack,
+        onBack = if (showBack) onBack else null,
         onOpenLink = onOpenLink,
         onOpenAdvanced = onOpenAdvanced,
         onUpdateAutomaticallyChange = viewModel::setUpdateAutomatically,
@@ -117,7 +118,7 @@ fun SettingsScreen(
 @Composable
 internal fun SettingsContent(
     state: SettingsUiState,
-    onBack: () -> Unit,
+    onBack: (() -> Unit)?,
     onOpenLink: (String) -> Unit,
     onOpenAdvanced: () -> Unit,
     onUpdateAutomaticallyChange: (Boolean) -> Unit,

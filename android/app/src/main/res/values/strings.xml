@@ -6,6 +6,8 @@
     <string name="nav_feed">Feed</string>
     <string name="nav_archive">Archive</string>
     <string name="nav_saved">Saved</string>
+    <string name="nav_random">Random</string>
+    <string name="nav_random_description">Open a random picture</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Wallpaper preview</string>
@@ -30,6 +32,10 @@
     <string name="feed_watch_on_apod">Watch on APOD</string>
     <string name="feed_clear_filters">Clear filters</string>
     <string name="feed_offline_chip">Offline copy</string>
+    <string name="feed_random_title">Rolling the dice…</string>
+    <string name="feed_random_body">Finding a random Astronomy Picture of the Day.</string>
+    <string name="feed_random_cancel">Cancel</string>
+    <string name="feed_random_unavailable">No random picture is available right now.</string>
     <string name="feed_hide_chrome">Hide details</string>
     <string name="feed_show_chrome">Show details</string>
     <string name="feed_swipe_hint_title">Swipe up</string>

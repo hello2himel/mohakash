@@ -13,6 +13,7 @@ object Routes {
     const val SAVED = "saved"
     const val SETTINGS = "settings"
     const val ADVANCED = "settings/advanced"
+    const val SETTINGS_TAB = "settings/home"
     const val DETAIL = "detail/{date}"
 
     /** The detail screen of one entry. */
