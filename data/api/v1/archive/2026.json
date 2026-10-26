@@ -1,9 +1,28 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "generated_at": "2026-10-25T12:35:34Z",
-  "count": 298,
+  "generated_at": "2026-10-26T14:17:59Z",
+  "count": 299,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-10-26",
+      "title": "M42: The Great Nebula in Orion",
+      "explanation": "The Great Nebula in Orion, an immense, nearby starbirth region, is one the most famous of all astronomical nebulas. Here, glowing gas surrounds hot young stars at the edge of an immense interstellar molecular cloud only 1500 light-years away. In the featured deep image in assigned colors highlighted by emission in hydrogen, wisps and sheets of dust and gas are particularly evident. The Great Nebula in Orion can be found with the unaided eye near the easily identifiable belt of three stars in the popular constellation Orion. In addition to housing a bright open cluster of stars known as the Trapezium, the Orion Nebula contains many stellar nurseries. These nurseries contain much hydrogen gas, hot young stars, proplyds, and stellar jets spewing material at high speeds. Also known as M42, the Orion Nebula spans about 40 light years and is located in the same spiral arm of our Galaxy as the Sun.\n\nTomorrow's picture: open space",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/OrionSword_Palaia_2000.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/OrionSword_Palaia_2000.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/OrionSword_Palaia_2000.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod/2026-october-26-m42-the-great-nebula-in-orion/",
+      "copyright": "Roberto Palaia",
+      "credit": "Roberto Palaia",
+      "alt_text": "A starfield features a large and colorful nebula in its center, filled with dark dust and glowing gas in red and blue.",
+      "source": "NASA APOD",
+      "source_id": "1500112",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-10-26T14:17:59Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-10-25",
