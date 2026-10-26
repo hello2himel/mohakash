@@ -14,11 +14,11 @@ Campaign line: **“New wallpaper, every day.”**
 | # | Install driver | Headline | Support | Screen |
 |---|----------------|----------|---------|--------|
 | 01 | Fresh wallpaper daily | **New wallpaper, every day.** | Fresh astronomy, ready for your home screen. | *M42: The Great Nebula in Orion* |
-| 02 | Set-and-forget live wallpaper | **Set it once. Updated daily.** | Automatic live wallpaper. HD images. | Three-phone wallpaper showcase |
+| 02 | Set-and-forget live wallpaper | **Set it once. Updated daily.** | Automatic live wallpaper. HD images. | Three-phone feed showcase |
 | 03 | Discovery | **Random wallpapers, at your fingertips.** | One tap. A surprise from the whole archive. | Random picker over *Comet NEAT* |
 | 04 | Keep offline | **Keep the ones you love.** | Save favourites. Read them offline. | Archive and Saved, 2024 filter |
-| 05 | Full-quality downloads | **Full resolution. Save or set it.** | The original image, one tap away. | *Asperitas Clouds* entry |
-| 06 | Trust | **No ads. No account.** | Open source. No tracking. Just astronomy. | First-run screen |
+| 05 | Trust | **No ads. No account.** | Open source. No tracking. Just astronomy. | First-run screen |
+| 06 | Full-quality downloads + story | **Full resolution. With explanation.** | The original image, plus the full APOD story. | *Asperitas Clouds* entry |
 
 Feature graphic copy (centred in the editorial panel): **“The sky, on your home screen.”**
 Product line: “A new astronomy wallpaper every day.”
@@ -45,9 +45,9 @@ or swap the hero frame for a public-domain APOD image and re-render.
 - Backgrounds are quieter than the first cut: 260 stars max, no orbit/registration marks, reduced crest wash. The phone is 620 px wide so the UI reads at small sizes.
 - Campaign plates deliberately omit a separate wordmark/folio/kicker so the
   real app screenshot is the interface; the app's own in-screen wordmark stays.
-- Plate 02 is a three-phone showcase: comet, Asperitas Clouds and galaxy
-  screens sit behind each other like a wallpaper lineup, with the Asperitas
-  entry as the centre card.
+- Plate 02 is a three-phone feed showcase: Earth, Sun Storm and the Hamburger
+  Galaxy sit behind each other like a wallpaper lineup, with the Sun Storm feed
+  as the centre card.
 - Device frames are intentionally understated; the app screenshot inside is a
   real 1080 × 2400 capture, uniformly scaled (never stretched).
 - Feature graphic keeps critical type well inside the central 80% safe area;
