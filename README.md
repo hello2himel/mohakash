@@ -200,6 +200,21 @@ development the Astro dev server proxies `/api/apod/v1/*` to GitHub Pages (see
 | `/rights` | Content rights |
 | anything else | 404 |
 
+The shell keeps the header and footer visible at every viewport size: only the
+main area scrolls. Below 700px the main navigation moves into the accessible
+full-screen menu, and the footer invitation to the Android app stays compact.
+
+**Share on Today.** The share button on the Today page copies the canonical
+entry URL (`https://<website>/archive/YYYY-MM-DD`) for the picture currently on
+screen, with a short "Copied" confirmation. It does not copy the bare `/`
+address, so the recipient opens that day's picture with its explanation and
+credit.
+
+The footer also carries a quiet invitation to the Android app — the daily APOD
+as a live wallpaper, updated automatically, free and open source, no tracking.
+It is a plain footer note with one link, not a modal or an automatic pop-up; the
+[About page](web/src/pages/about.astro) explains the app in more detail.
+
 ---
 
 ## 6. Android app
@@ -635,7 +650,7 @@ Current result:
 | Suite | Tests | Command |
 |---|---|---|
 | Data pipeline | **102 passed** | `python3 -m pytest scripts/tests -q` |
-| Website | **98 passed** | `cd web && npm test` |
+| Website | **99 passed** | `cd web && npm test` |
 | Android | **127 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
 | Website type check | 0 errors, 0 warnings | `cd web && npx astro check` |
 | Archive validation | ok | `python3 scripts/sync_apod.py validate` |
@@ -690,7 +705,7 @@ a well-formed SHA-256 certificate fingerprint.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests: 102 pipeline, 98 website, 127 Android — all green. The debug APK builds.
+- [x] Automated tests: 102 pipeline, 99 website, 127 Android — all green. The debug APK builds.
 - [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.4**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Wallpaper audit on the Android 15 emulator: the system picker is shown only on first activation; choosing an archive picture updates the active wallpaper in place without a dialog; the background worker replaced that archive picture with the latest APOD without opening the app; a 6-hour periodic job is scheduled; Fill/Fit matches in the sheet preview and on the live wallpaper and changes while active; Wi-Fi only is off by default and Hide videos is in Settings.

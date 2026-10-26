@@ -4,10 +4,11 @@
  * Colours and type sizes come exclusively from tokens.css — never hard-code a
  * hex value here.
  *
- * The three app pages (Today, Archive, Entry) use a fixed-viewport shell on
- * desktop: header 56px / content 1fr / footer 40px, with no page scroll.
- * Below 900px wide or 600px tall the shell falls back to a normal, scrolling
- * document. The documentation pages always scroll inside their main area.
+ * Every page uses one fixed-viewport shell: a 56px header, a scrollable main
+ * area and an auto-height footer, so the navigation and footer never scroll
+ * out of view. The three app pages (Today, Archive, Entry) keep their
+ * fixed-layout content inside that main area; the documentation pages scroll
+ * their prose inside it.
  */
 
 /* ---------------------------------------------------------------- reset */
@@ -149,28 +150,34 @@ pre {
 
 /* ---------------------------------------------------------------- shell */
 
+/*
+ * The whole site uses one fixed-viewport shell so the header and footer are
+ * always visible: header / scrollable main / footer. This applies to the
+ * documentation pages and to narrow or short viewports as well — only the
+ * main area scrolls, never the document.
+ */
 .shell {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* The three app pages: one fixed grid, nothing scrolls on desktop. */
-.shell--app {
   height: 100dvh;
+  min-height: 0;
   overflow: hidden;
   display: grid;
-  grid-template-rows: var(--header-height) minmax(0, 1fr) var(--footer-height);
+  grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
+.shell > main {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* The three app pages: the main area itself is the fixed layout. */
 .shell--app > main {
   min-height: 0;
 }
 
-.shell--doc {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
+.shell--doc > main {
+  min-height: 0;
 }
 
 /* ---------------------------------------------------------------- header */
@@ -279,17 +286,26 @@ pre {
 /* ---------------------------------------------------------------- footer */
 
 .site-footer {
-  height: var(--footer-height);
+  min-height: var(--footer-height);
+  height: auto;
   flex: 0 0 auto;
-  padding: 0 var(--gutter);
+  padding: 8px var(--gutter);
   border-top: var(--border-width) solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--text-12);
+  color: var(--text-muted);
+  background: var(--bg);
+}
+
+.site-footer__bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  font-size: var(--text-12);
-  color: var(--text-muted);
-  background: var(--bg);
+  width: 100%;
+  min-height: 24px;
 }
 
 .site-footer__note {
@@ -302,19 +318,81 @@ pre {
   align-items: center;
   gap: var(--space-5);
   flex: 0 0 auto;
-  align-self: stretch;
 }
 
 .site-footer__links a {
   color: var(--text-muted);
   display: inline-flex;
   align-items: center;
-  height: 100%;
-  min-height: 0;
+  min-height: 28px;
 }
 
 .site-footer__links a:hover {
   color: var(--text);
+}
+
+/* ------------------------------ footer app invitation (quiet, never modal) */
+
+.site-footer__app {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 2px 0 6px;
+  border-bottom: var(--border-width) solid var(--divider);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.site-footer__app:hover {
+  text-decoration: none;
+}
+
+.site-footer__app .icon {
+  color: var(--accent);
+  font-size: 18px;
+  flex: 0 0 auto;
+}
+
+.site-footer__app-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  min-width: 0;
+  line-height: 1.45;
+}
+
+.site-footer__app-title {
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.site-footer__app-text {
+  min-width: 0;
+}
+
+.site-footer__app-text--short {
+  display: none;
+}
+
+.site-footer__app-cta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.site-footer__app:hover .site-footer__app-cta {
+  text-decoration: underline;
+}
+
+.site-footer__app .icon:last-child {
+  font-size: 14px;
 }
 
 /* --------------------------------------------------------- hide videos */
@@ -1185,6 +1263,8 @@ body.has-drawer-open {
 /* ------------------------------------------------------------ mobile menu */
 
 .mobile-menu {
+  position: fixed;
+  inset: 0;
   width: 100%;
   max-width: none;
   height: 100%;
@@ -1503,19 +1583,6 @@ body.has-drawer-open {
 /* --------------------------------------------------------------- responsive */
 
 @media (max-width: 899px), (max-height: 599px) {
-  html,
-  body {
-    height: auto;
-  }
-
-  .shell--app {
-    height: auto;
-    min-height: 100dvh;
-    overflow: visible;
-    display: flex;
-    flex-direction: column;
-  }
-
   .app-main {
     padding: 16px 20px 32px;
     display: flex;
@@ -1592,20 +1659,40 @@ body.has-drawer-open {
   }
 
   .site-footer {
-    height: auto;
-    min-height: var(--footer-height);
-    padding: 10px 20px;
+    padding: 8px 20px 10px;
+  }
+
+  .site-footer__app {
+    align-items: flex-start;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px 10px;
+  }
+
+  .site-footer__app-copy {
+    flex: 1 1 260px;
+  }
+
+  .site-footer__app-cta {
+    margin-left: 28px;
+  }
+
+  .site-footer__bottom {
+    flex-wrap: wrap;
+    gap: 0 16px;
   }
 
   .site-footer__note {
+    flex: 1 1 100%;
     white-space: normal;
   }
 
+  .site-footer__links {
+    flex-wrap: wrap;
+    gap: 0 16px;
+  }
+
   .site-footer__links a {
-    height: auto;
-    min-height: 44px;
+    min-height: 36px;
   }
 
   .state-panel--full {
@@ -1635,6 +1722,51 @@ body.has-drawer-open {
     padding: 0 12px 0 20px;
   }
 
+  .site-footer__note {
+    display: none;
+  }
+
+  .site-footer__app {
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 2px 8px;
+    padding-bottom: 4px;
+  }
+
+  .site-footer__app .icon:first-child {
+    display: none;
+  }
+
+  .site-footer__app-copy {
+    flex: 1 1 auto;
+    gap: 0 6px;
+  }
+
+  .site-footer__app-title {
+    font-size: var(--text-12);
+  }
+
+  .site-footer__app-text {
+    font-size: var(--text-11);
+  }
+
+  .site-footer__app-text--long {
+    display: none;
+  }
+
+  .site-footer__app-text--short {
+    display: inline;
+  }
+
+  .site-footer__app-cta {
+    margin-left: 0;
+    align-self: center;
+  }
+
+  .site-footer__bottom {
+    min-height: 0;
+  }
+
   .doc-main {
     padding: 24px 20px 48px;
   }
@@ -1653,6 +1785,20 @@ body.has-drawer-open {
 }
 
 @media (max-width: 599px) {
+  .site-footer__bottom {
+    align-items: flex-start;
+  }
+
+  .site-footer__links {
+    flex: 1 1 100%;
+    gap: 0 10px;
+  }
+
+  .site-footer__links a {
+    font-size: var(--text-11);
+    min-height: 32px;
+  }
+
   .hero-frame .media-frame {
     height: auto;
     aspect-ratio: 16 / 9;
@@ -1672,7 +1818,7 @@ body.has-drawer-open {
   }
 
   .site-footer__links {
-    gap: 16px;
+    gap: 0 10px;
   }
 
   .archive-pager {
@@ -1858,7 +2004,7 @@ body.has-drawer-open {
 .donate-prompt {
   position: fixed;
   left: 24px;
-  bottom: 56px;
+  bottom: calc(var(--footer-height) + 56px);
   z-index: 40;
   width: 340px;
   max-width: calc(100vw - 32px);
@@ -1899,7 +2045,7 @@ body.has-drawer-open {
   .donate-prompt {
     left: 16px;
     right: 16px;
-    bottom: 16px;
+    bottom: calc(var(--footer-height) + 100px);
     width: auto;
     max-width: none;
   }

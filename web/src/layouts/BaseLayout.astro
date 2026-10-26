@@ -2,10 +2,10 @@
 /**
  * Base layout — document shell, fonts, header and footer.
  *
- * `variant="app"` is used by the three fixed-viewport pages (Today, Archive,
- * Entry): the body is a 56px / 1fr / 40px grid and nothing scrolls on a
- * desktop viewport. `variant="doc"` is the normal scrolling shell used by the
- * About, API, Rights and 404 pages.
+ * Every page uses the same fixed-viewport shell: the header and footer stay
+ * visible and only `<main>` scrolls. `variant="app"` is used by Today,
+ * Archive and Entry for their fixed, no-scroll desktop layout; `variant="doc"`
+ * is used by the scrolling About, API, Rights and 404 pages.
  */
 import '../styles/tokens.css';
 import '../styles/global.css';

@@ -4,6 +4,7 @@
  */
 
 import { formatDateShort, yearOf } from './format';
+import { WEBSITE_URL } from './site.generated';
 import type { ArchiveIndex, ArchiveIndexEntry } from './types';
 
 export interface ArchiveFilters {
@@ -34,6 +35,17 @@ export interface ListRow {
 /** Path of the entry page for a calendar date. */
 export function entryPath(date: string): string {
   return `/archive/${date}`;
+}
+
+/**
+ * Absolute, shareable URL of one entry on the public website.
+ *
+ * Today's share button copies this URL (the canonical domain plus
+ * `/archive/YYYY-MM-DD`), not the current `/` address, so the recipient lands
+ * on the same picture with its explanation and credit.
+ */
+export function entryUrl(date: string): string {
+  return new URL(entryPath(date), WEBSITE_URL).toString();
 }
 
 /** Sort entries newest first (ISO dates sort lexicographically). */
