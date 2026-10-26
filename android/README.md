@@ -151,7 +151,9 @@ Android verifies the links against
 contains the application ID and the SHA-256 certificate fingerprint of the build users install.
 It currently lists the GitHub release key; add the Play App Signing certificate (if Play re-signs
 the bundle) and the F-Droid certificate when those listings go live, then redeploy the website.
-The parser and manifest are covered by `DeepLinkParserTest` and `DeepLinkManifestTest`.
+The parser and manifest are covered by `DeepLinkParserTest` and `DeepLinkManifestTest`. With the
+signed release APK installed and `assetlinks.json` deployed, Android 15 reports
+`pm get-app-links mohakash.stargzr.space` as `verified` and opens the links without a chooser.
 
 The share button shares the public `/archive/YYYY-MM-DD` URL as `text/plain`, together with the
 title, date and credit. It does not download or attach the picture; tapping the link opens the
