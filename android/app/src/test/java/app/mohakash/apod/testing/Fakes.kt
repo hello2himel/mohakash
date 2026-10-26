@@ -55,6 +55,9 @@ class FakeSettingsStore(initial: AppSettings = AppSettings()) : SettingsStore {
 
     override suspend fun setLastSync(atMillis: Long, date: String?) =
         state.update { it.copy(lastSyncAt = atMillis, lastSyncDate = date) }
+
+    override suspend fun setFeedSwipeHintSeen(value: Boolean) =
+        state.update { it.copy(feedSwipeHintSeen = value) }
 }
 
 /** An in-memory [FavouriteDao] that behaves like the Room implementation. */

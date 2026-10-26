@@ -113,6 +113,8 @@ data class FeedUiState(
     val currentDate: String? = null,
     /** The stable key of the page the pager is on ("END" for the end card). */
     val currentPageKey: String? = null,
+    /** Shows the one-time "swipe up" cue until the user interacts or it times out. */
+    val showSwipeHint: Boolean = false,
     val jumpRequest: FeedJumpRequest? = null,
     /** Bumped only when the *list of dates* changes, never when one page hydrates. */
     val listVersion: Long = 0L,
