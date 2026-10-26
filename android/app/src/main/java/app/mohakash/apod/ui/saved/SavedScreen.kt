@@ -50,6 +50,7 @@ fun SavedScreen(
     onBrowseFeed: () -> Unit,
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
+    showTopBar: Boolean = true,
 ) {
     val viewModel = containerViewModel { container ->
         SavedViewModel(favouritesRepository = container.favouritesRepository)
@@ -62,6 +63,7 @@ fun SavedScreen(
         onBrowseFeed = onBrowseFeed,
         onOpenSettings = onOpenSettings,
         modifier = modifier,
+        showTopBar = showTopBar,
     )
 }
 
@@ -73,35 +75,38 @@ internal fun SavedContent(
     onBrowseFeed: () -> Unit,
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
+    showTopBar: Boolean = true,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MohakashColors.Background),
     ) {
-        MohakashTopBar(
-            title = stringResource(R.string.saved_title),
-            actions = {
-                if (state.entries.isNotEmpty()) {
-                    Text(
-                        text = pluralStringResource(
-                            R.plurals.saved_count,
-                            state.entries.size,
-                            state.entries.size,
-                        ),
-                        style = MohakashTextStyles.Helper,
-                        color = MohakashColors.TextMuted,
-                        modifier = Modifier.padding(end = 4.dp),
+        if (showTopBar) {
+            MohakashTopBar(
+                title = stringResource(R.string.saved_title),
+                actions = {
+                    if (state.entries.isNotEmpty()) {
+                        Text(
+                            text = pluralStringResource(
+                                R.plurals.saved_count,
+                                state.entries.size,
+                                state.entries.size,
+                            ),
+                            style = MohakashTextStyles.Helper,
+                            color = MohakashColors.TextMuted,
+                            modifier = Modifier.padding(end = 4.dp),
+                        )
+                    }
+                    IconActionButton(
+                        painter = painterResource(R.drawable.ic_settings_24),
+                        contentDescription = stringResource(R.string.feed_settings),
+                        onClick = onOpenSettings,
+                        tint = MohakashColors.TextMuted,
                     )
-                }
-                IconActionButton(
-                    painter = painterResource(R.drawable.ic_settings_24),
-                    contentDescription = stringResource(R.string.feed_settings),
-                    onClick = onOpenSettings,
-                    tint = MohakashColors.TextMuted,
-                )
-            },
-        )
+                },
+            )
+        }
 
         when {
             state.isLoading -> SavedSkeleton()

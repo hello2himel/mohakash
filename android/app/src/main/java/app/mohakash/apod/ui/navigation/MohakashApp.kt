@@ -32,11 +32,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import app.mohakash.apod.ui.LocalSnackbarHostState
-import app.mohakash.apod.ui.archive.ArchiveScreen
+import app.mohakash.apod.ui.archive.ArchiveHubScreen
 import app.mohakash.apod.ui.detail.DetailScreen
 import app.mohakash.apod.ui.feed.FeedScreen
 import app.mohakash.apod.ui.onboarding.OnboardingScreen
-import app.mohakash.apod.ui.saved.SavedScreen
 import app.mohakash.apod.ui.settings.AdvancedScreen
 import app.mohakash.apod.ui.settings.SettingsScreen
 import app.mohakash.apod.ui.theme.MohakashColors
@@ -60,12 +59,10 @@ fun MohakashApp(
     val snackbarHostState = remember { SnackbarHostState() }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
-    val showBottomBar = currentRoute == Routes.TODAY ||
-        currentRoute == Routes.ARCHIVE ||
-        currentRoute == Routes.SAVED ||
-        currentRoute == Routes.SETTINGS_TAB
+    val showBottomBar = currentRoute == Routes.TODAY || currentRoute == Routes.ARCHIVE
     var feedFullscreen by remember { mutableStateOf(false) }
     var randomRequest by remember { mutableStateOf(0) }
+    var openArchiveOnSaved by remember { mutableStateOf(false) }
     var onboardingCompleted by remember {
         mutableStateOf(startDestination != Routes.ONBOARDING)
     }
@@ -145,7 +142,8 @@ fun MohakashApp(
                         onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                         onOpenLink = { url -> openLink(context, url) },
                         onOpenSaved = {
-                            navController.navigate(Routes.SAVED) {
+                            openArchiveOnSaved = true
+                            navController.navigate(Routes.ARCHIVE) {
                                 popUpTo(Routes.TODAY) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
@@ -158,15 +156,9 @@ fun MohakashApp(
                 }
 
                 composable(Routes.ARCHIVE) {
-                    ArchiveScreen(
+                    ArchiveHubScreen(
                         onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
                         onOpenSettings = { navController.navigate(Routes.SETTINGS) },
-                    )
-                }
-
-                composable(Routes.SAVED) {
-                    SavedScreen(
-                        onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
                         onBrowseFeed = {
                             navController.navigate(Routes.TODAY) {
                                 popUpTo(Routes.TODAY) { saveState = true }
@@ -174,7 +166,8 @@ fun MohakashApp(
                                 restoreState = true
                             }
                         },
-                        onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                        openOnSaved = openArchiveOnSaved,
+                        onOpenOnSavedConsumed = { openArchiveOnSaved = false },
                     )
                 }
 
@@ -183,15 +176,6 @@ fun MohakashApp(
                         onBack = { navController.popBackStack() },
                         onOpenLink = { url -> openLink(context, url) },
                         onOpenAdvanced = { navController.navigate(Routes.ADVANCED) },
-                    )
-                }
-
-                composable(Routes.SETTINGS_TAB) {
-                    SettingsScreen(
-                        onBack = {},
-                        onOpenLink = { url -> openLink(context, url) },
-                        onOpenAdvanced = { navController.navigate(Routes.ADVANCED) },
-                        showBack = false,
                     )
                 }
 

@@ -6,8 +6,7 @@
     <string name="nav_feed">Feed</string>
     <string name="nav_archive">Archive</string>
     <string name="nav_saved">Saved</string>
-    <string name="nav_random">Random</string>
-    <string name="nav_random_description">Open a random picture</string>
+    <string name="nav_random_description">Send a rocket to a random picture</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Wallpaper preview</string>
@@ -21,19 +20,20 @@
     <string name="feed_full_entry">Learn more</string>
     <string name="feed_search">Search</string>
     <string name="feed_settings">Settings</string>
-    <string name="feed_save">Add to saved</string>
-    <string name="feed_save_label">Save</string>
-    <string name="feed_saved_state">Saved</string>
+    <string name="feed_save">Add to favorites</string>
+    <string name="feed_save_label">Favorite</string>
+    <string name="feed_saved_state">Favorited</string>
     <string name="feed_download_label">Download</string>
-    <string name="feed_download">Save image</string>
+    <string name="feed_remove_favorite">Remove from favorites</string>
+    <string name="feed_download">Download image</string>
     <string name="feed_share">Share</string>
     <string name="feed_set_wallpaper">Set wallpaper</string>
     <string name="feed_wallpaper_active">Wallpaper active</string>
     <string name="feed_watch_on_apod">Watch on APOD</string>
     <string name="feed_clear_filters">Clear filters</string>
     <string name="feed_offline_chip">Offline copy</string>
-    <string name="feed_random_title">Rolling the dice…</string>
-    <string name="feed_random_body">Finding a random Astronomy Picture of the Day.</string>
+    <string name="feed_random_title">Plotting a course…</string>
+    <string name="feed_random_body">The rocket is picking a random picture from the archive.</string>
     <string name="feed_random_cancel">Cancel</string>
     <string name="feed_random_unavailable">No random picture is available right now.</string>
     <string name="feed_hide_chrome">Hide details</string>

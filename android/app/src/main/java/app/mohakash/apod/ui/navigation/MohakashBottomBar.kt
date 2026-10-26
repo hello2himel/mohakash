@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -25,6 +27,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.mohakash.apod.R
@@ -32,7 +36,7 @@ import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 
-/** The four regular destinations; the random button sits in the middle. */
+/** Feed on the left, Archive on the right; the random rocket sits in the middle. */
 enum class BottomDestination(
     val route: String,
     val labelRes: Int,
@@ -41,12 +45,10 @@ enum class BottomDestination(
 ) {
     FEED(Routes.TODAY, R.string.nav_feed, R.drawable.ic_today_24, R.drawable.ic_today_24),
     ARCHIVE(Routes.ARCHIVE, R.string.nav_archive, R.drawable.ic_archive_24, R.drawable.ic_archive_24),
-    SAVED(Routes.SAVED, R.string.nav_saved, R.drawable.ic_heart_24, R.drawable.ic_heart_filled_24),
-    SETTINGS(Routes.SETTINGS_TAB, R.string.settings_title, R.drawable.ic_settings_24, R.drawable.ic_settings_24),
 }
 
-private val LeftDestinations = listOf(BottomDestination.FEED, BottomDestination.ARCHIVE)
-private val RightDestinations = listOf(BottomDestination.SAVED, BottomDestination.SETTINGS)
+private val LeftDestinations = listOf(BottomDestination.FEED)
+private val RightDestinations = listOf(BottomDestination.ARCHIVE)
 
 /**
  * The bottom navigation bar.
@@ -89,7 +91,7 @@ fun MohakashBottomBar(
             }
             RandomBarItem(
                 onClick = onRandom,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.width(96.dp),
             )
             RightDestinations.forEach { destination ->
                 BottomBarItem(
@@ -136,39 +138,42 @@ private fun BottomBarItem(
     }
 }
 
-/** The highlighted dice in the middle of the navigation bar. */
+/** The rocket that floats above the middle of the navigation bar. */
 @Composable
 private fun RandomBarItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    val description = stringResource(R.string.nav_random_description)
+    Box(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(1.dp),
+            .height(MohakashDimens.BottomNavHeight)
+            .semantics { contentDescription = description }
+            .clickable(role = Role.Button, onClick = onClick),
+        contentAlignment = Alignment.TopCenter,
     ) {
         Box(
             modifier = Modifier
-                .size(50.dp)
+                .offset(y = (-16).dp)
+                .size(80.dp)
                 .clip(CircleShape)
-                .background(MohakashColors.Accent)
-                .border(2.dp, MohakashColors.Background, CircleShape)
-                .clickable(role = Role.Button, onClick = onClick),
+                .border(1.dp, MohakashColors.BorderStrong, CircleShape),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_dice_24),
-                contentDescription = stringResource(R.string.nav_random_description),
-                tint = MohakashColors.OnAccent,
-                modifier = Modifier.size(27.dp),
-            )
+            Box(
+                modifier = Modifier
+                    .size(62.dp)
+                    .clip(CircleShape)
+                    .background(MohakashColors.Accent),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_rocket_24),
+                    contentDescription = null,
+                    tint = MohakashColors.OnAccent,
+                    modifier = Modifier.size(31.dp),
+                )
+            }
         }
-        Text(
-            text = stringResource(R.string.nav_random),
-            style = MohakashTextStyles.Caption,
-            color = MohakashColors.TextMuted,
-        )
     }
 }
