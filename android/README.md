@@ -144,9 +144,9 @@ that, the app recognises that its service is the active wallpaper and swaps new 
 | **Filter sheet** | All years as a wrapped chip grid, All / Images / Videos, and a jump-to-date picker bounded to the archive range. A gap date resolves to the newest existing earlier date and says so. *Reset* and *Show N pictures*. |
 | **Saved** | Header with the count and *available offline*, two-column square grid; tiles open the full entry view. |
 | **Saved (empty)** | Heart glyph, *Nothing saved yet*, hint, *Browse the feed*. |
-| **Settings** | Display section (image scaling for the feed and the live wallpaper), wallpaper section (update automatically, prefer HD, Wi-Fi only, hide videos), storage section (image cache + clear), advanced section (API endpoint), about section (last synced, content rights, source code, version). |
+| **Settings** | Display section (image scaling for the feed and the live wallpaper), wallpaper section (update automatically, prefer HD, Wi-Fi only, hide videos), storage section (image cache + clear), advanced section (API endpoint), about section (last synced, content rights, source code, version). It has a root tab variant without a back arrow and a stack variant with one. |
 | **Clear cache dialog** | *Clear image cache?* with the exact size, *Cancel* / *Clear*. |
-| **Bottom navigation** | Feed · Archive · Saved (72 dp, no shadow). Full entry and Settings have a back arrow and no bottom bar. |
+| **Bottom navigation** | Feed · Archive · **Random** · Saved · Settings (72 dp, no shadow). The highlighted dice in the middle validates a random image-only APOD (respecting the image availability rules) while a small rolling-dice dialog is shown, then moves the feed there. Settings is also reachable directly from the feed gear; the stack version keeps a back arrow, the tab version does not. |
 
 ---
 

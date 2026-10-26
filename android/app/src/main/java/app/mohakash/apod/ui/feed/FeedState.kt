@@ -115,6 +115,8 @@ data class FeedUiState(
     val currentPageKey: String? = null,
     /** Shows the one-time "swipe up" cue until the user interacts or it times out. */
     val showSwipeHint: Boolean = false,
+    /** True while the dice are rolling and a random entry is being validated. */
+    val isPickingRandom: Boolean = false,
     val jumpRequest: FeedJumpRequest? = null,
     /** Bumped only when the *list of dates* changes, never when one page hydrates. */
     val listVersion: Long = 0L,
