@@ -241,7 +241,7 @@ cd android
 > (this machine has JDK 27), point `JAVA_HOME` at a 17 or 21 installation:
 > `export JAVA_HOME=/path/to/jdk-21`.
 
-Since **1.0.6** the app has three tabs: **Feed · Archive · Saved**. The feed starts
+The app has a five-slot navigation: **Feed · Archive · Random · Saved · Settings**. The feed starts
 on the latest picture; swiping up goes to older pictures and down to newer ones (the
 list never wraps), and search sits in the top-left corner. Tapping a picture hides
 every overlay and the bottom bar; tapping again brings them back. Archive keeps the
