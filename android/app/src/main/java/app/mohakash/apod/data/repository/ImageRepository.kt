@@ -32,7 +32,13 @@ class ImageRepository(
         if (downloaded.isFailure) {
             return@withContext Result.failure(downloaded.exceptionOrNull() ?: IllegalStateException("The download failed."))
         }
-        val saved = gallerySaver.save(fileName, downloaded.getOrThrow())
+        val picture = downloaded.getOrThrow()
+        val saved = try {
+            gallerySaver.save(fileName, picture)
+        } finally {
+            // The gallery copy is independent; do not leave a second full-size file in the cache.
+            runCatching { picture.delete() }
+        }
         saved.fold(
             onSuccess = { Result.success(Unit) },
             onFailure = { Result.failure(it) },

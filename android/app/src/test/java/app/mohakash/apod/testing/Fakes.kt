@@ -18,6 +18,7 @@ import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.AppSettings
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
 import app.mohakash.apod.domain.model.WallpaperScaling
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -173,13 +174,25 @@ class FakeApodService(
 ) : ApodService {
 
     val requestedPaths = mutableListOf<String>()
+    val requestedMaxBytes = mutableListOf<Long>()
+
+    /** Completed when `archive-index.json` is requested, before [archiveIndexGate] is awaited. */
+    var archiveIndexStarted: CompletableDeferred<Unit>? = null
+
+    /** When set, an `archive-index.json` request suspends here until the test completes it. */
+    var archiveIndexGate: CompletableDeferred<Unit>? = null
 
     override suspend fun latest(): ApodEntry = throw UnsupportedOperationException()
 
     override suspend fun archiveIndex(): List<ArchiveIndexEntry> = throw UnsupportedOperationException()
 
-    override suspend fun getString(path: String): String {
+    override suspend fun getString(path: String, maxBytes: Long): String {
         requestedPaths += path
+        requestedMaxBytes += maxBytes
+        if (path == "/archive-index.json") {
+            archiveIndexStarted?.complete(Unit)
+            archiveIndexGate?.await()
+        }
         error?.let { throw it }
         return when {
             path == "/latest.json" -> latestJson ?: throw IOException("no latest")

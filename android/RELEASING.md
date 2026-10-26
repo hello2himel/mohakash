@@ -80,6 +80,12 @@ gh variable set ANDROID_CERT_SHA256 \
 The workflow checks for all four secrets and fails before building if they are
 missing. It never publishes an unsigned APK.
 
+Both signing and Play uploads run in a GitHub **environment** named `release`.
+Configure that environment with required reviewers and a tag/ref rule so a
+write-access token alone cannot spend the signing key or the Play service
+account. Add `PLAY_SERVICE_ACCOUNT_JSON` as an environment secret for the Play
+workflow.
+
 > If the repository has collaborators you do not trust with the upload key, do
 > not put the key in repository secrets. Build the signed artifacts locally and
 > upload them by hand instead; the workflow is optional.

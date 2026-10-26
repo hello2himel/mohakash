@@ -95,7 +95,6 @@ private fun previewState(
     isIndexComplete = true,
     isOffline = isOffline,
     scaling = scaling,
-    syncedAt = System.currentTimeMillis() - 2L * 60L * 60L * 1000L,
     currentPageKey = pages.firstOrNull()?.page?.key,
     archiveFirstDate = "1995-06-16",
     archiveLastDate = "2026-10-23",
@@ -125,10 +124,10 @@ private fun FeedPagePreview() {
             wallpaperActive = false,
             scaling = WallpaperScaling.FILL,
             isOffline = false,
-            syncedAt = System.currentTimeMillis() - 2L * 60L * 60L * 1000L,
-            now = System.currentTimeMillis(),
             filters = FeedFilters(),
             actions = FeedPageActions(),
+            chromeVisible = true,
+            onToggleChrome = {},
         )
     }
 }
@@ -144,10 +143,10 @@ private fun FeedVideoPreview() {
             wallpaperActive = false,
             scaling = WallpaperScaling.FILL,
             isOffline = false,
-            syncedAt = System.currentTimeMillis() - 2L * 60L * 60L * 1000L,
-            now = System.currentTimeMillis(),
             filters = FeedFilters(),
             actions = FeedPageActions(),
+            chromeVisible = true,
+            onToggleChrome = {},
         )
     }
 }
@@ -163,10 +162,10 @@ private fun FeedFitFilterPreview() {
             wallpaperActive = true,
             scaling = WallpaperScaling.FIT,
             isOffline = false,
-            syncedAt = System.currentTimeMillis() - 20L * 60L * 1000L,
-            now = System.currentTimeMillis(),
             filters = FeedFilters(year = 2024, media = FeedMediaFilter.IMAGES),
             actions = FeedPageActions(),
+            chromeVisible = true,
+            onToggleChrome = {},
         )
     }
 }
@@ -182,10 +181,10 @@ private fun FeedOfflinePreview() {
             wallpaperActive = false,
             scaling = WallpaperScaling.FILL,
             isOffline = true,
-            syncedAt = null,
-            now = System.currentTimeMillis(),
             filters = FeedFilters(),
             actions = FeedPageActions(),
+            chromeVisible = true,
+            onToggleChrome = {},
         )
     }
 }
@@ -204,10 +203,10 @@ private fun FeedHydrationFailurePreview() {
             wallpaperActive = false,
             scaling = WallpaperScaling.FILL,
             isOffline = false,
-            syncedAt = System.currentTimeMillis(),
-            now = System.currentTimeMillis(),
             filters = FeedFilters(),
             actions = FeedPageActions(),
+            chromeVisible = true,
+            onToggleChrome = {},
         )
     }
 }
@@ -256,23 +255,6 @@ private fun FeedFatalPreview() {
     PreviewSurface { FeedFatalError(onRetry = {}, onOpenSaved = {}) }
 }
 
-@Preview(name = "Feed · filter sheet", widthDp = 390, heightDp = 780, showBackground = true)
-@Composable
-private fun FeedFilterPreview() {
-    val entry = previewEntry()
-    val items = listOf(FeedDateItem(entry.date, previewIndex()))
-    PreviewSurface {
-        FeedFilterSheetContent(
-            filters = FeedFilters(year = 2024, media = FeedMediaFilter.IMAGES),
-            availableYears = listOf(2026, 2025, 2024, 2023, 2022, 2021),
-            allItems = items,
-            archiveFirstDate = "1995-06-16",
-            archiveLastDate = "2026-10-23",
-            onApply = { _, _ -> },
-        )
-    }
-}
-
 @Preview(name = "Feed · search sheet", widthDp = 390, heightDp = 780, showBackground = true)
 @Composable
 private fun FeedSearchPreview() {
@@ -312,6 +294,8 @@ private fun FeedContentPreview() {
             onRetryAll = {},
             showSwipeHint = false,
             onDismissSwipeHint = {},
+            chromeVisible = true,
+            onToggleChrome = {},
         )
     }
 }

@@ -20,9 +20,9 @@ sealed interface DeepLinkTarget {
         override val destination: String get() = Routes.TODAY
     }
 
-    /** `/archive` now opens the combined feed; the archive list screen no longer exists. */
+    /** `/archive` opens the archive tab. */
     data object Archive : DeepLinkTarget {
-        override val destination: String get() = Routes.TODAY
+        override val destination: String get() = Routes.ARCHIVE
     }
 
     data class Detail(val date: String) : DeepLinkTarget {
@@ -45,7 +45,7 @@ class DeepLinkRequest(val target: DeepLinkTarget)
  * Supported:
  *
  * - `https://<website>/` → the feed (latest picture)
- * - `https://<website>/archive` → the feed
+ * - `https://<website>/archive` → the archive tab
  * - `https://<website>/archive/YYYY-MM-DD` → Detail
  *
  * All other URLs, hosts and schemes are ignored. The host comes from

@@ -1,7 +1,9 @@
 package app.mohakash.apod.data.local.prefs
 
 import android.content.Context
+import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -12,13 +14,18 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import app.mohakash.apod.domain.model.AppSettings
 import app.mohakash.apod.domain.model.WallpaperScaling
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
-private val Context.mohakashDataStore: DataStore<Preferences> by preferencesDataStore(name = "mohakash_settings")
+private val Context.mohakashDataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "mohakash_settings",
+    // A corrupt preferences file is replaced with defaults instead of failing every read.
+    corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
+)
 
 /**
  * Persists the user preferences in a DataStore (Preferences).
@@ -32,7 +39,13 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
 
     override val settings: Flow<AppSettings> = dataStore.data
         .catch { throwable ->
-            if (throwable is IOException) emit(emptyPreferences()) else throw throwable
+            when (throwable) {
+                // Belt and braces: the handler above should have replaced the file already, but a
+                // read must never take the app down if replacement itself fails.
+                is CorruptionException -> emit(emptyPreferences())
+                is IOException -> emit(emptyPreferences())
+                else -> throw throwable
+            }
         }
         .map { prefs -> prefs.toSettings() }
 
@@ -66,8 +79,23 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
 
     override suspend fun setFeedSwipeHintSeen(value: Boolean) = edit { it[Keys.FEED_SWIPE_HINT_SEEN] = value }
 
+    /**
+     * Applies an edit, swallowing storage failures.
+     *
+     * Preferences are a convenience: failing to persist one (a full disk, a corrupt file, a
+     * read-only device) must never crash an event handler running in `viewModelScope`. The
+     * in-memory flow keeps the last successfully written values, so the UI stays consistent.
+     */
     private suspend fun edit(block: (MutablePreferences) -> Unit) {
-        dataStore.edit(block)
+        try {
+            dataStore.edit(block)
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (corruption: CorruptionException) {
+            // The corruption handler resets the store on the next read; drop this write.
+        } catch (error: IOException) {
+            // Disk full / I/O error: keep the previous value rather than crashing the caller.
+        }
     }
 
     private fun Preferences.toSettings(): AppSettings = AppSettings(
