@@ -2,6 +2,9 @@ package app.mohakash.apod.ui.feed
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -29,6 +32,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -385,6 +391,47 @@ private fun FeedPager(
         if (showSwipeHint && isDragging) onDismissSwipeHint()
     }
 
+    // On the latest page the pager has nowhere to go, so a downward pull moves the whole page
+    // down by at most a quarter of the screen. The blank band above it is where the refresh
+    // indicator lives; no phantom page is ever inserted.
+    val pullFraction = if (state.isRefreshing) {
+        1f
+    } else {
+        pullState.distanceFraction.coerceIn(0f, 1f)
+    }
+    val shiftFraction by animateFloatAsState(
+        targetValue = pullFraction,
+        animationSpec = tween(durationMillis = 140),
+        label = "feed-refresh-shift",
+    )
+    val maxShiftPx = with(LocalDensity.current) {
+        (LocalConfiguration.current.screenHeightDp * 0.25f).dp.toPx()
+    }
+
+    // The first visit gets a small, unmistakable demo: the feed lifts a quarter-screen and
+    // springs back twice while the swipe hint is visible. It is a visual hint only, never a
+    // refresh and never a phantom page.
+    val hintShift = remember { Animatable(0f) }
+    val hintShiftFraction = hintShift.value
+    LaunchedEffect(showSwipeHint, pagerState.currentPage) {
+        if (showSwipeHint && pagerState.currentPage == 0) {
+            repeat(2) {
+                hintShift.animateTo(
+                    targetValue = -0.24f,
+                    animationSpec = tween(durationMillis = 780, easing = FastOutSlowInEasing),
+                )
+                delay(260)
+                hintShift.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(durationMillis = 620, easing = FastOutSlowInEasing),
+                )
+                delay(380)
+            }
+        } else {
+            hintShift.animateTo(0f, tween(durationMillis = 220))
+        }
+    }
+
     PullToRefreshBox(
         isRefreshing = state.isRefreshing,
         onRefresh = actions.onRefresh,
@@ -396,7 +443,11 @@ private fun FeedPager(
     ) {
         VerticalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    translationY = (shiftFraction + hintShiftFraction) * maxShiftPx
+                },
             beyondViewportPageCount = 1,
             key = { index -> pages.getOrNull(index)?.page?.key ?: "feed-$index" },
         ) { index ->

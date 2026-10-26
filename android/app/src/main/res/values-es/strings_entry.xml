@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Strings of the rebuilt entry viewer.
+
+    Shared strings that already exist in `strings.xml` (`detail_*` and `feed_*`) are reused; only
+    the wording that lives in this file is translated here.
+-->
+<resources>
+
+    <!-- Header and metadata -->
+    <string name="entry_credit_value">Crédito: %1$s</string>
+    <string name="entry_media_image">Imagen</string>
+    <string name="entry_media_video">Vídeo</string>
+    <string name="entry_media_interactive">Interactivo</string>
+    <string name="entry_meta_section">Detalles</string>
+    <string name="entry_meta_date">Fecha</string>
+    <string name="entry_meta_media_type">Tipo de contenido</string>
+    <string name="entry_meta_credit">Crédito</string>
+    <string name="entry_meta_updated">Actualizado</string>
+    <string name="entry_meta_source">Fuente</string>
+    <string name="entry_not_provided">No especificado</string>
+    <string name="entry_links_section">Enlaces</string>
+
+    <!-- Image viewer -->
+    <string name="entry_image_loading">Cargando imagen</string>
+    <string name="entry_image_retry">Reintentar</string>
+    <string name="entry_image_description">Imagen astronómica</string>
+    <string name="entry_image_placeholder_note">El editor incluye una imagen de relleno para esta entrada.</string>
+    <string name="entry_image_missing_note">Esta entrada no tiene imagen.</string>
+
+    <!-- Notes and actions -->
+    <string name="entry_offline_note">Mostrando la copia guardada. Puede que la descripción esté incompleta.</string>
+    <string name="entry_action_save">Añadir a favoritos</string>
+    <string name="entry_action_unsave">Quitar de favoritos</string>
+    <string name="entry_action_share">Compartir</string>
+    <string name="entry_action_settings">Ajustes</string>
+
+</resources>

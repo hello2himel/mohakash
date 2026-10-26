@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">动态</string>
+    <string name="nav_archive">归档</string>
+    <string name="nav_saved">收藏</string>
+    <string name="nav_random_description">打开一张随机图片</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">壁纸预览</string>
+    <string name="onboarding_headline">今日的天空，就在主屏幕</string>
+    <string name="onboarding_subtitle">每天一张新的天文图片，无需账号。</string>
+    <string name="onboarding_set_wallpaper">设为动态壁纸</string>
+    <string name="onboarding_skip">暂时跳过</string>
+    <string name="onboarding_wifi_note">图片会自动下载。你可以在设置中改为仅在 Wi-Fi 下下载。</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">了解更多</string>
+    <string name="feed_search">搜索</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">设置</string>
+    <string name="feed_save">添加到收藏</string>
+    <string name="feed_save_label">收藏</string>
+    <string name="feed_saved_state">已收藏</string>
+    <string name="feed_download_label">下载</string>
+    <string name="feed_remove_favorite">取消收藏</string>
+    <string name="feed_download">下载图片</string>
+    <string name="feed_share">分享</string>
+    <string name="feed_set_wallpaper">设为壁纸</string>
+    <string name="feed_wallpaper_active">壁纸已启用</string>
+    <string name="feed_watch_on_apod">在 APOD 上查看</string>
+    <string name="feed_clear_filters">清除筛选</string>
+    <string name="feed_offline_chip">离线副本</string>
+    <string name="feed_random_title">正在挑选图片…</string>
+    <string name="feed_random_body">正在归档中寻找一张随机图片。</string>
+    <string name="feed_random_cancel">取消</string>
+    <string name="feed_random_unavailable">目前没有可用的随机图片。</string>
+    <string name="feed_hide_chrome">隐藏详情</string>
+    <string name="feed_show_chrome">显示详情</string>
+    <string name="feed_swipe_hint_title">向上滑动</string>
+    <string name="feed_swipe_hint_body">查看更多图片</string>
+    <string name="feed_explanation_unavailable">离线时无法查看简介</string>
+    <string name="feed_hydration_failed">无法加载详情</string>
+    <string name="feed_retry">重试</string>
+    <string name="feed_pull_refresh">下拉刷新</string>
+    <string name="feed_release_refresh">松开即可刷新</string>
+    <string name="feed_refreshing">正在刷新…</string>
+    <string name="feed_loading">正在加载动态</string>
+    <string name="feed_loading_older">正在加载更早的年份…</string>
+    <string name="feed_end_title">归档的起点</string>
+    <string name="feed_end_body">第一张图片来自 1995 年 6 月 16 日。</string>
+    <string name="feed_end_filtered">没有符合此筛选条件的更早图片。</string>
+    <string name="feed_end_offline">查看更早的图片需要网络连接。</string>
+    <string name="feed_end_retry">归档的其余部分尚未下载。</string>
+    <string name="feed_back_to_latest">返回最新</string>
+    <string name="feed_open_saved">打开收藏</string>
+    <string name="feed_error_title">动态暂时不可用</string>
+    <string name="feed_error_body">请检查网络连接后重试。你收藏的图片始终可以查看。</string>
+    <string name="feed_error_try_again">重试</string>
+
+    <!-- Archive -->
+    <string name="archive_title">归档</string>
+    <string name="archive_search_hint">搜索标题</string>
+    <string name="archive_filters">筛选</string>
+    <string name="archive_empty_query">没有与“%1$s”匹配的条目</string>
+    <string name="archive_empty_filters">没有符合筛选条件的条目。</string>
+    <string name="archive_clear_filters">清除筛选</string>
+    <string name="archive_loading">正在加载归档</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">搜索标题或日期</string>
+    <string name="search_close">关闭搜索</string>
+    <string name="search_no_results">没有与“%1$s”匹配的图片</string>
+    <string name="search_no_matches_filter">没有符合这些筛选条件的图片。</string>
+    <string name="search_offline">首次搜索需要网络连接。</string>
+    <string name="search_refine">缩小搜索范围可减少结果数量。</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">动态壁纸</string>
+    <string name="wallpaper_preview">预览</string>
+    <string name="wallpaper_selected_image">已选图片</string>
+    <string name="wallpaper_scaling">缩放方式</string>
+    <string name="wallpaper_update_daily">每天更新</string>
+    <string name="wallpaper_preview_and_set">设为动态壁纸</string>
+    <string name="wallpaper_apply_now">立即应用</string>
+    <string name="wallpaper_helper">Android 会请求你启用一次动态壁纸。之后新图片会自动应用；电池优化可能会延迟应用。</string>
+    <string name="wallpaper_helper_active">动态壁纸已启用。所选图片和缩放方式会直接应用，无需打开系统选择器。</string>
+    <string name="wallpaper_scaling_fill">填充</string>
+    <string name="wallpaper_scaling_fit">适应</string>
+
+    <!-- Detail (Builder B owns the new entry_* strings in strings_entry.xml) -->
+    <string name="detail_back">返回</string>
+    <string name="detail_save_image">保存图片</string>
+    <string name="detail_set_wallpaper">设为壁纸</string>
+    <string name="detail_original_page">APOD 原始页面</string>
+    <string name="detail_hd_image">高清图片</string>
+    <string name="detail_video_chip">视频</string>
+    <string name="detail_watch_original">在原始页面查看</string>
+    <string name="detail_video_note">视频条目无法用作壁纸。当前壁纸将保持不变。</string>
+    <string name="detail_image_unavailable">图片不可用</string>
+    <string name="detail_loading">正在加载条目</string>
+    <string name="detail_error_title">此条目不可用</string>
+    <string name="detail_error_body">请检查网络连接后重试。</string>
+    <string name="detail_error_try_again">重试</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">筛选</string>
+    <string name="filter_year">年份</string>
+    <string name="filter_all_years">全部年份</string>
+    <string name="filter_jump_to_date">跳转到日期</string>
+    <string name="filter_jump_to_date_placeholder">选择日期</string>
+    <string name="filter_type">类型</string>
+    <string name="filter_all">全部</string>
+    <string name="filter_images">图片</string>
+    <string name="filter_videos">视频</string>
+    <string name="filter_older">更早</string>
+    <string name="filter_close">关闭</string>
+    <string name="filter_year_picker_title">选择年份</string>
+    <string name="filter_reset">重置</string>
+    <string name="filter_confirm">确定</string>
+    <plurals name="filter_show_entries">
+        <item quantity="other">显示 %d 张图片</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">收藏</string>
+    <plurals name="saved_count">
+        <item quantity="other">%d 张图片 · 可离线查看</item>
+    </plurals>
+    <string name="saved_empty_title">还没有收藏</string>
+    <string name="saved_empty_body">点击任意图片上的爱心，即可保存在这里，离线也能查看。</string>
+    <string name="saved_browse_feed">浏览动态</string>
+    <string name="saved_loading">正在加载收藏的图片</string>
+
+    <!-- Settings -->
+    <string name="settings_title">设置</string>
+    <string name="settings_section_display">显示</string>
+    <string name="settings_image_scaling_hint">适用于动态列表和动态壁纸。</string>
+    <string name="settings_section_wallpaper">壁纸</string>
+    <string name="settings_update_automatically">自动更新</string>
+    <string name="settings_update_automatically_hint">Android 允许时，每天一次</string>
+    <string name="settings_prefer_hd">优先使用高清图片</string>
+    <string name="settings_prefer_hd_hint">下载量会更大</string>
+    <string name="settings_wifi_only">仅在 Wi-Fi 下</string>
+    <string name="settings_hide_videos">隐藏视频</string>
+    <string name="settings_hide_videos_hint">挑选壁纸图片时跳过视频条目。</string>
+    <string name="settings_image_scaling">图片缩放</string>
+    <string name="settings_section_storage">存储</string>
+    <string name="settings_image_cache">图片缓存</string>
+    <string name="settings_image_cache_size">已使用 %1$s</string>
+    <string name="settings_clear">清除</string>
+    <string name="settings_section_advanced">高级</string>
+    <string name="settings_api_endpoint">API 端点</string>
+    <string name="settings_api_endpoint_default">默认端点</string>
+    <string name="settings_api_endpoint_custom">自定义端点</string>
+    <string name="settings_section_about">关于</string>
+    <string name="settings_last_synced">上次同步</string>
+    <string name="settings_content_rights">内容版权</string>
+    <string name="settings_privacy">隐私政策</string>
+    <string name="settings_source_code">源代码与许可</string>
+    <string name="settings_third_party_notices">第三方声明</string>
+    <string name="settings_version">版本</string>
+    <string name="settings_rights_note">图片版权归创作者所有。本应用与 NASA 无关联，也未获 NASA 认可。</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">高级</string>
+    <string name="settings_advanced_intro">你可以为自己的 APOD JSON 使用自建服务器。它提供的文件需与公共 API 一致。</string>
+    <string name="settings_advanced_field_label">API 基础 URL</string>
+    <string name="settings_advanced_field_helper">留空则使用默认值。仅支持 HTTPS。</string>
+    <string name="settings_advanced_save">保存端点</string>
+    <string name="settings_advanced_saving">正在保存…</string>
+    <string name="settings_advanced_reset">重置为默认</string>
+    <string name="settings_advanced_saved">端点已保存，正在刷新数据…</string>
+    <string name="settings_advanced_reset_done">正在使用默认端点</string>
+    <string name="settings_advanced_already_default">已在用默认端点</string>
+    <string name="settings_advanced_already_using">已在用此端点</string>
+    <string name="settings_advanced_invalid">请输入有效的 HTTPS URL，且不含查询参数或片段。</string>
+    <string name="settings_advanced_save_failed">无法保存端点，请重试。</string>
+    <string name="settings_advanced_current">当前端点</string>
+    <string name="settings_advanced_status">状态</string>
+    <string name="settings_advanced_clear_note">更改端点会清除缓存的 APOD 元数据。已收藏的图片和当前壁纸会保留。</string>
+    <string name="settings_advanced_format_note">端点需提供 latest.json、archive-index.json 和 archive/YYYY.json。不会发送 API 密钥。</string>
+    <string name="settings_advanced_section_guides">API 指南</string>
+    <string name="settings_advanced_api_docs">API 文档</string>
+    <string name="settings_advanced_api_reference">公共 API 参考</string>
+    <string name="settings_advanced_latest_example">latest.json 示例</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">清除图片缓存？</string>
+    <string name="clear_cache_body">将删除已下载的图片（%1$s）。已收藏的图片和当前壁纸会保留。</string>
+    <string name="clear_cache_cancel">取消</string>
+    <string name="clear_cache_confirm">清除</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">图片缓存已清除</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">主屏幕上的每日天文图片。</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">壁纸更新</string>
+    <string name="notification_channel_wallpaper_description">动态壁纸图片更换时通知你。</string>
+    <string name="notification_no_description">暂无说明。</string>
+    <string name="notification_action_open_app">打开应用</string>
+    <string name="notification_action_view_apod">在 APOD 上查看</string>
+    <string name="notification_action_settings">设置</string>
+</resources>
