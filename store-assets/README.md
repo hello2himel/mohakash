@@ -14,7 +14,7 @@ Campaign line: **“New wallpaper, every day.”**
 | # | Install driver | Headline | Support | Screen |
 |---|----------------|----------|---------|--------|
 | 01 | Fresh wallpaper daily | **New wallpaper, every day.** | Fresh astronomy, ready for your home screen. | *M42: The Great Nebula in Orion* |
-| 02 | Set-and-forget live wallpaper | **Set it once. Updated daily.** | Automatic live wallpaper. HD. Wi-Fi only. | Three-phone wallpaper showcase |
+| 02 | Set-and-forget live wallpaper | **Set it once. Updated daily.** | Automatic live wallpaper. HD images. | Three-phone wallpaper showcase |
 | 03 | Discovery | **Random wallpapers, at your fingertips.** | One tap. A surprise from the whole archive. | Random picker over *Comet NEAT* |
 | 04 | Keep offline | **Keep the ones you love.** | Save favourites. Read them offline. | Archive and Saved, 2024 filter |
 | 05 | Full-quality downloads | **Full resolution. Save or set it.** | The original image, one tap away. | *Asperitas Clouds* entry |
