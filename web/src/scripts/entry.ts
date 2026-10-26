@@ -9,6 +9,7 @@
 import { fetchIndex, fetchYear } from '../lib/api';
 import { fetchWithCache } from '../lib/cache';
 import { compactArchiveIndex, entryPath, neighbours } from '../lib/archive';
+import { copyWithFeedback } from '../lib/clipboard';
 import { formatDate, isIsoDate, yearOf } from '../lib/format';
 import { mediaPresentation, type MediaPresentation } from '../lib/media';
 import { readHideVideos } from '../lib/preferences';
@@ -77,37 +78,6 @@ function clearFrameSkeleton(presentation: MediaPresentation): void {
 
 /* -------------------------------------------------------------- actions */
 
-async function copyCurrentLink(button: HTMLButtonElement): Promise<void> {
-  const url = window.location.href;
-  try {
-    await navigator.clipboard.writeText(url);
-  } catch {
-    const helper = document.createElement('textarea');
-    helper.value = url;
-    helper.setAttribute('readonly', '');
-    helper.style.position = 'absolute';
-    helper.style.left = '-9999px';
-    document.body.append(helper);
-    helper.select();
-    try {
-      (document as unknown as { execCommand(command: string): boolean }).execCommand('copy');
-    } catch {
-      /* the button simply stays as it is */
-    }
-    helper.remove();
-  }
-  const labelEl = button.querySelector<HTMLElement>('.btn__label');
-  const label = labelEl?.textContent ?? button.textContent ?? '';
-  const setLabel = (text: string) => {
-    if (labelEl) labelEl.textContent = text;
-    else button.textContent = text;
-  };
-  setLabel('Copied');
-  window.setTimeout(() => {
-    setLabel(label);
-  }, 2000);
-}
-
 function renderActions(record: ApodRecord, presentation: MediaPresentation): void {
   actions.replaceChildren();
 
@@ -150,7 +120,7 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
     icon: 'ri-link',
   }) as HTMLButtonElement;
   copy.addEventListener('click', () => {
-    void copyCurrentLink(copy);
+    void copyWithFeedback(copy, window.location.href);
   });
   actions.append(copy);
 }

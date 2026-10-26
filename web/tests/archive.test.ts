@@ -5,6 +5,7 @@ import {
   compactArchiveIndex,
   countLabel,
   entryPath,
+  entryUrl,
   filterEntries,
   gridGeometry,
   indexToListRows,
@@ -221,6 +222,17 @@ describe('neighbours', () => {
 describe('entryPath', () => {
   it('builds the entry route', () => {
     expect(entryPath('2026-10-22')).toBe('/archive/2026-10-22');
+  });
+});
+
+describe('entryUrl', () => {
+  it('builds the absolute canonical link copied by the Today share button', () => {
+    const url = new URL(entryUrl('2026-10-22'));
+
+    expect(url.protocol).toBe('https:');
+    expect(url.pathname).toBe('/archive/2026-10-22');
+    expect(url.search).toBe('');
+    expect(url.hash).toBe('');
   });
 });
 

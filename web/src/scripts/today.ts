@@ -6,7 +6,8 @@
 
 import { fetchLatest, fetchLatestImage, fetchYear } from '../lib/api';
 import { fetchWithCache, readCache } from '../lib/cache';
-import { entryPath } from '../lib/archive';
+import { entryPath, entryUrl } from '../lib/archive';
+import { copyWithFeedback } from '../lib/clipboard';
 import { formatDate, yearOf } from '../lib/format';
 import { mediaPresentation, needsPictureFallback, type MediaPresentation } from '../lib/media';
 import { readHideVideos } from '../lib/preferences';
@@ -94,6 +95,19 @@ function renderActions(record: ApodRecord, presentation: MediaPresentation): voi
       }),
     );
   }
+
+  // The share action copies the canonical entry URL, not the current `/`
+  // address, so a shared link opens this exact APOD with its explanation.
+  const share = buildAction({
+    label: 'Share',
+    variant: 'secondary',
+    icon: 'ri-share-line',
+    ariaLabel: 'Copy the link to this entry',
+  }) as HTMLButtonElement;
+  share.addEventListener('click', () => {
+    void copyWithFeedback(share, entryUrl(record.date));
+  });
+  actions.append(share);
 
   if (record.apod_url) {
     actions.append(
