@@ -73,19 +73,22 @@ function clearFrameSkeleton(presentation: MediaPresentation): void {
 /* -------------------------------------------------------------- actions */
 
 /**
- * The visible description is a short preview; the drawer still receives the
- * complete explanation. Prefer a complete sentence between 100 and 240
- * characters, then fall back to a word boundary.
+ * The visible description is a readable preview; the drawer still receives the
+ * complete explanation. Show as many complete sentences as fit, then fall back
+ * to a word boundary so the preview never ends mid-word.
  */
-function shortDescription(text: string, limit = 240): string {
+function shortDescription(text: string, limit = 520): string {
   const normalized = text.replace(/\s+/g, ' ').trim();
   if (normalized.length <= limit) return normalized;
 
   const boundaries = [...normalized.matchAll(/[.!?](?=\s|$)/g)].map(
     (match) => (match.index ?? 0) + 1,
   );
-  const sentenceEnd = boundaries.find((end) => end >= 100 && end <= limit);
-  if (sentenceEnd !== undefined) return normalized.slice(0, sentenceEnd).trimEnd();
+  const lastComplete = boundaries.filter((end) => end >= 180 && end <= limit).at(-1);
+  if (lastComplete !== undefined) return normalized.slice(0, lastComplete).trimEnd();
+
+  const firstComplete = boundaries.find((end) => end >= 180 && end <= limit);
+  if (firstComplete !== undefined) return normalized.slice(0, firstComplete).trimEnd();
 
   const window = normalized.slice(0, limit);
   const wordEnd = window.lastIndexOf(' ');

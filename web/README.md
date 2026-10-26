@@ -24,7 +24,7 @@ so a single shell (`/archive/entry/index.html`) is rewritten for every date by
 Netlify and the record itself is loaded from the API at runtime. A newly
 published entry therefore works without rebuilding the site.
 
-## Shell, sharing and the Android invitation
+## Shell, sharing and the Today support card
 
 On desktop the document shell keeps the header and footer visible: the page
 itself does not scroll, only the `<main>` area does. On phones and small
@@ -37,14 +37,16 @@ The Today page has a **Share** button that copies the canonical entry URL
 (`https://<domain>/archive/YYYY-MM-DD`) for the picture currently on screen and
 shows a short "Copied" state.
 
-The Today description is a short sentence-bounded preview; **Read full
-explanation** opens the complete text in the existing drawer.
+The Today description is a sentence-bounded preview that fills up to six lines;
+**Read full explanation** opens the complete text in the existing drawer.
 
-The Android invitation sits inline in the Today column, in the space left by
-that shorter description: a quiet card with a real app screenshot, the
-live-wallpaper pitch and one focused **Download for Android** button. It is
-not a footer ribbon or a modal, so the footer stays limited to the rights note
-and secondary links. The About page explains the app in more detail.
+The support card sits inline in the Today column, in the space left by that
+preview. Most sessions show the compact Android invitation (real app
+screenshot, one line about the daily wallpaper, one **Download for Android**
+button); occasionally it is a polite donation note instead. The variant is
+chosen once per browser session, and either card can be dismissed for 14 days.
+It is not a footer ribbon or a modal, so the footer stays limited to the rights
+note and secondary links. The About page explains the app in more detail.
 
 ## Data
 

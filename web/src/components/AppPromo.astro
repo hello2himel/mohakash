@@ -1,43 +1,153 @@
 ---
 /**
- * The Android invitation, inline on the Today page.
- *
- * It sits in the right-hand column under the short description, where the
- * reading column has room to breathe. The card is deliberately quiet: real
- * app screenshot, one clear download action, no modal and no gradient.
+ * The Today-page support slot: either the Android invitation or a quiet
+ * donation note, chosen once per browser session. Both use the same compact
+ * card, are dismissible, and never open by themselves. The app screenshot is
+ * only loaded when the Android variant is actually shown.
  */
 import { SITE } from '../lib/site';
 ---
 
-<aside class="app-promo" aria-labelledby="app-promo-title">
-  <div class="app-promo__copy">
-    <p class="app-promo__eyebrow">Mohakash for Android</p>
-    <h2 class="app-promo__title" id="app-promo-title">
-      Your home screen is missing the sky.
-    </h2>
-    <p class="app-promo__text">
-      Each day's picture becomes a live wallpaper and refreshes itself. The full archive stays
-      with you — no account, no advertising, no tracking.
-    </p>
-    <div class="app-promo__actions">
-      <a class="btn btn--primary app-promo__download" href={SITE.androidApkUrl}>
-        <i class="icon ri-download-line" aria-hidden="true"></i>
-        Download for Android
-      </a>
-      <span class="app-promo__meta">Android 7.0+ · direct APK · free and open source</span>
+<div class="panel__promo" data-promo-slot>
+  <aside class="app-promo" data-promo-variant="app" aria-labelledby="app-promo-title">
+    <div class="app-promo__copy">
+      <p class="app-promo__eyebrow">Mohakash for Android</p>
+      <h2 class="app-promo__title" id="app-promo-title">
+        Update your wallpaper with astronomy pictures daily
+      </h2>
+      <p class="app-promo__text">Free and open source. No ads, no account needed.</p>
+      <div class="app-promo__actions">
+        <a class="btn btn--primary app-promo__download" href={SITE.androidApkUrl}>
+          <i class="icon ri-download-line" aria-hidden="true"></i>
+          Download for Android
+        </a>
+      </div>
     </div>
-  </div>
 
-  <div class="app-promo__visual" aria-hidden="true">
-    <div class="app-promo__phone">
-      <img
-        class="app-promo__image"
-        src="/images/app-feed.webp"
-        alt=""
-        loading="lazy"
-        decoding="async"
-      />
+    <div class="app-promo__visual" aria-hidden="true">
+      <div class="app-promo__phone">
+        <img
+          class="app-promo__image"
+          src="/images/app-feed.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
     </div>
-    <span class="app-promo__badge">Live wallpaper</span>
-  </div>
-</aside>
+    <button
+      class="app-promo__close"
+      type="button"
+      data-promo-close
+      aria-label="Dismiss promotion"
+      title="Dismiss"
+      hidden
+    >
+      <i class="icon ri-close-line" aria-hidden="true"></i>
+    </button>
+  </aside>
+
+  <aside
+    class="app-promo app-promo--donate"
+    data-promo-variant="donate"
+    aria-labelledby="donate-promo-title"
+    hidden
+  >
+    <div class="app-promo__copy">
+      <p class="app-promo__eyebrow">Support Mohakash</p>
+      <h2 class="app-promo__title" id="donate-promo-title">
+        A small sky, kept open for everyone.
+      </h2>
+      <p class="app-promo__text">
+        Mohakash is free and open source. If it has earned a place in your day, a small donation
+        helps keep the archive and hosting running.
+      </p>
+      <div class="app-promo__actions">
+        <a
+          class="btn btn--secondary app-promo__download"
+          href={SITE.donateUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="icon ri-heart-line" aria-hidden="true"></i>
+          Support the project
+        </a>
+      </div>
+    </div>
+
+    <div class="app-promo__visual app-promo__visual--donate" aria-hidden="true">
+      <span class="app-promo__heart"><i class="icon ri-heart-line"></i></span>
+    </div>
+
+    <button
+      class="app-promo__close"
+      type="button"
+      data-promo-close
+      aria-label="Dismiss promotion"
+      title="Dismiss"
+      hidden
+    >
+      <i class="icon ri-close-line" aria-hidden="true"></i>
+    </button>
+  </aside>
+
+</div>
+
+<script>
+  const slot = document.querySelector<HTMLElement>('[data-promo-slot]');
+
+  if (slot) {
+    const DISMISS_KEY = 'mohakash-promo-dismissed-until';
+    const VARIANT_KEY = 'mohakash-promo-variant';
+    const DISMISS_DAYS = 14;
+
+    const read = (storage: Storage, key: string): string | null => {
+      try {
+        return storage.getItem(key);
+      } catch {
+        return null;
+      }
+    };
+
+    const write = (storage: Storage, key: string, value: string): void => {
+      try {
+        storage.setItem(key, value);
+      } catch {
+        /* Private mode or a full quota: the card still works for this page. */
+      }
+    };
+
+    const dismissedUntil = Number(read(localStorage, DISMISS_KEY) ?? 0);
+    if (Number.isFinite(dismissedUntil) && Date.now() < dismissedUntil) {
+      slot.hidden = true;
+    } else {
+      const variants = Array.from(
+        slot.querySelectorAll<HTMLElement>('[data-promo-variant]'),
+      );
+      const stored = read(sessionStorage, VARIANT_KEY);
+      let choice = stored === 'app' || stored === 'donate' ? stored : null;
+      if (choice === null) {
+        // Keep the site's reading-room tone: the app appears most of the time,
+        // the donation note occasionally replaces it.
+        choice = Math.random() < 0.7 ? 'app' : 'donate';
+        write(sessionStorage, VARIANT_KEY, choice);
+      }
+
+      const selected =
+        variants.find((variant) => variant.dataset.promoVariant === choice) ?? variants[0];
+      for (const variant of variants) variant.hidden = variant !== selected;
+      selected?.removeAttribute('hidden');
+
+      for (const close of slot.querySelectorAll<HTMLButtonElement>('[data-promo-close]')) {
+        close.hidden = false;
+        close.addEventListener('click', () => {
+          const until = Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000;
+          write(localStorage, DISMISS_KEY, String(until));
+          slot.hidden = true;
+        });
+      }
+
+      slot.setAttribute('data-promo-ready', '');
+    }
+  }
+</script>
