@@ -14,6 +14,7 @@ import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.work.ApodSyncEngine
 import app.mohakash.apod.work.InstallOutcome
+import app.mohakash.apod.work.SyncController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,6 +60,9 @@ class TodayViewModel(
     private val shareHelper: ShareHelper,
     private val wallpaperStorage: WallpaperStorage,
     private val syncEngine: ApodSyncEngine,
+    private val syncController: SyncController,
+    /** Reports whether Mohakash is already the selected live wallpaper. */
+    private val isWallpaperActive: () -> Boolean = { false },
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TodayUiState())
@@ -216,38 +220,59 @@ class TodayViewModel(
         viewModelScope.launch {
             settingsStore.setUpdateAutomatically(enabled)
             _state.value = _state.value.copy(updateDaily = enabled)
+            // Keep WorkManager in sync with the switch shown in this sheet as well.
+            syncController.apply(settingsStore.current())
+            if (enabled) syncController.runOnce()
         }
     }
 
     /**
-     * Installs the picture of the current entry as the live wallpaper and opens the system
-     * preview.
+     * Applies the picture of the current entry to the live wallpaper.
      *
-     * Installing before the picker opens is what keeps the preview in sync with the entry the
-     * user is looking at; opening the picker first shows whatever was installed previously.
+     * The first time the wallpaper is not active yet, Android must ask the user to confirm the
+     * live wallpaper; the picture is installed before the system picker opens so the preview is
+     * already correct. Once Mohakash is the active wallpaper, the picture is swapped in place and
+     * the engine is signalled to redraw — no system dialog is opened.
      */
     fun previewAndSetWallpaper() {
         val entry = _state.value.entry
         viewModelScope.launch {
             if (entry == null) {
-                _events.send(TodayEvent.OpenWallpaperPicker)
+                _events.send(TodayEvent.ShowMessage(MESSAGE_LOAD_FAILED))
                 return@launch
             }
 
             val settings = settingsStore.current()
             when (syncEngine.install(entry, settings.preferHd, settings.hideVideos)) {
-                InstallOutcome.INSTALLED, InstallOutcome.UNCHANGED -> {
-                    _state.value = _state.value.copy(
-                        wallpaperMeta = wallpaperStorage.readMeta(),
-                        wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
-                    )
-                    _events.send(TodayEvent.OpenWallpaperPicker)
+                InstallOutcome.INSTALLED -> {
+                    updateWallpaperState()
+                    if (isWallpaperActive()) {
+                        _events.send(TodayEvent.ShowMessage(MESSAGE_WALLPAPER_UPDATED))
+                    } else {
+                        _events.send(TodayEvent.OpenWallpaperPicker)
+                    }
                 }
 
-                InstallOutcome.NOT_USABLE -> _events.send(TodayEvent.OpenWallpaperPicker)
+                InstallOutcome.UNCHANGED -> {
+                    updateWallpaperState()
+                    if (isWallpaperActive()) {
+                        _events.send(TodayEvent.ShowMessage(MESSAGE_WALLPAPER_ALREADY_SET))
+                    } else {
+                        _events.send(TodayEvent.OpenWallpaperPicker)
+                    }
+                }
+
+                InstallOutcome.NOT_USABLE -> _events.send(TodayEvent.ShowMessage(MESSAGE_NO_WALLPAPER))
                 InstallOutcome.FAILED -> _events.send(TodayEvent.ShowMessage(MESSAGE_WALLPAPER_FAILED))
             }
         }
+    }
+
+    private fun updateWallpaperState() {
+        _state.value = _state.value.copy(
+            wallpaperMeta = wallpaperStorage.readMeta(),
+            wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
+        )
     }
 
     private fun observeFavourite(entry: ApodEntry) {
@@ -267,5 +292,9 @@ class TodayViewModel(
         const val MESSAGE_FAVOURITE_REMOVED = "Removed from saved"
         const val MESSAGE_FAVOURITE_FAILED = "Could not update the saved list."
         const val MESSAGE_WALLPAPER_FAILED = "Could not prepare the wallpaper."
+        const val MESSAGE_WALLPAPER_UPDATED = "Live wallpaper updated."
+        const val MESSAGE_WALLPAPER_ALREADY_SET = "Live wallpaper is already up to date."
+        const val MESSAGE_NO_WALLPAPER =
+            "This entry can't be used as wallpaper. Your current wallpaper stays as it is."
     }
 }

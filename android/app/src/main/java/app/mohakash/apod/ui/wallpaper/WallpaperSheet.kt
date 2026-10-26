@@ -58,6 +58,7 @@ fun WallpaperSheet(
     onScalingChange: (WallpaperScaling) -> Unit,
     onUpdateDailyChange: (Boolean) -> Unit,
     onPreviewAndSet: () -> Unit,
+    isWallpaperActive: Boolean = false,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -89,6 +90,7 @@ fun WallpaperSheet(
             onScalingChange = onScalingChange,
             onUpdateDailyChange = onUpdateDailyChange,
             onPreviewAndSet = onPreviewAndSet,
+            isWallpaperActive = isWallpaperActive,
         )
     }
 }
@@ -105,8 +107,12 @@ internal fun WallpaperSheetContent(
     onScalingChange: (WallpaperScaling) -> Unit,
     onUpdateDailyChange: (Boolean) -> Unit,
     onPreviewAndSet: () -> Unit,
+    isWallpaperActive: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
+    // The preview must show exactly what the engine will draw: Crop for Fill, letterboxed Fit.
+    val previewScale = if (scaling == WallpaperScaling.FIT) ContentScale.Fit else ContentScale.Crop
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -143,7 +149,7 @@ internal fun WallpaperSheetContent(
                     AsyncImage(
                         model = preview.model,
                         contentDescription = stringResource(R.string.wallpaper_preview),
-                        contentScale = ContentScale.Crop,
+                        contentScale = previewScale,
                         modifier = Modifier.matchParentSize(),
                     )
                 } else {
@@ -223,14 +229,20 @@ internal fun WallpaperSheetContent(
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             PrimaryButton(
-                text = stringResource(R.string.wallpaper_preview_and_set),
+                text = stringResource(
+                    if (isWallpaperActive) R.string.wallpaper_apply_now
+                    else R.string.wallpaper_preview_and_set,
+                ),
                 onClick = onPreviewAndSet,
                 modifier = Modifier.fillMaxWidth(),
                 height = 52.dp,
                 textStyle = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
             )
             Text(
-                text = stringResource(R.string.wallpaper_helper),
+                text = stringResource(
+                    if (isWallpaperActive) R.string.wallpaper_helper_active
+                    else R.string.wallpaper_helper,
+                ),
                 style = MohakashTextStyles.Caption,
                 color = MohakashColors.TextMuted,
                 textAlign = TextAlign.Center,

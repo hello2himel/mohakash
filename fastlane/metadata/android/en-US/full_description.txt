@@ -6,7 +6,7 @@ Features:
 - Today's APOD with the date, credit, title and explanation.
 - Searchable archive with year and media-type filters.
 - Save pictures and read them offline.
-- A real WallpaperService: Fill or Fit, optional daily updates, Wi-Fi-only downloads.
+- A real WallpaperService: automatic daily updates, Fill or Fit, optional Wi-Fi-only downloads.
 - HD image option and a clean, dark, Material 3 interface.
 - No account, no ads, no analytics and no tracking.
 

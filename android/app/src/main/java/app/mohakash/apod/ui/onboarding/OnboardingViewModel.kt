@@ -115,6 +115,7 @@ class OnboardingViewModel(
         viewModelScope.launch {
             if (!openWallpaperPicker) {
                 settingsStore.setOnboardingCompleted(true)
+                syncController.apply(settingsStore.current())
                 syncController.runOnce()
                 _events.send(OnboardingEvent.Finished)
                 return@launch
@@ -144,6 +145,8 @@ class OnboardingViewModel(
                         },
                     )
                     settingsStore.setOnboardingCompleted(true)
+                    // From now on the background job keeps the active wallpaper up to date.
+                    syncController.apply(settingsStore.current())
                     _events.send(OnboardingEvent.OpenWallpaperPicker)
                     _events.send(OnboardingEvent.Finished)
                 }

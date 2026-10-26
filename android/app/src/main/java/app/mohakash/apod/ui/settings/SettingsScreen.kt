@@ -89,6 +89,7 @@ fun SettingsScreen(
         onUpdateAutomaticallyChange = viewModel::setUpdateAutomatically,
         onPreferHdChange = viewModel::setPreferHd,
         onWifiOnlyChange = viewModel::setWifiOnly,
+        onHideVideosChange = viewModel::setHideVideos,
         onScalingChange = viewModel::setScaling,
         onClearCache = { showClearCacheDialog = true },
         modifier = modifier,
@@ -121,6 +122,7 @@ internal fun SettingsContent(
     onUpdateAutomaticallyChange: (Boolean) -> Unit,
     onPreferHdChange: (Boolean) -> Unit,
     onWifiOnlyChange: (Boolean) -> Unit,
+    onHideVideosChange: (Boolean) -> Unit,
     onScalingChange: (WallpaperScaling) -> Unit,
     onClearCache: () -> Unit,
     modifier: Modifier = Modifier,
@@ -162,6 +164,12 @@ internal fun SettingsContent(
                 title = stringResource(R.string.settings_wifi_only),
                 checked = state.wifiOnly,
                 onCheckedChange = onWifiOnlyChange,
+            )
+            SwitchRow(
+                title = stringResource(R.string.settings_hide_videos),
+                subtitle = stringResource(R.string.settings_hide_videos_hint),
+                checked = state.hideVideos,
+                onCheckedChange = onHideVideosChange,
             )
 
             ScalingRow(
