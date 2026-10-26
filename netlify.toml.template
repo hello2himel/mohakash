@@ -43,7 +43,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
 
 # The static website only ever fetches from its own origin
 # (/api/apod/v1/...), so the published API is proxied here.
