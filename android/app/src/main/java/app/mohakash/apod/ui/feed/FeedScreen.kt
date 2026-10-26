@@ -70,6 +70,8 @@ fun FeedScreen(
     onOpenSaved: () -> Unit = {},
     randomRequest: Int = 0,
     onRandomRequestConsumed: () -> Unit = {},
+    latestRequest: Int = 0,
+    onLatestRequestConsumed: () -> Unit = {},
     onFullscreenChange: (Boolean) -> Unit = {},
     bottomBarInset: Dp = 0.dp,
 ) {
@@ -166,6 +168,15 @@ fun FeedScreen(
         }
     }
 
+    // Tapping the Feed destination always returns to the newest APOD, even when the pager
+    // was left on an older picture or a filter was active.
+    LaunchedEffect(latestRequest) {
+        if (latestRequest > 0) {
+            viewModel.showLatest()
+            onLatestRequestConsumed()
+        }
+    }
+
     val actions = remember(viewModel, onOpenEntry, onOpenSettings, onOpenLink) {
         FeedPageActions(
             onOpenEntry = onOpenEntry,
@@ -196,10 +207,7 @@ fun FeedScreen(
         },
         onPageSettled = viewModel::onPageSettled,
         onConsumeJump = viewModel::consumeJumpRequest,
-        onBackToLatest = {
-            val firstDate = state.pages.firstNotNullOfOrNull { it.date }
-            if (firstDate != null) viewModel.jumpToDate(firstDate) else viewModel.clearFilters()
-        },
+        onBackToLatest = viewModel::showLatest,
         onOpenSaved = onOpenSaved,
         onRetryAll = viewModel::retry,
         showSwipeHint = canShowSwipeHint,

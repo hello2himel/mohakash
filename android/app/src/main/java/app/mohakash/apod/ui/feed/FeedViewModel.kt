@@ -281,6 +281,22 @@ class FeedViewModel(
         emitJump(resolved, animate = false)
     }
 
+    /** Returns the feed to the newest APOD and clears any active feed filters. */
+    fun showLatest() {
+        if (filters.isActive) {
+            filters = FeedFilters()
+            rebuildPages(bumpListVersion = true)
+        }
+        val latest = latestDate
+            ?: allDateItems().firstOrNull()?.date
+            ?: _state.value.pages.firstNotNullOfOrNull { it.date }
+        if (latest == null) {
+            refreshLatest()
+        } else {
+            jumpToDate(latest)
+        }
+    }
+
     /** Called by the pager once it has applied [FeedJumpRequest]. */
     fun consumeJumpRequest(token: Long) {
         _state.update { current ->
