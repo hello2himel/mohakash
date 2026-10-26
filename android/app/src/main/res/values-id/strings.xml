@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">Feed</string>
+    <string name="nav_archive">Arsip</string>
+    <string name="nav_saved">Disimpan</string>
+    <string name="nav_random_description">Buka gambar acak</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">Pratinjau wallpaper</string>
+    <string name="onboarding_headline">Langit hari ini, di layar utama Anda</string>
+    <string name="onboarding_subtitle">Gambar astronomi baru setiap hari. Tanpa perlu akun.</string>
+    <string name="onboarding_set_wallpaper">Pasang wallpaper langsung</string>
+    <string name="onboarding_skip">Lewati dulu</string>
+    <string name="onboarding_wifi_note">Gambar diunduh secara otomatis. Anda dapat membatasi unduhan hanya lewat Wi-Fi di Pengaturan.</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">Pelajari lebih lanjut</string>
+    <string name="feed_search">Cari</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">Pengaturan</string>
+    <string name="feed_save">Tambahkan ke favorit</string>
+    <string name="feed_save_label">Favorit</string>
+    <string name="feed_saved_state">Difavoritkan</string>
+    <string name="feed_download_label">Unduh</string>
+    <string name="feed_remove_favorite">Hapus dari favorit</string>
+    <string name="feed_download">Unduh gambar</string>
+    <string name="feed_share">Bagikan</string>
+    <string name="feed_set_wallpaper">Pasang sebagai wallpaper</string>
+    <string name="feed_wallpaper_active">Wallpaper aktif</string>
+    <string name="feed_watch_on_apod">Lihat di APOD</string>
+    <string name="feed_clear_filters">Hapus filter</string>
+    <string name="feed_offline_chip">Salinan offline</string>
+    <string name="feed_random_title">Memilih gambar…</string>
+    <string name="feed_random_body">Mencari gambar acak di arsip.</string>
+    <string name="feed_random_cancel">Batal</string>
+    <string name="feed_random_unavailable">Saat ini tidak ada gambar acak yang tersedia.</string>
+    <string name="feed_hide_chrome">Sembunyikan detail</string>
+    <string name="feed_show_chrome">Tampilkan detail</string>
+    <string name="feed_swipe_hint_title">Geser ke atas</string>
+    <string name="feed_swipe_hint_body">untuk melihat gambar lainnya</string>
+    <string name="feed_explanation_unavailable">Deskripsi tidak tersedia saat offline</string>
+    <string name="feed_hydration_failed">Gagal memuat detail</string>
+    <string name="feed_retry">Coba lagi</string>
+    <string name="feed_pull_refresh">Tarik untuk menyegarkan</string>
+    <string name="feed_release_refresh">Lepaskan untuk menyegarkan</string>
+    <string name="feed_refreshing">Menyegarkan…</string>
+    <string name="feed_loading">Memuat feed</string>
+    <string name="feed_loading_older">Memuat tahun-tahun sebelumnya…</string>
+    <string name="feed_end_title">Awal arsip</string>
+    <string name="feed_end_body">Gambar pertama berasal dari 16 Juni 1995.</string>
+    <string name="feed_end_filtered">Tidak ada gambar lama yang cocok dengan filter ini.</string>
+    <string name="feed_end_offline">Gambar lama memerlukan koneksi.</string>
+    <string name="feed_end_retry">Sisa arsip belum diunduh.</string>
+    <string name="feed_back_to_latest">Kembali ke terbaru</string>
+    <string name="feed_open_saved">Buka yang Disimpan</string>
+    <string name="feed_error_title">Feed tidak tersedia</string>
+    <string name="feed_error_body">Periksa koneksi Anda dan coba lagi. Gambar yang Anda simpan selalu tersedia.</string>
+    <string name="feed_error_try_again">Coba lagi</string>
+
+    <!-- Archive -->
+    <string name="archive_title">Arsip</string>
+    <string name="archive_search_hint">Cari judul</string>
+    <string name="archive_filters">Filter</string>
+    <string name="archive_empty_query">Tidak ada entri yang cocok dengan &quot;%1$s&quot;</string>
+    <string name="archive_empty_filters">Tidak ada entri yang cocok dengan filter Anda.</string>
+    <string name="archive_clear_filters">Hapus filter</string>
+    <string name="archive_loading">Memuat arsip</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">Cari judul atau tanggal</string>
+    <string name="search_close">Tutup pencarian</string>
+    <string name="search_no_results">Tidak ada gambar yang cocok dengan &quot;%1$s&quot;</string>
+    <string name="search_no_matches_filter">Tidak ada gambar yang cocok dengan filter ini.</string>
+    <string name="search_offline">Pencarian memerlukan koneksi saat pertama kali.</string>
+    <string name="search_refine">Persempit pencarian Anda untuk melihat lebih sedikit hasil.</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">Wallpaper langsung</string>
+    <string name="wallpaper_preview">Pratinjau</string>
+    <string name="wallpaper_selected_image">Gambar terpilih</string>
+    <string name="wallpaper_scaling">Penskalaan</string>
+    <string name="wallpaper_update_daily">Perbarui setiap hari</string>
+    <string name="wallpaper_preview_and_set">Pasang wallpaper langsung</string>
+    <string name="wallpaper_apply_now">Terapkan sekarang</string>
+    <string name="wallpaper_helper">Android akan meminta izin sekali untuk mengaktifkan wallpaper langsung. Setelah itu, gambar baru diterapkan otomatis; pengoptimalan baterai dapat menundanya.</string>
+    <string name="wallpaper_helper_active">Wallpaper langsung aktif. Gambar terpilih dan penskalaan diterapkan langsung, tanpa membuka pemilih sistem.</string>
+    <string name="wallpaper_scaling_fill">Isi</string>
+    <string name="wallpaper_scaling_fit">Sesuaikan</string>
+
+    <!-- Detail -->
+    <string name="detail_back">Kembali</string>
+    <string name="detail_save_image">Simpan gambar</string>
+    <string name="detail_set_wallpaper">Jadikan wallpaper</string>
+    <string name="detail_original_page">Halaman APOD asli</string>
+    <string name="detail_hd_image">Gambar HD</string>
+    <string name="detail_video_chip">Video</string>
+    <string name="detail_watch_original">Tonton di halaman asli</string>
+    <string name="detail_video_note">Entri video tidak dapat dijadikan wallpaper. Wallpaper Anda saat ini tetap seperti semula.</string>
+    <string name="detail_image_unavailable">Gambar tidak tersedia</string>
+    <string name="detail_loading">Memuat entri</string>
+    <string name="detail_error_title">Entri ini tidak tersedia</string>
+    <string name="detail_error_body">Periksa koneksi Anda dan coba lagi.</string>
+    <string name="detail_error_try_again">Coba lagi</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">Filter</string>
+    <string name="filter_year">Tahun</string>
+    <string name="filter_all_years">Semua tahun</string>
+    <string name="filter_jump_to_date">Lompat ke tanggal</string>
+    <string name="filter_jump_to_date_placeholder">Pilih tanggal</string>
+    <string name="filter_type">Jenis</string>
+    <string name="filter_all">Semua</string>
+    <string name="filter_images">Gambar</string>
+    <string name="filter_videos">Video</string>
+    <string name="filter_older">Lebih lama</string>
+    <string name="filter_close">Tutup</string>
+    <string name="filter_year_picker_title">Pilih tahun</string>
+    <string name="filter_reset">Atur ulang</string>
+    <string name="filter_confirm">OK</string>
+    <plurals name="filter_show_entries">
+        <item quantity="other">Tampilkan %d gambar</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">Disimpan</string>
+    <plurals name="saved_count">
+        <item quantity="other">%d gambar · tersedia offline</item>
+    </plurals>
+    <string name="saved_empty_title">Belum ada yang disimpan</string>
+    <string name="saved_empty_body">Ketuk ikon hati pada gambar mana pun untuk menyimpannya di sini, bahkan saat offline.</string>
+    <string name="saved_browse_feed">Jelajahi feed</string>
+    <string name="saved_loading">Memuat gambar yang disimpan</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_section_display">Tampilan</string>
+    <string name="settings_image_scaling_hint">Berlaku untuk feed dan wallpaper langsung.</string>
+    <string name="settings_section_wallpaper">Wallpaper</string>
+    <string name="settings_update_automatically">Perbarui otomatis</string>
+    <string name="settings_update_automatically_hint">Sekali sehari, saat Android mengizinkan</string>
+    <string name="settings_prefer_hd">Utamakan gambar HD</string>
+    <string name="settings_prefer_hd_hint">Unduhan lebih besar</string>
+    <string name="settings_wifi_only">Hanya Wi-Fi</string>
+    <string name="settings_hide_videos">Sembunyikan video</string>
+    <string name="settings_hide_videos_hint">Lewati entri video saat memilih gambar wallpaper.</string>
+    <string name="settings_image_scaling">Penskalaan gambar</string>
+    <string name="settings_section_storage">Penyimpanan</string>
+    <string name="settings_image_cache">Cache gambar</string>
+    <string name="settings_image_cache_size">%1$s terpakai</string>
+    <string name="settings_clear">Hapus</string>
+    <string name="settings_section_advanced">Lanjutan</string>
+    <string name="settings_api_endpoint">Endpoint API</string>
+    <string name="settings_api_endpoint_default">Endpoint default</string>
+    <string name="settings_api_endpoint_custom">Endpoint khusus</string>
+    <string name="settings_section_about">Tentang</string>
+    <string name="settings_last_synced">Terakhir disinkronkan</string>
+    <string name="settings_content_rights">Hak atas konten</string>
+    <string name="settings_privacy">Kebijakan privasi</string>
+    <string name="settings_source_code">Kode sumber dan lisensi</string>
+    <string name="settings_third_party_notices">Pemberitahuan pihak ketiga</string>
+    <string name="settings_version">Versi</string>
+    <string name="settings_rights_note">Hak atas gambar milik para pembuatnya. Tidak berafiliasi dengan NASA dan tidak didukung oleh NASA.</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">Lanjutan</string>
+    <string name="settings_advanced_intro">Gunakan server Anda sendiri untuk JSON APOD. Server itu harus menyediakan berkas yang sama dengan API publik.</string>
+    <string name="settings_advanced_field_label">URL dasar API</string>
+    <string name="settings_advanced_field_helper">Biarkan kosong untuk memakai default. Hanya HTTPS.</string>
+    <string name="settings_advanced_save">Simpan endpoint</string>
+    <string name="settings_advanced_saving">Menyimpan…</string>
+    <string name="settings_advanced_reset">Atur ulang ke default</string>
+    <string name="settings_advanced_saved">Endpoint disimpan. Menyegarkan data…</string>
+    <string name="settings_advanced_reset_done">Menggunakan endpoint default</string>
+    <string name="settings_advanced_already_default">Endpoint default sudah digunakan</string>
+    <string name="settings_advanced_already_using">Endpoint ini sudah digunakan</string>
+    <string name="settings_advanced_invalid">Masukkan URL HTTPS yang valid tanpa query atau fragmen.</string>
+    <string name="settings_advanced_save_failed">Endpoint tidak dapat disimpan. Coba lagi.</string>
+    <string name="settings_advanced_current">Endpoint saat ini</string>
+    <string name="settings_advanced_status">Status</string>
+    <string name="settings_advanced_clear_note">Mengubah endpoint akan menghapus metadata APOD yang di-cache. Gambar yang disimpan dan wallpaper saat ini tetap dipertahankan.</string>
+    <string name="settings_advanced_format_note">Endpoint harus menyediakan latest.json, archive-index.json, dan archive/YYYY.json. Tidak ada kunci API yang dikirim.</string>
+    <string name="settings_advanced_section_guides">Panduan API</string>
+    <string name="settings_advanced_api_docs">Dokumentasi API</string>
+    <string name="settings_advanced_api_reference">Referensi API publik</string>
+    <string name="settings_advanced_latest_example">Contoh latest.json</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">Hapus cache gambar?</string>
+    <string name="clear_cache_body">Tindakan ini menghapus %1$s gambar yang diunduh. Gambar yang disimpan dan wallpaper Anda saat ini tetap dipertahankan.</string>
+    <string name="clear_cache_cancel">Batal</string>
+    <string name="clear_cache_confirm">Hapus</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">Cache gambar dihapus</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">Astronomy Picture of the Day di layar utama Anda.</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">Pembaruan wallpaper</string>
+    <string name="notification_channel_wallpaper_description">Memberi tahu saat gambar wallpaper langsung berubah.</string>
+    <string name="notification_no_description">Tidak ada deskripsi.</string>
+    <string name="notification_action_open_app">Buka aplikasi</string>
+    <string name="notification_action_view_apod">Lihat di APOD</string>
+    <string name="notification_action_settings">Pengaturan</string>
+</resources>

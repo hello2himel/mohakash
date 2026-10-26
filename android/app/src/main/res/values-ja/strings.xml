@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">フィード</string>
+    <string name="nav_archive">アーカイブ</string>
+    <string name="nav_saved">保存済み</string>
+    <string name="nav_random_description">ランダムな画像を開く</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">壁紙プレビュー</string>
+    <string name="onboarding_headline">今日の空を、ホーム画面に</string>
+    <string name="onboarding_subtitle">毎日新しい天文画像をお届けします。アカウントは不要です。</string>
+    <string name="onboarding_set_wallpaper">ライブ壁紙に設定</string>
+    <string name="onboarding_skip">今はスキップ</string>
+    <string name="onboarding_wifi_note">画像は自動でダウンロードされます。設定でWi-Fi接続時のみのダウンロードに切り替えられます。</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">詳しく見る</string>
+    <string name="feed_search">検索</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">設定</string>
+    <string name="feed_save">お気に入りに追加</string>
+    <string name="feed_save_label">お気に入り</string>
+    <string name="feed_saved_state">お気に入り済み</string>
+    <string name="feed_download_label">ダウンロード</string>
+    <string name="feed_remove_favorite">お気に入りから削除</string>
+    <string name="feed_download">画像をダウンロード</string>
+    <string name="feed_share">共有</string>
+    <string name="feed_set_wallpaper">壁紙に設定</string>
+    <string name="feed_wallpaper_active">壁紙を適用中</string>
+    <string name="feed_watch_on_apod">APODで見る</string>
+    <string name="feed_clear_filters">フィルターを解除</string>
+    <string name="feed_offline_chip">オフライン保存</string>
+    <string name="feed_random_title">画像を選んでいます…</string>
+    <string name="feed_random_body">アーカイブからランダムな画像を探しています。</string>
+    <string name="feed_random_cancel">キャンセル</string>
+    <string name="feed_random_unavailable">利用できるランダム画像が今はありません。</string>
+    <string name="feed_hide_chrome">詳細を隠す</string>
+    <string name="feed_show_chrome">詳細を表示</string>
+    <string name="feed_swipe_hint_title">上にスワイプ</string>
+    <string name="feed_swipe_hint_body">もっと画像を見る</string>
+    <string name="feed_explanation_unavailable">オフラインでは説明を表示できません</string>
+    <string name="feed_hydration_failed">詳細を読み込めませんでした</string>
+    <string name="feed_retry">再試行</string>
+    <string name="feed_pull_refresh">引いて更新</string>
+    <string name="feed_release_refresh">離して更新</string>
+    <string name="feed_refreshing">更新中…</string>
+    <string name="feed_loading">フィードを読み込み中</string>
+    <string name="feed_loading_older">過去の年を読み込み中…</string>
+    <string name="feed_end_title">アーカイブの最初</string>
+    <string name="feed_end_body">最初の画像は1995年6月16日のものです。</string>
+    <string name="feed_end_filtered">このフィルターに一致する古い画像はありません。</string>
+    <string name="feed_end_offline">古い画像の表示には接続が必要です。</string>
+    <string name="feed_end_retry">残りのアーカイブはまだダウンロードされていません。</string>
+    <string name="feed_back_to_latest">最新に戻る</string>
+    <string name="feed_open_saved">保存済みを開く</string>
+    <string name="feed_error_title">フィードを表示できません</string>
+    <string name="feed_error_body">接続を確認して、もう一度お試しください。お気に入りの画像はいつでも見られます。</string>
+    <string name="feed_error_try_again">もう一度試す</string>
+
+    <!-- Archive -->
+    <string name="archive_title">アーカイブ</string>
+    <string name="archive_search_hint">タイトルを検索</string>
+    <string name="archive_filters">フィルター</string>
+    <string name="archive_empty_query">「%1$s」に一致する項目はありません</string>
+    <string name="archive_empty_filters">フィルターに一致する項目はありません。</string>
+    <string name="archive_clear_filters">フィルターを解除</string>
+    <string name="archive_loading">アーカイブを読み込み中</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">タイトルまたは日付を検索</string>
+    <string name="search_close">検索を閉じる</string>
+    <string name="search_no_results">「%1$s」に一致する画像はありません</string>
+    <string name="search_no_matches_filter">このフィルターに一致する画像はありません。</string>
+    <string name="search_offline">初回の検索には接続が必要です。</string>
+    <string name="search_refine">検索条件を絞り込むと、結果が少なくなります。</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">ライブ壁紙</string>
+    <string name="wallpaper_preview">プレビュー</string>
+    <string name="wallpaper_selected_image">選択中の画像</string>
+    <string name="wallpaper_scaling">表示方法</string>
+    <string name="wallpaper_update_daily">毎日更新</string>
+    <string name="wallpaper_preview_and_set">ライブ壁紙に設定</string>
+    <string name="wallpaper_apply_now">今すぐ適用</string>
+    <string name="wallpaper_helper">ライブ壁紙の有効化はAndroidから一度だけ確認されます。その後は新しい画像が自動で適用されますが、バッテリー最適化により遅れることがあります。</string>
+    <string name="wallpaper_helper_active">ライブ壁紙は有効です。選択した画像と表示方法は、システムの選択画面を開かずに直接適用されます。</string>
+    <string name="wallpaper_scaling_fill">塗りつぶし</string>
+    <string name="wallpaper_scaling_fit">全体を表示</string>
+
+    <!-- Detail (Builder B owns the new entry_* strings in strings_entry.xml) -->
+    <string name="detail_back">戻る</string>
+    <string name="detail_save_image">画像を保存</string>
+    <string name="detail_set_wallpaper">壁紙に設定</string>
+    <string name="detail_original_page">APODの元のページ</string>
+    <string name="detail_hd_image">HD画像</string>
+    <string name="detail_video_chip">動画</string>
+    <string name="detail_watch_original">元のページで見る</string>
+    <string name="detail_video_note">動画の項目は壁紙に設定できません。現在の壁紙はそのまま残ります。</string>
+    <string name="detail_image_unavailable">画像を利用できません</string>
+    <string name="detail_loading">項目を読み込み中</string>
+    <string name="detail_error_title">この項目は表示できません</string>
+    <string name="detail_error_body">接続を確認して、もう一度お試しください。</string>
+    <string name="detail_error_try_again">もう一度試す</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">フィルター</string>
+    <string name="filter_year">年</string>
+    <string name="filter_all_years">すべての年</string>
+    <string name="filter_jump_to_date">日付を指定</string>
+    <string name="filter_jump_to_date_placeholder">日付を選択</string>
+    <string name="filter_type">種類</string>
+    <string name="filter_all">すべて</string>
+    <string name="filter_images">画像</string>
+    <string name="filter_videos">動画</string>
+    <string name="filter_older">それ以前</string>
+    <string name="filter_close">閉じる</string>
+    <string name="filter_year_picker_title">年を選択</string>
+    <string name="filter_reset">リセット</string>
+    <string name="filter_confirm">OK</string>
+    <plurals name="filter_show_entries">
+        <item quantity="other">%d枚の画像を表示</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">保存済み</string>
+    <plurals name="saved_count">
+        <item quantity="other">%d枚の画像 · オフラインでも利用可能</item>
+    </plurals>
+    <string name="saved_empty_title">保存した画像はまだありません</string>
+    <string name="saved_empty_body">画像のハートをタップすると、オフラインでもここに残せます。</string>
+    <string name="saved_browse_feed">フィードを見る</string>
+    <string name="saved_loading">保存済みの画像を読み込み中</string>
+
+    <!-- Settings -->
+    <string name="settings_title">設定</string>
+    <string name="settings_section_display">表示</string>
+    <string name="settings_image_scaling_hint">フィードとライブ壁紙に適用されます。</string>
+    <string name="settings_section_wallpaper">壁紙</string>
+    <string name="settings_update_automatically">自動で更新</string>
+    <string name="settings_update_automatically_hint">1日1回、Androidが許可したときに更新</string>
+    <string name="settings_prefer_hd">HD画像を優先</string>
+    <string name="settings_prefer_hd_hint">ダウンロードサイズが大きくなります</string>
+    <string name="settings_wifi_only">Wi-Fiのみ</string>
+    <string name="settings_hide_videos">動画を隠す</string>
+    <string name="settings_hide_videos_hint">壁紙用の画像を選ぶときに、動画の項目を除きます。</string>
+    <string name="settings_image_scaling">画像の表示方法</string>
+    <string name="settings_section_storage">ストレージ</string>
+    <string name="settings_image_cache">画像キャッシュ</string>
+    <string name="settings_image_cache_size">%1$s使用中</string>
+    <string name="settings_clear">削除</string>
+    <string name="settings_section_advanced">詳細設定</string>
+    <string name="settings_api_endpoint">APIエンドポイント</string>
+    <string name="settings_api_endpoint_default">デフォルトのエンドポイント</string>
+    <string name="settings_api_endpoint_custom">カスタムエンドポイント</string>
+    <string name="settings_section_about">このアプリについて</string>
+    <string name="settings_last_synced">最終同期</string>
+    <string name="settings_content_rights">コンテンツの権利</string>
+    <string name="settings_privacy">プライバシーポリシー</string>
+    <string name="settings_source_code">ソースコードとライセンス</string>
+    <string name="settings_third_party_notices">サードパーティのライセンス</string>
+    <string name="settings_version">バージョン</string>
+    <string name="settings_rights_note">画像の権利は制作者に帰属します。NASAとは提携しておらず、NASAによる承認も受けていません。</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">詳細設定</string>
+    <string name="settings_advanced_intro">APODのJSONに独自のサーバーを使用できます。公開APIと同じファイルを配信している必要があります。</string>
+    <string name="settings_advanced_field_label">APIベースURL</string>
+    <string name="settings_advanced_field_helper">空欄の場合はデフォルトを使用します。HTTPSのみ対応。</string>
+    <string name="settings_advanced_save">エンドポイントを保存</string>
+    <string name="settings_advanced_saving">保存中…</string>
+    <string name="settings_advanced_reset">デフォルトに戻す</string>
+    <string name="settings_advanced_saved">エンドポイントを保存しました。データを更新しています…</string>
+    <string name="settings_advanced_reset_done">デフォルトのエンドポイントを使用しています</string>
+    <string name="settings_advanced_already_default">すでにデフォルトのエンドポイントを使用しています</string>
+    <string name="settings_advanced_already_using">すでにこのエンドポイントを使用しています</string>
+    <string name="settings_advanced_invalid">クエリやフラグメントを含まない、有効なHTTPS URLを入力してください。</string>
+    <string name="settings_advanced_save_failed">エンドポイントを保存できませんでした。もう一度お試しください。</string>
+    <string name="settings_advanced_current">現在のエンドポイント</string>
+    <string name="settings_advanced_status">ステータス</string>
+    <string name="settings_advanced_clear_note">エンドポイントを変更すると、キャッシュされたAPODのメタデータが消去されます。保存した画像と現在の壁紙は残ります。</string>
+    <string name="settings_advanced_format_note">エンドポイントはlatest.json、archive-index.json、archive/YYYY.jsonを配信する必要があります。APIキーは送信されません。</string>
+    <string name="settings_advanced_section_guides">APIガイド</string>
+    <string name="settings_advanced_api_docs">APIドキュメント</string>
+    <string name="settings_advanced_api_reference">公開APIリファレンス</string>
+    <string name="settings_advanced_latest_example">latest.jsonの例</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">画像キャッシュを削除しますか？</string>
+    <string name="clear_cache_body">ダウンロードした画像 %1$s を削除します。保存した画像と現在の壁紙は残ります。</string>
+    <string name="clear_cache_cancel">キャンセル</string>
+    <string name="clear_cache_confirm">削除</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">画像キャッシュを削除しました</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">ホーム画面に表示する、今日の天文画像。</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">壁紙の更新</string>
+    <string name="notification_channel_wallpaper_description">ライブ壁紙の画像が変わったときに通知します。</string>
+    <string name="notification_no_description">説明はありません。</string>
+    <string name="notification_action_open_app">アプリを開く</string>
+    <string name="notification_action_view_apod">APODで見る</string>
+    <string name="notification_action_settings">設定</string>
+</resources>

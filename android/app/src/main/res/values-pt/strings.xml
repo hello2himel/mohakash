@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">Feed</string>
+    <string name="nav_archive">Arquivo</string>
+    <string name="nav_saved">Salvos</string>
+    <string name="nav_random_description">Abrir uma imagem aleatória</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">Prévia do papel de parede</string>
+    <string name="onboarding_headline">O céu de hoje, na sua tela inicial</string>
+    <string name="onboarding_subtitle">Uma nova imagem astronômica por dia. Sem conta.</string>
+    <string name="onboarding_set_wallpaper">Usar papel de parede animado</string>
+    <string name="onboarding_skip">Pular por enquanto</string>
+    <string name="onboarding_wifi_note">As imagens são baixadas automaticamente. Você pode ativar downloads somente por Wi-Fi nas Configurações.</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">Saiba mais</string>
+    <string name="feed_search">Buscar</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">Configurações</string>
+    <string name="feed_save">Adicionar aos favoritos</string>
+    <string name="feed_save_label">Favorito</string>
+    <string name="feed_saved_state">Salvo</string>
+    <string name="feed_download_label">Baixar</string>
+    <string name="feed_remove_favorite">Remover dos favoritos</string>
+    <string name="feed_download">Baixar imagem</string>
+    <string name="feed_share">Compartilhar</string>
+    <string name="feed_set_wallpaper">Definir como papel de parede</string>
+    <string name="feed_wallpaper_active">Papel de parede ativo</string>
+    <string name="feed_watch_on_apod">Ver no APOD</string>
+    <string name="feed_clear_filters">Limpar filtros</string>
+    <string name="feed_offline_chip">Cópia offline</string>
+    <string name="feed_random_title">Escolhendo uma imagem…</string>
+    <string name="feed_random_body">Procurando uma imagem aleatória no arquivo.</string>
+    <string name="feed_random_cancel">Cancelar</string>
+    <string name="feed_random_unavailable">Nenhuma imagem aleatória disponível no momento.</string>
+    <string name="feed_hide_chrome">Ocultar detalhes</string>
+    <string name="feed_show_chrome">Mostrar detalhes</string>
+    <string name="feed_swipe_hint_title">Deslize para cima</string>
+    <string name="feed_swipe_hint_body">para ver mais imagens</string>
+    <string name="feed_explanation_unavailable">Descrição indisponível offline</string>
+    <string name="feed_hydration_failed">Não foi possível carregar os detalhes</string>
+    <string name="feed_retry">Tentar de novo</string>
+    <string name="feed_pull_refresh">Puxe para atualizar</string>
+    <string name="feed_release_refresh">Solte para atualizar</string>
+    <string name="feed_refreshing">Atualizando…</string>
+    <string name="feed_loading">Carregando o feed</string>
+    <string name="feed_loading_older">Carregando anos anteriores…</string>
+    <string name="feed_end_title">O início do arquivo</string>
+    <string name="feed_end_body">A primeira imagem é de 16 de junho de 1995.</string>
+    <string name="feed_end_filtered">Nenhuma imagem mais antiga corresponde a este filtro.</string>
+    <string name="feed_end_offline">Imagens mais antigas precisam de conexão.</string>
+    <string name="feed_end_retry">O restante do arquivo ainda não foi baixado.</string>
+    <string name="feed_back_to_latest">Voltar ao mais recente</string>
+    <string name="feed_open_saved">Abrir Salvos</string>
+    <string name="feed_error_title">O feed não está disponível</string>
+    <string name="feed_error_body">Verifique sua conexão e tente de novo. As imagens que você salvou estão sempre disponíveis.</string>
+    <string name="feed_error_try_again">Tentar de novo</string>
+
+    <!-- Archive -->
+    <string name="archive_title">Arquivo</string>
+    <string name="archive_search_hint">Buscar títulos</string>
+    <string name="archive_filters">Filtros</string>
+    <string name="archive_empty_query">Nenhuma entrada corresponde a &quot;%1$s&quot;</string>
+    <string name="archive_empty_filters">Nenhuma entrada corresponde aos seus filtros.</string>
+    <string name="archive_clear_filters">Limpar filtros</string>
+    <string name="archive_loading">Carregando o arquivo</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">Buscar títulos ou datas</string>
+    <string name="search_close">Fechar busca</string>
+    <string name="search_no_results">Nenhuma imagem corresponde a &quot;%1$s&quot;</string>
+    <string name="search_no_matches_filter">Nenhuma imagem corresponde a estes filtros.</string>
+    <string name="search_offline">A busca precisa de conexão na primeira vez.</string>
+    <string name="search_refine">Refine sua busca para ver menos resultados.</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">Papel de parede animado</string>
+    <string name="wallpaper_preview">Prévia</string>
+    <string name="wallpaper_selected_image">Imagem selecionada</string>
+    <string name="wallpaper_scaling">Escala</string>
+    <string name="wallpaper_update_daily">Atualizar diariamente</string>
+    <string name="wallpaper_preview_and_set">Definir papel animado</string>
+    <string name="wallpaper_apply_now">Aplicar agora</string>
+    <string name="wallpaper_helper">O Android vai pedir uma vez para ativar o papel de parede animado. Depois disso, as novas imagens são aplicadas automaticamente; a otimização de bateria pode atrasá-las.</string>
+    <string name="wallpaper_helper_active">O papel de parede animado está ativo. A imagem selecionada e a escala são aplicadas direto, sem abrir o seletor do sistema.</string>
+    <string name="wallpaper_scaling_fill">Preencher</string>
+    <string name="wallpaper_scaling_fit">Ajustar</string>
+
+    <!-- Detail -->
+    <string name="detail_back">Voltar</string>
+    <string name="detail_save_image">Salvar imagem</string>
+    <string name="detail_set_wallpaper">Definir como papel de parede</string>
+    <string name="detail_original_page">Página original do APOD</string>
+    <string name="detail_hd_image">Imagem em HD</string>
+    <string name="detail_video_chip">Vídeo</string>
+    <string name="detail_watch_original">Ver na página original</string>
+    <string name="detail_video_note">Entradas em vídeo não podem ser usadas como papel de parede. Seu papel de parede atual continua igual.</string>
+    <string name="detail_image_unavailable">Imagem indisponível</string>
+    <string name="detail_loading">Carregando entrada</string>
+    <string name="detail_error_title">Esta entrada não está disponível</string>
+    <string name="detail_error_body">Verifique sua conexão e tente de novo.</string>
+    <string name="detail_error_try_again">Tentar de novo</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">Filtro</string>
+    <string name="filter_year">Ano</string>
+    <string name="filter_all_years">Todos os anos</string>
+    <string name="filter_jump_to_date">Ir para uma data</string>
+    <string name="filter_jump_to_date_placeholder">Selecione uma data</string>
+    <string name="filter_type">Tipo</string>
+    <string name="filter_all">Tudo</string>
+    <string name="filter_images">Imagens</string>
+    <string name="filter_videos">Vídeos</string>
+    <string name="filter_older">Mais antigas</string>
+    <string name="filter_close">Fechar</string>
+    <string name="filter_year_picker_title">Escolha um ano</string>
+    <string name="filter_reset">Redefinir</string>
+    <string name="filter_confirm">OK</string>
+    <plurals name="filter_show_entries">
+        <item quantity="one">Mostrar %d imagem</item>
+        <item quantity="other">Mostrar %d imagens</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">Salvos</string>
+    <plurals name="saved_count">
+        <item quantity="one">%d imagem · disponível offline</item>
+        <item quantity="other">%d imagens · disponíveis offline</item>
+    </plurals>
+    <string name="saved_empty_title">Nada salvo ainda</string>
+    <string name="saved_empty_body">Toque no coração de qualquer imagem para guardá-la aqui, mesmo offline.</string>
+    <string name="saved_browse_feed">Explorar o feed</string>
+    <string name="saved_loading">Carregando imagens salvas</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_section_display">Tela</string>
+    <string name="settings_image_scaling_hint">Vale para o feed e para o papel de parede animado.</string>
+    <string name="settings_section_wallpaper">Papel de parede</string>
+    <string name="settings_update_automatically">Atualizar automaticamente</string>
+    <string name="settings_update_automatically_hint">Uma vez por dia, quando o Android permitir</string>
+    <string name="settings_prefer_hd">Preferir imagens em HD</string>
+    <string name="settings_prefer_hd_hint">Downloads maiores</string>
+    <string name="settings_wifi_only">Somente Wi-Fi</string>
+    <string name="settings_hide_videos">Ocultar vídeos</string>
+    <string name="settings_hide_videos_hint">Ignorar entradas em vídeo ao escolher a imagem do papel de parede.</string>
+    <string name="settings_image_scaling">Escala da imagem</string>
+    <string name="settings_section_storage">Armazenamento</string>
+    <string name="settings_image_cache">Cache de imagens</string>
+    <string name="settings_image_cache_size">%1$s em uso</string>
+    <string name="settings_clear">Limpar</string>
+    <string name="settings_section_advanced">Avançado</string>
+    <string name="settings_api_endpoint">Servidor da API</string>
+    <string name="settings_api_endpoint_default">Servidor padrão</string>
+    <string name="settings_api_endpoint_custom">Servidor personalizado</string>
+    <string name="settings_section_about">Sobre</string>
+    <string name="settings_last_synced">Última sincronização</string>
+    <string name="settings_content_rights">Direitos de conteúdo</string>
+    <string name="settings_privacy">Política de privacidade</string>
+    <string name="settings_source_code">Código-fonte e licença</string>
+    <string name="settings_third_party_notices">Avisos de terceiros</string>
+    <string name="settings_version">Versão</string>
+    <string name="settings_rights_note">Os direitos das imagens pertencem aos seus criadores. Não afiliado à NASA nem endossado por ela.</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">Avançado</string>
+    <string name="settings_advanced_intro">Use seu próprio servidor para o JSON do APOD. Ele deve servir os mesmos arquivos da API pública.</string>
+    <string name="settings_advanced_field_label">URL base da API</string>
+    <string name="settings_advanced_field_helper">Deixe vazio para usar o servidor padrão. Somente HTTPS.</string>
+    <string name="settings_advanced_save">Salvar servidor</string>
+    <string name="settings_advanced_saving">Salvando…</string>
+    <string name="settings_advanced_reset">Restaurar padrão</string>
+    <string name="settings_advanced_saved">Servidor salvo. Atualizando dados…</string>
+    <string name="settings_advanced_reset_done">Usando o servidor padrão</string>
+    <string name="settings_advanced_already_default">O servidor padrão já está em uso</string>
+    <string name="settings_advanced_already_using">Este servidor já está em uso</string>
+    <string name="settings_advanced_invalid">Insira uma URL HTTPS válida, sem consulta nem fragmento.</string>
+    <string name="settings_advanced_save_failed">Não foi possível salvar o servidor. Tente de novo.</string>
+    <string name="settings_advanced_current">Servidor atual</string>
+    <string name="settings_advanced_status">Status</string>
+    <string name="settings_advanced_clear_note">Mudar o servidor apaga os metadados do APOD em cache. As imagens salvas e o papel de parede atual são mantidos.</string>
+    <string name="settings_advanced_format_note">O servidor deve fornecer latest.json, archive-index.json e archive/YYYY.json. Nenhuma chave de API é enviada.</string>
+    <string name="settings_advanced_section_guides">Guias da API</string>
+    <string name="settings_advanced_api_docs">Documentação da API</string>
+    <string name="settings_advanced_api_reference">Referência da API pública</string>
+    <string name="settings_advanced_latest_example">Exemplo de latest.json</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">Limpar o cache de imagens?</string>
+    <string name="clear_cache_body">Isso remove %1$s de imagens baixadas. As imagens salvas e o papel de parede atual são mantidos.</string>
+    <string name="clear_cache_cancel">Cancelar</string>
+    <string name="clear_cache_confirm">Limpar</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">Cache de imagens limpo</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">A imagem astronômica do dia na sua tela inicial.</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">Atualizações do papel de parede</string>
+    <string name="notification_channel_wallpaper_description">Avisa quando a imagem do papel de parede animado muda.</string>
+    <string name="notification_no_description">Nenhuma descrição disponível.</string>
+    <string name="notification_action_open_app">Abrir app</string>
+    <string name="notification_action_view_apod">Ver no APOD</string>
+    <string name="notification_action_settings">Configurações</string>
+</resources>

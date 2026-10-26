@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">ফিড</string>
+    <string name="nav_archive">সংগ্রহ</string>
+    <string name="nav_saved">সংরক্ষিত</string>
+    <string name="nav_random_description">যেকোনো একটি ছবি খুলুন</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">ওয়ালপেপার প্রিভিউ</string>
+    <string name="onboarding_headline">আজকের আকাশ, আপনার হোম স্ক্রিনে</string>
+    <string name="onboarding_subtitle">প্রতিদিন জ্যোতির্বিজ্ঞানের একটি নতুন ছবি। কোনো অ্যাকাউন্ট লাগবে না।</string>
+    <string name="onboarding_set_wallpaper">লাইভ ওয়ালপেপার সেট করুন</string>
+    <string name="onboarding_skip">এখন এড়িয়ে যান</string>
+    <string name="onboarding_wifi_note">ছবিগুলো স্বয়ংক্রিয়ভাবে ডাউনলোড হয়। সেটিংসে শুধু Wi-Fi-তে ডাউনলোড চালু করতে পারেন।</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">আরও জানুন</string>
+    <string name="feed_search">খুঁজুন</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">সেটিংস</string>
+    <string name="feed_save">পছন্দের তালিকায় যোগ করুন</string>
+    <string name="feed_save_label">পছন্দ</string>
+    <string name="feed_saved_state">পছন্দে যোগ করা হয়েছে</string>
+    <string name="feed_download_label">ডাউনলোড</string>
+    <string name="feed_remove_favorite">পছন্দের তালিকা থেকে সরান</string>
+    <string name="feed_download">ছবি ডাউনলোড করুন</string>
+    <string name="feed_share">শেয়ার করুন</string>
+    <string name="feed_set_wallpaper">ওয়ালপেপার সেট করুন</string>
+    <string name="feed_wallpaper_active">ওয়ালপেপার চালু আছে</string>
+    <string name="feed_watch_on_apod">APOD-এ দেখুন</string>
+    <string name="feed_clear_filters">ফিল্টার মুছুন</string>
+    <string name="feed_offline_chip">অফলাইন কপি</string>
+    <string name="feed_random_title">একটি ছবি বাছাই করা হচ্ছে…</string>
+    <string name="feed_random_body">সংগ্রহশালা থেকে যেকোনো একটি ছবি খোঁজা হচ্ছে।</string>
+    <string name="feed_random_cancel">বাতিল</string>
+    <string name="feed_random_unavailable">এই মুহূর্তে যেকোনো একটি ছবি দেখানো যাচ্ছে না।</string>
+    <string name="feed_hide_chrome">বিস্তারিত লুকান</string>
+    <string name="feed_show_chrome">বিস্তারিত দেখুন</string>
+    <string name="feed_swipe_hint_title">উপরে সোয়াইপ করুন</string>
+    <string name="feed_swipe_hint_body">আরও ছবি দেখতে</string>
+    <string name="feed_explanation_unavailable">অফলাইনে বিবরণ পাওয়া যাচ্ছে না</string>
+    <string name="feed_hydration_failed">বিস্তারিত লোড করা যায়নি</string>
+    <string name="feed_retry">আবার চেষ্টা করুন</string>
+    <string name="feed_pull_refresh">রিফ্রেশ করতে টানুন</string>
+    <string name="feed_release_refresh">রিফ্রেশ করতে ছেড়ে দিন</string>
+    <string name="feed_refreshing">রিফ্রেশ হচ্ছে…</string>
+    <string name="feed_loading">ফিড লোড হচ্ছে</string>
+    <string name="feed_loading_older">পুরনো বছরের ছবি লোড হচ্ছে…</string>
+    <string name="feed_end_title">সংগ্রহশালার শুরু</string>
+    <string name="feed_end_body">প্রথম ছবিটি ১৯৯৫ সালের ১৬ জুনের।</string>
+    <string name="feed_end_filtered">এই ফিল্টারে পুরনো কোনো ছবি মেলেনি।</string>
+    <string name="feed_end_offline">পুরনো ছবি দেখতে ইন্টারনেট সংযোগ লাগবে।</string>
+    <string name="feed_end_retry">বাকি সংগ্রহশালা এখনো ডাউনলোড হয়নি।</string>
+    <string name="feed_back_to_latest">সর্বশেষে ফিরুন</string>
+    <string name="feed_open_saved">সংরক্ষিত খুলুন</string>
+    <string name="feed_error_title">ফিড পাওয়া যাচ্ছে না</string>
+    <string name="feed_error_body">আপনার সংযোগ দেখে আবার চেষ্টা করুন। সংরক্ষিত ছবিগুলো সবসময় পাওয়া যাবে।</string>
+    <string name="feed_error_try_again">আবার চেষ্টা করুন</string>
+
+    <!-- Archive -->
+    <string name="archive_title">সংগ্রহশালা</string>
+    <string name="archive_search_hint">শিরোনাম খুঁজুন</string>
+    <string name="archive_filters">ফিল্টার</string>
+    <string name="archive_empty_query">&quot;%1$s&quot; এর সঙ্গে কোনো এন্ট্রি মেলেনি</string>
+    <string name="archive_empty_filters">আপনার ফিল্টারগুলোর সঙ্গে কোনো এন্ট্রি মেলেনি।</string>
+    <string name="archive_clear_filters">ফিল্টার মুছুন</string>
+    <string name="archive_loading">সংগ্রহশালা লোড হচ্ছে</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">শিরোনাম বা তারিখ খুঁজুন</string>
+    <string name="search_close">খোঁজা বন্ধ করুন</string>
+    <string name="search_no_results">&quot;%1$s&quot; এর সঙ্গে কোনো ছবি মেলেনি</string>
+    <string name="search_no_matches_filter">এই ফিল্টারগুলোর সঙ্গে কোনো ছবি মেলে না।</string>
+    <string name="search_offline">প্রথমবার খোঁজার জন্য ইন্টারনেট সংযোগ লাগবে।</string>
+    <string name="search_refine">কম ফলাফল দেখতে খোঁজাটি আরও নির্দিষ্ট করুন।</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">লাইভ ওয়ালপেপার</string>
+    <string name="wallpaper_preview">প্রিভিউ</string>
+    <string name="wallpaper_selected_image">নির্বাচিত ছবি</string>
+    <string name="wallpaper_scaling">স্কেলিং</string>
+    <string name="wallpaper_update_daily">প্রতিদিন আপডেট করুন</string>
+    <string name="wallpaper_preview_and_set">লাইভ ওয়ালপেপার সেট করুন</string>
+    <string name="wallpaper_apply_now">এখনই প্রয়োগ করুন</string>
+    <string name="wallpaper_helper">লাইভ ওয়ালপেপার চালু করতে Android আপনাকে একবার জিজ্ঞাসা করবে। এরপর নতুন ছবি স্বয়ংক্রিয়ভাবে বসে যাবে; ব্যাটারি অপ্টিমাইজেশন এতে দেরি করতে পারে।</string>
+    <string name="wallpaper_helper_active">লাইভ ওয়ালপেপার চালু আছে। সিস্টেম পিকার না খুলেই নির্বাচিত ছবি ও স্কেলিং সরাসরি প্রয়োগ করা হয়।</string>
+    <string name="wallpaper_scaling_fill">ভরাট</string>
+    <string name="wallpaper_scaling_fit">মানানসই</string>
+
+    <!-- Detail (Builder B owns the new entry_* strings in strings_entry.xml) -->
+    <string name="detail_back">ফিরে যান</string>
+    <string name="detail_save_image">ছবি সংরক্ষণ করুন</string>
+    <string name="detail_set_wallpaper">ওয়ালপেপার হিসেবে সেট করুন</string>
+    <string name="detail_original_page">মূল APOD পেজ</string>
+    <string name="detail_hd_image">HD ছবি</string>
+    <string name="detail_video_chip">ভিডিও</string>
+    <string name="detail_watch_original">মূল পেজে দেখুন</string>
+    <string name="detail_video_note">ভিডিও এন্ট্রি ওয়ালপেপার হিসেবে ব্যবহার করা যায় না। আপনার বর্তমান ওয়ালপেপার অপরিবর্তিত থাকবে।</string>
+    <string name="detail_image_unavailable">ছবি পাওয়া যাচ্ছে না</string>
+    <string name="detail_loading">এন্ট্রি লোড হচ্ছে</string>
+    <string name="detail_error_title">এই এন্ট্রিটি পাওয়া যাচ্ছে না</string>
+    <string name="detail_error_body">আপনার সংযোগ দেখে আবার চেষ্টা করুন।</string>
+    <string name="detail_error_try_again">আবার চেষ্টা করুন</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">ফিল্টার</string>
+    <string name="filter_year">বছর</string>
+    <string name="filter_all_years">সব বছর</string>
+    <string name="filter_jump_to_date">তারিখে যান</string>
+    <string name="filter_jump_to_date_placeholder">তারিখ বাছুন</string>
+    <string name="filter_type">ধরন</string>
+    <string name="filter_all">সব</string>
+    <string name="filter_images">ছবি</string>
+    <string name="filter_videos">ভিডিও</string>
+    <string name="filter_older">পুরনো</string>
+    <string name="filter_close">বন্ধ করুন</string>
+    <string name="filter_year_picker_title">একটি বছর বাছুন</string>
+    <string name="filter_reset">রিসেট</string>
+    <string name="filter_confirm">ঠিক আছে</string>
+    <plurals name="filter_show_entries">
+        <item quantity="one">%dটি ছবি দেখান</item>
+        <item quantity="other">%dটি ছবি দেখান</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">সংরক্ষিত</string>
+    <plurals name="saved_count">
+        <item quantity="one">%dটি ছবি · অফলাইনে পাওয়া যায়</item>
+        <item quantity="other">%dটি ছবি · অফলাইনে পাওয়া যায়</item>
+    </plurals>
+    <string name="saved_empty_title">এখনো কিছু সংরক্ষণ করা হয়নি</string>
+    <string name="saved_empty_body">যেকোনো ছবিতে হার্টে ট্যাপ করুন—ছবিটি অফলাইনেও এখানে থেকে যাবে।</string>
+    <string name="saved_browse_feed">ফিড দেখুন</string>
+    <string name="saved_loading">সংরক্ষিত ছবি লোড হচ্ছে</string>
+
+    <!-- Settings -->
+    <string name="settings_title">সেটিংস</string>
+    <string name="settings_section_display">প্রদর্শন</string>
+    <string name="settings_image_scaling_hint">ফিড ও লাইভ ওয়ালপেপারে প্রযোজ্য।</string>
+    <string name="settings_section_wallpaper">ওয়ালপেপার</string>
+    <string name="settings_update_automatically">স্বয়ংক্রিয়ভাবে আপডেট করুন</string>
+    <string name="settings_update_automatically_hint">দিনে একবার, যখন Android অনুমতি দেয়</string>
+    <string name="settings_prefer_hd">HD ছবি পছন্দ করুন</string>
+    <string name="settings_prefer_hd_hint">বড় ফাইল ডাউনলোড হবে</string>
+    <string name="settings_wifi_only">শুধু Wi-Fi</string>
+    <string name="settings_hide_videos">ভিডিও লুকান</string>
+    <string name="settings_hide_videos_hint">ওয়ালপেপারের ছবি বাছাই করার সময় ভিডিও এন্ট্রি বাদ দিন।</string>
+    <string name="settings_image_scaling">ছবির স্কেলিং</string>
+    <string name="settings_section_storage">স্টোরেজ</string>
+    <string name="settings_image_cache">ছবির ক্যাশে</string>
+    <string name="settings_image_cache_size">%1$s ব্যবহার হয়েছে</string>
+    <string name="settings_clear">মুছুন</string>
+    <string name="settings_section_advanced">উন্নত</string>
+    <string name="settings_api_endpoint">API এন্ডপয়েন্ট</string>
+    <string name="settings_api_endpoint_default">ডিফল্ট এন্ডপয়েন্ট</string>
+    <string name="settings_api_endpoint_custom">কাস্টম এন্ডপয়েন্ট</string>
+    <string name="settings_section_about">সম্পর্কে</string>
+    <string name="settings_last_synced">সর্বশেষ সিঙ্ক</string>
+    <string name="settings_content_rights">কনটেন্টের অধিকার</string>
+    <string name="settings_privacy">গোপনীয়তা নীতি</string>
+    <string name="settings_source_code">সোর্স কোড ও লাইসেন্স</string>
+    <string name="settings_third_party_notices">তৃতীয় পক্ষের নোটিশ</string>
+    <string name="settings_version">সংস্করণ</string>
+    <string name="settings_rights_note">ছবির অধিকার তাদের সৃষ্টিকর্তাদের। NASA-র সঙ্গে এর কোনো সম্পর্ক নেই, NASA এটির অনুমোদনও দেয়নি।</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">উন্নত</string>
+    <string name="settings_advanced_intro">APOD JSON-এর জন্য নিজের সার্ভার ব্যবহার করুন। এটি পাবলিক API-র মতো একই ফাইল সরবরাহ করতে হবে।</string>
+    <string name="settings_advanced_field_label">API বেস URL</string>
+    <string name="settings_advanced_field_helper">ডিফল্ট ব্যবহার করতে খালি রাখুন। শুধু HTTPS।</string>
+    <string name="settings_advanced_save">এন্ডপয়েন্ট সংরক্ষণ করুন</string>
+    <string name="settings_advanced_saving">সংরক্ষণ হচ্ছে…</string>
+    <string name="settings_advanced_reset">ডিফল্টে ফিরিয়ে নিন</string>
+    <string name="settings_advanced_saved">এন্ডপয়েন্ট সংরক্ষিত হয়েছে। ডেটা রিফ্রেশ হচ্ছে…</string>
+    <string name="settings_advanced_reset_done">ডিফল্ট এন্ডপয়েন্ট ব্যবহার করা হচ্ছে</string>
+    <string name="settings_advanced_already_default">এখনই ডিফল্ট এন্ডপয়েন্ট ব্যবহার করা হচ্ছে</string>
+    <string name="settings_advanced_already_using">এখনই এই এন্ডপয়েন্ট ব্যবহার করা হচ্ছে</string>
+    <string name="settings_advanced_invalid">কোয়েরি বা ফ্র্যাগমেন্ট ছাড়া একটি বৈধ HTTPS URL দিন।</string>
+    <string name="settings_advanced_save_failed">এন্ডপয়েন্ট সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।</string>
+    <string name="settings_advanced_current">বর্তমান এন্ডপয়েন্ট</string>
+    <string name="settings_advanced_status">অবস্থা</string>
+    <string name="settings_advanced_clear_note">এন্ডপয়েন্ট বদলালে ক্যাশে থাকা APOD মেটাডেটা মুছে যাবে। সংরক্ষিত ছবি ও বর্তমান ওয়ালপেপার থেকে যাবে।</string>
+    <string name="settings_advanced_format_note">এন্ডপয়েন্টকে latest.json, archive-index.json এবং archive/YYYY.json সরবরাহ করতে হবে। কোনো API কী পাঠানো হয় না।</string>
+    <string name="settings_advanced_section_guides">API গাইড</string>
+    <string name="settings_advanced_api_docs">API ডকুমেন্টেশন</string>
+    <string name="settings_advanced_api_reference">পাবলিক API রেফারেন্স</string>
+    <string name="settings_advanced_latest_example">latest.json-এর উদাহরণ</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">ছবির ক্যাশে মুছে ফেলবেন?</string>
+    <string name="clear_cache_body">এতে ডাউনলোড করা %1$s ছবি মুছে যাবে। সংরক্ষিত ছবি ও বর্তমান ওয়ালপেপার থেকে যাবে।</string>
+    <string name="clear_cache_cancel">বাতিল</string>
+    <string name="clear_cache_confirm">মুছুন</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">ছবির ক্যাশে মোছা হয়েছে</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">আপনার হোম স্ক্রিনে জ্যোতির্বিজ্ঞানের দিনের ছবি।</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">ওয়ালপেপার আপডেট</string>
+    <string name="notification_channel_wallpaper_description">লাইভ ওয়ালপেপারের ছবি বদলালে জানিয়ে দেয়।</string>
+    <string name="notification_no_description">কোনো বিবরণ পাওয়া যাচ্ছে না।</string>
+    <string name="notification_action_open_app">অ্যাপ খুলুন</string>
+    <string name="notification_action_view_apod">APOD-এ দেখুন</string>
+    <string name="notification_action_settings">সেটিংস</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Strings of the rebuilt entry viewer (Builder B).
+-->
+<resources>
+
+    <!-- Header and metadata -->
+    <string name="entry_credit_value">Kredit: %1$s</string>
+    <string name="entry_media_image">Gambar</string>
+    <string name="entry_media_video">Video</string>
+    <string name="entry_media_interactive">Interaktif</string>
+    <string name="entry_meta_section">Detail</string>
+    <string name="entry_meta_date">Tanggal</string>
+    <string name="entry_meta_media_type">Jenis media</string>
+    <string name="entry_meta_credit">Kredit</string>
+    <string name="entry_meta_updated">Diperbarui</string>
+    <string name="entry_meta_source">Sumber</string>
+    <string name="entry_not_provided">Tidak tersedia</string>
+    <string name="entry_links_section">Tautan</string>
+
+    <!-- Image viewer -->
+    <string name="entry_image_loading">Memuat gambar</string>
+    <string name="entry_image_retry">Coba lagi</string>
+    <string name="entry_image_description">Gambar astronomi</string>
+    <string name="entry_image_placeholder_note">Penerbit menyediakan gambar pengganti untuk entri ini.</string>
+    <string name="entry_image_missing_note">Entri ini tidak memiliki gambar.</string>
+
+    <!-- Notes and actions -->
+    <string name="entry_offline_note">Menampilkan salinan tersimpan. Deskripsi mungkin tidak lengkap.</string>
+    <string name="entry_action_save">Tambahkan ke favorit</string>
+    <string name="entry_action_unsave">Hapus dari favorit</string>
+    <string name="entry_action_share">Bagikan</string>
+    <string name="entry_action_settings">Pengaturan</string>
+
+</resources>

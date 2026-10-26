@@ -13,6 +13,37 @@ Archive tab and Saved.
 
 ---
 
+## Languages
+
+The app UI is localized through standard Android resources and follows the phone language. On
+Android 13+ it also appears in the system **per-app language** picker through
+`res/xml/locales_config.xml`.
+
+Supported UI locales:
+
+| Language | Locale |
+|---|---|
+| English | `en`, `en-GB`, `en-US` |
+| Bengali | `bn` |
+| German | `de` |
+| Spanish | `es` |
+| French | `fr` |
+| Hindi | `hi` |
+| Indonesian | `id` |
+| Italian | `it` |
+| Japanese | `ja` |
+| Korean | `ko` |
+| Portuguese | `pt` (Brazilian standard) |
+| Turkish | `tr` |
+| Vietnamese | `vi` |
+| Simplified Chinese | `zh-rCN` |
+
+The NASA APOD titles, explanations and credits are editorial content from the public API and stay
+in English; only Mohakash's own interface and message strings are translated. English uses the
+neutral `values/` resources, with British (`en-GB`) and American (`en-US`) spelling overrides.
+
+---
+
 ## 1. Prerequisites
 
 | Tool | Version |
@@ -134,7 +165,7 @@ that, the app recognises that its service is the active wallpaper and swaps new 
 |---|---|
 | **Onboarding** | Shown once. Phone preview, headline, *Set live wallpaper* / *Skip for now*, download note. Triggers the first synchronisation. |
 | **Top chrome** | Search (left), lowercase **mohakash** wordmark (centre), Settings (right), over a black-to-transparent top scrim. Tapping the picture hides this chrome and the dock; tapping again restores them. |
-| **Feed** | Full-screen vertical pager with one APOD per page. Page 0 is the latest picture; swiping up goes to older pictures, swiping down to newer ones, and the list never wraps. On a first visit a one-time **Swipe up / for older pictures** cue appears and fades after six seconds or on the first drag. Top chrome has only **search on the left and settings on the right**. A black-to-transparent bottom gradient carries the credit, title and two-line teaser; the APOD date runs vertically on the left with a short accent line. A labelled right-hand rail holds **Favorite**, **Download** (image entries) and **Share**. Next to the text is a compact **Set wallpaper** pill and a text **Learn more** link. Tapping the picture fades out the gradient and the bottom bar for a clean full-screen view; tapping again (or Back) restores them. Fill/Fit follows the shared image-scaling setting. |
+| **Feed** | Full-screen vertical pager with one APOD per page. Page 0 is the latest picture; swiping up goes to older pictures, swiping down to newer ones, and the list never wraps. On a first visit a one-time **Swipe up / to see more pictures** cue appears with two small feed bounces and fades after six seconds or on the first drag. Top chrome has **search on the left, the mohakash wordmark in the centre and Settings on the right**. A black-to-transparent bottom gradient carries the credit, title and two-line teaser; the APOD date runs vertically on the left with a short accent line. A labelled right-hand rail holds **Favorite**, **Download** (image entries) and **Share**. Next to the text is a compact **Set wallpaper** pill and a text **Learn more** link. Tapping the picture fades out the gradient and the bottom bar for a clean full-screen view; tapping again (or Back) restores them. Fill/Fit follows the shared image-scaling setting. |
 | **Feed (video)** | Poster with the play glyph and *Video* chip, *Watch on APOD* instead of save / wallpaper. Videos play on the APOD page, not in the app. |
 | **Feed (offline)** | Pages render from the on-disk index and cached years with an *Offline copy* chip; the teaser is hidden until a page is hydrated, and *Retry* re-attempts the network. |
 | **Archive** | Dedicated tab between Feed and Saved. Search titles, quick year chips, *Filters*, and a newest-first list of the selected year. The shared disk-cached index opens instantly; the filter sheet has all years, media types and jump-to-date. |

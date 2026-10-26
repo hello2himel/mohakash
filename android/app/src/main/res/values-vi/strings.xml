@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">Bảng tin</string>
+    <string name="nav_archive">Lưu trữ</string>
+    <string name="nav_saved">Đã lưu</string>
+    <string name="nav_random_description">Mở một ảnh ngẫu nhiên</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">Xem trước hình nền</string>
+    <string name="onboarding_headline">Bầu trời hôm nay trên màn hình chính</string>
+    <string name="onboarding_subtitle">Mỗi ngày một ảnh thiên văn mới. Không cần tài khoản.</string>
+    <string name="onboarding_set_wallpaper">Đặt hình nền động</string>
+    <string name="onboarding_skip">Bỏ qua lúc này</string>
+    <string name="onboarding_wifi_note">Ảnh được tải tự động. Bạn có thể giới hạn tải xuống chỉ qua Wi-Fi trong Cài đặt.</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">Tìm hiểu thêm</string>
+    <string name="feed_search">Tìm kiếm</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">Cài đặt</string>
+    <string name="feed_save">Thêm vào yêu thích</string>
+    <string name="feed_save_label">Yêu thích</string>
+    <string name="feed_saved_state">Đã yêu thích</string>
+    <string name="feed_download_label">Tải xuống</string>
+    <string name="feed_remove_favorite">Xóa khỏi yêu thích</string>
+    <string name="feed_download">Tải ảnh xuống</string>
+    <string name="feed_share">Chia sẻ</string>
+    <string name="feed_set_wallpaper">Đặt làm hình nền</string>
+    <string name="feed_wallpaper_active">Hình nền đang hoạt động</string>
+    <string name="feed_watch_on_apod">Xem trên APOD</string>
+    <string name="feed_clear_filters">Xóa bộ lọc</string>
+    <string name="feed_offline_chip">Bản sao ngoại tuyến</string>
+    <string name="feed_random_title">Đang chọn ảnh…</string>
+    <string name="feed_random_body">Đang tìm một ảnh ngẫu nhiên trong kho lưu trữ.</string>
+    <string name="feed_random_cancel">Hủy</string>
+    <string name="feed_random_unavailable">Hiện không có ảnh ngẫu nhiên nào.</string>
+    <string name="feed_hide_chrome">Ẩn chi tiết</string>
+    <string name="feed_show_chrome">Hiện chi tiết</string>
+    <string name="feed_swipe_hint_title">Vuốt lên</string>
+    <string name="feed_swipe_hint_body">để xem thêm ảnh</string>
+    <string name="feed_explanation_unavailable">Không có mô tả khi ngoại tuyến</string>
+    <string name="feed_hydration_failed">Không tải được chi tiết</string>
+    <string name="feed_retry">Thử lại</string>
+    <string name="feed_pull_refresh">Kéo để làm mới</string>
+    <string name="feed_release_refresh">Thả để làm mới</string>
+    <string name="feed_refreshing">Đang làm mới…</string>
+    <string name="feed_loading">Đang tải bảng tin</string>
+    <string name="feed_loading_older">Đang tải những năm trước…</string>
+    <string name="feed_end_title">Khởi đầu của kho lưu trữ</string>
+    <string name="feed_end_body">Ảnh đầu tiên là từ ngày 16 tháng 6 năm 1995.</string>
+    <string name="feed_end_filtered">Không có ảnh cũ hơn nào khớp với bộ lọc này.</string>
+    <string name="feed_end_offline">Ảnh cũ hơn cần có kết nối.</string>
+    <string name="feed_end_retry">Phần còn lại của kho lưu trữ chưa được tải xuống.</string>
+    <string name="feed_back_to_latest">Quay lại mới nhất</string>
+    <string name="feed_open_saved">Mở mục Đã lưu</string>
+    <string name="feed_error_title">Bảng tin không khả dụng</string>
+    <string name="feed_error_body">Kiểm tra kết nối và thử lại. Những ảnh bạn đã lưu luôn khả dụng.</string>
+    <string name="feed_error_try_again">Thử lại</string>
+
+    <!-- Archive -->
+    <string name="archive_title">Lưu trữ</string>
+    <string name="archive_search_hint">Tìm theo tiêu đề</string>
+    <string name="archive_filters">Bộ lọc</string>
+    <string name="archive_empty_query">Không có mục nào khớp với &quot;%1$s&quot;</string>
+    <string name="archive_empty_filters">Không có mục nào khớp với bộ lọc của bạn.</string>
+    <string name="archive_clear_filters">Xóa bộ lọc</string>
+    <string name="archive_loading">Đang tải kho lưu trữ</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">Tìm tiêu đề hoặc ngày</string>
+    <string name="search_close">Đóng tìm kiếm</string>
+    <string name="search_no_results">Không có ảnh nào khớp với &quot;%1$s&quot;</string>
+    <string name="search_no_matches_filter">Không có ảnh nào khớp với các bộ lọc này.</string>
+    <string name="search_offline">Lần tìm kiếm đầu tiên cần có kết nối.</string>
+    <string name="search_refine">Thu hẹp tìm kiếm để thấy ít kết quả hơn.</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">Hình nền động</string>
+    <string name="wallpaper_preview">Xem trước</string>
+    <string name="wallpaper_selected_image">Ảnh đã chọn</string>
+    <string name="wallpaper_scaling">Tỷ lệ</string>
+    <string name="wallpaper_update_daily">Cập nhật hằng ngày</string>
+    <string name="wallpaper_preview_and_set">Đặt hình nền động</string>
+    <string name="wallpaper_apply_now">Áp dụng ngay</string>
+    <string name="wallpaper_helper">Android sẽ hỏi bạn một lần để kích hoạt hình nền động. Sau đó, ảnh mới được áp dụng tự động; tối ưu hóa pin có thể làm việc này chậm lại.</string>
+    <string name="wallpaper_helper_active">Hình nền động đang hoạt động. Ảnh đã chọn và tỷ lệ được áp dụng trực tiếp, không mở trình chọn của hệ thống.</string>
+    <string name="wallpaper_scaling_fill">Lấp đầy</string>
+    <string name="wallpaper_scaling_fit">Vừa khít</string>
+
+    <!-- Detail -->
+    <string name="detail_back">Quay lại</string>
+    <string name="detail_save_image">Lưu ảnh</string>
+    <string name="detail_set_wallpaper">Đặt làm hình nền</string>
+    <string name="detail_original_page">Trang APOD gốc</string>
+    <string name="detail_hd_image">Ảnh HD</string>
+    <string name="detail_video_chip">Video</string>
+    <string name="detail_watch_original">Xem trên trang gốc</string>
+    <string name="detail_video_note">Mục video không thể dùng làm hình nền. Hình nền hiện tại của bạn vẫn giữ nguyên.</string>
+    <string name="detail_image_unavailable">Ảnh không khả dụng</string>
+    <string name="detail_loading">Đang tải mục</string>
+    <string name="detail_error_title">Mục này không khả dụng</string>
+    <string name="detail_error_body">Kiểm tra kết nối và thử lại.</string>
+    <string name="detail_error_try_again">Thử lại</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">Bộ lọc</string>
+    <string name="filter_year">Năm</string>
+    <string name="filter_all_years">Tất cả các năm</string>
+    <string name="filter_jump_to_date">Chuyển đến ngày</string>
+    <string name="filter_jump_to_date_placeholder">Chọn ngày</string>
+    <string name="filter_type">Loại</string>
+    <string name="filter_all">Tất cả</string>
+    <string name="filter_images">Ảnh</string>
+    <string name="filter_videos">Video</string>
+    <string name="filter_older">Cũ hơn</string>
+    <string name="filter_close">Đóng</string>
+    <string name="filter_year_picker_title">Chọn năm</string>
+    <string name="filter_reset">Đặt lại</string>
+    <string name="filter_confirm">OK</string>
+    <plurals name="filter_show_entries">
+        <item quantity="other">Hiển thị %d ảnh</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">Đã lưu</string>
+    <plurals name="saved_count">
+        <item quantity="other">%d ảnh · có sẵn ngoại tuyến</item>
+    </plurals>
+    <string name="saved_empty_title">Chưa lưu gì</string>
+    <string name="saved_empty_body">Nhấn vào biểu tượng trái tim trên bất kỳ ảnh nào để giữ ảnh ở đây, kể cả khi ngoại tuyến.</string>
+    <string name="saved_browse_feed">Xem bảng tin</string>
+    <string name="saved_loading">Đang tải ảnh đã lưu</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Cài đặt</string>
+    <string name="settings_section_display">Hiển thị</string>
+    <string name="settings_image_scaling_hint">Áp dụng cho bảng tin và hình nền động.</string>
+    <string name="settings_section_wallpaper">Hình nền</string>
+    <string name="settings_update_automatically">Tự động cập nhật</string>
+    <string name="settings_update_automatically_hint">Mỗi ngày một lần, khi Android cho phép</string>
+    <string name="settings_prefer_hd">Ưu tiên ảnh HD</string>
+    <string name="settings_prefer_hd_hint">Tải xuống dung lượng lớn hơn</string>
+    <string name="settings_wifi_only">Chỉ Wi-Fi</string>
+    <string name="settings_hide_videos">Ẩn video</string>
+    <string name="settings_hide_videos_hint">Bỏ qua mục video khi chọn ảnh hình nền.</string>
+    <string name="settings_image_scaling">Tỷ lệ ảnh</string>
+    <string name="settings_section_storage">Bộ nhớ</string>
+    <string name="settings_image_cache">Bộ nhớ đệm ảnh</string>
+    <string name="settings_image_cache_size">Đã dùng %1$s</string>
+    <string name="settings_clear">Xóa</string>
+    <string name="settings_section_advanced">Nâng cao</string>
+    <string name="settings_api_endpoint">Điểm cuối API</string>
+    <string name="settings_api_endpoint_default">Điểm cuối mặc định</string>
+    <string name="settings_api_endpoint_custom">Điểm cuối tùy chỉnh</string>
+    <string name="settings_section_about">Giới thiệu</string>
+    <string name="settings_last_synced">Đồng bộ lần cuối</string>
+    <string name="settings_content_rights">Bản quyền nội dung</string>
+    <string name="settings_privacy">Chính sách quyền riêng tư</string>
+    <string name="settings_source_code">Mã nguồn và giấy phép</string>
+    <string name="settings_third_party_notices">Thông báo bên thứ ba</string>
+    <string name="settings_version">Phiên bản</string>
+    <string name="settings_rights_note">Bản quyền hình ảnh thuộc về những người tạo ra chúng. Không liên kết với NASA và không được NASA chứng thực.</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">Nâng cao</string>
+    <string name="settings_advanced_intro">Dùng máy chủ riêng cho APOD JSON. Máy chủ đó phải cung cấp cùng các tệp như API công khai.</string>
+    <string name="settings_advanced_field_label">URL gốc của API</string>
+    <string name="settings_advanced_field_helper">Để trống để dùng mặc định. Chỉ HTTPS.</string>
+    <string name="settings_advanced_save">Lưu điểm cuối</string>
+    <string name="settings_advanced_saving">Đang lưu…</string>
+    <string name="settings_advanced_reset">Đặt lại về mặc định</string>
+    <string name="settings_advanced_saved">Đã lưu điểm cuối. Đang làm mới dữ liệu…</string>
+    <string name="settings_advanced_reset_done">Đang dùng điểm cuối mặc định</string>
+    <string name="settings_advanced_already_default">Đang dùng điểm cuối mặc định</string>
+    <string name="settings_advanced_already_using">Đang dùng điểm cuối này</string>
+    <string name="settings_advanced_invalid">Nhập URL HTTPS hợp lệ, không có query hoặc fragment.</string>
+    <string name="settings_advanced_save_failed">Không thể lưu điểm cuối. Hãy thử lại.</string>
+    <string name="settings_advanced_current">Điểm cuối hiện tại</string>
+    <string name="settings_advanced_status">Trạng thái</string>
+    <string name="settings_advanced_clear_note">Thay đổi điểm cuối sẽ xóa siêu dữ liệu APOD trong bộ nhớ đệm. Ảnh đã lưu và hình nền hiện tại được giữ lại.</string>
+    <string name="settings_advanced_format_note">Điểm cuối phải cung cấp latest.json, archive-index.json và archive/YYYY.json. Không có khóa API nào được gửi.</string>
+    <string name="settings_advanced_section_guides">Hướng dẫn API</string>
+    <string name="settings_advanced_api_docs">Tài liệu API</string>
+    <string name="settings_advanced_api_reference">Tham chiếu API công khai</string>
+    <string name="settings_advanced_latest_example">Ví dụ latest.json</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">Xóa bộ nhớ đệm ảnh?</string>
+    <string name="clear_cache_body">Thao tác này xóa %1$s ảnh đã tải xuống. Ảnh đã lưu và hình nền hiện tại của bạn được giữ lại.</string>
+    <string name="clear_cache_cancel">Hủy</string>
+    <string name="clear_cache_confirm">Xóa</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">Đã xóa bộ nhớ đệm ảnh</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">Ảnh thiên văn của ngày trên màn hình chính của bạn.</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">Cập nhật hình nền</string>
+    <string name="notification_channel_wallpaper_description">Thông báo khi ảnh của hình nền động thay đổi.</string>
+    <string name="notification_no_description">Không có mô tả.</string>
+    <string name="notification_action_open_app">Mở ứng dụng</string>
+    <string name="notification_action_view_apod">Xem trên APOD</string>
+    <string name="notification_action_settings">Cài đặt</string>
+</resources>

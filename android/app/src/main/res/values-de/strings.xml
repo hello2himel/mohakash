@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mohakash</string>
+
+    <!-- Navigation -->
+    <string name="nav_feed">Feed</string>
+    <string name="nav_archive">Archiv</string>
+    <string name="nav_saved">Gespeichert</string>
+    <string name="nav_random_description">Ein zufälliges Bild öffnen</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_wallpaper_preview">Hintergrundvorschau</string>
+    <string name="onboarding_headline">Der Himmel von heute auf deinem Startbildschirm</string>
+    <string name="onboarding_subtitle">Jeden Tag ein neues Astronomiebild. Ganz ohne Konto.</string>
+    <string name="onboarding_set_wallpaper">Live-Hintergrund festlegen</string>
+    <string name="onboarding_skip">Vorerst überspringen</string>
+    <string name="onboarding_wifi_note">Bilder werden automatisch geladen. In den Einstellungen kannst du Downloads auf WLAN beschränken.</string>
+
+    <!-- Feed -->
+    <string name="feed_full_entry">Mehr erfahren</string>
+    <string name="feed_search">Suchen</string>
+    <string name="feed_brand">mohakash</string>
+    <string name="feed_settings">Einstellungen</string>
+    <string name="feed_save">Zu Favoriten hinzufügen</string>
+    <string name="feed_save_label">Favorit</string>
+    <string name="feed_saved_state">In Favoriten</string>
+    <string name="feed_download_label">Herunterladen</string>
+    <string name="feed_remove_favorite">Aus Favoriten entfernen</string>
+    <string name="feed_download">Bild herunterladen</string>
+    <string name="feed_share">Teilen</string>
+    <string name="feed_set_wallpaper">Als Hintergrund festlegen</string>
+    <string name="feed_wallpaper_active">Hintergrund aktiv</string>
+    <string name="feed_watch_on_apod">Auf APOD ansehen</string>
+    <string name="feed_clear_filters">Filter zurücksetzen</string>
+    <string name="feed_offline_chip">Offline-Kopie</string>
+    <string name="feed_random_title">Bild wird ausgewählt…</string>
+    <string name="feed_random_body">Ein zufälliges Bild aus dem Archiv wird gesucht.</string>
+    <string name="feed_random_cancel">Abbrechen</string>
+    <string name="feed_random_unavailable">Derzeit ist kein zufälliges Bild verfügbar.</string>
+    <string name="feed_hide_chrome">Details ausblenden</string>
+    <string name="feed_show_chrome">Details einblenden</string>
+    <string name="feed_swipe_hint_title">Nach oben wischen</string>
+    <string name="feed_swipe_hint_body">um weitere Bilder zu sehen</string>
+    <string name="feed_explanation_unavailable">Beschreibung offline nicht verfügbar</string>
+    <string name="feed_hydration_failed">Details konnten nicht geladen werden</string>
+    <string name="feed_retry">Erneut versuchen</string>
+    <string name="feed_pull_refresh">Zum Aktualisieren ziehen</string>
+    <string name="feed_release_refresh">Zum Aktualisieren loslassen</string>
+    <string name="feed_refreshing">Wird aktualisiert…</string>
+    <string name="feed_loading">Feed wird geladen</string>
+    <string name="feed_loading_older">Ältere Jahre werden geladen…</string>
+    <string name="feed_end_title">Anfang des Archivs</string>
+    <string name="feed_end_body">Das erste Bild stammt vom 16. Juni 1995.</string>
+    <string name="feed_end_filtered">Keine älteren Bilder passen zu diesem Filter.</string>
+    <string name="feed_end_offline">Ältere Bilder brauchen eine Verbindung.</string>
+    <string name="feed_end_retry">Der restliche Teil des Archivs ist noch nicht heruntergeladen.</string>
+    <string name="feed_back_to_latest">Zurück zum Neuesten</string>
+    <string name="feed_open_saved">Gespeicherte öffnen</string>
+    <string name="feed_error_title">Der Feed ist nicht verfügbar</string>
+    <string name="feed_error_body">Prüfe deine Verbindung und versuche es erneut. Gespeicherte Bilder sind immer da.</string>
+    <string name="feed_error_try_again">Erneut versuchen</string>
+
+    <!-- Archive -->
+    <string name="archive_title">Archiv</string>
+    <string name="archive_search_hint">Titel durchsuchen</string>
+    <string name="archive_filters">Filter</string>
+    <string name="archive_empty_query">Keine Einträge zu &quot;%1$s&quot;</string>
+    <string name="archive_empty_filters">Keine Einträge passen zu deinen Filtern.</string>
+    <string name="archive_clear_filters">Filter zurücksetzen</string>
+    <string name="archive_loading">Archiv wird geladen</string>
+
+    <!-- Search sheet -->
+    <string name="search_hint">Titel oder Datum suchen</string>
+    <string name="search_close">Suche schließen</string>
+    <string name="search_no_results">Keine Bilder zu &quot;%1$s&quot;</string>
+    <string name="search_no_matches_filter">Keine Bilder passen zu diesen Filtern.</string>
+    <string name="search_offline">Die Suche braucht beim ersten Mal eine Verbindung.</string>
+    <string name="search_refine">Grenze deine Suche ein, um weniger Ergebnisse zu sehen.</string>
+
+    <!-- Wallpaper sheet -->
+    <string name="wallpaper_sheet_title">Live-Hintergrund</string>
+    <string name="wallpaper_preview">Vorschau</string>
+    <string name="wallpaper_selected_image">Ausgewähltes Bild</string>
+    <string name="wallpaper_scaling">Skalierung</string>
+    <string name="wallpaper_update_daily">Täglich aktualisieren</string>
+    <string name="wallpaper_preview_and_set">Live-Hintergrund festlegen</string>
+    <string name="wallpaper_apply_now">Jetzt anwenden</string>
+    <string name="wallpaper_helper">Android fragt dich einmal, ob der Live-Hintergrund aktiviert werden darf. Danach werden neue Bilder automatisch übernommen; die Akkuoptimierung kann das verzögern.</string>
+    <string name="wallpaper_helper_active">Der Live-Hintergrund ist aktiv. Das ausgewählte Bild und die Skalierung werden direkt übernommen, ohne die Systemauswahl.</string>
+    <string name="wallpaper_scaling_fill">Ausfüllen</string>
+    <string name="wallpaper_scaling_fit">Einpassen</string>
+
+    <!-- Detail -->
+    <string name="detail_back">Zurück</string>
+    <string name="detail_save_image">Bild speichern</string>
+    <string name="detail_set_wallpaper">Als Hintergrund festlegen</string>
+    <string name="detail_original_page">Originale APOD-Seite</string>
+    <string name="detail_hd_image">HD-Bild</string>
+    <string name="detail_video_chip">Video</string>
+    <string name="detail_watch_original">Auf der Originalseite ansehen</string>
+    <string name="detail_video_note">Video-Einträge können nicht als Hintergrund dienen. Dein aktueller Hintergrund bleibt unverändert.</string>
+    <string name="detail_image_unavailable">Bild nicht verfügbar</string>
+    <string name="detail_loading">Eintrag wird geladen</string>
+    <string name="detail_error_title">Dieser Eintrag ist nicht verfügbar</string>
+    <string name="detail_error_body">Prüfe deine Verbindung und versuche es erneut.</string>
+    <string name="detail_error_try_again">Erneut versuchen</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">Filter</string>
+    <string name="filter_year">Jahr</string>
+    <string name="filter_all_years">Alle Jahre</string>
+    <string name="filter_jump_to_date">Zu Datum springen</string>
+    <string name="filter_jump_to_date_placeholder">Datum auswählen</string>
+    <string name="filter_type">Typ</string>
+    <string name="filter_all">Alle</string>
+    <string name="filter_images">Bilder</string>
+    <string name="filter_videos">Videos</string>
+    <string name="filter_older">Älter</string>
+    <string name="filter_close">Schließen</string>
+    <string name="filter_year_picker_title">Jahr auswählen</string>
+    <string name="filter_reset">Zurücksetzen</string>
+    <string name="filter_confirm">OK</string>
+    <plurals name="filter_show_entries">
+        <item quantity="one">%d Bild anzeigen</item>
+        <item quantity="other">%d Bilder anzeigen</item>
+    </plurals>
+
+    <!-- Saved -->
+    <string name="saved_title">Gespeichert</string>
+    <plurals name="saved_count">
+        <item quantity="one">%d Bild · offline verfügbar</item>
+        <item quantity="other">%d Bilder · offline verfügbar</item>
+    </plurals>
+    <string name="saved_empty_title">Noch nichts gespeichert</string>
+    <string name="saved_empty_body">Tippe bei einem Bild auf das Herz, um es hier zu behalten – auch offline.</string>
+    <string name="saved_browse_feed">Feed durchstöbern</string>
+    <string name="saved_loading">Gespeicherte Bilder werden geladen</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_section_display">Anzeige</string>
+    <string name="settings_image_scaling_hint">Gilt für den Feed und den Live-Hintergrund.</string>
+    <string name="settings_section_wallpaper">Hintergrund</string>
+    <string name="settings_update_automatically">Automatisch aktualisieren</string>
+    <string name="settings_update_automatically_hint">Einmal täglich, wenn Android es zulässt</string>
+    <string name="settings_prefer_hd">HD-Bilder bevorzugen</string>
+    <string name="settings_prefer_hd_hint">Größere Downloads</string>
+    <string name="settings_wifi_only">Nur WLAN</string>
+    <string name="settings_hide_videos">Videos ausblenden</string>
+    <string name="settings_hide_videos_hint">Video-Einträge beim Auswählen des Hintergrundbilds überspringen.</string>
+    <string name="settings_image_scaling">Bildskalierung</string>
+    <string name="settings_section_storage">Speicher</string>
+    <string name="settings_image_cache">Bildcache</string>
+    <string name="settings_image_cache_size">%1$s belegt</string>
+    <string name="settings_clear">Leeren</string>
+    <string name="settings_section_advanced">Erweitert</string>
+    <string name="settings_api_endpoint">API-Endpunkt</string>
+    <string name="settings_api_endpoint_default">Standard-Endpunkt</string>
+    <string name="settings_api_endpoint_custom">Eigener Endpunkt</string>
+    <string name="settings_section_about">Über die App</string>
+    <string name="settings_last_synced">Zuletzt synchronisiert</string>
+    <string name="settings_content_rights">Rechte am Inhalt</string>
+    <string name="settings_privacy">Datenschutzerklärung</string>
+    <string name="settings_source_code">Quellcode und Lizenz</string>
+    <string name="settings_third_party_notices">Hinweise zu Drittanbietern</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_rights_note">Die Bildrechte liegen bei den Urheberinnen und Urhebern. Keine Verbindung zur NASA, keine Unterstützung durch die NASA.</string>
+
+    <!-- Advanced settings -->
+    <string name="settings_advanced_title">Erweitert</string>
+    <string name="settings_advanced_intro">Nutze deinen eigenen Server für das APOD-JSON. Er muss dieselben Dateien wie die öffentliche API bereitstellen.</string>
+    <string name="settings_advanced_field_label">API-Basis-URL</string>
+    <string name="settings_advanced_field_helper">Leer lassen für den Standard. Nur HTTPS.</string>
+    <string name="settings_advanced_save">Endpunkt speichern</string>
+    <string name="settings_advanced_saving">Wird gespeichert…</string>
+    <string name="settings_advanced_reset">Auf Standard zurücksetzen</string>
+    <string name="settings_advanced_saved">Endpunkt gespeichert. Daten werden aktualisiert…</string>
+    <string name="settings_advanced_reset_done">Standard-Endpunkt wird genutzt</string>
+    <string name="settings_advanced_already_default">Der Standard-Endpunkt wird bereits genutzt</string>
+    <string name="settings_advanced_already_using">Dieser Endpunkt wird bereits genutzt</string>
+    <string name="settings_advanced_invalid">Gib eine gültige HTTPS-URL ohne Query-Parameter und Fragment ein.</string>
+    <string name="settings_advanced_save_failed">Der Endpunkt konnte nicht gespeichert werden. Versuche es erneut.</string>
+    <string name="settings_advanced_current">Aktueller Endpunkt</string>
+    <string name="settings_advanced_status">Status</string>
+    <string name="settings_advanced_clear_note">Beim Ändern des Endpunkts werden zwischengespeicherte APOD-Metadaten gelöscht. Gespeicherte Bilder und der aktuelle Hintergrund bleiben erhalten.</string>
+    <string name="settings_advanced_format_note">Der Endpunkt muss latest.json, archive-index.json und archive/YYYY.json bereitstellen. Es wird kein API-Schlüssel gesendet.</string>
+    <string name="settings_advanced_section_guides">API-Anleitungen</string>
+    <string name="settings_advanced_api_docs">API-Dokumentation</string>
+    <string name="settings_advanced_api_reference">Referenz der öffentlichen API</string>
+    <string name="settings_advanced_latest_example">Beispiel für latest.json</string>
+
+    <!-- Clear cache dialog -->
+    <string name="clear_cache_title">Bildcache leeren?</string>
+    <string name="clear_cache_body">Das entfernt %1$s heruntergeladene Bilder. Gespeicherte Bilder und dein aktueller Hintergrund bleiben erhalten.</string>
+    <string name="clear_cache_cancel">Abbrechen</string>
+    <string name="clear_cache_confirm">Leeren</string>
+
+    <!-- Messages -->
+    <string name="message_cache_cleared">Bildcache geleert</string>
+
+    <!-- Wallpaper service -->
+    <string name="wallpaper_description">Das Astronomiebild des Tages auf deinem Startbildschirm.</string>
+    <string name="wallpaper_label">mohakash</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_wallpaper_name">Hintergrund-Updates</string>
+    <string name="notification_channel_wallpaper_description">Meldet, wenn sich das Bild des Live-Hintergrunds ändert.</string>
+    <string name="notification_no_description">Keine Beschreibung verfügbar.</string>
+    <string name="notification_action_open_app">App öffnen</string>
+    <string name="notification_action_view_apod">Auf APOD ansehen</string>
+    <string name="notification_action_settings">Einstellungen</string>
+</resources>
