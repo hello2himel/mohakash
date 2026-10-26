@@ -22,8 +22,6 @@
     <string name="entry_links_section">Links</string>
 
     <!-- Image viewer -->
-    <string name="entry_zoom_hint">Pinch or double-tap to zoom</string>
-    <string name="entry_zoom_reset">Reset zoom</string>
     <string name="entry_image_loading">Loading image</string>
     <string name="entry_image_retry">Retry</string>
     <string name="entry_image_description">Astronomy picture</string>

@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
@@ -202,7 +203,8 @@ internal fun EntryImageViewer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(pictureBoxHeight),
+                    .height(pictureBoxHeight)
+                    .clipToBounds(),
                 contentAlignment = Alignment.Center,
             ) {
                 Box(
@@ -210,6 +212,7 @@ internal fun EntryImageViewer(
                         .width(pictureBoxWidth)
                         .height(pictureBoxHeight)
                         .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                        .clipToBounds()
                         .background(MohakashColors.Background),
                 ) {
                 when {
@@ -295,42 +298,6 @@ internal fun EntryImageViewer(
                 }
             }
 
-            if (!isVideo && imageState == EntryImageState.SUCCESS) {
-                EntryZoomHintRow(
-                    zoomed = EntryImageSizing.isZoomed(zoomScale),
-                    onReset = { animateZoomTo(EntryImageSizing.MIN_ZOOM) },
-                )
-            }
-        }
-    }
-}
-
-/** The hint under the picture plus the *Reset zoom* action while the picture is zoomed. */
-@Composable
-internal fun EntryZoomHintRow(
-    zoomed: Boolean,
-    onReset: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            text = stringResource(R.string.entry_zoom_hint),
-            style = MohakashTextStyles.Helper,
-            color = MohakashColors.TextMuted,
-            modifier = Modifier.weight(1f),
-        )
-        if (zoomed) {
-            TextAction(
-                text = stringResource(R.string.entry_zoom_reset),
-                onClick = onReset,
-                modifier = Modifier.padding(start = 8.dp),
-            )
         }
     }
 }
