@@ -1,5 +1,6 @@
 import groovy.json.JsonSlurper
 import java.io.File
+import java.net.URI
 import java.util.Properties
 
 /**
@@ -51,6 +52,9 @@ val defaultBranch = githubConfig["default_branch"]?.toString() ?: "main"
 val contentRightsUrl = "$repositoryUrl/blob/$defaultBranch/CONTENT_RIGHTS.md"
 val thirdPartyNoticesUrl = "$repositoryUrl/blob/$defaultBranch/THIRD_PARTY_NOTICES.md"
 val websiteBaseUrl = websiteConfig["base_url"]?.toString() ?: repositoryUrl
+val websiteHost = runCatching { URI(websiteBaseUrl).host }.getOrNull()
+    ?.takeIf { it.isNotBlank() }
+    ?: error("website.base_url in config/site.json must be an absolute URL, got $websiteBaseUrl")
 
 /**
  * Release version numbers are checked in so F-Droid and every other
@@ -155,6 +159,10 @@ android {
 
         versionCode = appVersionCode
         versionName = appVersionName
+
+        // Used by the App Links intent filters. Keep it in sync with the website domain
+        // without duplicating the owner-specific value in the manifest.
+        manifestPlaceholders["websiteHost"] = websiteHost
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

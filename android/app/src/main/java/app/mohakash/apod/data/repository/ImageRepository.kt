@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 /**
- * Downloads pictures for the *save to gallery* and *share* actions.
+ * Downloads pictures for the *save to gallery* action.
  *
  * The image is only fetched when the user actually asks for it — the app never prefetches.
  */
@@ -39,24 +39,9 @@ class ImageRepository(
         )
     }
 
-    /**
-     * Downloads the picture of [entry] into the cache so it can be shared through the
-     * `FileProvider`.
-     */
-    suspend fun prepareShareImage(entry: ApodEntry): Result<File> = withContext(Dispatchers.IO) {
-        val url = entry.displayImageUrl
-        if (url == null || !ImageUrlValidator.isValidImageUrl(url)) {
-            return@withContext Result.failure(IllegalStateException("This entry has no picture that can be shared."))
-        }
-        val directory = File(context.cacheDir, SHARE_DIRECTORY).apply { mkdirs() }
-        val target = File(directory, entry.galleryFileName())
-        downloader.download(url, target)
-    }
-
     private fun cacheDir(): File = File(context.cacheDir, IMAGE_CACHE_DIRECTORY).apply { mkdirs() }
 
     companion object {
         const val IMAGE_CACHE_DIRECTORY = "images"
-        const val SHARE_DIRECTORY = "shared"
     }
 }

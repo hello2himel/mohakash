@@ -158,13 +158,10 @@ class DetailViewModel(
         }
     }
 
-    /** Opens the share sheet with the picture and the credit. */
+    /** Opens the share sheet with the public archive URL of the entry. */
     fun share() {
         val entry = _state.value.entry ?: return
-        viewModelScope.launch {
-            val file = imageRepository.prepareShareImage(entry).getOrNull()
-            shareHelper.share(entry, file)
-        }
+        shareHelper.share(entry)
     }
 
     /**

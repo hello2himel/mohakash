@@ -33,6 +33,15 @@ Certificate fingerprint (SHA-256):
 04:41:88:79:E6:5E:35:34:6F:C4:06:F5:70:85:8E:EE:D3:EE:21:B0:E5:F8:B5:8E:2A:0F:F3:7F:0A:14:C0:AB
 ```
 
+The same fingerprint is published in
+[`web/public/.well-known/assetlinks.json`](../web/public/.well-known/assetlinks.json)
+so Android can verify the App Links for `https://mohakash.netlify.app/...`.
+Update that file and redeploy the website whenever a signing certificate
+changes: the GitHub release key above, the Play App Signing certificate (if
+Google re-signs the bundle) and the F-Droid signing certificate. A missing or
+stale fingerprint makes those links open in the browser instead of the app; it
+does not break the app itself.
+
 `android/keystore.properties` has this shape (the real values are not in git):
 
 ```properties
