@@ -8,6 +8,9 @@ genuine Android **live wallpaper**.
 * The app talks to the public JSON API that the repository publishes on GitHub Pages — there is no
   account, no analytics and no tracking.
 
+Current release: **1.0.5** (version code **6**). The separate Today and Archive screens are now one
+full-screen feed.
+
 ---
 
 ## 1. Prerequisites
@@ -91,7 +94,8 @@ fails. **No URL is hard-coded in the Kotlin sources.**
 
 ## 3. Using the live wallpaper
 
-1. Open the app and tap **Set live wallpaper** (Today screen or the onboarding screen), or
+1. Open the app and tap **Wallpaper** on any feed picture (or **Set live wallpaper** during
+   onboarding), or
 2. go to **Settings → Wallpaper → Mohakash** in the system wallpaper picker.
 
 Mohakash is a real Android `WallpaperService` (**live wallpaper**), not a bitmap set through
@@ -100,14 +104,15 @@ there is no animation loop.
 
 Android asks for confirmation the **first time only** (the system live-wallpaper preview). After
 that, the app recognises that its service is the active wallpaper and swaps new pictures in place
-— choosing an archive entry or an automatic APOD update does not open the system dialog again.
+— choosing a picture in the feed or an automatic APOD update does not open the system dialog again.
 
 * The picture that is used is the newest **validated static image** stored in the app's private
   storage (`filesDir/wallpaper/`).
 * **Fill** crops the picture to the screen, **Fit** shows the whole picture and letterboxes the
-  rest with the app background (`#0B0D12`). The wallpaper-sheet preview draws the same Fill/Fit
-  mode, and the engine observes the setting so changing it in the sheet or in *Settings → Image
-  scaling* redraws an already-active wallpaper immediately.
+  rest with the app background (`#0B0D12`). The feed and the wallpaper-sheet preview draw the
+  same Fill/Fit mode, and the engine observes the setting, so changing it in the sheet or in
+  *Settings → Display → Image scaling* updates an already-active wallpaper and the feed
+  immediately.
 * A `WorkManager` job checks for a new APOD **four times a day** (every 6 hours) instead of once,
   so an early or delayed run cannot skip a day. Only the tiny metadata document is fetched each
   time; the picture is downloaded only when the date or URL actually changed, then swapped in
@@ -128,18 +133,19 @@ that, the app recognises that its service is the active wallpaper and swaps new 
 | Screen | What it does |
 |---|---|
 | **Onboarding** | Shown once. Phone preview, headline, *Set live wallpaper* / *Skip for now*, download note. Triggers the first synchronisation. |
-| **Today** | Hero picture, date · credit, title, three-line explanation preview, heart / download / share row, *Set live wallpaper* pill, *Synced X ago*. |
-| **Today (offline)** | Banner *“You're offline. Showing the saved copy from {date}.”* with a **Retry** button, then the cached entry. |
+| **Feed** | Full-screen vertical pager with one APOD per page. Page 0 is the latest picture; swiping up goes to older pictures, swiping down to newer ones, and the list never wraps. Top chrome carries the *Latest* / year chip, search, filter and settings. The bottom overlay carries date · credit, the title, a two-line explanation teaser and the heart / share / save image / wallpaper row above a full-width **Full entry** button. Fill/Fit follows the shared image-scaling setting. |
+| **Feed (video)** | Poster with the play glyph and *Video* chip, *Watch on APOD* instead of save / wallpaper. Videos play on the APOD page, not in the app. |
+| **Feed (offline)** | Pages render from the on-disk index and cached years with an *Offline copy* chip; the teaser is hidden until a page is hydrated, and *Retry* re-attempts the network. |
+| **End card** | The real last page of the feed: *Beginning of the archive* (the first picture is from 16 June 1995), *Back to latest* and *Open Saved*. A filtered feed shows *No older pictures match this filter* instead. |
 | **Wallpaper sheet** | Fill/Fit preview that matches the engine, current image (date · title), Fill/Fit selector, *Update daily* switch, *Set live wallpaper* (first time) or *Apply now* (already active), helper text. |
-| **Entry detail** | Back / heart / share, picture, date · credit, title, *Save image* + *Set as wallpaper*, the full explanation, *Original APOD page* and *HD image* rows. |
-| **Video entry** | Poster with play glyph and *Video* chip, *Watch on original page*, the note that videos cannot be wallpapers. No save / wallpaper buttons. |
-| **Archive** | Search pill, year chips, *Filters*, list rows (72 × 56 thumbnail, date over title), incremental loading. |
-| **Filter sheet** | Year chips, jump-to-date, All / Images / Videos, *Reset* and *Show N entries*. |
-| **Saved** | Header with the count and *available offline*, two-column square grid. |
-| **Saved (empty)** | Heart glyph, *Nothing saved yet*, hint, *Browse archive*. |
-| **Settings** | Wallpaper section (update automatically, prefer HD, Wi-Fi only, hide videos, image scaling), storage section (image cache + clear), about section (last synced, content rights, source code, version). |
+| **Full entry** | Back / heart / share (and the settings gear), the **uncropped** picture at its true aspect ratio with pinch and double-tap zoom (1×–4×, clamped panning, a *Reset zoom* action), human date · media chip · title · credit, *Save image* + *Set as wallpaper* for pictures (the existing permission and sheet flows) or *Watch on original page* and the wallpaper note for videos, the full explanation, and a **Details** section with Date, Media type, Credit, Updated and Source rows plus *Original APOD page* / *HD image* links. |
+| **Search sheet** | Full-height sheet over the feed: *Search titles or dates* field (150 ms debounce), year chips, All / Images / Videos, and result rows (thumbnail, ISO date, title, credit, video glyph). Tapping a result closes the sheet and moves the feed to that date; with a cached index it works offline. |
+| **Filter sheet** | All years as a wrapped chip grid, All / Images / Videos, and a jump-to-date picker bounded to the archive range. A gap date resolves to the newest existing earlier date and says so. *Reset* and *Show N pictures*. |
+| **Saved** | Header with the count and *available offline*, two-column square grid; tiles open the full entry view. |
+| **Saved (empty)** | Heart glyph, *Nothing saved yet*, hint, *Browse the feed*. |
+| **Settings** | Display section (image scaling for the feed and the live wallpaper), wallpaper section (update automatically, prefer HD, Wi-Fi only, hide videos), storage section (image cache + clear), advanced section (API endpoint), about section (last synced, content rights, source code, version). |
 | **Clear cache dialog** | *Clear image cache?* with the exact size, *Cancel* / *Clear*. |
-| **Bottom navigation** | Today · Archive · Saved (72 dp, no shadow). Detail and Settings have a back arrow and no bottom bar. |
+| **Bottom navigation** | Feed · Saved (72 dp, no shadow). Full entry and Settings have a back arrow and no bottom bar. |
 
 ---
 
@@ -151,9 +157,9 @@ Public website links open in the app when it is installed. The manifest declares
 
 | Website URL | Screen |
 |---|---|
-| `/` | Today |
-| `/archive` and `/archive/` | Archive |
-| `/archive/YYYY-MM-DD` (including query/fragment) | Entry detail |
+| `/` | Feed, opened on the latest picture |
+| `/archive` and `/archive/` | Feed |
+| `/archive/YYYY-MM-DD` (including query/fragment) | Full entry |
 
 The host is generated from `config/site.json`: Gradle exposes it as the `websiteHost` manifest
 placeholder and as `BuildConfig.WEBSITE_BASE_URL`, so the intent filters and the parser always
@@ -169,9 +175,9 @@ The parser and manifest are covered by `DeepLinkParserTest` and `DeepLinkManifes
 signed release APK installed and `assetlinks.json` deployed, Android 15 reports
 `pm get-app-links mohakash.stargzr.space` as `verified` and opens the links without a chooser.
 
-The share button shares the public `/archive/YYYY-MM-DD` URL as `text/plain`, together with the
-title, date and credit. It does not download or attach the picture; tapping the link opens the
-entry page (in the app, if installed).
+The share button (in the feed overlay and the full entry view) shares the public
+`/archive/YYYY-MM-DD` URL as `text/plain`, together with the title, date and credit. It does not
+download or attach the picture; tapping the link opens the entry page (in the app, if installed).
 
 ---
 
@@ -187,7 +193,7 @@ app/src/main/java/app/mohakash/apod/
 │   ├── remote/              HTTP client, base-URL fallback, DTOs, JSON → domain mapping
 │   ├── local/               Room database (favourites, cached records, cached documents)
 │   │   └── prefs/           DataStore (Preferences) settings
-│   ├── repository/          APOD metadata, favourites, image download / save
+│   ├── repository/          APOD metadata, archive index + disk cache, favourites, images
 │   └── storage/             wallpaper storage, gallery saver, share helper, cache manager
 ├── domain/
 │   ├── model/               ApodEntry, ArchiveIndexEntry, MediaType, ImageStatus, settings
@@ -195,11 +201,18 @@ app/src/main/java/app/mohakash/apod/
 ├── ui/
 │   ├── theme/               colours, typography, dimensions
 │   ├── components/          shared Compose components
-│   ├── navigation/          navigation graph and bottom bar
-│   ├── onboarding/ today/ detail/ archive/ saved/ settings/ wallpaper/
+│   ├── navigation/          navigation graph, feed/saved bottom bar, deep links
+│   ├── feed/                vertical pager, overlay chrome, search/filter sheets, load policy
+│   ├── detail/              uncropped zoomable viewer, metadata, actions, formatting helpers
+│   ├── onboarding/ saved/ settings/ wallpaper/
 ├── wallpaper/               WallpaperService + engine, the redraw signal
 └── work/                    WorkManager worker, scheduler and the sync engine
 ```
+
+`FileArchiveIndexRepository` keeps the 5 MiB `archive-index.json` in one atomically written file
+under `cacheDir/feed/`, shared by the feed, its search and its filter sheet. The detail viewer is
+split into `EntryImageViewer`, `EntryMetaSection` and `EntryActionBar`, with the pure geometry and
+formatting in `EntryImageSizing` and `EntryDetailFormatting`.
 
 Data flow: `ViewModel → Repository → (ApodService | Room | DataStore) → StateFlow → Compose`.
 
@@ -212,7 +225,7 @@ The app itself declares only:
 | Permission | Why |
 |---|---|
 | `INTERNET` | Talks to the public JSON API and downloads pictures. |
-| `ACCESS_NETWORK_STATE` | Knows whether the device is online and whether the connection is Wi-Fi (for *Wi-Fi only*). |
+| `ACCESS_NETWORK_STATE` | Knows whether the device is online and whether the connection is Wi-Fi (for *Wi-Fi only* and the feed's metered index policy). |
 | `WRITE_EXTERNAL_STORAGE` (`maxSdkVersion="28"`) | Only for the legacy gallery path on Android 7–9. On Android 10+ the picture is stored through `MediaStore`, which needs no permission at all. |
 
 `RECEIVE_BOOT_COMPLETED`, `WAKE_LOCK` and `FOREGROUND_SERVICE` are contributed by **AndroidX
@@ -221,10 +234,33 @@ what makes the periodic update survive a reboot.
 
 `android:usesCleartextTraffic="false"` — only HTTPS is used.
 
+The 1.0.5 revamp adds no permission. The feed draws its picture edge to edge under the status bar
+and applies its own inset to the top chrome; the other screens pad the system bars
+(`statusBarsPadding()` / `navigationBarsPadding()`) and the bottom bar stays solid.
+
 ---
 
 ## 8. Known limitations
 
+* **Videos link out.** A video or interactive entry shows its poster in the feed and the entry
+  view; playback happens on the original APOD page. There is no inline player and no streaming
+  per swipe.
+* **The archive index is a lazy 5 MiB download.** `archive-index.json` is fetched once, kept in
+  a single disk file and reused; it is refreshed at most once a day and is not refreshed on a
+  metered connection unless the user opens search / filter, pulls to refresh or reaches the end
+  card. The first screen comes from `latest.json` and the current-year file, so the feed opens
+  before the index arrives.
+* **Search covers title, date and credit only.** Explanations live in the per-year files and are
+  not downloaded to answer a query, so explanation text is not searchable.
+* **Offline coverage is what has been cached.** The feed list and thumbnails come from the disk
+  index and Room, but full details and teasers appear only for pages whose year was fetched
+  before. Older years need a connection, and search needs the index to have been downloaded at
+  least once.
+* **Clearing the image cache does not remove the archive index.** *Clear image cache* deletes the
+  Coil / HTTP image files only; the index file is metadata and is kept. An API endpoint change is
+  what clears it.
+* ***Hide videos* only affects the wallpaper.** The feed always shows video entries; use the
+  feed's Videos filter instead.
 * **Background updates are deferred by Android.** `PeriodicWorkRequest` checks every 6 hours, but
   Android decides when the job actually runs. It can be delayed by battery optimisation, Doze or
   the app being swiped away. The exact update time is **not** guaranteed; four daily checks give
@@ -236,14 +272,15 @@ what makes the periodic update survive a reboot.
 * The *Prefer HD images*, *Update automatically* and *Hide videos* switches trigger an immediate
   metadata refresh so the change is visible right away.
 * The content-rights link points at `CONTENT_RIGHTS.md` on the repository's default branch.
-* The app has been exercised on an Android 15 emulator (live wallpaper, daily worker, scaling and
-  settings); a physical device can still behave differently with OEM battery optimisation.
+* The app has been exercised on an Android 15 emulator (feed, uncropped entry viewer, live
+  wallpaper, daily worker, scaling and settings); a physical device can still behave differently
+  with OEM battery optimisation.
 
 ---
 
 ## 9. Tests
 
-`./gradlew :app:testDebugUnitTest` runs 127 pure-JVM unit tests (no emulator needed):
+`./gradlew :app:testDebugUnitTest` runs 197 pure-JVM unit tests (no emulator needed):
 
 | Test file | Covers |
 |---|---|
@@ -254,8 +291,14 @@ what makes the periodic update survive a reboot.
 | `ImageUrlValidatorTest` | Only real image assets are downloaded; page URLs are rejected. |
 | `ApodSyncEngineTest` | Download skipping when the date and the URL are unchanged, atomic metadata update, failure keeps the last picture, no download without a connection. |
 | `ApodRepositoryTest` | Caching of `latest.json` / `archive-index.json`, recovery after a failed request. |
+| `ArchiveIndexRepositoryTest` | The index disk cache: atomic write, read back without network, staleness, corrupt wrapper ignored, a failed fetch keeps the old cache, `clear()`. |
 | `FavouritesRepositoryTest` | Saving and removing pictures, the full metadata survives for offline use. |
-| `DeepLinkParserTest` | Website URL → app destination mapping: root, archive index, entries, query/fragment/trailing slash, invalid dates, foreign hosts and schemes. |
+| `DeepLinkParserTest` | Website URL → app destination mapping: root and archive URLs to the feed, entry URLs to the full entry, query/fragment/trailing slash, invalid dates, foreign hosts and schemes. |
 | `DeepLinkManifestTest` | The manifest keeps the verified https App Links and the `/` + `/archive` paths. |
 | `ShareHelperTest` | Archive URL construction and the share text: archive link instead of the NASA page, title/date/credit preserved. |
+| `FeedPagingTest` | Newest-first date list, merge/dedupe, the nine missing dates, year/media filters, gap-safe nearest date, end card last, prefetch window. |
+| `FeedLoadPolicyTest` | Index refresh only when stale / missing the latest date and never on a metered connection without an explicit request; year prefetch and adjacent-year decisions. |
+| `FeedWallpaperPreviewTest` | The wallpaper preview of the feed: the selected entry instead of the installed wallpaper, the local file for an installed entry, the caption, the human date and the missing-credit line. |
+| `EntryImageSizingTest` | Uncropped box at any aspect ratio, the viewport height cap, zoom clamp 1×–4×, pan clamp, double-tap target. |
+| `EntryDetailFormattingTest` | Display date and ISO fallback, credit/media labels, metadata rows with omitted empty values, placeholder/missing notes, offline-note condition. |
 | `SyncPolicyTest` | Automatic updates only while the wallpaper is active; Wi-Fi only off by default and honoured on metered connections. |
