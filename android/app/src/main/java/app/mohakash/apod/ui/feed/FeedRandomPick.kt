@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,13 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import app.mohakash.apod.R
+import app.mohakash.apod.ui.components.BrandMarkBadge
 import app.mohakash.apod.ui.components.TextAction
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
@@ -43,8 +42,8 @@ import app.mohakash.apod.ui.theme.MohakashTextStyles
  * The short, explicitly cancellable animation shown while the random picker loads the index and
  * validates a picture.
  *
- * A simple rocket icon drifts over a small dotted course while the index is checked. The icon
- * stays in the app palette; it avoids dice, emoji and heavy illustration.
+ * The app mark drifts over a small dotted course while the index is checked; it is the same blue
+ * key used in the navigation dock, so the action keeps one visual identity.
  */
 @Composable
 internal fun FeedRandomPickOverlay(onCancel: () -> Unit) {
@@ -68,7 +67,7 @@ internal fun FeedRandomPickOverlay(onCancel: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                RocketCourse()
+                RandomCourse()
                 Spacer(Modifier.height(14.dp))
                 Text(
                     text = stringResource(R.string.feed_random_title),
@@ -93,10 +92,10 @@ internal fun FeedRandomPickOverlay(onCancel: () -> Unit) {
     }
 }
 
-/** A dotted flight path, a quiet star field, and the floating rocket mark. */
+/** A dotted flight path, a quiet star field, and the floating brand mark. */
 @Composable
-private fun RocketCourse() {
-    val transition = rememberInfiniteTransition(label = "random-rocket")
+private fun RandomCourse() {
+    val transition = rememberInfiniteTransition(label = "random-course")
     val bob by transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -104,7 +103,7 @@ private fun RocketCourse() {
             animation = tween(durationMillis = 950, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse,
         ),
-        label = "rocket-bob",
+        label = "course-bob",
     )
 
     Box(
@@ -147,13 +146,10 @@ private fun RocketCourse() {
             }
         }
 
-        Icon(
-            painter = painterResource(R.drawable.ic_rocket_24),
-            contentDescription = null,
-            tint = MohakashColors.Accent,
-            modifier = Modifier
-                .size(48.dp)
-                .offset(y = (-4 + bob * 5).dp),
+        BrandMarkBadge(
+            badgeSize = 64.dp,
+            iconSize = 36.dp,
+            modifier = Modifier.offset(y = (-4 + bob * 5).dp),
         )
     }
 }

@@ -18,6 +18,24 @@ object MohakashDimens {
     /** The height of the bottom navigation bar. */
     val BottomNavHeight = 72.dp
 
+    /** The floating navigation plate: one smooth object instead of a full-width tab bar. */
+    val CradleHeight = 54.dp
+    val CradleRadius = 27.dp
+    val CradleBottomInset = 8.dp
+
+    /** The plate grows before destination labels can clip at large font scales. */
+    val CradleHeightComfort = 58.dp
+    val CradleHeightLarge = 68.dp
+    val CradleCellWidth = 84.dp
+    val CradleCellWidthLarge = 94.dp
+    val CradleBarExtra = 18.dp
+
+    /** Two destinations and the oversized rocket sitting on top of the plate. */
+    val CradleKeySize = 64.dp
+    val CradleKeyTarget = 64.dp
+    val CradleKeyIcon = 36.dp
+    val CradleIcon = 22.dp
+
     /** The minimum size of a touch target. */
     val TouchTarget = 48.dp
 
