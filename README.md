@@ -215,12 +215,14 @@ credit. The action row stays compact: icon + text for the primary *Save HD
 image* and the less obvious *Original APOD page*, and 44px icon-only buttons
 with tooltips for the obvious *Share* and *Browse archive* actions.
 
-**Android invitation.** The first footer line asks *“Your home screen is missing
-the sky.”* and expands into a small preview of today's APOD inside a tilted
-phone, a short explanation of the live wallpaper, and one quiet download link.
-It is a native `<details>` disclosure, not a modal or an automatic pop-up; the
-image is fetched only when the card is opened, and the [About page](web/src/pages/about.astro)
-explains the app in more detail.
+**Android invitation.** The footer asks *“Your home screen is missing the sky.”*
+with a quiet **See the app** link. That opens a centred, accessible modal — a
+tilted phone showing today's APOD, a short explanation of the live wallpaper,
+and one focused **Download for Android** button (direct APK). It has a close
+button in the top-right, a subtle fade/scale entrance and a blurred backdrop;
+it is never opened automatically, and the preview image is fetched only on the
+first open. The [About page](web/src/pages/about.astro) explains the app in
+more detail.
 
 ---
 

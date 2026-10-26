@@ -37,12 +37,13 @@ The Today page has a **Share** button that copies the canonical entry URL
 (`https://<domain>/archive/YYYY-MM-DD`) for the picture currently on screen and
 shows a short "Copied" state.
 
-The footer carries an expandable Android invitation. Closed, it reads *“Your
-home screen is missing the sky.”*; opening it reveals a tilted phone showing
-today's APOD, the reason to install the app (automatic live wallpaper, no
-tracking), and a quiet download link. It is a native `<details>` disclosure,
-not a modal or an automatic pop-up; the preview image is requested only when
-the card is opened. The About page explains the app in more detail.
+The footer carries an Android invitation. *“Your home screen is missing the
+sky.”* with a **See the app** link opens a centred, accessible modal: a tilted
+phone showing today's APOD, the reason to install the app (automatic live
+wallpaper, no tracking) and one focused **Download for Android** button. The
+modal has a top-right close button, a short fade/scale entrance and a blurred
+backdrop. It is never opened automatically, and the preview image is requested
+only on the first open. The About page explains the app in more detail.
 
 ## Data
 
