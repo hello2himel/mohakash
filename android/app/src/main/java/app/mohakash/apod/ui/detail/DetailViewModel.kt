@@ -195,7 +195,12 @@ class DetailViewModel(
     fun setAsWallpaper() {
         val entry = _state.value.entry ?: return
         if (!entry.supportsWallpaper) {
-            viewModelScope.launch { _events.send(DetailEvent.ShowMessage(MESSAGE_VIDEO_NO_WALLPAPER)) }
+            val message = if (entry.mediaType.isPlayable) {
+                MESSAGE_VIDEO_NO_WALLPAPER
+            } else {
+                MESSAGE_IMAGE_NO_WALLPAPER
+            }
+            viewModelScope.launch { _events.send(DetailEvent.ShowMessage(message)) }
             return
         }
         viewModelScope.launch {
@@ -219,7 +224,11 @@ class DetailViewModel(
                     }
                 }
 
-                InstallOutcome.NOT_USABLE -> _events.send(DetailEvent.ShowMessage(MESSAGE_VIDEO_NO_WALLPAPER))
+                InstallOutcome.NOT_USABLE -> _events.send(
+                    DetailEvent.ShowMessage(
+                        if (entry.mediaType.isPlayable) MESSAGE_VIDEO_NO_WALLPAPER else MESSAGE_IMAGE_NO_WALLPAPER,
+                    ),
+                )
                 InstallOutcome.FAILED -> _events.send(DetailEvent.ShowMessage(MESSAGE_WALLPAPER_FAILED))
             }
         }
@@ -269,6 +278,8 @@ class DetailViewModel(
         const val MESSAGE_FAVOURITE_FAILED = "Could not update the saved list."
         const val MESSAGE_VIDEO_NO_WALLPAPER =
             "Video entries can't be used as wallpaper. Your current wallpaper stays as it is."
+        const val MESSAGE_IMAGE_NO_WALLPAPER =
+            "This picture can't be used as wallpaper. Your current wallpaper stays as it is."
         const val MESSAGE_WALLPAPER_UPDATED = "Live wallpaper updated."
         const val MESSAGE_WALLPAPER_ALREADY_SET = "Live wallpaper is already up to date."
         const val MESSAGE_WALLPAPER_FAILED = "Could not prepare the wallpaper."

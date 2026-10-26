@@ -35,6 +35,7 @@ data class ArchiveUiState(
     val filtered: List<ArchiveIndexEntry>
         get() = entries
             .filter { it.year == selectedYear }
+            .filter { jumpToDate == null || it.date == jumpToDate }
             .filter { entry ->
                 when (typeFilter) {
                     MediaFilter.ALL -> true
@@ -99,12 +100,20 @@ class ArchiveViewModel(
 
     /** Applies a search term. */
     fun setQuery(query: String) {
-        _state.value = _state.value.copy(query = query, visibleCount = ArchiveUiState.PAGE_SIZE)
+        _state.value = _state.value.copy(
+            query = query,
+            jumpToDate = null,
+            visibleCount = ArchiveUiState.PAGE_SIZE,
+        )
     }
 
     /** Selects a year and fetches the full records of that year in the background. */
     fun selectYear(year: Int) {
-        _state.value = _state.value.copy(selectedYear = year, visibleCount = ArchiveUiState.PAGE_SIZE)
+        _state.value = _state.value.copy(
+            selectedYear = year,
+            jumpToDate = null,
+            visibleCount = ArchiveUiState.PAGE_SIZE,
+        )
         viewModelScope.launch {
             // The full records are only needed when the user opens an entry of that year.
             if (apodRepository.hasCachedYear(year)) return@launch
@@ -114,7 +123,11 @@ class ArchiveViewModel(
 
     /** Applies the media filter. */
     fun setTypeFilter(filter: MediaFilter) {
-        _state.value = _state.value.copy(typeFilter = filter, visibleCount = ArchiveUiState.PAGE_SIZE)
+        _state.value = _state.value.copy(
+            typeFilter = filter,
+            jumpToDate = null,
+            visibleCount = ArchiveUiState.PAGE_SIZE,
+        )
     }
 
     /** Jumps to a date. */
@@ -122,7 +135,7 @@ class ArchiveViewModel(
         val year = date.take(4).toIntOrNull() ?: return
         _state.value = _state.value.copy(
             jumpToDate = date,
-            query = date,
+            query = "",
             selectedYear = year,
             visibleCount = ArchiveUiState.PAGE_SIZE,
         )

@@ -219,6 +219,7 @@ class FeedViewModel(
             } finally {
                 _state.update { it.copy(isRefreshing = false) }
                 refreshIndexAfterLatestChange()
+                if (indexUnavailable) loadIndex(userRequested = true)
             }
         }
     }
@@ -564,7 +565,9 @@ class FeedViewModel(
                 _state.update { it.copy(isOffline = false, isLoadingIndex = false) }
             } else {
                 indexUnavailable = cached == null
-                _state.update { it.copy(isOffline = true, isLoadingIndex = false) }
+                // The latest record and its picture can be perfectly healthy even when the
+                // 5 MiB index refresh failed; do not turn the whole feed into an offline page.
+                _state.update { it.copy(isLoadingIndex = false) }
                 if (indexRequested && cached == null) {
                     _events.trySend(FeedEvent.ShowMessage(MESSAGE_INDEX_FAILED))
                 }
@@ -896,6 +899,17 @@ class FeedViewModel(
     }
 
     private fun resetForEndpointChange() {
+        // Cancel every flight that could still deliver a record from the previous endpoint.
+        // Without this the early-return guards in loadLatest/loadIndex would also block the
+        // replacement request.
+        latestJob?.cancel()
+        latestJob = null
+        indexJob?.cancel()
+        indexJob = null
+        refreshJob?.cancel()
+        refreshJob = null
+        searchJob?.cancel()
+        searchJob = null
         indexEntries = emptyList()
         yearRecords = emptyMap()
         hydrated.clear()

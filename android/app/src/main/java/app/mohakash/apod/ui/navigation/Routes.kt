@@ -1,5 +1,7 @@
 package app.mohakash.apod.ui.navigation
 
+import android.net.Uri
+
 /**
  * The destinations of the app.
  *
@@ -17,5 +19,5 @@ object Routes {
     const val DETAIL = "detail/{date}"
 
     /** The detail screen of one entry. */
-    fun detail(date: String): String = "detail/$date"
+    fun detail(date: String): String = "detail/${Uri.encode(date)}"
 }

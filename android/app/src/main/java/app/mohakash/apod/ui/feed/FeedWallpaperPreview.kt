@@ -15,13 +15,6 @@ import java.util.TimeZone
  * or a database: the tests from the Today screen are kept with the same semantics.
  */
 
-private val displayDateFormat = object : ThreadLocal<SimpleDateFormat>() {
-    override fun initialValue(): SimpleDateFormat =
-        SimpleDateFormat("d MMMM yyyy", Locale.getDefault()).apply {
-            timeZone = TimeZone.getTimeZone("UTC")
-        }
-}
-
 /**
  * The human date of the feed header: `26 October 2026`.
  *
@@ -31,7 +24,10 @@ private val displayDateFormat = object : ThreadLocal<SimpleDateFormat>() {
 internal fun feedDisplayDate(date: String?): String {
     val raw = date?.takeIf { it.isNotBlank() } ?: return ""
     val millis = app.mohakash.apod.core.TimeFormatting.parseApiDate(raw) ?: return raw
-    return displayDateFormat.get()!!.format(Date(millis))
+    // Read the locale per call: an Android 13 per-app language change can keep the process alive.
+    return SimpleDateFormat("d MMMM yyyy", Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }.format(Date(millis))
 }
 
 /** The date and credit line — the credit is omitted when the API has none. */

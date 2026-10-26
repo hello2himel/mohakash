@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,12 +32,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import android.text.format.DateUtils
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.BuildConfig
 import app.mohakash.apod.R
 import app.mohakash.apod.core.ByteFormatting
-import app.mohakash.apod.core.TimeFormatting
 import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.components.InfoRow
@@ -72,7 +80,25 @@ fun SettingsScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = LocalSnackbarHostState.current
     val cacheClearedMessage = stringResource(R.string.message_cache_cleared)
-    var showClearCacheDialog by remember { mutableStateOf(false) }
+    var showClearCacheDialog by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        if (granted) viewModel.setUpdateAutomatically(true)
+    }
+    val updateAutomatically: (Boolean) -> Unit = { enabled ->
+        val needsPermission = enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) != PackageManager.PERMISSION_GRANTED
+        if (needsPermission) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            viewModel.setUpdateAutomatically(enabled)
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -88,7 +114,7 @@ fun SettingsScreen(
         onBack = if (showBack) onBack else null,
         onOpenLink = onOpenLink,
         onOpenAdvanced = onOpenAdvanced,
-        onUpdateAutomaticallyChange = viewModel::setUpdateAutomatically,
+        onUpdateAutomaticallyChange = updateAutomatically,
         onPreferHdChange = viewModel::setPreferHd,
         onWifiOnlyChange = viewModel::setWifiOnly,
         onHideVideosChange = viewModel::setHideVideos,
@@ -226,7 +252,7 @@ internal fun SettingsContent(
 
             InfoRow(
                 title = stringResource(R.string.settings_last_synced),
-                value = TimeFormatting.formatSyncedAgo(state.lastSyncAt, System.currentTimeMillis()),
+                value = syncedAgoLabel(state.lastSyncAt),
                 showDivider = false,
             )
             LinkRow(
@@ -442,5 +468,21 @@ private fun DialogTextButton(
             color = color,
             textAlign = TextAlign.Center,
         )
+    }
+}
+
+/** Relative timestamps come from Android's locale-aware DateUtils; only these two buckets need copy. */
+@Composable
+private fun syncedAgoLabel(lastSyncAt: Long?): String {
+    val now = System.currentTimeMillis()
+    return when {
+        lastSyncAt == null -> stringResource(R.string.settings_synced_never)
+        now - lastSyncAt < 60_000L -> stringResource(R.string.settings_synced_just_now)
+        else -> DateUtils.getRelativeTimeSpanString(
+            lastSyncAt,
+            now,
+            DateUtils.MINUTE_IN_MILLIS,
+            DateUtils.FORMAT_ABBREV_RELATIVE,
+        ).toString()
     }
 }

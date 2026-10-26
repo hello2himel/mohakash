@@ -100,5 +100,5 @@ object MohakashDimens {
     val FeedOverlayRadius = 20.dp
 
     /** The size of the glass icon buttons in the feed's top chrome. */
-    val FeedGlassButton = 44.dp
+    val FeedGlassButton = 48.dp
 }

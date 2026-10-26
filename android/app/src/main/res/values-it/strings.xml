@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">Feed</string>
     <string name="nav_archive">Archivio</string>
-    <string name="nav_saved">Salvati</string>
-    <string name="nav_random_description">Apri un\'immagine a caso</string>
+<string name="nav_random_description">Apri un\'immagine a caso</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Anteprima sfondo</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">Sfondo attivo</string>
     <string name="feed_watch_on_apod">Vedi su APOD</string>
     <string name="feed_clear_filters">Cancella filtri</string>
-    <string name="feed_offline_chip">Copia offline</string>
-    <string name="feed_random_title">Scelta di un\'immagine…</string>
+<string name="feed_random_title">Scelta di un\'immagine…</string>
     <string name="feed_random_body">Ricerca di un\'immagine a caso nell\'archivio.</string>
     <string name="feed_random_cancel">Annulla</string>
-    <string name="feed_random_unavailable">Al momento non è disponibile nessuna immagine a caso.</string>
-    <string name="feed_hide_chrome">Nascondi dettagli</string>
+<string name="feed_hide_chrome">Nascondi dettagli</string>
     <string name="feed_show_chrome">Mostra dettagli</string>
     <string name="feed_swipe_hint_title">Scorri verso l\'alto</string>
     <string name="feed_swipe_hint_body">per vedere altre immagini</string>
@@ -123,6 +120,7 @@
     <plurals name="filter_show_entries">
         <item quantity="one">Mostra %d immagine</item>
         <item quantity="other">Mostra %d immagini</item>
+        <item quantity="many">Mostra %d immagini</item>
     </plurals>
 
     <!-- Saved -->
@@ -130,6 +128,7 @@
     <plurals name="saved_count">
         <item quantity="one">%d immagine · disponibile offline</item>
         <item quantity="other">%d immagini · disponibili offline</item>
+        <item quantity="many">%d immagini · disponibili offline</item>
     </plurals>
     <string name="saved_empty_title">Ancora nulla di salvato</string>
     <string name="saved_empty_body">Tocca il cuore su un\'immagine per tenerla qui, anche offline.</string>
@@ -209,4 +208,9 @@
     <string name="notification_action_open_app">Apri app</string>
     <string name="notification_action_view_apod">Vedi su APOD</string>
     <string name="notification_action_settings">Impostazioni</string>
+    <string name="settings_synced_never">Mai sincronizzato</string>
+    <string name="settings_synced_just_now">Proprio ora</string>
+    <string name="archive_error_title">L\'archivio non è disponibile</string>
+    <string name="archive_error_body">Controlla la connessione e riprova.</string>
+    <string name="archive_retry">Riprova</string>
 </resources>

@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">动态</string>
     <string name="nav_archive">归档</string>
-    <string name="nav_saved">收藏</string>
-    <string name="nav_random_description">打开一张随机图片</string>
+<string name="nav_random_description">打开一张随机图片</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">壁纸预览</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">壁纸已启用</string>
     <string name="feed_watch_on_apod">在 APOD 上查看</string>
     <string name="feed_clear_filters">清除筛选</string>
-    <string name="feed_offline_chip">离线副本</string>
-    <string name="feed_random_title">正在挑选图片…</string>
+<string name="feed_random_title">正在挑选图片…</string>
     <string name="feed_random_body">正在归档中寻找一张随机图片。</string>
     <string name="feed_random_cancel">取消</string>
-    <string name="feed_random_unavailable">目前没有可用的随机图片。</string>
-    <string name="feed_hide_chrome">隐藏详情</string>
+<string name="feed_hide_chrome">隐藏详情</string>
     <string name="feed_show_chrome">显示详情</string>
     <string name="feed_swipe_hint_title">向上滑动</string>
     <string name="feed_swipe_hint_body">查看更多图片</string>
@@ -207,4 +204,9 @@
     <string name="notification_action_open_app">打开应用</string>
     <string name="notification_action_view_apod">在 APOD 上查看</string>
     <string name="notification_action_settings">设置</string>
+    <string name="settings_synced_never">从未同步</string>
+    <string name="settings_synced_just_now">刚刚</string>
+    <string name="archive_error_title">归档不可用</string>
+    <string name="archive_error_body">请检查网络连接后重试。</string>
+    <string name="archive_retry">重试</string>
 </resources>

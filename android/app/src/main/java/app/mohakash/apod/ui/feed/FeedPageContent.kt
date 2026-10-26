@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -109,6 +110,7 @@ internal fun FeedPageContent(
     modifier: Modifier = Modifier,
 ) {
     val date = page.date ?: return
+    val compactHeight = LocalConfiguration.current.screenHeightDp < 500
     val entry = page.entry
     val indexEntry = page.indexEntry
     val mediaType = entry?.mediaType ?: indexEntry?.mediaType ?: MediaType.OTHER
@@ -160,7 +162,7 @@ internal fun FeedPageContent(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .height(if (compactHeight) 100.dp else 200.dp)
                         .background(
                             Brush.verticalGradient(
                                 0f to MohakashColors.Background.copy(alpha = 0.94f),
@@ -230,12 +232,12 @@ internal fun FeedPageContent(
                         .padding(
                             start = MohakashDimens.SidePadding,
                             end = 92.dp,
-                            bottom = 14.dp + bottomBarInset,
+                            bottom = (if (compactHeight) 8.dp else 14.dp) + bottomBarInset,
                         ),
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     val dateLabel = feedDisplayDate(date).uppercase()
-                    if (dateLabel.isNotBlank()) {
+                    if (dateLabel.isNotBlank() && !compactHeight) {
                         FeedDateRail(dateLabel)
                         Spacer(Modifier.width(10.dp))
                     }
@@ -256,10 +258,10 @@ internal fun FeedPageContent(
                             text = title.ifBlank { stringResource(R.string.detail_image_unavailable) },
                             style = MohakashTextStyles.PageTitle,
                             color = MohakashColors.Text,
-                            maxLines = 2,
+                            maxLines = if (compactHeight) 1 else 2,
                             overflow = TextOverflow.Ellipsis,
                         )
-                        if (teaser != null) {
+                        if (teaser != null && !compactHeight) {
                             Text(
                                 text = teaser,
                                 style = MohakashTextStyles.BodyBase,
@@ -312,7 +314,10 @@ internal fun FeedPageContent(
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(end = 10.dp, bottom = 18.dp + bottomBarInset),
+                        .padding(
+                            end = 10.dp,
+                            bottom = (if (compactHeight) 8.dp else 18.dp) + bottomBarInset,
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(13.dp),
                 ) {
@@ -405,12 +410,12 @@ private fun FeedRailAction(
     enabled: Boolean = true,
 ) {
     Column(
-        modifier = Modifier.width(56.dp),
+        modifier = Modifier.width(64.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
             modifier = Modifier
-                .size(46.dp)
+                .size(48.dp)
                 .clip(CircleShape)
                 .background(MohakashColors.Surface.copy(alpha = 0.62f))
                 .border(1.dp, MohakashColors.BorderStrong, CircleShape)
@@ -432,7 +437,9 @@ private fun FeedRailAction(
                 fontWeight = FontWeight.Medium,
             ),
             color = MohakashColors.Text,
-            maxLines = 1,
+            maxLines = 2,
+            textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }

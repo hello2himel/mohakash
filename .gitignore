@@ -2,3 +2,13 @@ node_modules/
 dist/
 build/
 *.log
+
+# Python bytecode and local tool caches
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Android / build-local caches
+android/.kotlin/
+.gradle/
+.astro/

@@ -5,8 +5,7 @@
     <!-- Navigation -->
     <string name="nav_feed">ফিড</string>
     <string name="nav_archive">সংগ্রহ</string>
-    <string name="nav_saved">সংরক্ষিত</string>
-    <string name="nav_random_description">যেকোনো একটি ছবি খুলুন</string>
+<string name="nav_random_description">যেকোনো একটি ছবি খুলুন</string>
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">ওয়ালপেপার প্রিভিউ</string>
@@ -32,12 +31,10 @@
     <string name="feed_wallpaper_active">ওয়ালপেপার চালু আছে</string>
     <string name="feed_watch_on_apod">APOD-এ দেখুন</string>
     <string name="feed_clear_filters">ফিল্টার মুছুন</string>
-    <string name="feed_offline_chip">অফলাইন কপি</string>
-    <string name="feed_random_title">একটি ছবি বাছাই করা হচ্ছে…</string>
+<string name="feed_random_title">একটি ছবি বাছাই করা হচ্ছে…</string>
     <string name="feed_random_body">সংগ্রহশালা থেকে যেকোনো একটি ছবি খোঁজা হচ্ছে।</string>
     <string name="feed_random_cancel">বাতিল</string>
-    <string name="feed_random_unavailable">এই মুহূর্তে যেকোনো একটি ছবি দেখানো যাচ্ছে না।</string>
-    <string name="feed_hide_chrome">বিস্তারিত লুকান</string>
+<string name="feed_hide_chrome">বিস্তারিত লুকান</string>
     <string name="feed_show_chrome">বিস্তারিত দেখুন</string>
     <string name="feed_swipe_hint_title">উপরে সোয়াইপ করুন</string>
     <string name="feed_swipe_hint_body">আরও ছবি দেখতে</string>
@@ -209,4 +206,9 @@
     <string name="notification_action_open_app">অ্যাপ খুলুন</string>
     <string name="notification_action_view_apod">APOD-এ দেখুন</string>
     <string name="notification_action_settings">সেটিংস</string>
+    <string name="settings_synced_never">কখনও সিঙ্ক হয়নি</string>
+    <string name="settings_synced_just_now">এইমাত্র</string>
+    <string name="archive_error_title">আর্কাইভ পাওয়া যাচ্ছে না</string>
+    <string name="archive_error_body">সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</string>
+    <string name="archive_retry">আবার চেষ্টা করুন</string>
 </resources>
