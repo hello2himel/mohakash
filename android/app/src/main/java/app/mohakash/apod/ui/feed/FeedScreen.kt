@@ -30,6 +30,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -64,6 +65,7 @@ fun FeedScreen(
     randomRequest: Int = 0,
     onRandomRequestConsumed: () -> Unit = {},
     onFullscreenChange: (Boolean) -> Unit = {},
+    bottomBarInset: Dp = 0.dp,
 ) {
     val context = LocalContext.current
     val appContext = context.applicationContext
@@ -198,6 +200,7 @@ fun FeedScreen(
         onDismissSwipeHint = viewModel::dismissSwipeHint,
         chromeVisible = chromeVisible,
         onToggleChrome = { chromeVisible = !chromeVisible },
+        bottomBarInset = bottomBarInset,
         modifier = modifier,
     )
 
@@ -258,6 +261,7 @@ internal fun FeedContent(
     onDismissSwipeHint: () -> Unit,
     chromeVisible: Boolean,
     onToggleChrome: () -> Unit,
+    bottomBarInset: Dp = 0.dp,
     modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(
@@ -287,6 +291,7 @@ internal fun FeedContent(
                 onDismissSwipeHint = onDismissSwipeHint,
                 chromeVisible = chromeVisible,
                 onToggleChrome = onToggleChrome,
+                bottomBarInset = bottomBarInset,
             )
         }
 
@@ -320,6 +325,7 @@ private fun FeedPager(
     onDismissSwipeHint: () -> Unit,
     chromeVisible: Boolean,
     onToggleChrome: () -> Unit,
+    bottomBarInset: Dp = 0.dp,
 ) {
     val pagerState = rememberPagerState(initialPage = 0) { state.pages.size }
     val pullState = rememberPullToRefreshState()
@@ -404,6 +410,7 @@ private fun FeedPager(
                     onOpenSaved = onOpenSaved,
                     onClearFilters = actions.onClearFilters,
                     onRetry = onRetryAll,
+                    bottomBarInset = bottomBarInset,
                 )
             } else {
                 FeedPageContent(
@@ -416,6 +423,7 @@ private fun FeedPager(
                     actions = actions,
                     chromeVisible = chromeVisible,
                     onToggleChrome = onToggleChrome,
+                    bottomBarInset = bottomBarInset,
                 )
             }
         }

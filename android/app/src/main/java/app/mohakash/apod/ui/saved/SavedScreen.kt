@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
@@ -51,6 +52,7 @@ fun SavedScreen(
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
     showTopBar: Boolean = true,
+    bottomContentPadding: Dp = 0.dp,
 ) {
     val viewModel = containerViewModel { container ->
         SavedViewModel(favouritesRepository = container.favouritesRepository)
@@ -64,6 +66,7 @@ fun SavedScreen(
         onOpenSettings = onOpenSettings,
         modifier = modifier,
         showTopBar = showTopBar,
+        bottomContentPadding = bottomContentPadding,
     )
 }
 
@@ -76,6 +79,7 @@ internal fun SavedContent(
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
     showTopBar: Boolean = true,
+    bottomContentPadding: Dp = 0.dp,
 ) {
     Column(
         modifier = modifier
@@ -120,6 +124,7 @@ internal fun SavedContent(
                     start = MohakashDimens.SidePadding,
                     end = MohakashDimens.SidePadding,
                     top = 8.dp,
+                    bottom = bottomContentPadding + 8.dp,
                 ),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),

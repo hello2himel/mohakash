@@ -45,6 +45,10 @@ object MohakashColors {
     /** The single accent colour of the app. */
     val Accent = Color(0xFF8FB0FF)
 
+    /** The lit and shaded ends of the random key's blue gradient. */
+    val AccentLight = Color(0xFFB6CBFF)
+    val AccentDeep = Color(0xFF6C8DE0)
+
     /** Text and icons on top of [Accent]. */
     val OnAccent = Color(0xFF0B0D12)
 

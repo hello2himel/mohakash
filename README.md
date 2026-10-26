@@ -241,7 +241,7 @@ cd android
 > (this machine has JDK 27), point `JAVA_HOME` at a 17 or 21 installation:
 > `export JAVA_HOME=/path/to/jdk-21`.
 
-The app has a three-slot navigation: **Feed · Rocket · Archive**. The Archive tab contains the archive and Saved as a segmented pair. The feed starts
+The app uses a compact floating **Launch Cradle** for navigation: **Feed · mohakash mark · Archive**. The Archive tab contains the archive and Saved as a segmented pair. The feed starts
 on the latest picture; swiping up goes to older pictures and down to newer ones (the
 list never wraps), and search sits in the top-left corner. Tapping a picture hides
 every overlay and the bottom bar; tapping again brings them back. Archive keeps the

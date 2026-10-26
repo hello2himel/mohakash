@@ -8,7 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -23,6 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -119,10 +124,19 @@ fun MohakashApp(
                 }
             },
         ) { padding ->
+            val layoutDirection = LocalLayoutDirection.current
+            val bottomBarInset = padding.calculateBottomPadding()
+            val contentPadding = PaddingValues(
+                start = padding.calculateStartPadding(layoutDirection),
+                top = padding.calculateTopPadding(),
+                end = padding.calculateEndPadding(layoutDirection),
+                // The Launch Cradle floats over the screen instead of reserving a solid strip.
+                bottom = 0.dp,
+            )
             NavHost(
                 navController = navController,
                 startDestination = startDestination,
-                modifier = Modifier.padding(padding),
+                modifier = Modifier.padding(contentPadding),
             ) {
                 composable(Routes.ONBOARDING) {
                     OnboardingScreen(
@@ -152,6 +166,7 @@ fun MohakashApp(
                         randomRequest = randomRequest,
                         onRandomRequestConsumed = { randomRequest = 0 },
                         onFullscreenChange = { feedFullscreen = it },
+                        bottomBarInset = bottomBarInset,
                     )
                 }
 
@@ -168,6 +183,7 @@ fun MohakashApp(
                         },
                         openOnSaved = openArchiveOnSaved,
                         onOpenOnSavedConsumed = { openArchiveOnSaved = false },
+                        bottomBarInset = bottomBarInset,
                     )
                 }
 

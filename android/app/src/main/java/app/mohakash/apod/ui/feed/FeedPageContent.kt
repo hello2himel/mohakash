@@ -49,6 +49,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -104,6 +105,7 @@ internal fun FeedPageContent(
     actions: FeedPageActions,
     chromeVisible: Boolean,
     onToggleChrome: () -> Unit,
+    bottomBarInset: Dp = 0.dp,
     modifier: Modifier = Modifier,
 ) {
     val date = page.date ?: return
@@ -152,28 +154,47 @@ internal fun FeedPageContent(
                 .align(Alignment.TopStart)
                 .fillMaxWidth(),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .statusBarsPadding()
-                    .padding(horizontal = MohakashDimens.SidePadding, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-            ) {
-                if (isVideo) {
-                    VideoBadge()
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    FeedGlassIconButton(
-                        painter = painterResource(R.drawable.ic_search_24),
-                        contentDescription = stringResource(R.string.feed_search),
-                        onClick = actions.onOpenSearch,
-                    )
-                    Spacer(Modifier.weight(1f))
-                    FeedGlassIconButton(
-                        painter = painterResource(R.drawable.ic_settings_24),
-                        contentDescription = stringResource(R.string.feed_settings),
-                        onClick = actions.onOpenSettings,
-                    )
+            Box(modifier = Modifier.fillMaxWidth()) {
+                // The top scrim mirrors the reading gradient at the bottom, so the glass buttons
+                // and the wordmark keep their contrast over a bright photograph.
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .background(
+                            Brush.verticalGradient(
+                                0f to MohakashColors.Background.copy(alpha = 0.94f),
+                                0.46f to MohakashColors.Background.copy(alpha = 0.52f),
+                                1f to Color.Transparent,
+                            ),
+                        ),
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .statusBarsPadding()
+                        .padding(horizontal = MohakashDimens.SidePadding, vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    if (isVideo) {
+                        VideoBadge()
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        FeedGlassIconButton(
+                            painter = painterResource(R.drawable.ic_search_24),
+                            contentDescription = stringResource(R.string.feed_search),
+                            onClick = actions.onOpenSearch,
+                        )
+                        Spacer(Modifier.weight(1f))
+                        FeedBrandMark()
+                        Spacer(Modifier.weight(1f))
+                        FeedGlassIconButton(
+                            painter = painterResource(R.drawable.ic_settings_24),
+                            contentDescription = stringResource(R.string.feed_settings),
+                            onClick = actions.onOpenSettings,
+                        )
+                    }
                 }
             }
         }
@@ -206,7 +227,11 @@ internal fun FeedPageContent(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .fillMaxWidth()
-                        .padding(start = MohakashDimens.SidePadding, end = 92.dp, bottom = 14.dp),
+                        .padding(
+                            start = MohakashDimens.SidePadding,
+                            end = 92.dp,
+                            bottom = 14.dp + bottomBarInset,
+                        ),
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     val dateLabel = feedDisplayDate(date).uppercase()
@@ -287,7 +312,7 @@ internal fun FeedPageContent(
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(end = 10.dp, bottom = 18.dp),
+                        .padding(end = 10.dp, bottom = 18.dp + bottomBarInset),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(13.dp),
                 ) {
@@ -323,16 +348,6 @@ internal fun FeedPageContent(
                 }
             }
         }
-
-        // A 4 dp opaque skirt covers the pixel seam between the feed and the bottom bar on
-        // fractional densities.
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(4.dp)
-                .background(MohakashColors.Background),
-        )
     }
 }
 
@@ -418,6 +433,34 @@ private fun FeedRailAction(
             ),
             color = MohakashColors.Text,
             maxLines = 1,
+        )
+    }
+}
+
+/** The small top-centre brand mark; it balances the reading controls without competing with them. */
+@Composable
+private fun FeedBrandMark() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = stringResource(R.string.feed_brand),
+            style = MohakashTextStyles.Caption.copy(
+                fontSize = 18.sp,
+                lineHeight = 22.sp,
+                letterSpacing = 0.2.sp,
+                fontWeight = FontWeight.SemiBold,
+            ),
+            color = MohakashColors.Text.copy(alpha = 0.92f),
+            maxLines = 1,
+        )
+        Spacer(Modifier.height(2.dp))
+        Box(
+            modifier = Modifier
+                .width(14.dp)
+                .height(1.dp)
+                .background(MohakashColors.Accent.copy(alpha = 0.8f)),
         )
     }
 }
@@ -731,6 +774,7 @@ internal fun FeedEndCard(
     onOpenSaved: () -> Unit,
     onClearFilters: () -> Unit,
     onRetry: () -> Unit,
+    bottomBarInset: Dp = 0.dp,
     modifier: Modifier = Modifier,
 ) {
     val isFilteredEnd = filters.isActive
@@ -743,7 +787,8 @@ internal fun FeedEndCard(
         modifier = modifier
             .fillMaxSize()
             .background(MohakashColors.Background)
-            .padding(horizontal = 40.dp),
+            .padding(horizontal = 40.dp)
+            .padding(bottom = bottomBarInset),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

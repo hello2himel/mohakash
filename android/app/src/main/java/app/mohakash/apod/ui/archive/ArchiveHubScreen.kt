@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.mohakash.apod.R
 import app.mohakash.apod.ui.components.IconActionButton
@@ -37,6 +38,7 @@ fun ArchiveHubScreen(
     onBrowseFeed: () -> Unit,
     openOnSaved: Boolean = false,
     onOpenOnSavedConsumed: () -> Unit = {},
+    bottomBarInset: Dp = 0.dp,
     modifier: Modifier = Modifier,
 ) {
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
@@ -87,6 +89,7 @@ fun ArchiveHubScreen(
                     onOpenEntry = onOpenEntry,
                     onOpenSettings = onOpenSettings,
                     showTopBar = false,
+                    bottomContentPadding = bottomBarInset,
                 )
             } else {
                 SavedScreen(
@@ -94,6 +97,7 @@ fun ArchiveHubScreen(
                     onBrowseFeed = onBrowseFeed,
                     onOpenSettings = onOpenSettings,
                     showTopBar = false,
+                    bottomContentPadding = bottomBarInset,
                 )
             }
         }

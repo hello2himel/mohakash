@@ -42,6 +42,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
@@ -71,6 +72,7 @@ fun ArchiveScreen(
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
     showTopBar: Boolean = true,
+    bottomContentPadding: Dp = 0.dp,
 ) {
     val viewModel = containerViewModel { container ->
         ArchiveViewModel(
@@ -97,6 +99,7 @@ fun ArchiveScreen(
         onLoadMore = viewModel::loadMore,
         modifier = modifier,
         showTopBar = showTopBar,
+        bottomContentPadding = bottomContentPadding,
     )
 
     if (showFilters) {
@@ -125,6 +128,7 @@ internal fun ArchiveContent(
     onLoadMore: () -> Unit,
     modifier: Modifier = Modifier,
     showTopBar: Boolean = true,
+    bottomContentPadding: Dp = 0.dp,
 ) {
     val listState = rememberLazyListState()
 
@@ -206,7 +210,11 @@ internal fun ArchiveContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                contentPadding = PaddingValues(horizontal = MohakashDimens.SidePadding),
+                contentPadding = PaddingValues(
+                    start = MohakashDimens.SidePadding,
+                    end = MohakashDimens.SidePadding,
+                    bottom = bottomContentPadding + 8.dp,
+                ),
             ) {
                 items(state.visible, key = { it.date }) { entry ->
                     ArchiveRow(entry = entry, onClick = { onOpenEntry(entry.date) })
