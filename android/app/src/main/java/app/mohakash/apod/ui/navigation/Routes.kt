@@ -9,6 +9,7 @@ package app.mohakash.apod.ui.navigation
 object Routes {
     const val ONBOARDING = "onboarding"
     const val TODAY = "today" // now hosts the combined feed
+    const val ARCHIVE = "archive"
     const val SAVED = "saved"
     const val SETTINGS = "settings"
     const val ADVANCED = "settings/advanced"

@@ -1,4 +1,4 @@
-package app.mohakash.apod.ui.feed
+package app.mohakash.apod.ui.archive
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,7 +21,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -38,11 +37,14 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import app.mohakash.apod.R
 import app.mohakash.apod.ui.components.FilterChipItem
 import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.components.SecondaryButton
 import app.mohakash.apod.ui.components.SegmentedControl
+import app.mohakash.apod.ui.components.TextAction
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
@@ -50,26 +52,29 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
+/** The first and the last year offered by the *Older* year picker. */
+private const val OLDEST_YEAR = 1995
+private const val NEWEST_OLDER_YEAR = 2020
+
+/** How many year chips the filter sheet shows before *Older*. */
+private const val QUICK_YEAR_COUNT = 6
+
 /**
- * The filter sheet of the feed: all years, all media and jump-to-date.
- *
- * There is no second "older years" dialog any more — the years of the archive index are simply
- * listed, which is what the combined feed makes possible. The sheet is stateless towards the
- * ViewModel: selections are local until *Show N pictures* is pressed, so dismissing keeps the
- * previous filters (a deliberate, documented behaviour).
+ * The filter sheet of the archive.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FeedFilterSheet(
-    filters: FeedFilters,
-    availableYears: List<Int>,
-    allItems: List<FeedDateItem>,
-    archiveFirstDate: String?,
-    archiveLastDate: String?,
+fun FilterSheet(
+    state: ArchiveUiState,
     onDismiss: () -> Unit,
-    onApply: (FeedFilters, String?) -> Unit,
+    onYearSelected: (Int) -> Unit,
+    onTypeSelected: (MediaFilter) -> Unit,
+    onJumpToDate: (String) -> Unit,
+    onReset: () -> Unit,
+    onApply: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
@@ -90,42 +95,45 @@ fun FeedFilterSheet(
             )
         },
     ) {
-        FeedFilterSheetContent(
-            filters = filters,
-            availableYears = availableYears,
-            allItems = allItems,
-            archiveFirstDate = archiveFirstDate,
-            archiveLastDate = archiveLastDate,
+        FilterSheetContent(
+            state = state,
+            onYearSelected = onYearSelected,
+            onTypeSelected = onTypeSelected,
+            onJumpToDate = onJumpToDate,
+            onReset = onReset,
             onApply = onApply,
         )
     }
 }
 
-/** The stateless body of the filter sheet — used by the preview as well. */
+/** The stateless body of the filter sheet — usable in a preview without the modal container. */
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun FeedFilterSheetContent(
-    filters: FeedFilters,
-    availableYears: List<Int>,
-    allItems: List<FeedDateItem>,
-    archiveFirstDate: String?,
-    archiveLastDate: String?,
-    onApply: (FeedFilters, String?) -> Unit,
+internal fun FilterSheetContent(
+    state: ArchiveUiState,
+    onYearSelected: (Int) -> Unit,
+    onTypeSelected: (MediaFilter) -> Unit,
+    onJumpToDate: (String) -> Unit,
+    onReset: () -> Unit,
+    onApply: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var selectedYear by remember(filters) { mutableStateOf(filters.year) }
-    var selectedMedia by remember(filters) { mutableStateOf(filters.media) }
-    var jumpToDate by remember(filters) { mutableStateOf<String?>(null) }
+    var selectedYear by remember { mutableStateOf(state.selectedYear) }
+    var selectedType by remember { mutableStateOf(state.typeFilter) }
+    var jumpToDate by remember { mutableStateOf(state.jumpToDate) }
     var showDatePicker by remember { mutableStateOf(false) }
+    var showYearPicker by remember { mutableStateOf(false) }
 
-    val previewFilters = FeedFilters(year = selectedYear, media = selectedMedia)
-    val resultCount = remember(allItems, previewFilters) {
-        FeedPaging.filtered(allItems, previewFilters).size
+    val preview = state.copy(selectedYear = selectedYear, typeFilter = selectedType, query = jumpToDate.orEmpty())
+    val olderSelected = state.availableYears.isNotEmpty() && selectedYear !in state.availableYears
+    val defaultYear = ArchiveUiState.defaultYear().let { current ->
+        if (current in state.availableYears) current else state.availableYears.firstOrNull() ?: current
     }
 
     Column(
         modifier = modifier
             .fillMaxWidth()
+            // The sheet scrolls when a very large font scale makes it taller than the screen.
             .verticalScroll(rememberScrollState())
             .padding(horizontal = MohakashDimens.SidePadding)
             .padding(top = 20.dp, bottom = 28.dp),
@@ -147,46 +155,19 @@ internal fun FeedFilterSheetContent(
                 horizontalArrangement = Arrangement.spacedBy(MohakashDimens.ChipGap),
                 verticalArrangement = Arrangement.spacedBy(MohakashDimens.ChipGap),
             ) {
-                FilterChipItem(
-                    text = stringResource(R.string.filter_all_years),
-                    selected = selectedYear == null,
-                    onClick = { selectedYear = null },
-                )
-                availableYears.forEach { year ->
+                state.availableYears.take(QUICK_YEAR_COUNT).forEach { year ->
                     FilterChipItem(
                         text = year.toString(),
                         selected = year == selectedYear,
                         onClick = { selectedYear = year },
                     )
                 }
+                FilterChipItem(
+                    text = stringResource(R.string.filter_older),
+                    selected = olderSelected,
+                    onClick = { showYearPicker = true },
+                )
             }
-        }
-
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(
-                text = stringResource(R.string.filter_type),
-                style = MohakashTextStyles.Caption,
-                color = MohakashColors.TextMuted,
-            )
-            SegmentedControl(
-                options = listOf(
-                    stringResource(R.string.filter_all),
-                    stringResource(R.string.filter_images),
-                    stringResource(R.string.filter_videos),
-                ),
-                selectedIndex = when (selectedMedia) {
-                    FeedMediaFilter.ALL -> 0
-                    FeedMediaFilter.IMAGES -> 1
-                    FeedMediaFilter.VIDEOS -> 2
-                },
-                onSelect = { index ->
-                    selectedMedia = when (index) {
-                        1 -> FeedMediaFilter.IMAGES
-                        2 -> FeedMediaFilter.VIDEOS
-                        else -> FeedMediaFilter.ALL
-                    }
-                },
-            )
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -217,13 +198,41 @@ internal fun FeedFilterSheetContent(
             }
         }
 
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(
+                text = stringResource(R.string.filter_type),
+                style = MohakashTextStyles.Caption,
+                color = MohakashColors.TextMuted,
+            )
+            SegmentedControl(
+                options = listOf(
+                    stringResource(R.string.filter_all),
+                    stringResource(R.string.filter_images),
+                    stringResource(R.string.filter_videos),
+                ),
+                selectedIndex = when (selectedType) {
+                    MediaFilter.ALL -> 0
+                    MediaFilter.IMAGES -> 1
+                    MediaFilter.VIDEOS -> 2
+                },
+                onSelect = { index ->
+                    selectedType = when (index) {
+                        1 -> MediaFilter.IMAGES
+                        2 -> MediaFilter.VIDEOS
+                        else -> MediaFilter.ALL
+                    }
+                },
+            )
+        }
+
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             SecondaryButton(
                 text = stringResource(R.string.filter_reset),
                 onClick = {
-                    selectedYear = null
-                    selectedMedia = FeedMediaFilter.ALL
+                    selectedYear = defaultYear
+                    selectedType = MediaFilter.ALL
                     jumpToDate = null
+                    onReset()
                 },
                 modifier = Modifier.width(110.dp),
                 height = 52.dp,
@@ -232,14 +241,14 @@ internal fun FeedFilterSheetContent(
             PrimaryButton(
                 text = pluralStringResource(
                     R.plurals.filter_show_entries,
-                    resultCount,
-                    resultCount,
+                    preview.filtered.size,
+                    preview.filtered.size,
                 ),
                 onClick = {
-                    onApply(
-                        FeedFilters(year = selectedYear, media = selectedMedia),
-                        jumpToDate,
-                    )
+                    onYearSelected(selectedYear)
+                    onTypeSelected(selectedType)
+                    jumpToDate?.let(onJumpToDate)
+                    onApply()
                 },
                 modifier = Modifier.weight(1f),
                 height = 52.dp,
@@ -249,28 +258,17 @@ internal fun FeedFilterSheetContent(
     }
 
     if (showDatePicker) {
-        val firstMillis = remember(archiveFirstDate) { archiveFirstDate?.let(::isoToUtcMillis) }
-        val lastMillis = remember(archiveLastDate) { archiveLastDate?.let(::isoToUtcMillis) }
-        val firstYear = archiveFirstDate?.take(4)?.toIntOrNull() ?: 1995
-        val lastYear = archiveLastDate?.take(4)?.toIntOrNull() ?: 2100
-        val pickerState = rememberDatePickerState(
-            initialSelectedDateMillis = null,
-            yearRange = firstYear..lastYear,
-            selectableDates = object : SelectableDates {
-                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                    if (firstMillis != null && utcTimeMillis < firstMillis) return false
-                    if (lastMillis != null && utcTimeMillis > lastMillis) return false
-                    return true
-                }
-
-                override fun isSelectableYear(year: Int): Boolean = year in firstYear..lastYear
-            },
-        )
+        val pickerState = rememberDatePickerState(initialSelectedDateMillis = null)
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
             confirmButton = {
                 TextButton(onClick = {
-                    pickerState.selectedDateMillis?.let { millis -> jumpToDate = utcMillisToIso(millis) }
+                    pickerState.selectedDateMillis?.let { millis ->
+                        val formatted = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
+                            timeZone = TimeZone.getTimeZone("UTC")
+                        }.format(millis)
+                        jumpToDate = formatted
+                    }
                     showDatePicker = false
                 }) { Text(stringResource(R.string.filter_confirm)) }
             },
@@ -283,17 +281,69 @@ internal fun FeedFilterSheetContent(
             DatePicker(state = pickerState)
         }
     }
+
+    if (showYearPicker) {
+        YearPickerDialog(
+            selectedYear = selectedYear,
+            onDismiss = { showYearPicker = false },
+            onYearSelected = { year ->
+                selectedYear = year
+                showYearPicker = false
+            },
+        )
+    }
 }
 
-private fun isoToUtcMillis(date: String): Long? {
-    val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-    format.timeZone = TimeZone.getTimeZone("UTC")
-    format.isLenient = false
-    return runCatching { format.parse(date)?.time }.getOrNull()
-}
-
-private fun utcMillisToIso(millis: Long): String {
-    val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-    format.timeZone = TimeZone.getTimeZone("UTC")
-    return format.format(millis)
+/** The 1995–2020 year picker opened by the *Older* chip. */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun YearPickerDialog(
+    selectedYear: Int,
+    onDismiss: () -> Unit,
+    onYearSelected: (Int) -> Unit,
+) {
+    val shape = RoundedCornerShape(MohakashDimens.DialogRadius)
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 32.dp)
+                .fillMaxWidth()
+                .clip(shape)
+                .background(MohakashColors.Surface)
+                .border(1.dp, MohakashColors.Border, shape)
+                .padding(24.dp),
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text(
+                    text = stringResource(R.string.filter_year_picker_title),
+                    style = MohakashTextStyles.SheetTitle,
+                    color = MohakashColors.Text,
+                )
+                FlowRow(
+                    modifier = Modifier
+                        .heightIn(max = 360.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(MohakashDimens.ChipGap),
+                    verticalArrangement = Arrangement.spacedBy(MohakashDimens.ChipGap),
+                ) {
+                    (NEWEST_OLDER_YEAR downTo OLDEST_YEAR).forEach { year ->
+                        FilterChipItem(
+                            text = year.toString(),
+                            selected = year == selectedYear,
+                            onClick = { onYearSelected(year) },
+                        )
+                    }
+                }
+                TextAction(
+                    text = stringResource(R.string.filter_close),
+                    onClick = onDismiss,
+                    color = MohakashColors.Accent,
+                    modifier = Modifier.align(Alignment.End),
+                )
+            }
+        }
+    }
 }

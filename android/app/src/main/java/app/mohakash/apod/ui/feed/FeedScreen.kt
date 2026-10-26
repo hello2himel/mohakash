@@ -1,5 +1,6 @@
 package app.mohakash.apod.ui.feed
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -17,18 +18,22 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.ui.LocalSnackbarHostState
@@ -56,6 +61,7 @@ fun FeedScreen(
     modifier: Modifier = Modifier,
     onOpenLink: (String) -> Unit = {},
     onOpenSaved: () -> Unit = {},
+    onFullscreenChange: (Boolean) -> Unit = {},
 ) {
     val context = LocalContext.current
     val appContext = context.applicationContext
@@ -81,9 +87,23 @@ fun FeedScreen(
     val snackbarHostState = LocalSnackbarHostState.current
 
     var systemWallpaperActive by remember { mutableStateOf(WallpaperStatus.isActive(appContext)) }
-    var showFilters by remember { mutableStateOf(false) }
     var showSearch by remember { mutableStateOf(false) }
     var pendingSaveDate by remember { mutableStateOf<String?>(null) }
+    // A tap on the picture hides every overlay and the bottom bar; a second tap brings them back.
+    var chromeVisible by rememberSaveable { mutableStateOf(true) }
+
+    LaunchedEffect(state.currentPageKey) {
+        // A new page always starts readable.
+        chromeVisible = true
+    }
+    LaunchedEffect(chromeVisible) {
+        onFullscreenChange(!chromeVisible)
+    }
+    DisposableEffect(Unit) {
+        onDispose { onFullscreenChange(false) }
+    }
+    // Back restores the chrome instead of leaving the app while the feed is in fullscreen.
+    BackHandler(enabled = !chromeVisible) { chromeVisible = true }
 
     // The picker is a separate activity, so the label has to be re-checked when the feed resumes.
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -118,10 +138,15 @@ fun FeedScreen(
         state.currentPageKey != FeedPage.End.key &&
         !state.filters.isActive
 
-    LaunchedEffect(canShowSwipeHint) {
+    // Pause the one-time hint's timer while the activity is not resumed. Without this, opening
+    // the system wallpaper picker from onboarding consumes the cue behind the picker.
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(canShowSwipeHint, lifecycleOwner) {
         if (!canShowSwipeHint) return@LaunchedEffect
-        delay(SWIPE_HINT_VISIBLE_MILLIS)
-        viewModel.dismissSwipeHint()
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            delay(SWIPE_HINT_VISIBLE_MILLIS)
+            viewModel.dismissSwipeHint()
+        }
     }
 
     val actions = remember(viewModel, onOpenEntry, onOpenSettings, onOpenLink) {
@@ -131,10 +156,6 @@ fun FeedScreen(
             onOpenSearch = {
                 viewModel.openSearch()
                 showSearch = true
-            },
-            onOpenFilters = {
-                viewModel.ensureIndex()
-                showFilters = true
             },
             onToggleFavourite = viewModel::toggleFavourite,
             onSaveImage = { date ->
@@ -166,23 +187,10 @@ fun FeedScreen(
         onRetryAll = viewModel::retry,
         showSwipeHint = canShowSwipeHint,
         onDismissSwipeHint = viewModel::dismissSwipeHint,
+        chromeVisible = chromeVisible,
+        onToggleChrome = { chromeVisible = !chromeVisible },
         modifier = modifier,
     )
-
-    if (showFilters) {
-        FeedFilterSheet(
-            filters = state.filters,
-            availableYears = state.availableYears,
-            allItems = state.allItems,
-            archiveFirstDate = state.archiveFirstDate,
-            archiveLastDate = state.archiveLastDate,
-            onDismiss = { showFilters = false },
-            onApply = { filters, jumpDate ->
-                showFilters = false
-                viewModel.applyFilters(filters, jumpDate)
-            },
-        )
-    }
 
     if (showSearch) {
         FeedSearchSheet(
@@ -235,6 +243,8 @@ internal fun FeedContent(
     onRetryAll: () -> Unit,
     showSwipeHint: Boolean,
     onDismissSwipeHint: () -> Unit,
+    chromeVisible: Boolean,
+    onToggleChrome: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(
@@ -262,6 +272,8 @@ internal fun FeedContent(
                 onRetryAll = onRetryAll,
                 showSwipeHint = showSwipeHint,
                 onDismissSwipeHint = onDismissSwipeHint,
+                chromeVisible = chromeVisible,
+                onToggleChrome = onToggleChrome,
             )
         }
 
@@ -293,6 +305,8 @@ private fun FeedPager(
     onRetryAll: () -> Unit,
     showSwipeHint: Boolean,
     onDismissSwipeHint: () -> Unit,
+    chromeVisible: Boolean,
+    onToggleChrome: () -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0) { state.pages.size }
     val pullState = rememberPullToRefreshState()
@@ -385,10 +399,10 @@ private fun FeedPager(
                     wallpaperActive = page.date?.let(wallpaperActiveFor) == true,
                     scaling = state.scaling,
                     isOffline = state.isOffline,
-                    syncedAt = state.syncedAt,
-                    now = System.currentTimeMillis(),
                     filters = state.filters,
                     actions = actions,
+                    chromeVisible = chromeVisible,
+                    onToggleChrome = onToggleChrome,
                 )
             }
         }

@@ -8,8 +8,8 @@ genuine Android **live wallpaper**.
 * The app talks to the public JSON API that the repository publishes on GitHub Pages — there is no
   account, no analytics and no tracking.
 
-Current release: **1.0.5** (version code **6**). The separate Today and Archive screens are now one
-full-screen feed.
+Current release: **1.0.6** (version code **7**). The app has a full-screen feed, a dedicated
+Archive tab and Saved.
 
 ---
 
@@ -133,9 +133,10 @@ that, the app recognises that its service is the active wallpaper and swaps new 
 | Screen | What it does |
 |---|---|
 | **Onboarding** | Shown once. Phone preview, headline, *Set live wallpaper* / *Skip for now*, download note. Triggers the first synchronisation. |
-| **Feed** | Full-screen vertical pager with one APOD per page. Page 0 is the latest picture; swiping up goes to older pictures, swiping down to newer ones, and the list never wraps. On a first visit a one-time **Swipe up / for older pictures** cue appears above the reading overlay and fades after six seconds or on the first drag. Top chrome carries the *Latest* / year chip, search, filter and settings. The bottom overlay carries date · credit, the title, a two-line explanation teaser and the heart / share / save image / wallpaper row above a full-width **Full entry** button. Fill/Fit follows the shared image-scaling setting. |
+| **Feed** | Full-screen vertical pager with one APOD per page. Page 0 is the latest picture; swiping up goes to older pictures, swiping down to newer ones, and the list never wraps. On a first visit a one-time **Swipe up / for older pictures** cue appears above the reading overlay and fades after six seconds or on the first drag. Top chrome has only **search on the left and settings on the right**. Tapping the picture fades out both chrome and the bottom bar for a clean full-screen view; tapping again (or Back) restores them. The bottom overlay carries date · credit, the title, a two-line explanation teaser, heart / share / save / **Set wallpaper**, and a full-width **Learn more** button. Fill/Fit follows the shared image-scaling setting. |
 | **Feed (video)** | Poster with the play glyph and *Video* chip, *Watch on APOD* instead of save / wallpaper. Videos play on the APOD page, not in the app. |
 | **Feed (offline)** | Pages render from the on-disk index and cached years with an *Offline copy* chip; the teaser is hidden until a page is hydrated, and *Retry* re-attempts the network. |
+| **Archive** | Dedicated tab between Feed and Saved. Search titles, quick year chips, *Filters*, and a newest-first list of the selected year. The shared disk-cached index opens instantly; the filter sheet has all years, media types and jump-to-date. |
 | **End card** | The real last page of the feed: *Beginning of the archive* (the first picture is from 16 June 1995), *Back to latest* and *Open Saved*. A filtered feed shows *No older pictures match this filter* instead. |
 | **Wallpaper sheet** | Fill/Fit preview that matches the engine, current image (date · title), Fill/Fit selector, *Update daily* switch, *Set live wallpaper* (first time) or *Apply now* (already active), helper text. |
 | **Full entry** | Back / heart / share (and the settings gear), the **uncropped** picture at its true aspect ratio with pinch and double-tap zoom (1×–4×, clamped panning, a *Reset zoom* action), human date · media chip · title · credit, *Save image* + *Set as wallpaper* for pictures (the existing permission and sheet flows) or *Watch on original page* and the wallpaper note for videos, the full explanation, and a **Details** section with Date, Media type, Credit, Updated and Source rows plus *Original APOD page* / *HD image* links. |
@@ -145,7 +146,7 @@ that, the app recognises that its service is the active wallpaper and swaps new 
 | **Saved (empty)** | Heart glyph, *Nothing saved yet*, hint, *Browse the feed*. |
 | **Settings** | Display section (image scaling for the feed and the live wallpaper), wallpaper section (update automatically, prefer HD, Wi-Fi only, hide videos), storage section (image cache + clear), advanced section (API endpoint), about section (last synced, content rights, source code, version). |
 | **Clear cache dialog** | *Clear image cache?* with the exact size, *Cancel* / *Clear*. |
-| **Bottom navigation** | Feed · Saved (72 dp, no shadow). Full entry and Settings have a back arrow and no bottom bar. |
+| **Bottom navigation** | Feed · Archive · Saved (72 dp, no shadow). Full entry and Settings have a back arrow and no bottom bar. |
 
 ---
 
@@ -158,7 +159,7 @@ Public website links open in the app when it is installed. The manifest declares
 | Website URL | Screen |
 |---|---|
 | `/` | Feed, opened on the latest picture |
-| `/archive` and `/archive/` | Feed |
+| `/archive` and `/archive/` | Archive |
 | `/archive/YYYY-MM-DD` (including query/fragment) | Full entry |
 
 The host is generated from `config/site.json`: Gradle exposes it as the `websiteHost` manifest
@@ -234,7 +235,7 @@ what makes the periodic update survive a reboot.
 
 `android:usesCleartextTraffic="false"` — only HTTPS is used.
 
-The 1.0.5 revamp adds no permission. The feed draws its picture edge to edge under the status bar
+The 1.0.6 UI adds no permission. The feed draws its picture edge to edge under the status bar
 and applies its own inset to the top chrome; the other screens pad the system bars
 (`statusBarsPadding()` / `navigationBarsPadding()`) and the bottom bar stays solid.
 
@@ -280,7 +281,7 @@ and applies its own inset to the top chrome; the other screens pad the system ba
 
 ## 9. Tests
 
-`./gradlew :app:testDebugUnitTest` runs 197 pure-JVM unit tests (no emulator needed):
+`./gradlew :app:testDebugUnitTest` runs 202 pure-JVM unit tests (no emulator needed):
 
 | Test file | Covers |
 |---|---|
@@ -291,9 +292,9 @@ and applies its own inset to the top chrome; the other screens pad the system ba
 | `ImageUrlValidatorTest` | Only real image assets are downloaded; page URLs are rejected. |
 | `ApodSyncEngineTest` | Download skipping when the date and the URL are unchanged, atomic metadata update, failure keeps the last picture, no download without a connection. |
 | `ApodRepositoryTest` | Caching of `latest.json` / `archive-index.json`, recovery after a failed request. |
-| `ArchiveIndexRepositoryTest` | The index disk cache: atomic write, read back without network, staleness, corrupt wrapper ignored, a failed fetch keeps the old cache, `clear()`. |
+| `ArchiveIndexRepositoryTest` | The index disk cache: raw payload + sidecar round-trip, legacy wrapper fallback, oversized/corrupt quarantine, stale-temp sweep, simulated OOM recovery, clear-during-refresh race, a failed fetch keeps the old cache, `clear()`. |
 | `FavouritesRepositoryTest` | Saving and removing pictures, the full metadata survives for offline use. |
-| `DeepLinkParserTest` | Website URL → app destination mapping: root and archive URLs to the feed, entry URLs to the full entry, query/fragment/trailing slash, invalid dates, foreign hosts and schemes. |
+| `DeepLinkParserTest` | Website URL → app destination mapping: root to the feed, `/archive` to the Archive tab, entry URLs to the full entry, query/fragment/trailing slash, invalid dates, foreign hosts and schemes. |
 | `DeepLinkManifestTest` | The manifest keeps the verified https App Links and the `/` + `/archive` paths. |
 | `ShareHelperTest` | Archive URL construction and the share text: archive link instead of the NASA page, title/date/credit preserved. |
 | `FeedPagingTest` | Newest-first date list, merge/dedupe, the nine missing dates, year/media filters, gap-safe nearest date, end card last, prefetch window. |

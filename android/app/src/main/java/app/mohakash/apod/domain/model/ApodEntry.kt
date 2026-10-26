@@ -57,6 +57,8 @@ data class ApodEntry(
             ?.lowercase()
             ?.takeIf { it in setOf("jpg", "jpeg", "png", "webp", "gif") }
             ?: "jpg"
-        return "APOD_$date.${if (extension == "jpeg") "jpg" else extension}"
+        // Never let a server-controlled date become a path segment. Valid APOD dates are ISO.
+        val safeDate = date.takeIf { it.matches(Regex("""\d{4}-\d{2}-\d{2}""")) } ?: "unknown"
+        return "APOD_$safeDate.${if (extension == "jpeg") "jpg" else extension}"
     }
 }

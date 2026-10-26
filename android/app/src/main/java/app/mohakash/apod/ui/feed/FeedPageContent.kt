@@ -1,8 +1,13 @@
 package app.mohakash.apod.ui.feed
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -47,7 +52,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import app.mohakash.apod.R
-import app.mohakash.apod.core.TimeFormatting
 import app.mohakash.apod.domain.model.MediaType
 import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.ui.components.IconActionButton
@@ -72,7 +76,6 @@ internal data class FeedPageActions(
     val onOpenEntry: (String) -> Unit = {},
     val onOpenSettings: () -> Unit = {},
     val onOpenSearch: () -> Unit = {},
-    val onOpenFilters: () -> Unit = {},
     val onToggleFavourite: (String) -> Unit = {},
     val onSaveImage: (String) -> Unit = {},
     val onShare: (String) -> Unit = {},
@@ -97,10 +100,10 @@ internal fun FeedPageContent(
     wallpaperActive: Boolean,
     scaling: WallpaperScaling,
     isOffline: Boolean,
-    syncedAt: Long?,
-    now: Long,
     filters: FeedFilters,
     actions: FeedPageActions,
+    chromeVisible: Boolean,
+    onToggleChrome: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val date = page.date ?: return
@@ -126,82 +129,77 @@ internal fun FeedPageContent(
             contentDescription = entry?.altText ?: title.ifBlank { null },
         )
 
-        if (isVideo) {
-            VideoBadge(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .statusBarsPadding()
-                    .padding(start = MohakashDimens.SidePadding, top = 64.dp),
-            )
-        }
+        // A tap anywhere on the picture hides the reading overlay and the app's bottom bar.
+        // It sits below the chrome, so buttons and links keep their own clicks.
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    role = Role.Button,
+                    onClickLabel = stringResource(
+                        if (chromeVisible) R.string.feed_hide_chrome else R.string.feed_show_chrome,
+                    ),
+                    onClick = onToggleChrome,
+                ),
+        )
 
-        // ---- Top chrome -----------------------------------------------------------------
-        Column(
+        AnimatedVisibility(
+            visible = chromeVisible,
+            enter = fadeIn(tween(180)),
+            exit = fadeOut(tween(180)),
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .fillMaxWidth()
-                .statusBarsPadding()
-                .padding(horizontal = MohakashDimens.SidePadding, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+                .fillMaxWidth(),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                val chipLabel = topChipLabel(
-                    isLatest = page.isLatest,
-                    date = date,
-                    isOffline = isOffline,
-                    syncedAt = syncedAt,
-                    now = now,
-                )
-                GlassPill(
-                    text = chipLabel,
-                    onClick = actions.onRefresh,
-                    contentDescription = stringResource(R.string.feed_refresh_latest),
-                    leadingDot = isOffline,
-                )
-                Spacer(Modifier.weight(1f))
-                FeedGlassIconButton(
-                    painter = painterResource(R.drawable.ic_search_24),
-                    contentDescription = stringResource(R.string.feed_search),
-                    onClick = actions.onOpenSearch,
-                )
-                Spacer(Modifier.width(8.dp))
-                FeedGlassIconButton(
-                    painter = painterResource(R.drawable.ic_tune_24),
-                    contentDescription = stringResource(R.string.feed_filters),
-                    onClick = actions.onOpenFilters,
-                    showDot = filters.isActive,
-                )
-                Spacer(Modifier.width(8.dp))
-                FeedGlassIconButton(
-                    painter = painterResource(R.drawable.ic_settings_24),
-                    contentDescription = stringResource(R.string.feed_settings),
-                    onClick = actions.onOpenSettings,
-                )
-            }
-            if (filters.isActive) {
-                ActiveFilterChip(
-                    filters = filters,
-                    onClick = actions.onClearFilters,
-                )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .padding(horizontal = MohakashDimens.SidePadding, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                if (isVideo) {
+                    VideoBadge()
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    FeedGlassIconButton(
+                        painter = painterResource(R.drawable.ic_search_24),
+                        contentDescription = stringResource(R.string.feed_search),
+                        onClick = actions.onOpenSearch,
+                    )
+                    Spacer(Modifier.weight(1f))
+                    FeedGlassIconButton(
+                        painter = painterResource(R.drawable.ic_settings_24),
+                        contentDescription = stringResource(R.string.feed_settings),
+                        onClick = actions.onOpenSettings,
+                    )
+                }
             }
         }
 
         // ---- Bottom overlay --------------------------------------------------------------
         // Solid translucent panel with a 1 dp hairline at its top edge. Deliberately not a
         // gradient: the photograph stays the only "effect" on screen.
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .heightIn(max = overlayMaxHeight)
-                .clip(
-                    RoundedCornerShape(
-                        topStart = MohakashDimens.FeedOverlayRadius,
-                        topEnd = MohakashDimens.FeedOverlayRadius,
-                    ),
-                )
-                .background(MohakashColors.Background.copy(alpha = OVERLAY_ALPHA)),
+        AnimatedVisibility(
+            visible = chromeVisible,
+            enter = fadeIn(tween(180)),
+            exit = fadeOut(tween(180)),
+            modifier = Modifier.align(Alignment.BottomCenter),
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = overlayMaxHeight)
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = MohakashDimens.FeedOverlayRadius,
+                            topEnd = MohakashDimens.FeedOverlayRadius,
+                        ),
+                    )
+                    .background(MohakashColors.Background.copy(alpha = OVERLAY_ALPHA)),
+            ) {
             Box(
                 Modifier
                     .fillMaxWidth()
@@ -320,6 +318,7 @@ internal fun FeedPageContent(
                         )
                     }
                 }
+            }
             }
         }
     }
@@ -456,60 +455,12 @@ private fun VideoBadge(modifier: Modifier = Modifier) {
     }
 }
 
-/**
- * The tappable status chip on the left of the top row.
- *
- * Page 0 reads *Latest · synced 2 h ago*; other pages read their year. The chip is also the
- * always-available refresh affordance if the pull gesture is ever unreliable.
- */
-@Composable
-private fun GlassPill(
-    text: String,
-    onClick: () -> Unit,
-    contentDescription: String?,
-    leadingDot: Boolean,
-) {
-    val shape = RoundedCornerShape(MohakashDimens.PillRadius)
-    Row(
-        modifier = Modifier
-            .heightIn(min = 36.dp)
-            .clip(shape)
-            .background(MohakashColors.Surface.copy(alpha = GLASS_ALPHA))
-            .border(1.dp, MohakashColors.BorderStrong, shape)
-            .clickable(
-                onClickLabel = contentDescription,
-                role = Role.Button,
-                onClick = onClick,
-            )
-            .padding(horizontal = 14.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        if (leadingDot) {
-            Box(
-                Modifier
-                    .size(6.dp)
-                    .clip(CircleShape)
-                    .background(MohakashColors.TextMuted),
-            )
-        }
-        Text(
-            text = text,
-            style = MohakashTextStyles.Caption.copy(fontWeight = FontWeight.Medium),
-            color = MohakashColors.Text,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
-}
-
 /** A 44 dp glass circle — the icon buttons of the overlay chrome. */
 @Composable
 private fun FeedGlassIconButton(
     painter: Painter,
     contentDescription: String,
     onClick: () -> Unit,
-    showDot: Boolean = false,
 ) {
     Box(
         modifier = Modifier
@@ -525,51 +476,6 @@ private fun FeedGlassIconButton(
             contentDescription = contentDescription,
             tint = MohakashColors.Text,
             modifier = Modifier.size(22.dp),
-        )
-        if (showDot) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 10.dp, end = 10.dp)
-                    .size(6.dp)
-                    .clip(CircleShape)
-                    .background(MohakashColors.Accent),
-            )
-        }
-    }
-}
-
-/** The compact active-filter chip under the top row; tapping clears the filters. */
-@Composable
-private fun ActiveFilterChip(filters: FeedFilters, onClick: () -> Unit) {
-    val yearLabel = filters.year?.toString() ?: stringResource(R.string.filter_all_years)
-    val mediaLabel = when (filters.media) {
-        FeedMediaFilter.ALL -> stringResource(R.string.filter_all)
-        FeedMediaFilter.IMAGES -> stringResource(R.string.filter_images)
-        FeedMediaFilter.VIDEOS -> stringResource(R.string.filter_videos)
-    }
-    val shape = RoundedCornerShape(MohakashDimens.PillRadius)
-    Row(
-        modifier = Modifier
-            .heightIn(min = 36.dp)
-            .clip(shape)
-            .background(MohakashColors.Surface.copy(alpha = GLASS_ALPHA))
-            .border(1.dp, MohakashColors.BorderStrong, shape)
-            .clickable(role = Role.Button, onClick = onClick)
-            .padding(start = 14.dp, end = 10.dp, top = 8.dp, bottom = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        Text(
-            text = stringResource(R.string.feed_filters_active, yearLabel, mediaLabel),
-            style = MohakashTextStyles.Caption.copy(fontWeight = FontWeight.Medium),
-            color = MohakashColors.Text,
-        )
-        Icon(
-            painter = painterResource(R.drawable.ic_close_24),
-            contentDescription = stringResource(R.string.feed_clear_filters),
-            tint = MohakashColors.TextMuted,
-            modifier = Modifier.size(16.dp),
         )
     }
 }
@@ -702,22 +608,6 @@ private fun HydrationFailureRow(onRetry: () -> Unit) {
     }
 }
 
-/** The chip text: *Latest · synced …* on page 0, the year elsewhere. */
-@Composable
-private fun topChipLabel(
-    isLatest: Boolean,
-    date: String,
-    isOffline: Boolean,
-    syncedAt: Long?,
-    now: Long,
-): String {
-    if (isOffline) return stringResource(R.string.feed_offline_chip)
-    if (!isLatest) return date.take(4)
-    if (syncedAt == null) return stringResource(R.string.feed_latest)
-    val synced = stringResource(R.string.feed_latest_synced, TimeFormatting.formatSyncedAgo(syncedAt, now))
-    return synced
-}
-
 /**
  * A calm skeleton that matches the loaded page layout: the image block and the overlay block keep
  * their final size, so nothing jumps when the first page arrives.
@@ -725,7 +615,7 @@ private fun topChipLabel(
 @Composable
 internal fun FeedSkeleton(modifier: Modifier = Modifier) {
     val loadingLabel = stringResource(R.string.feed_loading)
-    BoxWithConstraints(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(MohakashColors.Background)
