@@ -334,8 +334,8 @@ pre {
 /* ------------------------------------------------ Today support card */
 
 /* The Today column has a quiet support slot: the Android app most of the time,
- * a donation note occasionally. It is chosen once per session, dismissible for
- * 14 days, and compact enough to leave the picture room to breathe. */
+ * a donation note occasionally. It is chosen once per session, stays visible,
+ * and is compact enough to leave the picture room to breathe. */
 .panel__promo {
   position: relative;
   flex: 1 1 0;
@@ -461,45 +461,6 @@ pre {
 .app-promo__heart .icon {
   font-size: 30px;
   line-height: 1;
-}
-
-.app-promo__close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: var(--border-width) solid var(--border);
-  border-radius: 10px;
-  background: var(--surface-strong);
-  color: var(--text-muted);
-  cursor: pointer;
-}
-
-.app-promo__close:hover {
-  color: var(--text);
-  border-color: var(--border-strong);
-  background: var(--surface);
-}
-
-.app-promo__close:active {
-  filter: brightness(0.92);
-}
-
-.app-promo__close .icon {
-  font-size: 17px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .app-promo__download,
-  .app-promo__close {
-    transition: none;
-  }
 }
 
 /* --------------------------------------------------------- hide videos */
@@ -1970,10 +1931,6 @@ body.has-drawer-open {
     margin-top: 14px;
   }
 
-  .app-promo__close {
-    top: 8px;
-    right: 8px;
-  }
 
   .site-footer__links {
     gap: 0 10px;
