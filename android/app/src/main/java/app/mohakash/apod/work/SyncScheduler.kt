@@ -13,19 +13,23 @@ import java.util.concurrent.TimeUnit
 /**
  * Schedules the background synchronisation.
  *
- * The periodic job runs once a day — well above the 15 minute minimum of
- * `PeriodicWorkRequest` — and asks for an unmetered network so the picture is only downloaded
- * when it is cheap. The Wi-Fi only preference is applied on top of that when the worker runs.
+ * The periodic job checks for a new APOD several times a day. A single 24-hour job can run
+ * before NASA publishes the next picture and then miss it for a whole day, so the worker gets
+ * four chances per day instead. The metadata request is tiny; the picture itself is only
+ * downloaded when the date or URL actually changed, and only while the live wallpaper is active.
+ *
+ * The worker respects the "Wi-Fi only" setting; the network constraint only requires *some*
+ * connection so the metadata can refresh even on mobile data.
  */
 object SyncScheduler {
 
     const val PERIODIC_WORK_NAME = "mohakash-periodic-sync"
     const val ONE_TIME_WORK_NAME = "mohakash-one-time-sync"
 
-    /** 24 hours, the shortest interval that still delivers "a new picture each day". */
-    const val SYNC_INTERVAL_HOURS = 24L
+    /** Check four times a day so a delayed or early run cannot skip a day. */
+    const val SYNC_INTERVAL_HOURS = 6L
 
-    /** Schedules (or keeps) the daily job. */
+    /** Schedules (or updates) the periodic job. */
     fun schedulePeriodic(context: Context) {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -40,7 +44,9 @@ object SyncScheduler {
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
+            // UPDATE keeps the original enqueue time but replaces the old 24-hour request with
+            // the current interval/constraints when an existing installation updates the app.
+            ExistingPeriodicWorkPolicy.UPDATE,
             request,
         )
     }

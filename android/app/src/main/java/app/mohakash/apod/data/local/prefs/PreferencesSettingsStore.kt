@@ -72,7 +72,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         onboardingCompleted = this[Keys.ONBOARDING_COMPLETED] ?: false,
         updateAutomatically = this[Keys.UPDATE_AUTOMATICALLY] ?: true,
         preferHd = this[Keys.PREFER_HD] ?: false,
-        wifiOnly = this[Keys.WIFI_ONLY] ?: true,
+        wifiOnly = this[Keys.WIFI_ONLY] ?: false,
         wallpaperScaling = WallpaperScaling.fromStorageKey(this[Keys.WALLPAPER_SCALING]),
         hideVideos = this[Keys.HIDE_VIDEOS] ?: true,
         customApiBaseUrl = this[Keys.CUSTOM_API_BASE_URL],
