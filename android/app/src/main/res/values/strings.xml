@@ -20,6 +20,9 @@
     <string name="feed_search">Search</string>
     <string name="feed_settings">Settings</string>
     <string name="feed_save">Add to saved</string>
+    <string name="feed_save_label">Save</string>
+    <string name="feed_saved_state">Saved</string>
+    <string name="feed_download_label">Download</string>
     <string name="feed_download">Save image</string>
     <string name="feed_share">Share</string>
     <string name="feed_set_wallpaper">Set wallpaper</string>
