@@ -1,0 +1,5 @@
+- Tap a picture to hide every overlay and the bottom bar; tap again to restore.
+- Archive is back as a tab between Feed and Saved, with search, filters and jump-to-date.
+- Feed's top bar now has only search (left) and settings (right); "Set wallpaper" and "Learn more" replace the vague labels.
+- Large caches are capped, parsed once and recover from corruption or low memory.
+- Fixed a notification crash and hardened release workflows.

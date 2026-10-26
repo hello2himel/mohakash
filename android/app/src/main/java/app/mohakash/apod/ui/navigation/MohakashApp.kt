@@ -32,6 +32,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import app.mohakash.apod.ui.LocalSnackbarHostState
+import app.mohakash.apod.ui.archive.ArchiveScreen
 import app.mohakash.apod.ui.detail.DetailScreen
 import app.mohakash.apod.ui.feed.FeedScreen
 import app.mohakash.apod.ui.onboarding.OnboardingScreen
@@ -44,8 +45,9 @@ import app.mohakash.apod.wallpaper.WallpaperIntentBuilder
 /**
  * The navigation graph of the app.
  *
- * The two primary screens (Feed, Saved) have a bottom navigation bar; the detail screen and the
- * settings screens have a back arrow and no bottom bar.
+ * The three primary screens (Feed, Archive, Saved) have a bottom navigation bar; the detail screen
+ * and the settings screens have a back arrow and no bottom bar. The feed can hide its chrome and
+ * the bottom bar with a tap, giving the picture the whole screen.
  */
 @Composable
 fun MohakashApp(
@@ -58,9 +60,16 @@ fun MohakashApp(
     val snackbarHostState = remember { SnackbarHostState() }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
-    val showBottomBar = currentRoute == Routes.TODAY || currentRoute == Routes.SAVED
+    val showBottomBar = currentRoute == Routes.TODAY ||
+        currentRoute == Routes.ARCHIVE ||
+        currentRoute == Routes.SAVED
+    var feedFullscreen by remember { mutableStateOf(false) }
     var onboardingCompleted by remember {
         mutableStateOf(startDestination != Routes.ONBOARDING)
+    }
+
+    LaunchedEffect(currentRoute) {
+        if (currentRoute != Routes.TODAY) feedFullscreen = false
     }
 
     // A deep link that arrives while onboarding is showing is kept until the
@@ -89,7 +98,7 @@ fun MohakashApp(
                 }
             },
             bottomBar = {
-                if (showBottomBar) {
+                if (showBottomBar && !feedFullscreen) {
                     MohakashBottomBar(
                         currentRoute = currentRoute,
                         onSelect = { destination ->
@@ -132,6 +141,14 @@ fun MohakashApp(
                                 restoreState = true
                             }
                         },
+                        onFullscreenChange = { feedFullscreen = it },
+                    )
+                }
+
+                composable(Routes.ARCHIVE) {
+                    ArchiveScreen(
+                        onOpenEntry = { date -> navController.navigate(Routes.detail(date)) },
+                        onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                     )
                 }
 
@@ -210,7 +227,10 @@ internal fun NavController.navigateTo(target: DeepLinkTarget) {
 /** Opens a link in the browser. */
 internal fun openLink(context: Context, url: String) {
     if (url.isBlank()) return
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+    val uri = runCatching { Uri.parse(url) }.getOrNull() ?: return
+    // API-controlled links must not be able to launch file:, content: or custom schemes.
+    if (uri.scheme?.lowercase() !in setOf("https", "http")) return
+    val intent = Intent(Intent.ACTION_VIEW, uri).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     runCatching { context.startActivity(intent) }.onFailure {

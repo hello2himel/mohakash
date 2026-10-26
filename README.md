@@ -239,10 +239,11 @@ cd android
 > (this machine has JDK 27), point `JAVA_HOME` at a 17 or 21 installation:
 > `export JAVA_HOME=/path/to/jdk-21`.
 
-Since **1.0.5** the app is built around one full-screen feed: page 0 is the latest
-picture, swiping up goes to older pictures and down to newer ones (the list never
-wraps), and search, year/media filters and the uncropped full entry view sit on top
-of it. The bottom bar is **Feed · Saved**; the old Today and Archive screens are gone.
+Since **1.0.6** the app has three tabs: **Feed · Archive · Saved**. The feed starts
+on the latest picture; swiping up goes to older pictures and down to newer ones (the
+list never wraps), and search sits in the top-left corner. Tapping a picture hides
+every overlay and the bottom bar; tapping again brings them back. Archive keeps the
+year/media filters and jump-to-date, and the uncropped entry view is still a tap away.
 
 The API base URL is read from `config/site.json` at build time and turned into
 a `BuildConfig` field, so there is no URL in the Kotlin sources. The app tries
@@ -270,7 +271,7 @@ manifest declares `https://mohakash.netlify.app/` and
 | Website URL | App screen |
 |---|---|
 | `https://mohakash.netlify.app/` | Feed, opened on the latest picture |
-| `https://mohakash.netlify.app/archive` | Feed |
+| `https://mohakash.netlify.app/archive` | Archive |
 | `https://mohakash.netlify.app/archive/YYYY-MM-DD` | Full entry |
 
 The host is not hard-coded twice: Gradle turns `config/site.json`'s
@@ -667,7 +668,7 @@ Current result:
 |---|---|---|
 | Data pipeline | **102 passed** | `python3 -m pytest scripts/tests -q` |
 | Website | **99 passed** | `cd web && npm test` |
-| Android | **197 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
+| Android | **202 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
 | Website type check | 0 errors, 0 warnings | `cd web && npx astro check` |
 | Archive validation | ok | `python3 scripts/sync_apod.py validate` |
 
@@ -721,8 +722,8 @@ a well-formed SHA-256 certificate fingerprint.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests: 102 pipeline, 99 website, 197 Android — all green. The debug APK builds.
-- [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.5**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
+- [x] Automated tests: 102 pipeline, 99 website, 202 Android — all green. The debug APK builds.
+- [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v1.0.6**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Wallpaper audit on the Android 15 emulator: the system picker is shown only on first activation; choosing an archive picture updates the active wallpaper in place without a dialog; the background worker replaced that archive picture with the latest APOD without opening the app; a 6-hour periodic job is scheduled; Fill/Fit matches in the sheet preview and on the live wallpaper and changes while active; Wi-Fi only is off by default and Hide videos is in Settings.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.

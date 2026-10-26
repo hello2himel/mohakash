@@ -28,7 +28,7 @@ import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashDimens
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 
-/** The two primary destinations of the app: the feed (which is also the archive) and Saved. */
+/** The three primary destinations of the app: Feed, Archive and Saved. */
 enum class BottomDestination(
     val route: String,
     val labelRes: Int,
@@ -36,6 +36,7 @@ enum class BottomDestination(
     val activeIconRes: Int,
 ) {
     FEED(Routes.TODAY, R.string.nav_feed, R.drawable.ic_today_24, R.drawable.ic_today_24),
+    ARCHIVE(Routes.ARCHIVE, R.string.nav_archive, R.drawable.ic_archive_24, R.drawable.ic_archive_24),
     SAVED(Routes.SAVED, R.string.nav_saved, R.drawable.ic_heart_24, R.drawable.ic_heart_filled_24),
 }
 

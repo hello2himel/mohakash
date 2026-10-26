@@ -61,7 +61,6 @@ class NotificationHelper private constructor(private val context: Context) {
     fun notifyWallpaperChanged(entry: ApodEntry) {
         val title = entry.title
         val description = entry.explanation.take(512)
-        val apodUrl = entry.apodUrl
 
         val openAppIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -73,15 +72,19 @@ class NotificationHelper private constructor(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
-        val viewApodIntent = Intent(Intent.ACTION_VIEW, Uri.parse(apodUrl)).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        // `apod_url` is optional in the API and may be malformed. Only expose the "view" action
+        // when it is a real https URL: Uri.parse(null) would throw and break the notification.
+        val viewApodPending = validHttpsUri(entry.apodUrl)?.let { uri ->
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            PendingIntent.getActivity(
+                context,
+                1,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
         }
-        val viewApodPending = PendingIntent.getActivity(
-            context,
-            1,
-            viewApodIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
 
         val settingsIntent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
             data = Uri.fromParts("package", context.packageName, null)
@@ -94,7 +97,7 @@ class NotificationHelper private constructor(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
-        val notification = NotificationCompat.Builder(context, channelId)
+        val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(description.ifBlank { context.getString(R.string.notification_no_description) })
@@ -110,22 +113,39 @@ class NotificationHelper private constructor(private val context: Context) {
                     openAppPending,
                 ).build(),
             )
-            .addAction(
+
+        if (viewApodPending != null) {
+            builder.addAction(
                 NotificationCompat.Action.Builder(
                     R.drawable.ic_notification,
                     context.getString(R.string.notification_action_view_apod),
                     viewApodPending,
                 ).build(),
             )
-            .addAction(
-                NotificationCompat.Action.Builder(
-                    R.drawable.ic_notification,
-                    context.getString(R.string.notification_action_settings),
-                    settingsPending,
-                ).build(),
-            )
-            .build()
+        }
 
+        builder.addAction(
+            NotificationCompat.Action.Builder(
+                R.drawable.ic_notification,
+                context.getString(R.string.notification_action_settings),
+                settingsPending,
+            ).build(),
+        )
+
+        val notification = builder.build()
         manager.notify(NOTIFICATION_ID, notification)
+    }
+
+    /** Returns [raw] as a Uri only when it parses to an absolute https URL with a host. */
+    private fun validHttpsUri(raw: String?): Uri? {
+        if (raw.isNullOrBlank()) return null
+        val uri = try {
+            Uri.parse(raw)
+        } catch (error: Exception) {
+            return null
+        }
+        if (!uri.scheme.equals("https", ignoreCase = true)) return null
+        if (uri.host.isNullOrBlank()) return null
+        return uri
     }
 }

@@ -13,15 +13,16 @@ import java.io.IOException
  * Downloads a single image into a file.
  *
  * The download always runs off the main thread. The response is streamed to disk so a large
- * picture never has to fit into memory.
+ * picture never has to fit into memory, and the stream is hard-capped so a hostile or broken
+ * server cannot fill the device's storage.
  */
 class ImageDownloader(private val httpClient: OkHttpClient) : PictureDownloader {
 
     /**
      * Downloads [url] into [target].
      *
-     * The target file is removed when the download fails so a half written file can never be
-     * mistaken for a complete one.
+     * The target file is removed when the download fails or exceeds [MAX_IMAGE_BYTES] so a half
+     * written file can never be mistaken for a complete one.
      */
     override suspend fun download(url: String, target: File): Result<File> = withContext(Dispatchers.IO) {
         if (!ImageUrlValidator.isValidImageUrl(url)) {
@@ -38,9 +39,26 @@ class ImageDownloader(private val httpClient: OkHttpClient) : PictureDownloader 
                     throw IOException("Refusing to store an HTML document as an image: $url")
                 }
                 val body = response.body ?: throw IOException("Empty body for $url")
+                val declaredLength = body.contentLength()
+                if (declaredLength > MAX_IMAGE_BYTES) {
+                    throw IOException("Image at $url is $declaredLength bytes; the limit is $MAX_IMAGE_BYTES")
+                }
                 target.parentFile?.mkdirs()
+                var total = 0L
                 body.byteStream().use { input ->
-                    target.outputStream().use { output -> input.copyTo(output) }
+                    target.outputStream().use { output ->
+                        val buffer = ByteArray(DOWNLOAD_BUFFER_BYTES)
+                        while (true) {
+                            val read = input.read(buffer)
+                            if (read < 0) break
+                            total += read
+                            if (total > MAX_IMAGE_BYTES) {
+                                throw IOException("Image at $url exceeds the limit of $MAX_IMAGE_BYTES bytes")
+                            }
+                            output.write(buffer, 0, read)
+                        }
+                        output.flush()
+                    }
                 }
                 if (target.length() == 0L) throw IOException("Downloaded an empty file for $url")
             }
@@ -52,5 +70,12 @@ class ImageDownloader(private val httpClient: OkHttpClient) : PictureDownloader 
             target.delete()
             Result.failure(error)
         }
+    }
+
+    private companion object {
+        /** 64 MiB: comfortably above the largest APOD source image, small enough for the cache. */
+        const val MAX_IMAGE_BYTES = 64L * 1024 * 1024
+
+        const val DOWNLOAD_BUFFER_BYTES = 64 * 1024
     }
 }
