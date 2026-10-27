@@ -1,7 +1,9 @@
 package app.mohakash.apod.work
 
 import android.content.Context
+import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
@@ -34,7 +36,15 @@ object CarouselScheduler {
 
     private fun enqueue(context: Context, delayMillis: Long, policy: ExistingWorkPolicy) {
         val request = OneTimeWorkRequestBuilder<CarouselRotationWorker>()
+            .setConstraints(
+                Constraints.Builder()
+                    // Carousel rotation needs a picture download; while offline the work waits
+                    // for connectivity instead of failing and waiting six hours.
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build(),
+            )
             .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
+            .setBackoffCriteria(androidx.work.BackoffPolicy.EXPONENTIAL, 15, TimeUnit.MINUTES)
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(WORK_NAME, policy, request)
     }
