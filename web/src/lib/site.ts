@@ -31,7 +31,7 @@ export const SITE = {
   androidReleaseUrl: `${REPOSITORY_URL}/releases/latest`,
   androidApkUrl: `${REPOSITORY_URL}/releases/latest/download/mohakash.apk`,
   /** Owner's donation page, tagged with this site as the source. */
-  donateUrl: 'https://hello2himel.netlify.app/donate?source=Mohakash',
+  donateUrl: 'https://hello2himel.netlify.app/donate',
   issuesUrl: ISSUES_URL,
   feedUrl: FEED_URL,
   rightsUrl: '/rights',

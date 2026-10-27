@@ -53,7 +53,7 @@ val contentRightsUrl = "$repositoryUrl/blob/$defaultBranch/CONTENT_RIGHTS.md"
 val thirdPartyNoticesUrl = "$repositoryUrl/blob/$defaultBranch/THIRD_PARTY_NOTICES.md"
 val websiteBaseUrl = websiteConfig["base_url"]?.toString() ?: repositoryUrl
 val donationUrl = websiteConfig["donation_url"]?.toString()
-    ?: "https://hello2himel.netlify.app/donate?source=Mohakash"
+    ?: "https://hello2himel.netlify.app/donate"
 val websiteHost = runCatching { URI(websiteBaseUrl).host }.getOrNull()
     ?.takeIf { it.isNotBlank() }
     ?: error("website.base_url in config/site.json must be an absolute URL, got $websiteBaseUrl")
@@ -156,8 +156,8 @@ android {
         // in this file. Keep these in sync with version.properties; the
         // appVersionCode/appVersionName assignments below are the actual
         // source of truth for builds and CI overrides.
-        versionCode = 13
-        versionName = "2026.10.27.6"
+        versionCode = 14
+        versionName = "2026.10.27.7"
 
         versionCode = appVersionCode
         versionName = appVersionName
