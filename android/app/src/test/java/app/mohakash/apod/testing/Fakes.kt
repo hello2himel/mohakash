@@ -62,6 +62,9 @@ class FakeSettingsStore(initial: AppSettings = AppSettings()) : SettingsStore {
 
     override suspend fun setCarouselMode(enabled: Boolean) =
         state.update { it.copy(carouselMode = enabled) }
+
+    override suspend fun setNotificationsEnabled(enabled: Boolean) =
+        state.update { it.copy(notificationsEnabled = enabled) }
 }
 
 /** An in-memory [FavouriteDao] that behaves like the Room implementation. */

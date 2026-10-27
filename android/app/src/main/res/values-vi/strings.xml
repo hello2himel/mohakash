@@ -217,4 +217,6 @@
     <string name="onboarding_carousel_hint">Luân phiên ảnh APOD của ngày này các năm trước.</string>
     <string name="settings_carousel">Chế độ xoay vòng</string>
     <string name="settings_carousel_hint">Luân phiên ảnh của hôm nay các năm trước.</string>
+    <string name="settings_notifications">Thông báo APOD mới</string>
+    <string name="settings_notifications_hint">Chỉ thông báo khi APOD thường mới trở thành hình nền. Vòng xoay không gửi thông báo.</string>
 </resources>

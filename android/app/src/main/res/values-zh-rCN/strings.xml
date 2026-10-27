@@ -217,4 +217,6 @@
     <string name="onboarding_carousel_hint">轮换往年同一天的 APOD 图片。</string>
     <string name="settings_carousel">轮播模式</string>
     <string name="settings_carousel_hint">轮换往年今天的图片。</string>
+    <string name="settings_notifications">新 APOD 通知</string>
+    <string name="settings_notifications_hint">仅当新的常规 APOD 成为壁纸时通知。轮播切换保持静默。</string>
 </resources>
