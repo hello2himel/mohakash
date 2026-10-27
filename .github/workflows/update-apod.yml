@@ -1,10 +1,16 @@
 name: Update APOD data
 
-# The schedule runs twice a day.  GitHub delays scheduled workflows, so the
-# exact execution time is never guaranteed.
+# APOD has no guaranteed publication minute. NASA dates the picture in
+# US Eastern time, and the endpoint can briefly return the previous day after
+# UTC midnight. Probe across the likely publication window instead of betting
+# on one minute. Cron is UTC: 05:17 / 08:17 / 11:17 / 14:17 / 17:17 UTC =
+# 11:17 / 14:17 / 17:17 / 20:17 / 23:17 Asia/Dhaka (UTC+6).
+#
+# GitHub schedules are best-effort and may be delayed under load. Runs are
+# no-ops when the data did not change and publish only when it did.
 on:
   schedule:
-    - cron: "17 7,13 * * *"
+    - cron: "17 5,8,11,14,17 * * *"
   workflow_dispatch:
     inputs:
       mode:

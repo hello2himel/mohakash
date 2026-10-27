@@ -42,8 +42,8 @@ class ApodRepository(
 ) : LatestEntrySource {
 
     /** Fetches `latest.json`, caches it and records the successful sync. */
-    override suspend fun fetchLatest(): ApodEntry = withContext(Dispatchers.IO) {
-        val raw = api.getString("/latest.json")
+    override suspend fun fetchLatest(forceNetwork: Boolean): ApodEntry = withContext(Dispatchers.IO) {
+        val raw = api.getString("/latest.json", forceNetwork = forceNetwork)
         val entry = ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(raw))
         cacheDocumentDao.put(
             CacheDocumentEntity(

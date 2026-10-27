@@ -168,6 +168,7 @@ class FeedLoadPolicyTest {
     fun `latest refresh follows the six hour staleness rule`() {
         assertTrue(FeedLoadPolicy.shouldRefreshLatest(null, now))
         assertTrue(FeedLoadPolicy.shouldRefreshLatest(now - 7L * 60L * 60L * 1000L, now))
+        assertTrue(FeedLoadPolicy.shouldRefreshLatest(now - 2L * 60L * 60L * 1000L, now))
         assertFalse(FeedLoadPolicy.shouldRefreshLatest(now - 60_000L, now))
         assertTrue(FeedLoadPolicy.shouldRefreshLatest(now - 60_000L, now, force = true))
     }

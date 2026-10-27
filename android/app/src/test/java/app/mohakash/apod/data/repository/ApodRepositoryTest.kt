@@ -81,6 +81,16 @@ class ApodRepositoryTest {
     }
 
     @Test
+    fun `explicit refresh bypasses the HTTP cache`() = runTest {
+        val api = FakeApodService(latestJson = latestJson)
+        val repository = repository(api)
+
+        repository.fetchLatest(forceNetwork = true)
+
+        assertEquals(listOf(true), api.requestedForceNetwork)
+    }
+
+    @Test
     fun `the cached copy is returned when the network fails`() = runTest {
         val api = FakeApodService(latestJson = latestJson)
         val documents = FakeCacheDocumentDao()
