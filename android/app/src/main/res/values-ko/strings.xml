@@ -209,4 +209,8 @@
     <string name="archive_error_title">아카이브를 사용할 수 없습니다</string>
     <string name="archive_error_body">연결을 확인한 후 다시 시도하세요.</string>
     <string name="archive_retry">다시 시도</string>
+    <string name="date_picker_single">특정 날짜</string>
+    <string name="date_picker_range">날짜 범위</string>
+    <string name="date_picker_any">모든 날짜</string>
+    <string name="date_picker_title">날짜 선택</string>
 </resources>

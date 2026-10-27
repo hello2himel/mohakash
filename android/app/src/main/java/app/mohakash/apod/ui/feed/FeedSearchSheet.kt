@@ -25,12 +25,20 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -45,12 +53,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.mohakash.apod.R
+import app.mohakash.apod.ui.components.DateRangeDialog
 import app.mohakash.apod.ui.components.EllipsizedText
+import app.mohakash.apod.ui.components.dateRangeLabel
+import app.mohakash.apod.ui.components.isoFromMillis
 import app.mohakash.apod.ui.components.FilterChipItem
 import app.mohakash.apod.ui.components.IconActionButton
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.components.SecondaryButton
+import app.mohakash.apod.ui.components.TextAction
 import app.mohakash.apod.ui.components.SegmentedControl
 import app.mohakash.apod.ui.components.SkeletonBlock
 import app.mohakash.apod.ui.components.busySemantics
@@ -74,6 +86,7 @@ fun FeedSearchSheet(
     onQueryChange: (String) -> Unit,
     onFiltersChange: (FeedFilters) -> Unit,
     onSelectResult: (String) -> Unit,
+    onGoToDate: (String) -> Unit,
     onRetryIndex: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -103,6 +116,7 @@ fun FeedSearchSheet(
             onQueryChange = onQueryChange,
             onFiltersChange = onFiltersChange,
             onSelectResult = onSelectResult,
+            onGoToDate = onGoToDate,
             onDismiss = onDismiss,
             onRetryIndex = onRetryIndex,
         )
@@ -110,6 +124,7 @@ fun FeedSearchSheet(
 }
 
 /** The stateless body of the search sheet — used by the preview as well. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun FeedSearchSheetContent(
     state: FeedSearchState,
@@ -117,16 +132,25 @@ internal fun FeedSearchSheetContent(
     onQueryChange: (String) -> Unit,
     onFiltersChange: (FeedFilters) -> Unit,
     onSelectResult: (String) -> Unit,
+    onGoToDate: (String) -> Unit,
     onDismiss: () -> Unit,
     onRetryIndex: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var showFilterPanel by rememberSaveable { mutableStateOf(false) }
+    var showDateRangePicker by rememberSaveable { mutableStateOf(false) }
+    var showGoToDatePicker by rememberSaveable { mutableStateOf(false) }
+    val activeFilterCount =
+        (if (state.filters.year != null) 1 else 0) +
+            (if (state.filters.media != FeedMediaFilter.ALL) 1 else 0) +
+            (if (state.filters.hasDateRange) 1 else 0)
+
     Column(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(0.92f)
             .padding(horizontal = MohakashDimens.SidePadding),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Row(
             modifier = Modifier
@@ -148,49 +172,141 @@ internal fun FeedSearchSheetContent(
             )
         }
 
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(MohakashDimens.ChipGap),
+        // The primary search action is not hidden behind a filter sheet: one tap opens a
+        // single-date picker and jumps straight to that APOD.
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                .background(MohakashColors.Accent.copy(alpha = 0.12f))
+                .border(
+                    1.dp,
+                    MohakashColors.Accent.copy(alpha = 0.55f),
+                    RoundedCornerShape(MohakashDimens.CardRadius),
+                )
+                .clickable { showGoToDatePicker = true }
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item(key = "all") {
-                FilterChipItem(
-                    text = stringResource(R.string.filter_all_years),
-                    selected = state.filters.year == null,
-                    onClick = { onFiltersChange(state.filters.copy(year = null)) },
-                )
-            }
-            items(availableYears, key = { it }) { year ->
-                FilterChipItem(
-                    text = year.toString(),
-                    selected = year == state.filters.year,
-                    onClick = { onFiltersChange(state.filters.copy(year = year)) },
-                )
-            }
+            Icon(
+                painter = painterResource(R.drawable.ic_calendar_24),
+                contentDescription = null,
+                tint = MohakashColors.Accent,
+                modifier = Modifier.size(22.dp),
+            )
+            Text(
+                text = stringResource(R.string.filter_jump_to_date),
+                style = MohakashTextStyles.UiMedium,
+                color = MohakashColors.Text,
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                text = "→",
+                style = MohakashTextStyles.UiMedium,
+                color = MohakashColors.Accent,
+            )
         }
 
-        SegmentedControl(
-            options = listOf(
-                stringResource(R.string.filter_all),
-                stringResource(R.string.filter_images),
-                stringResource(R.string.filter_videos),
-            ),
-            selectedIndex = when (state.filters.media) {
-                FeedMediaFilter.ALL -> 0
-                FeedMediaFilter.IMAGES -> 1
-                FeedMediaFilter.VIDEOS -> 2
-            },
-            onSelect = { index ->
-                onFiltersChange(
-                    state.filters.copy(
-                        media = when (index) {
-                            1 -> FeedMediaFilter.IMAGES
-                            2 -> FeedMediaFilter.VIDEOS
-                            else -> FeedMediaFilter.ALL
-                        },
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            FilterChipItem(
+                text = stringResource(R.string.archive_filters),
+                selected = showFilterPanel || activeFilterCount > 0,
+                onClick = { showFilterPanel = !showFilterPanel },
+            )
+        }
+
+        if (showFilterPanel) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                    .background(MohakashColors.Background)
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(MohakashDimens.ChipGap),
+                ) {
+                    item(key = "all") {
+                        FilterChipItem(
+                            text = stringResource(R.string.filter_all_years),
+                            selected = state.filters.year == null,
+                            onClick = { onFiltersChange(state.filters.copy(year = null)) },
+                        )
+                    }
+                    items(availableYears, key = { it }) { year ->
+                        FilterChipItem(
+                            text = year.toString(),
+                            selected = year == state.filters.year,
+                            onClick = { onFiltersChange(state.filters.copy(year = year)) },
+                        )
+                    }
+                }
+                SegmentedControl(
+                    options = listOf(
+                        stringResource(R.string.filter_all),
+                        stringResource(R.string.filter_images),
+                        stringResource(R.string.filter_videos),
                     ),
+                    selectedIndex = when (state.filters.media) {
+                        FeedMediaFilter.ALL -> 0
+                        FeedMediaFilter.IMAGES -> 1
+                        FeedMediaFilter.VIDEOS -> 2
+                    },
+                    onSelect = { index ->
+                        onFiltersChange(
+                            state.filters.copy(
+                                media = when (index) {
+                                    1 -> FeedMediaFilter.IMAGES
+                                    2 -> FeedMediaFilter.VIDEOS
+                                    else -> FeedMediaFilter.ALL
+                                },
+                            ),
+                        )
+                    },
                 )
-            },
-        )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 48.dp)
+                        .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                        .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(MohakashDimens.CardRadius))
+                        .clickable { showDateRangePicker = true }
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_calendar_24),
+                        contentDescription = null,
+                        tint = MohakashColors.TextMuted,
+                        modifier = Modifier.size(18.dp),
+                    )
+                    Text(
+                        text = dateRangeLabel(
+                            state.filters.fromDate,
+                            state.filters.toDate,
+                            stringResource(R.string.date_picker_any),
+                        ),
+                        style = MohakashTextStyles.UiSmall,
+                        color = if (state.filters.hasDateRange) MohakashColors.Text else MohakashColors.TextMuted,
+                        modifier = Modifier.weight(1f),
+                    )
+                    if (activeFilterCount > 0) {
+                        TextAction(
+                            text = stringResource(R.string.filter_reset),
+                            onClick = { onFiltersChange(FeedFilters()) },
+                        )
+                    }
+                }
+            }
+        }
 
         when {
             state.isUnavailable -> SearchMessage(
@@ -244,6 +360,40 @@ internal fun FeedSearchSheetContent(
                 }
             }
         }
+    }
+
+    if (showGoToDatePicker) {
+        val pickerState = rememberDatePickerState(initialSelectedDateMillis = null)
+        DatePickerDialog(
+            onDismissRequest = { showGoToDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    pickerState.selectedDateMillis?.let { millis ->
+                        onGoToDate(isoFromMillis(millis))
+                    }
+                    showGoToDatePicker = false
+                }) { Text(stringResource(R.string.filter_confirm)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showGoToDatePicker = false }) {
+                    Text(stringResource(R.string.clear_cache_cancel))
+                }
+            },
+        ) {
+            DatePicker(state = pickerState)
+        }
+    }
+
+    if (showDateRangePicker) {
+        DateRangeDialog(
+            initialFrom = state.filters.fromDate,
+            initialTo = state.filters.toDate,
+            onDismiss = { showDateRangePicker = false },
+            onConfirm = { from, to ->
+                onFiltersChange(state.filters.copy(fromDate = from, toDate = to))
+                showDateRangePicker = false
+            },
+        )
     }
 }
 

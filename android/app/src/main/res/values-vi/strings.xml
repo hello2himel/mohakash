@@ -209,4 +209,8 @@
     <string name="archive_error_title">Kho lưu trữ không khả dụng</string>
     <string name="archive_error_body">Kiểm tra kết nối và thử lại.</string>
     <string name="archive_retry">Thử lại</string>
+    <string name="date_picker_single">Ngày cụ thể</string>
+    <string name="date_picker_range">Khoảng ngày</string>
+    <string name="date_picker_any">Mọi ngày</string>
+    <string name="date_picker_title">Chọn ngày</string>
 </resources>

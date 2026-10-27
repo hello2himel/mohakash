@@ -211,4 +211,8 @@
     <string name="archive_error_title">संग्रह उपलब्ध नहीं है</string>
     <string name="archive_error_body">अपना कनेक्शन जाँचें और फिर से कोशिश करें।</string>
     <string name="archive_retry">फिर से कोशिश करें</string>
+    <string name="date_picker_single">विशिष्ट तिथि</string>
+    <string name="date_picker_range">तिथि सीमा</string>
+    <string name="date_picker_any">कोई भी तिथि</string>
+    <string name="date_picker_title">तिथि चुनें</string>
 </resources>

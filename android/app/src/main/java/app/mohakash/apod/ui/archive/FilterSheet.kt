@@ -41,7 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import app.mohakash.apod.R
+import app.mohakash.apod.ui.components.DateRangeDialog
 import app.mohakash.apod.ui.components.FilterChipItem
+import app.mohakash.apod.ui.components.dateRangeLabel
 import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.components.SecondaryButton
 import app.mohakash.apod.ui.components.SegmentedControl
@@ -70,7 +72,7 @@ fun FilterSheet(
     onDismiss: () -> Unit,
     onYearSelected: (Int) -> Unit,
     onTypeSelected: (MediaFilter) -> Unit,
-    onJumpToDate: (String) -> Unit,
+    onDateRangeChange: (String?, String?) -> Unit,
     onReset: () -> Unit,
     onApply: () -> Unit,
 ) {
@@ -100,7 +102,7 @@ fun FilterSheet(
             state = state,
             onYearSelected = onYearSelected,
             onTypeSelected = onTypeSelected,
-            onJumpToDate = onJumpToDate,
+            onDateRangeChange = onDateRangeChange,
             onReset = onReset,
             onApply = onApply,
         )
@@ -114,19 +116,24 @@ internal fun FilterSheetContent(
     state: ArchiveUiState,
     onYearSelected: (Int) -> Unit,
     onTypeSelected: (MediaFilter) -> Unit,
-    onJumpToDate: (String) -> Unit,
+    onDateRangeChange: (String?, String?) -> Unit,
     onReset: () -> Unit,
     onApply: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedYear by remember { mutableIntStateOf(state.selectedYear) }
     var selectedType by remember { mutableStateOf(state.typeFilter) }
-    var jumpToDate by remember { mutableStateOf(state.jumpToDate) }
-    var jumpDateDirty by remember { mutableStateOf(false) }
-    var showDatePicker by remember { mutableStateOf(false) }
+    var selectedFrom by remember { mutableStateOf(state.fromDate) }
+    var selectedTo by remember { mutableStateOf(state.toDate) }
+    var showDateRangePicker by remember { mutableStateOf(false) }
     var showYearPicker by remember { mutableStateOf(false) }
 
-    val preview = state.copy(selectedYear = selectedYear, typeFilter = selectedType)
+    val preview = state.copy(
+        selectedYear = selectedYear,
+        typeFilter = selectedType,
+        fromDate = selectedFrom,
+        toDate = selectedTo,
+    )
     val olderSelected = selectedYear !in state.availableYears.take(QUICK_YEAR_COUNT)
     val defaultYear = ArchiveUiState.defaultYear().let { current ->
         if (current in state.availableYears) current else state.availableYears.firstOrNull() ?: current
@@ -163,8 +170,6 @@ internal fun FilterSheetContent(
                         selected = year == selectedYear,
                         onClick = {
                             selectedYear = year
-                            jumpToDate = null
-                            jumpDateDirty = false
                         },
                     )
                 }
@@ -178,7 +183,7 @@ internal fun FilterSheetContent(
 
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(
-                text = stringResource(R.string.filter_jump_to_date),
+                text = stringResource(R.string.date_picker_range),
                 style = MohakashTextStyles.Caption,
                 color = MohakashColors.TextMuted,
             )
@@ -188,18 +193,18 @@ internal fun FilterSheetContent(
                     .heightIn(min = 48.dp)
                     .clip(RoundedCornerShape(MohakashDimens.CardRadius))
                     .background(MohakashColors.Background)
-                    .border(
-                        1.dp,
-                        MohakashColors.BorderStrong,
-                        RoundedCornerShape(MohakashDimens.CardRadius),
-                    )
-                    .clickable { showDatePicker = true }
+                    .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(MohakashDimens.CardRadius))
+                    .clickable { showDateRangePicker = true }
                     .padding(horizontal = 16.dp, vertical = 12.dp),
             ) {
                 Text(
-                    text = jumpToDate ?: stringResource(R.string.filter_jump_to_date_placeholder),
+                    text = dateRangeLabel(
+                        selectedFrom,
+                        selectedTo,
+                        stringResource(R.string.date_picker_any),
+                    ),
                     style = MohakashTextStyles.UiSmall,
-                    color = if (jumpToDate == null) MohakashColors.TextMuted else MohakashColors.Text,
+                    color = if (selectedFrom != null || selectedTo != null) MohakashColors.Text else MohakashColors.TextMuted,
                 )
             }
         }
@@ -237,8 +242,8 @@ internal fun FilterSheetContent(
                 onClick = {
                     selectedYear = defaultYear
                     selectedType = MediaFilter.ALL
-                    jumpToDate = null
-                    jumpDateDirty = false
+                    selectedFrom = null
+                    selectedTo = null
                     onReset()
                 },
                 modifier = Modifier.width(110.dp),
@@ -254,7 +259,7 @@ internal fun FilterSheetContent(
                 onClick = {
                     onYearSelected(selectedYear)
                     onTypeSelected(selectedType)
-                    if (jumpDateDirty) jumpToDate?.let(onJumpToDate)
+                    onDateRangeChange(selectedFrom, selectedTo)
                     onApply()
                 },
                 modifier = Modifier.weight(1f),
@@ -264,30 +269,17 @@ internal fun FilterSheetContent(
         }
     }
 
-    if (showDatePicker) {
-        val pickerState = rememberDatePickerState(initialSelectedDateMillis = null)
-        DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    pickerState.selectedDateMillis?.let { millis ->
-                        val formatted = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
-                            timeZone = TimeZone.getTimeZone("UTC")
-                        }.format(millis)
-                        jumpToDate = formatted
-                        jumpDateDirty = true
-                    }
-                    showDatePicker = false
-                }) { Text(stringResource(R.string.filter_confirm)) }
+    if (showDateRangePicker) {
+        DateRangeDialog(
+            initialFrom = selectedFrom,
+            initialTo = selectedTo,
+            onDismiss = { showDateRangePicker = false },
+            onConfirm = { from, to ->
+                selectedFrom = from
+                selectedTo = to
+                showDateRangePicker = false
             },
-            dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) {
-                    Text(stringResource(R.string.clear_cache_cancel))
-                }
-            },
-        ) {
-            DatePicker(state = pickerState)
-        }
+        )
     }
 
     if (showYearPicker) {
@@ -296,8 +288,6 @@ internal fun FilterSheetContent(
             onDismiss = { showYearPicker = false },
             onYearSelected = { year ->
                 selectedYear = year
-                jumpToDate = null
-                jumpDateDirty = false
                 showYearPicker = false
             },
         )

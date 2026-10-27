@@ -229,6 +229,10 @@ fun FeedScreen(
                 showSearch = false
                 viewModel.jumpToDate(date)
             },
+            onGoToDate = { date ->
+                showSearch = false
+                viewModel.jumpToDate(date)
+            },
             onRetryIndex = viewModel::ensureIndex,
         )
     }

@@ -67,6 +67,10 @@
     <string name="archive_loading">Loading archive</string>
 
     <!-- Search sheet -->
+    <string name="date_picker_title">Choose a date</string>
+    <string name="date_picker_single">Specific date</string>
+    <string name="date_picker_range">Date range</string>
+    <string name="date_picker_any">Any date</string>
     <string name="search_hint">Search titles or dates</string>
     <string name="search_close">Close search</string>
     <string name="search_no_results">No pictures match &quot;%1$s&quot;</string>
