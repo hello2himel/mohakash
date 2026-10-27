@@ -211,4 +211,8 @@
     <string name="archive_error_title">আর্কাইভ পাওয়া যাচ্ছে না</string>
     <string name="archive_error_body">সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</string>
     <string name="archive_retry">আবার চেষ্টা করুন</string>
+    <string name="date_picker_single">নির্দিষ্ট তারিখ</string>
+    <string name="date_picker_range">তারিখের পরিসর</string>
+    <string name="date_picker_any">যেকোনো তারিখ</string>
+    <string name="date_picker_title">তারিখ নির্বাচন করুন</string>
 </resources>

@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
+private val ISO_DATE = Regex("""\d{4}-\d{2}-\d{2}""")
+
 /** The media filter of the archive. */
 enum class MediaFilter { ALL, IMAGES, VIDEOS }
 
@@ -26,7 +28,11 @@ data class ArchiveUiState(
     val selectedYear: Int = defaultYear(),
     val availableYears: List<Int> = emptyList(),
     val typeFilter: MediaFilter = MediaFilter.ALL,
+    val fromDate: String? = null,
+    val toDate: String? = null,
     val jumpToDate: String? = null,
+    /** True while the search field is the active surface: no implicit year filter applies. */
+    val searchActive: Boolean = false,
     val visibleCount: Int = PAGE_SIZE,
     val isOffline: Boolean = false,
     val hasError: Boolean = false,
@@ -34,8 +40,10 @@ data class ArchiveUiState(
     /** The entries that match the current filters, newest first. */
     val filtered: List<ArchiveIndexEntry>
         get() = entries
-            .filter { it.year == selectedYear }
+            .filter { searchActive || it.year == selectedYear }
             .filter { jumpToDate == null || it.date == jumpToDate }
+            .filter { fromDate == null || it.date >= fromDate }
+            .filter { toDate == null || it.date <= toDate }
             .filter { entry ->
                 when (typeFilter) {
                     MediaFilter.ALL -> true
@@ -98,8 +106,25 @@ class ArchiveViewModel(
         }
     }
 
+    /** Enters search mode: no year, type or date filter is applied by default. */
+    fun beginSearch() {
+        val current = _state.value
+        if (current.searchActive && current.typeFilter == MediaFilter.ALL &&
+            current.fromDate == null && current.toDate == null && current.jumpToDate == null
+        ) return
+        _state.value = current.copy(
+            searchActive = true,
+            typeFilter = MediaFilter.ALL,
+            fromDate = null,
+            toDate = null,
+            jumpToDate = null,
+            visibleCount = ArchiveUiState.PAGE_SIZE,
+        )
+    }
+
     /** Applies a search term. */
     fun setQuery(query: String) {
+        if (query.isNotBlank() && !_state.value.searchActive) beginSearch()
         _state.value = _state.value.copy(
             query = query,
             jumpToDate = null,
@@ -111,6 +136,7 @@ class ArchiveViewModel(
     fun selectYear(year: Int) {
         _state.value = _state.value.copy(
             selectedYear = year,
+            searchActive = false,
             jumpToDate = null,
             visibleCount = ArchiveUiState.PAGE_SIZE,
         )
@@ -130,13 +156,29 @@ class ArchiveViewModel(
         )
     }
 
+    /** Applies an inclusive date range. */
+    fun setDateRange(from: String?, to: String?) {
+        if ((from != null && !ISO_DATE.matches(from)) || (to != null && !ISO_DATE.matches(to))) return
+        val start = from ?: to
+        val end = to ?: from
+        _state.value = _state.value.copy(
+            fromDate = start,
+            toDate = end,
+            jumpToDate = null,
+            visibleCount = ArchiveUiState.PAGE_SIZE,
+        )
+    }
+
     /** Jumps to a date. */
     fun jumpToDate(date: String) {
         val year = date.take(4).toIntOrNull() ?: return
         _state.value = _state.value.copy(
             jumpToDate = date,
             query = "",
+            searchActive = false,
             selectedYear = year,
+            fromDate = null,
+            toDate = null,
             visibleCount = ArchiveUiState.PAGE_SIZE,
         )
         viewModelScope.launch {
@@ -151,7 +193,10 @@ class ArchiveViewModel(
         val currentYear = ArchiveUiState.defaultYear()
         _state.value = _state.value.copy(
             query = "",
+            searchActive = false,
             typeFilter = MediaFilter.ALL,
+            fromDate = null,
+            toDate = null,
             jumpToDate = null,
             selectedYear = if (currentYear in years) currentYear else years.firstOrNull() ?: currentYear,
             visibleCount = ArchiveUiState.PAGE_SIZE,

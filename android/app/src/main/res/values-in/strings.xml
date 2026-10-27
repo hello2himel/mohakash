@@ -209,4 +209,8 @@
     <string name="archive_error_title">Arsip tidak tersedia</string>
     <string name="archive_error_body">Periksa koneksi dan coba lagi.</string>
     <string name="archive_retry">Coba lagi</string>
+    <string name="date_picker_single">Tanggal tertentu</string>
+    <string name="date_picker_range">Rentang tanggal</string>
+    <string name="date_picker_any">Tanggal apa pun</string>
+    <string name="date_picker_title">Pilih tanggal</string>
 </resources>

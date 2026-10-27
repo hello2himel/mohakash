@@ -213,4 +213,8 @@
     <string name="archive_error_title">L\'archivio non è disponibile</string>
     <string name="archive_error_body">Controlla la connessione e riprova.</string>
     <string name="archive_retry">Riprova</string>
+    <string name="date_picker_single">Data specifica</string>
+    <string name="date_picker_range">Intervallo di date</string>
+    <string name="date_picker_any">Qualsiasi data</string>
+    <string name="date_picker_title">Scegli una data</string>
 </resources>

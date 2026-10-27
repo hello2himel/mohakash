@@ -270,6 +270,7 @@ private fun FeedSearchPreview() {
             onQueryChange = {},
             onFiltersChange = {},
             onSelectResult = {},
+            onGoToDate = {},
             onDismiss = {},
             onRetryIndex = {},
         )

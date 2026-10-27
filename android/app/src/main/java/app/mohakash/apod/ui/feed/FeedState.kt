@@ -18,13 +18,22 @@ data class FeedFilters(
     /** `null` means *All years* — the feed is one continuous archive, not a per-year list. */
     val year: Int? = null,
     val media: FeedMediaFilter = FeedMediaFilter.ALL,
+    /** Inclusive ISO date bounds. A single date means [fromDate] == [toDate]. */
+    val fromDate: String? = null,
+    val toDate: String? = null,
 ) {
-    val isActive: Boolean get() = year != null || media != FeedMediaFilter.ALL
+    val hasDateRange: Boolean get() = fromDate != null || toDate != null
 
-    /** True when [entry] satisfies the year and media part of the filter. */
+    val isActive: Boolean
+        get() = year != null || media != FeedMediaFilter.ALL || hasDateRange
+
+    /** True when [entry] satisfies the year, media and date part of the filter. */
     fun matches(entry: ArchiveIndexEntry?): Boolean {
         if (entry == null) return true
         if (year != null && entry.year != year) return false
+        // ISO dates sort lexicographically, which keeps this comparison allocation-free.
+        if (fromDate != null && entry.date < fromDate) return false
+        if (toDate != null && entry.date > toDate) return false
         return when (media) {
             FeedMediaFilter.ALL -> true
             FeedMediaFilter.IMAGES -> entry.mediaType.isImage
