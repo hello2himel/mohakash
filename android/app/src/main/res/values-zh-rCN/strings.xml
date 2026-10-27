@@ -247,4 +247,5 @@
     <string name="history_next_wallpaper">%1$s 后更换下一张壁纸</string>
     <string name="history_next_wallpaper_preparing">正在准备下一张壁纸…</string>
     <string name="history_next_wallpaper_updating">正在更新壁纸…</string>
+    <string name="history_skip_wallpaper">跳过</string>
 </resources>

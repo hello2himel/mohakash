@@ -2,6 +2,7 @@ package app.mohakash.apod.ui.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.carousel.CarouselMath
 import app.mohakash.apod.carousel.CarouselNextRun
 import app.mohakash.apod.carousel.CarouselNextRunStore
@@ -32,6 +33,7 @@ class HistoryViewModel(
     private val settingsStore: SettingsStore,
     private val selectionStore: CarouselSelectionStore,
     private val nextRunStore: CarouselNextRunStore,
+    private val carouselController: CarouselController,
     private val isWallpaperActive: () -> Boolean = { true },
     private val now: () -> Long = System::currentTimeMillis,
     private val timeZone: () -> TimeZone = { TimeZone.getDefault() },
@@ -100,6 +102,11 @@ class HistoryViewModel(
             progress = (elapsed.toFloat() / total.toFloat()).coerceIn(0f, 1f),
             remainingMillis = remaining,
         )
+    }
+
+    /** Immediately replace the current carousel wallpaper without resetting the cadence. */
+    fun skipWallpaper() {
+        carouselController.skipNow()
     }
 
     private companion object {

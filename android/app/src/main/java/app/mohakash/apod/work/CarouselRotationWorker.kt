@@ -20,7 +20,12 @@ class CarouselRotationWorker(
         val application = applicationContext as? MohakashApplication
             ?: return Result.success()
         return runCatching {
-            application.container.carouselController.rotate()
+            val preserveNextAt = inputData
+                .getLong(CarouselScheduler.KEY_PRESERVE_NEXT_AT, -1L)
+                .takeIf { it > 0L }
+            application.container.carouselController.rotate(
+                preserveNextAt = preserveNextAt,
+            )
             Result.success()
         }.getOrElse { Result.retry() }
     }

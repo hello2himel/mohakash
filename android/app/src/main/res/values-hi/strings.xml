@@ -249,4 +249,5 @@
     <string name="history_next_wallpaper">अगला वॉलपेपर %1$s में</string>
     <string name="history_next_wallpaper_preparing">अगला वॉलपेपर तैयार हो रहा है…</string>
     <string name="history_next_wallpaper_updating">वॉलपेपर अपडेट हो रहा है…</string>
+    <string name="history_skip_wallpaper">छोड़ें</string>
 </resources>

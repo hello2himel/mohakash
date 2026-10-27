@@ -47,7 +47,7 @@ class CarouselController(
 ) {
 
     /** Runs one rotation, schedules the next interval (or a retry), and returns what happened. */
-    suspend fun rotate(): CarouselOutcome {
+    suspend fun rotate(preserveNextAt: Long? = null): CarouselOutcome {
         val settings = settingsStore.current()
         if (!settings.carouselMode || !settings.updateAutomatically) {
             CarouselScheduler.cancel(context)
@@ -109,7 +109,17 @@ class CarouselController(
                 )
                 historyRepository.recordCarousel(item)
                 if (interval != null && interval > 0L) {
-                    scheduleNext(interval, interval)
+                    val now = now()
+                    val desiredNext = preserveNextAt?.takeIf { it > now + MIN_PRESERVE_GAP_MILLIS }
+                    if (desiredNext != null) {
+                        // A user-requested skip replaces the current picture immediately but
+                        // keeps the existing cadence: the next regular rotation remains at its
+                        // already scheduled time, with a small minimum gap.
+                        val delay = (desiredNext - now).coerceAtLeast(MIN_PRESERVE_GAP_MILLIS)
+                        scheduleNext(delay, interval)
+                    } else {
+                        scheduleNext(interval, interval)
+                    }
                 } else {
                     CarouselScheduler.cancel(context)
                     nextRunStore.clear()
@@ -126,6 +136,18 @@ class CarouselController(
     /** Called when the user enables the mode: start a rotation as soon as WorkManager allows. */
     fun enable() {
         CarouselScheduler.scheduleNow(context)
+        nextRunStore.write(CarouselNextRun(nextAt = now(), intervalMillis = 0L))
+    }
+
+    /**
+     * Immediately replaces the current wallpaper while preserving the next scheduled cadence.
+     * The user's skip is not counted as a new full interval.
+     */
+    fun skipNow() {
+        val preserve = nextRunStore.read()
+            ?.takeIf { it.intervalMillis > 0L }
+            ?.nextAt
+        CarouselScheduler.scheduleNow(context, preserveNextAt = preserve)
         nextRunStore.write(CarouselNextRun(nextAt = now(), intervalMillis = 0L))
     }
 
@@ -163,5 +185,6 @@ class CarouselController(
         const val EMPTY_RETRY_MILLIS: Long = 6L * 60L * 60L * 1000L
         const val FAILED_RETRY_MILLIS: Long = 30L * 60L * 1000L
         const val FIRST_ROTATION_DELAY_MILLIS: Long = 60L * 1000L
+        const val MIN_PRESERVE_GAP_MILLIS: Long = 60L * 1000L
     }
 }

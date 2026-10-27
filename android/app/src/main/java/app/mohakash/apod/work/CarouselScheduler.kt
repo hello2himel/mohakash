@@ -6,6 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.workDataOf
 import java.util.concurrent.TimeUnit
 
 /**
@@ -19,7 +20,10 @@ object CarouselScheduler {
 
     const val WORK_NAME = "mohakash-carousel-rotation"
 
-    fun scheduleNow(context: Context) = enqueue(context, 0L, ExistingWorkPolicy.REPLACE)
+    const val KEY_PRESERVE_NEXT_AT = "preserveNextAt"
+
+    fun scheduleNow(context: Context, preserveNextAt: Long? = null) =
+        enqueue(context, 0L, ExistingWorkPolicy.REPLACE, preserveNextAt)
 
     fun scheduleAfter(context: Context, delayMillis: Long) =
         // The worker calls this while it is running. REPLACE would cancel that running worker;
@@ -34,7 +38,12 @@ object CarouselScheduler {
         WorkManager.getInstance(context).cancelUniqueWork(WORK_NAME)
     }
 
-    private fun enqueue(context: Context, delayMillis: Long, policy: ExistingWorkPolicy) {
+    private fun enqueue(
+        context: Context,
+        delayMillis: Long,
+        policy: ExistingWorkPolicy,
+        preserveNextAt: Long? = null,
+    ) {
         val request = OneTimeWorkRequestBuilder<CarouselRotationWorker>()
             .setConstraints(
                 Constraints.Builder()
@@ -44,6 +53,9 @@ object CarouselScheduler {
                     .build(),
             )
             .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
+            .setInputData(
+                workDataOf(KEY_PRESERVE_NEXT_AT to (preserveNextAt ?: -1L)),
+            )
             .setBackoffCriteria(androidx.work.BackoffPolicy.EXPONENTIAL, 1, TimeUnit.MINUTES)
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(WORK_NAME, policy, request)
