@@ -238,4 +238,15 @@
     <string name="onboarding_multiple_daily">Günde birden fazla kez</string>
     <string name="onboarding_multiple_daily_hint">Birkaç saatte bir yeni bir fotoğraf.</string>
     <string name="onboarding_frequency_continue">Devam</string>
+    <string name="history_title">Geçmiş</string>
+    <string name="history_empty_title">Henüz geçmiş yok</string>
+    <string name="history_empty_body">Rastgele keşifler ve karusel duvar kağıtları burada görünecek.</string>
+    <string name="history_browse_feed">Akışa göz at</string>
+    <string name="history_source_random">Rastgele keşif</string>
+    <string name="history_source_carousel">Karusel duvar kağıdı</string>
+    <string name="favorites_title">Favoriler</string>
+    <string name="history_next_wallpaper_label">Sonraki duvar kağıdı</string>
+    <string name="history_next_wallpaper">%1$s sonra sonraki duvar kağıdı</string>
+    <string name="history_next_wallpaper_preparing">Sonraki duvar kağıdı hazırlanıyor…</string>
+    <string name="history_next_wallpaper_updating">Duvar kağıdı güncelleniyor…</string>
 </resources>

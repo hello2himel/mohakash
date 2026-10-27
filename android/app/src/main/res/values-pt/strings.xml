@@ -240,4 +240,15 @@
     <string name="onboarding_multiple_daily">Várias vezes ao dia</string>
     <string name="onboarding_multiple_daily_hint">Uma nova foto a cada poucas horas.</string>
     <string name="onboarding_frequency_continue">Continuar</string>
+    <string name="history_title">Histórico</string>
+    <string name="history_empty_title">Ainda sem histórico</string>
+    <string name="history_empty_body">Descobertas aleatórias e papéis de parede do carrossel aparecem aqui.</string>
+    <string name="history_browse_feed">Explorar o feed</string>
+    <string name="history_source_random">Descoberta aleatória</string>
+    <string name="history_source_carousel">Papel de parede do carrossel</string>
+    <string name="favorites_title">Favoritos</string>
+    <string name="history_next_wallpaper_label">Próximo papel de parede</string>
+    <string name="history_next_wallpaper">Próximo papel de parede em %1$s</string>
+    <string name="history_next_wallpaper_preparing">Preparando o próximo papel de parede…</string>
+    <string name="history_next_wallpaper_updating">Atualizando o papel de parede…</string>
 </resources>

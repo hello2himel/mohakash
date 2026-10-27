@@ -238,4 +238,15 @@
     <string name="onboarding_multiple_daily">दिन में कई बार</string>
     <string name="onboarding_multiple_daily_hint">हर कुछ घंटों में एक नई तस्वीर।</string>
     <string name="onboarding_frequency_continue">जारी रखें</string>
+    <string name="history_title">इतिहास</string>
+    <string name="history_empty_title">अभी कोई इतिहास नहीं</string>
+    <string name="history_empty_body">यादृच्छिक खोजें और कैरोसेल वॉलपेपर यहां दिखाई देंगे।</string>
+    <string name="history_browse_feed">फ़ीड देखें</string>
+    <string name="history_source_random">यादृच्छिक खोज</string>
+    <string name="history_source_carousel">कैरोसेल वॉलपेपर</string>
+    <string name="favorites_title">पसंदीदा</string>
+    <string name="history_next_wallpaper_label">अगला वॉलपेपर</string>
+    <string name="history_next_wallpaper">अगला वॉलपेपर %1$s में</string>
+    <string name="history_next_wallpaper_preparing">अगला वॉलपेपर तैयार हो रहा है…</string>
+    <string name="history_next_wallpaper_updating">वॉलपेपर अपडेट हो रहा है…</string>
 </resources>

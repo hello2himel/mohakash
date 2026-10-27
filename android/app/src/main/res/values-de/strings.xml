@@ -238,4 +238,15 @@
     <string name="onboarding_multiple_daily">Mehrmals am Tag</string>
     <string name="onboarding_multiple_daily_hint">Alle paar Stunden ein neues Bild.</string>
     <string name="onboarding_frequency_continue">Weiter</string>
+    <string name="history_title">Verlauf</string>
+    <string name="history_empty_title">Noch kein Verlauf</string>
+    <string name="history_empty_body">Zufallsentdeckungen und Karussell-Hintergründe erscheinen hier.</string>
+    <string name="history_browse_feed">Feed durchsuchen</string>
+    <string name="history_source_random">Zufallsentdeckung</string>
+    <string name="history_source_carousel">Karussell-Hintergrund</string>
+    <string name="favorites_title">Favoriten</string>
+    <string name="history_next_wallpaper_label">Nächstes Hintergrundbild</string>
+    <string name="history_next_wallpaper">Nächstes Hintergrundbild in %1$s</string>
+    <string name="history_next_wallpaper_preparing">Nächstes Hintergrundbild wird vorbereitet…</string>
+    <string name="history_next_wallpaper_updating">Hintergrundbild wird aktualisiert…</string>
 </resources>
