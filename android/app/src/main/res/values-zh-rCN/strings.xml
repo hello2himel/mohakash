@@ -213,4 +213,8 @@
     <string name="date_picker_range">日期范围</string>
     <string name="date_picker_any">任意日期</string>
     <string name="date_picker_title">选择日期</string>
+    <string name="onboarding_carousel_title">每天多张图片</string>
+    <string name="onboarding_carousel_hint">轮换往年同一天的 APOD 图片。</string>
+    <string name="settings_carousel">轮播模式</string>
+    <string name="settings_carousel_hint">轮换往年今天的图片。</string>
 </resources>

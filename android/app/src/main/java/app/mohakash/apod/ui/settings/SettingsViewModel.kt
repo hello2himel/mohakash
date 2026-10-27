@@ -6,6 +6,7 @@ import app.mohakash.apod.core.TimeFormatting
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.storage.CacheManager
 import app.mohakash.apod.domain.model.WallpaperScaling
+import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.work.SyncController
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +27,7 @@ data class SettingsUiState(
     val customApiBaseUrl: String? = null,
     val cacheSizeBytes: Long = 0L,
     val lastSyncAt: Long? = null,
+    val carouselMode: Boolean = false,
 )
 
 /** One-shot events of the settings screen. */
@@ -41,6 +43,7 @@ class SettingsViewModel(
     private val settingsStore: SettingsStore,
     private val cacheManager: CacheManager,
     private val syncController: SyncController,
+    private val carouselController: CarouselController,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsUiState())
@@ -62,6 +65,7 @@ class SettingsViewModel(
                     hideVideos = settings.hideVideos,
                     customApiBaseUrl = settings.customApiBaseUrl,
                     lastSyncAt = settings.lastSyncAt,
+                    carouselMode = settings.carouselMode,
                 )
             }
         }
@@ -79,6 +83,7 @@ class SettingsViewModel(
                 hideVideos = settings.hideVideos,
                 customApiBaseUrl = settings.customApiBaseUrl,
                 lastSyncAt = settings.lastSyncAt,
+                carouselMode = settings.carouselMode,
                 cacheSizeBytes = cacheManager.cacheSizeBytes(),
             )
         }
@@ -132,6 +137,21 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsStore.setWallpaperScaling(scaling)
             _state.value = _state.value.copy(scaling = scaling)
+        }
+    }
+
+    /** Enables or disables the date-matched wallpaper carousel. */
+    fun setCarouselMode(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsStore.setCarouselMode(enabled)
+            _state.value = _state.value.copy(carouselMode = enabled)
+            if (enabled) {
+                carouselController.enable()
+            } else {
+                carouselController.disable()
+                // Return to the normal latest-APOD wallpaper behaviour promptly.
+                syncController.runOnce()
+            }
         }
     }
 

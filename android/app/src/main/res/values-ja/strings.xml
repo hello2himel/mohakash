@@ -213,4 +213,8 @@
     <string name="date_picker_range">日付範囲</string>
     <string name="date_picker_any">任意の日付</string>
     <string name="date_picker_title">日付を選択</string>
+    <string name="onboarding_carousel_title">1日に複数の画像</string>
+    <string name="onboarding_carousel_hint">過去の同じ日のAPOD画像を切り替えます。</string>
+    <string name="settings_carousel">カルーセルモード</string>
+    <string name="settings_carousel_hint">過去の今日の画像を切り替えます。</string>
 </resources>

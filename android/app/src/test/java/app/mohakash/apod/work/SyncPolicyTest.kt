@@ -18,6 +18,12 @@ class SyncPolicyTest {
     }
 
     @Test
+    fun `carousel mode blocks the regular latest-wallpaper install`() {
+        val settings = AppSettings(updateAutomatically = true, carouselMode = true)
+        assertFalse(SyncPolicy.shouldUpdateWallpaper(settings, isWallpaperActive = true))
+    }
+
+    @Test
     fun `defaults allow automatic updates`() {
         val settings = AppSettings()
 

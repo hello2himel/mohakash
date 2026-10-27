@@ -10,6 +10,7 @@ import app.mohakash.apod.domain.model.AppSettings
 import app.mohakash.apod.domain.wallpaper.WallpaperChoice
 import app.mohakash.apod.domain.wallpaper.WallpaperImageSelector
 import app.mohakash.apod.ui.wallpaper.WallpaperPreview
+import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.work.ApodSyncEngine
 import app.mohakash.apod.work.InstallOutcome
 import app.mohakash.apod.work.SyncController
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 data class OnboardingUiState(
     val preview: WallpaperPreview = WallpaperPreview(),
     val isPreparing: Boolean = false,
+    val carouselMode: Boolean = false,
 )
 
 /** One-shot events of the onboarding screen. */
@@ -46,6 +48,7 @@ class OnboardingViewModel(
     private val wallpaperStorage: WallpaperStorage,
     private val apodRepository: ApodRepository,
     private val syncEngine: ApodSyncEngine,
+    private val carouselController: CarouselController,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(OnboardingUiState())
@@ -64,6 +67,7 @@ class OnboardingViewModel(
     private fun loadPreview() {
         viewModelScope.launch {
             val settings = settingsStore.current()
+            _state.value = _state.value.copy(carouselMode = settings.carouselMode)
             val meta = wallpaperStorage.readMeta()
             val localPath = wallpaperStorage.currentImageFile()?.absolutePath
 
@@ -104,6 +108,11 @@ class OnboardingViewModel(
         _state.value = _state.value.copy(preview = preview)
     }
 
+    /** Remembers the choice while onboarding is open; it is persisted on finish. */
+    fun setCarouselMode(enabled: Boolean) {
+        _state.value = _state.value.copy(carouselMode = enabled)
+    }
+
     /**
      * Finishes the onboarding.
      *
@@ -113,6 +122,7 @@ class OnboardingViewModel(
     fun complete(openWallpaperPicker: Boolean) {
         if (_state.value.isPreparing) return
         viewModelScope.launch {
+            settingsStore.setCarouselMode(_state.value.carouselMode)
             if (!openWallpaperPicker) {
                 settingsStore.setOnboardingCompleted(true)
                 syncController.apply(settingsStore.current())
@@ -147,6 +157,7 @@ class OnboardingViewModel(
                     settingsStore.setOnboardingCompleted(true)
                     // From now on the background job keeps the active wallpaper up to date.
                     syncController.apply(settingsStore.current())
+                    if (_state.value.carouselMode) carouselController.scheduleFirstRotation()
                     _events.send(OnboardingEvent.OpenWallpaperPicker)
                     _events.send(OnboardingEvent.Finished)
                 }

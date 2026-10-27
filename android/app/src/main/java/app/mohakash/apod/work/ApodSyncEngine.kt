@@ -148,6 +148,7 @@ class ApodSyncEngine(
         preferHd: Boolean,
         hideVideos: Boolean = true,
         imageUrl: String? = null,
+        notify: Boolean = true,
     ): InstallOutcome = installMutex.withLock {
         val choice = WallpaperImageSelector.select(entry, preferHd, hideVideos)
         val url = imageUrl ?: (choice as? WallpaperChoice.Use)?.url
@@ -176,7 +177,7 @@ class ApodSyncEngine(
             if (committed.isFailure) return@withLock InstallOutcome.FAILED
 
             WallpaperSignal.notifyChanged()
-            notifyWallpaperChanged(entry)
+            if (notify) notifyWallpaperChanged(entry)
             InstallOutcome.INSTALLED
         } finally {
             target.delete()

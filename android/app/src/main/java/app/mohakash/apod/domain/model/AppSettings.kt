@@ -27,4 +27,6 @@ data class AppSettings(
     val lastSyncDate: String? = null,
     /** True once the first-run "swipe up" cue on the feed has been shown. */
     val feedSwipeHintSeen: Boolean = false,
+    /** Rotate the live wallpaper through historical APODs from today's month/day. */
+    val carouselMode: Boolean = false,
 )

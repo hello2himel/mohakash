@@ -215,4 +215,8 @@
     <string name="date_picker_range">Tarih aralığı</string>
     <string name="date_picker_any">Herhangi bir tarih</string>
     <string name="date_picker_title">Tarih seç</string>
+    <string name="onboarding_carousel_title">Günde birden fazla fotoğraf</string>
+    <string name="onboarding_carousel_hint">Geçmiş yılların bu tarihindeki APOD fotoğraflarını döndürür.</string>
+    <string name="settings_carousel">Atlıkarınca modu</string>
+    <string name="settings_carousel_hint">Geçmiş yılların bugünkü fotoğraflarını döndürür.</string>
 </resources>
