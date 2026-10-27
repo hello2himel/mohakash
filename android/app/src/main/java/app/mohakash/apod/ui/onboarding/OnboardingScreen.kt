@@ -2,6 +2,7 @@ package app.mohakash.apod.ui.onboarding
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,31 +13,33 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.components.PrimaryButton
-import app.mohakash.apod.ui.components.TextAction
 import app.mohakash.apod.ui.components.QuietButton
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
@@ -66,33 +69,42 @@ fun OnboardingScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = LocalSnackbarHostState.current
 
+    var showFrequency by rememberSaveable { mutableStateOf(false) }
+    var awaitingPickerReturn by rememberSaveable { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
                 OnboardingEvent.Finished -> onFinished()
-                OnboardingEvent.OpenWallpaperPicker -> onOpenWallpaperPicker()
+                OnboardingEvent.OpenWallpaperPicker -> {
+                    awaitingPickerReturn = true
+                    onOpenWallpaperPicker()
+                }
                 is OnboardingEvent.ShowMessage -> snackbarHostState.showSnackbar(event.text)
             }
         }
     }
 
-    var showRhythm by rememberSaveable { mutableStateOf(false) }
+    // The wallpaper preview activity has no result intent; ON_RESUME is the reliable signal
+    // that the system picker has closed and the frequency page can be shown.
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        if (awaitingPickerReturn) {
+            awaitingPickerReturn = false
+            showFrequency = true
+        }
+    }
 
-    if (showRhythm) {
-        OnboardingRhythmContent(
-            carouselMode = state.carouselMode,
-            isPreparing = state.isPreparing,
-            onCarouselModeChange = viewModel::setCarouselMode,
-            onBack = { if (!state.isPreparing) showRhythm = false },
-            onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
-            onSkip = { viewModel.complete(openWallpaperPicker = false) },
+    if (showFrequency) {
+        OnboardingFrequencyContent(
+            onOnceDaily = { viewModel.finishAfterWallpaper(multipleTimesDaily = false) },
+            onMultipleTimesDaily = { viewModel.finishAfterWallpaper(multipleTimesDaily = true) },
             modifier = modifier,
         )
     } else {
         OnboardingContent(
             preview = state.preview,
             isPreparing = state.isPreparing,
-            onSetWallpaper = { showRhythm = true },
+            onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
             onSkip = { viewModel.complete(openWallpaperPicker = false) },
             modifier = modifier,
         )
@@ -108,6 +120,9 @@ internal fun OnboardingContent(
     onSkip: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val compactHeight = LocalConfiguration.current.screenHeightDp < 480
+    val largeText = LocalDensity.current.fontScale >= 1.5f
+    val hidePreview = compactHeight || (largeText && LocalConfiguration.current.screenHeightDp < 640)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -125,7 +140,7 @@ internal fun OnboardingContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Box(
+            if (!hidePreview) Box(
                 modifier = Modifier
                     .width(180.dp)
                     .aspectRatio(9f / 19f)
@@ -204,15 +219,12 @@ internal fun OnboardingContent(
 }
 
 
-/** The second onboarding slide: choose the wallpaper rhythm before opening the picker. */
+
+/** Page two, after the system wallpaper picker: choose how often the wallpaper changes. */
 @Composable
-internal fun OnboardingRhythmContent(
-    carouselMode: Boolean,
-    isPreparing: Boolean,
-    onCarouselModeChange: (Boolean) -> Unit,
-    onBack: () -> Unit,
-    onSetWallpaper: () -> Unit,
-    onSkip: () -> Unit,
+internal fun OnboardingFrequencyContent(
+    onOnceDaily: () -> Unit,
+    onMultipleTimesDaily: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -221,84 +233,50 @@ internal fun OnboardingRhythmContent(
             .background(MohakashColors.Background)
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 32.dp),
+            .padding(start = 24.dp, end = 24.dp, top = 32.dp, bottom = 32.dp),
     ) {
-        TextAction(
-            text = stringResource(R.string.detail_back),
-            onClick = onBack,
-            modifier = Modifier.align(Alignment.Start),
+        Text(
+            text = stringResource(R.string.onboarding_frequency_title),
+            style = MohakashTextStyles.OnboardingTitle,
+            color = MohakashColors.Text,
+        )
+        Text(
+            text = stringResource(R.string.onboarding_frequency_hint),
+            style = MohakashTextStyles.BodyBase,
+            color = MohakashColors.TextMuted,
+            modifier = Modifier.padding(top = 10.dp),
         )
         Column(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(18.dp),
+                .padding(top = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            Text(
-                text = stringResource(R.string.onboarding_rhythm_title),
-                style = MohakashTextStyles.OnboardingTitle,
-                color = MohakashColors.Text,
+            FrequencyOption(
+                title = stringResource(R.string.onboarding_once_daily),
+                hint = stringResource(R.string.onboarding_once_daily_hint),
+                onClick = onOnceDaily,
             )
-            Text(
-                text = stringResource(R.string.onboarding_rhythm_hint),
-                style = MohakashTextStyles.BodyBase,
-                color = MohakashColors.TextMuted,
-            )
-            RhythmOption(
-                selected = !carouselMode,
-                title = stringResource(R.string.onboarding_one_a_day),
-                hint = stringResource(R.string.onboarding_one_a_day_hint),
-                onClick = { onCarouselModeChange(false) },
-            )
-            RhythmOption(
-                selected = carouselMode,
-                title = stringResource(R.string.onboarding_carousel_title),
-                hint = stringResource(R.string.onboarding_carousel_hint),
-                onClick = { onCarouselModeChange(true) },
-            )
-        }
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            PrimaryButton(
-                text = stringResource(R.string.onboarding_set_wallpaper),
-                onClick = onSetWallpaper,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !isPreparing,
-                height = 52.dp,
-                textStyle = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
-            )
-            QuietButton(
-                text = stringResource(R.string.onboarding_skip),
-                onClick = onSkip,
-                modifier = Modifier.fillMaxWidth(),
-                minHeight = 52.dp,
-                style = MohakashTextStyles.UiMedium,
-                color = MohakashColors.Text,
+            FrequencyOption(
+                title = stringResource(R.string.onboarding_multiple_daily),
+                hint = stringResource(R.string.onboarding_multiple_daily_hint),
+                onClick = onMultipleTimesDaily,
             )
         }
     }
 }
 
 @Composable
-private fun RhythmOption(
-    selected: Boolean,
-    title: String,
-    hint: String,
-    onClick: () -> Unit,
-) {
+private fun FrequencyOption(title: String, hint: String, onClick: () -> Unit) {
     val shape = RoundedCornerShape(18.dp)
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape)
-            .background(if (selected) MohakashColors.Accent.copy(alpha = 0.12f) else MohakashColors.Surface)
-            .border(
-                width = if (selected) 1.5.dp else 1.dp,
-                color = if (selected) MohakashColors.Accent else MohakashColors.Border,
-                shape = shape,
-            )
-            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
+            .background(MohakashColors.Surface)
+            .border(1.dp, MohakashColors.Border, shape)
+            .clickable(role = Role.Button, onClick = onClick)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp),
     ) {

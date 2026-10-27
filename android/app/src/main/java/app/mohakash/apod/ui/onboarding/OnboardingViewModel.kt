@@ -3,6 +3,7 @@ package app.mohakash.apod.ui.onboarding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.mohakash.apod.data.local.prefs.SettingsStore
+import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.data.repository.ApodRepository
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.domain.model.ApodEntry
@@ -10,7 +11,6 @@ import app.mohakash.apod.domain.model.AppSettings
 import app.mohakash.apod.domain.wallpaper.WallpaperChoice
 import app.mohakash.apod.domain.wallpaper.WallpaperImageSelector
 import app.mohakash.apod.ui.wallpaper.WallpaperPreview
-import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.work.ApodSyncEngine
 import app.mohakash.apod.work.InstallOutcome
 import app.mohakash.apod.work.SyncController
@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 data class OnboardingUiState(
     val preview: WallpaperPreview = WallpaperPreview(),
     val isPreparing: Boolean = false,
-    val carouselMode: Boolean = false,
 )
 
 /** One-shot events of the onboarding screen. */
@@ -60,6 +59,9 @@ class OnboardingViewModel(
     /** The entry whose picture is currently shown in the phone preview. */
     private var previewEntry: ApodEntry? = null
 
+    /** Prevents a double tap on the frequency page from running completion twice. */
+    private var finishing = false
+
     init {
         loadPreview()
     }
@@ -67,7 +69,6 @@ class OnboardingViewModel(
     private fun loadPreview() {
         viewModelScope.launch {
             val settings = settingsStore.current()
-            _state.value = _state.value.copy(carouselMode = settings.carouselMode)
             val meta = wallpaperStorage.readMeta()
             val localPath = wallpaperStorage.currentImageFile()?.absolutePath
 
@@ -108,11 +109,6 @@ class OnboardingViewModel(
         _state.value = _state.value.copy(preview = preview)
     }
 
-    /** Remembers the choice while onboarding is open; it is persisted on finish. */
-    fun setCarouselMode(enabled: Boolean) {
-        _state.value = _state.value.copy(carouselMode = enabled)
-    }
-
     /**
      * Finishes the onboarding.
      *
@@ -121,8 +117,12 @@ class OnboardingViewModel(
      */
     fun complete(openWallpaperPicker: Boolean) {
         if (_state.value.isPreparing) return
+        if (openWallpaperPicker) {
+            // Set this synchronously, before the coroutine starts, so a fast double tap cannot
+            // launch two installs and two picker intents.
+            _state.value = _state.value.copy(isPreparing = true)
+        }
         viewModelScope.launch {
-            settingsStore.setCarouselMode(_state.value.carouselMode)
             if (!openWallpaperPicker) {
                 settingsStore.setOnboardingCompleted(true)
                 syncController.apply(settingsStore.current())
@@ -131,7 +131,6 @@ class OnboardingViewModel(
                 return@launch
             }
 
-            _state.value = _state.value.copy(isPreparing = true)
             val settings = settingsStore.current()
             val entry = previewEntry
                 ?: runCatching { apodRepository.fetchLatest() }.getOrNull()
@@ -155,12 +154,9 @@ class OnboardingViewModel(
                         },
                         isPreparing = false,
                     )
-                    settingsStore.setOnboardingCompleted(true)
-                    // From now on the background job keeps the active wallpaper up to date.
-                    syncController.apply(settingsStore.current())
-                    if (_state.value.carouselMode) carouselController.scheduleFirstRotation()
+                    // Wait for the system picker to return, then ask for the wallpaper
+                    // frequency on a second page.
                     _events.send(OnboardingEvent.OpenWallpaperPicker)
-                    _events.send(OnboardingEvent.Finished)
                 }
 
                 InstallOutcome.NOT_USABLE -> {
@@ -173,6 +169,23 @@ class OnboardingViewModel(
                     _events.send(OnboardingEvent.ShowMessage(MESSAGE_WALLPAPER_FAILED))
                 }
             }
+        }
+    }
+
+    /** Called on the second onboarding page after the wallpaper picker returns. */
+    fun finishAfterWallpaper(multipleTimesDaily: Boolean) {
+        if (finishing) return
+        finishing = true
+        viewModelScope.launch {
+            settingsStore.setCarouselMode(multipleTimesDaily)
+            settingsStore.setOnboardingCompleted(true)
+            syncController.apply(settingsStore.current())
+            if (multipleTimesDaily) {
+                carouselController.scheduleFirstRotation()
+            } else {
+                syncController.runOnce()
+            }
+            _events.send(OnboardingEvent.Finished)
         }
     }
 
