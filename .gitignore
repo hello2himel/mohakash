@@ -12,3 +12,9 @@ __pycache__/
 android/.kotlin/
 .gradle/
 .astro/
+
+# Internal-only working artefacts (never part of the public repo)
+/api-site/
+/design-lab/
+/audit-*/
+/store-assets/
