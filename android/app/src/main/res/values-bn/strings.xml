@@ -235,7 +235,7 @@
     <string name="onboarding_frequency_hint">আপনি যেকোনো সময় সেটিংসে এটি বদলাতে পারবেন।</string>
     <string name="onboarding_once_daily">দিনে একবার</string>
     <string name="onboarding_once_daily_hint">প্রতিদিন একটি নতুন ছবি।</string>
-    <string name="onboarding_multiple_daily">দিনে কয়েকবার</string>
+    <string name="onboarding_multiple_daily">দিনে একাধিকবার</string>
     <string name="onboarding_multiple_daily_hint">প্রতি কয়েক ঘণ্টায় একটি নতুন ছবি।</string>
     <string name="onboarding_frequency_continue">চালিয়ে যান</string>
 </resources>

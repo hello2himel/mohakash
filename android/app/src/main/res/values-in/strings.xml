@@ -233,7 +233,7 @@
     <string name="onboarding_frequency_hint">Anda dapat mengubahnya kapan saja di Pengaturan.</string>
     <string name="onboarding_once_daily">Sekali sehari</string>
     <string name="onboarding_once_daily_hint">Foto baru setiap hari.</string>
-    <string name="onboarding_multiple_daily">Beberapa kali sehari</string>
+    <string name="onboarding_multiple_daily">Berulang kali sehari</string>
     <string name="onboarding_multiple_daily_hint">Foto baru setiap beberapa jam.</string>
     <string name="onboarding_frequency_continue">Lanjutkan</string>
 </resources>

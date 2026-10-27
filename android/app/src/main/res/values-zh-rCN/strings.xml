@@ -233,7 +233,7 @@
     <string name="onboarding_frequency_hint">你可以随时在设置中更改。</string>
     <string name="onboarding_once_daily">每天一次</string>
     <string name="onboarding_once_daily_hint">每天一张新图片。</string>
-    <string name="onboarding_multiple_daily">每天几次</string>
+    <string name="onboarding_multiple_daily">每天多次</string>
     <string name="onboarding_multiple_daily_hint">每隔几小时换一张新图片。</string>
     <string name="onboarding_frequency_continue">继续</string>
 </resources>
