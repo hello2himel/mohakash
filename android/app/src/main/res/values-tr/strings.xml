@@ -235,7 +235,7 @@
     <string name="onboarding_frequency_hint">Bunu istediğiniz zaman Ayarlar’dan değiştirebilirsiniz.</string>
     <string name="onboarding_once_daily">Günde bir kez</string>
     <string name="onboarding_once_daily_hint">Her gün yeni bir fotoğraf.</string>
-    <string name="onboarding_multiple_daily">Günde birkaç kez</string>
+    <string name="onboarding_multiple_daily">Günde birden fazla kez</string>
     <string name="onboarding_multiple_daily_hint">Birkaç saatte bir yeni bir fotoğraf.</string>
     <string name="onboarding_frequency_continue">Devam</string>
 </resources>
