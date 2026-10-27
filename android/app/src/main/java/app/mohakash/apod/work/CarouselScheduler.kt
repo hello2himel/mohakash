@@ -44,7 +44,7 @@ object CarouselScheduler {
                     .build(),
             )
             .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
-            .setBackoffCriteria(androidx.work.BackoffPolicy.EXPONENTIAL, 15, TimeUnit.MINUTES)
+            .setBackoffCriteria(androidx.work.BackoffPolicy.EXPONENTIAL, 1, TimeUnit.MINUTES)
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(WORK_NAME, policy, request)
     }
