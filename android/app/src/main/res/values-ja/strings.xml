@@ -233,7 +233,7 @@
     <string name="onboarding_frequency_hint">設定からいつでも変更できます。</string>
     <string name="onboarding_once_daily">1日1回</string>
     <string name="onboarding_once_daily_hint">毎日新しい写真。</string>
-    <string name="onboarding_multiple_daily">1日に数回</string>
+    <string name="onboarding_multiple_daily">1日に複数回</string>
     <string name="onboarding_multiple_daily_hint">数時間ごとに新しい写真。</string>
     <string name="onboarding_frequency_continue">続ける</string>
 </resources>
