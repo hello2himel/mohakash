@@ -8,7 +8,7 @@ genuine Android **live wallpaper**.
 * The app talks to the public JSON API that the repository publishes on GitHub Pages — there is no
   account, no analytics and no tracking.
 
-Current release: **2026.10.27.9** (version code **16**). The app has a full-screen feed, a dedicated Archive tab and
+Current release: **2026.10.27.10** (version code **17**). The app has a full-screen feed, a dedicated Archive tab and
 Saved.
 
 ---
