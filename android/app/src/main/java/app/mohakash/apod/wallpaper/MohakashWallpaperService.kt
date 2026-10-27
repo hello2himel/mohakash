@@ -232,14 +232,21 @@ class MohakashWallpaperService : WallpaperService() {
 
         private fun renderNow(redecode: Boolean): Boolean {
             val storage = (applicationContext as? MohakashApplication)?.container?.wallpaperStorage
-                ?: return false
-            val file: File = storage.currentImageFile() ?: return false
+            val file: File? = storage?.currentImageFile()
+            if (file == null) {
+                drawFallback()
+                return false
+            }
             val stamp = file.lastModified() * 31 + file.length()
             val changed = decodedFile != file.absolutePath ||
                 decodedStamp != stamp ||
                 bitmap?.isRecycled != false
             if (redecode || changed) {
-                val decoded = decode(file, surfaceWidth, surfaceHeight) ?: return false
+                val decoded = decode(file, surfaceWidth, surfaceHeight)
+                if (decoded == null) {
+                    drawFallback()
+                    return false
+                }
                 val previous = bitmap
                 bitmap = decoded
                 decodedFile = file.absolutePath
@@ -247,6 +254,18 @@ class MohakashWallpaperService : WallpaperService() {
                 previous?.takeIf { it !== decoded && !it.isRecycled }?.recycle()
             }
             return draw()
+        }
+
+        /** Paints the app background when the image file is missing or undecodable. */
+        private fun drawFallback() {
+            if (!surfaceAlive) return
+            val currentHolder = holder ?: return
+            val canvas = runCatching { currentHolder.lockCanvas() }.getOrNull() ?: return
+            try {
+                canvas.drawColor(Color.rgb(11, 13, 18))
+            } finally {
+                runCatching { currentHolder.unlockCanvasAndPost(canvas) }
+            }
         }
 
         /**

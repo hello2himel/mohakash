@@ -40,6 +40,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import app.mohakash.apod.wallpaper.WallpaperStatus
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
@@ -81,6 +83,7 @@ fun OnboardingScreen(
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = LocalSnackbarHostState.current
+    val appContext = LocalContext.current.applicationContext
 
     var showFrequency by rememberSaveable { mutableStateOf(false) }
     var awaitingPickerReturn by rememberSaveable { mutableStateOf(false) }
@@ -106,7 +109,13 @@ fun OnboardingScreen(
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         if (awaitingPickerReturn) {
             awaitingPickerReturn = false
-            showFrequency = true
+            if (WallpaperStatus.isActive(appContext)) {
+                showFrequency = true
+            } else {
+                // The picker was cancelled or never activated Mohakash. Do not turn on the
+                // carousel for a wallpaper that is not there; finish with the safe daily mode.
+                viewModel.complete(openWallpaperPicker = false)
+            }
         }
     }
 

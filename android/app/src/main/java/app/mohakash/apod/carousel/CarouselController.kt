@@ -40,6 +40,7 @@ class CarouselController(
     private val historyRepository: HistoryRepository,
     private val isWallpaperActive: () -> Boolean = { WallpaperStatus.isActive(context) },
     private val isConnected: () -> Boolean = { NetworkMonitor(context).isConnected() },
+    private val isUnmetered: () -> Boolean = { NetworkMonitor(context).isUnmetered() },
     private val now: () -> Long = System::currentTimeMillis,
     private val timeZone: () -> TimeZone = { TimeZone.getDefault() },
     private val random: Random = Random.Default,
@@ -48,7 +49,7 @@ class CarouselController(
     /** Runs one rotation, schedules the next interval (or a retry), and returns what happened. */
     suspend fun rotate(): CarouselOutcome {
         val settings = settingsStore.current()
-        if (!settings.carouselMode) {
+        if (!settings.carouselMode || !settings.updateAutomatically) {
             CarouselScheduler.cancel(context)
             nextRunStore.clear()
             return CarouselOutcome.Disabled
@@ -61,6 +62,11 @@ class CarouselController(
             // The queued worker has a CONNECTED constraint: it stays pending without spinning
             // and runs as soon as a network becomes available.
             scheduleNext(0L)
+            return CarouselOutcome.Failed
+        }
+        if (settings.wifiOnly && !isUnmetered()) {
+            // Never spend mobile data when the user asked for Wi-Fi-only downloads.
+            scheduleNext(FAILED_RETRY_MILLIS)
             return CarouselOutcome.Failed
         }
 

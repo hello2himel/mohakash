@@ -49,7 +49,7 @@ class HistoryViewModel(
     init {
         viewModelScope.launch {
             settingsStore.settings.collect { settings ->
-                carouselEnabled = settings.carouselMode
+                carouselEnabled = settings.carouselMode && settings.updateAutomatically
                 publish()
             }
         }
@@ -76,15 +76,21 @@ class HistoryViewModel(
         val total = current?.intervalMillis ?: 0L
         val last = current?.lastRotationAt
         val timestamp = now()
-        if (total <= 0L || last == null) {
-            // Before the first carousel pick, show the scheduled retry/first-rotation countdown.
-            val scheduled = nextRun?.nextAt?.let { (it - timestamp).coerceAtLeast(0L) } ?: 0L
-            _nextWallpaper.value = NextWallpaperUi(progress = null, remainingMillis = scheduled)
+        val today = CarouselMath.monthDay(timestamp, timeZone())
+        val scheduledNext = nextRun?.takeIf { it.intervalMillis > 0L }?.nextAt
+        if (scheduledNext != null) {
+            // The scheduled run is authoritative. This covers retries and the waiting-for-Wi-Fi
+            // case instead of showing a stale selection countdown.
+            val remaining = (scheduledNext - timestamp).coerceAtLeast(0L)
+            val progress = if (scheduledNext > timestamp) {
+                (1f - remaining.toFloat() / nextRun!!.intervalMillis.toFloat()).coerceIn(0f, 1f)
+            } else {
+                null
+            }
+            _nextWallpaper.value = NextWallpaperUi(progress = progress, remainingMillis = remaining)
             return
         }
-        val today = CarouselMath.monthDay(timestamp, timeZone())
-        if (current?.monthDay != today) {
-            // The date changed; the worker will rebuild the collection and interval.
+        if (total <= 0L || last == null || current?.monthDay != today) {
             _nextWallpaper.value = NextWallpaperUi(progress = null, remainingMillis = 0L)
             return
         }

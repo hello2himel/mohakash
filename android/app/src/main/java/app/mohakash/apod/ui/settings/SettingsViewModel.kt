@@ -103,8 +103,11 @@ class SettingsViewModel(
             // The daily job follows the setting.
             syncController.apply(settingsStore.current())
             if (enabled) {
+                if (_state.value.carouselMode) carouselController.enable()
                 // Fetch the current picture right away so the wallpaper is up to date.
                 syncController.runOnce()
+            } else {
+                carouselController.disable()
             }
         }
     }

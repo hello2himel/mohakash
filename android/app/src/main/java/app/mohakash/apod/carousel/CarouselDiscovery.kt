@@ -86,10 +86,18 @@ class CarouselDiscovery(
             item.takeIf { result == CarouselValidation.Valid }
         }
         val temporary = checked.any { (_, result) -> result == CarouselValidation.TemporaryFailure }
+        val resultsByDate = checked.associate { (item, result) -> item.date to result }
 
-        // Union with the previous valid collection so a single temporary failure does not make
-        // an otherwise usable historical picture disappear for the rest of the day.
-        val merged = (freshValid + cachedForToday?.items.orEmpty())
+        // Keep cached entries only when they were re-checked as temporarily unavailable or were
+        // not part of this refresh. Permanently invalid URLs must not survive forever.
+        val carryOver = cachedForToday?.items.orEmpty().filter { cachedItem ->
+            when (resultsByDate[cachedItem.date]) {
+                null, CarouselValidation.TemporaryFailure -> true
+                else -> false
+            }
+        }
+
+        val merged = (freshValid + carryOver)
             .distinctBy { it.date }
             .sortedByDescending { it.date }
         val collection = CarouselCollection(

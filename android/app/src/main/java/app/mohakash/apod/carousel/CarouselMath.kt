@@ -3,6 +3,7 @@ package app.mohakash.apod.carousel
 import app.mohakash.apod.core.ImageUrlValidator
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
 import java.util.Calendar
+import java.util.Locale
 import java.util.TimeZone
 import kotlin.random.Random
 
@@ -19,7 +20,12 @@ object CarouselMath {
         val calendar = Calendar.getInstance(timeZone).apply { timeInMillis = epochMillis }
         val month = calendar.get(Calendar.MONTH) + 1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        return "%02d-%02d".format(month, day)
+        return String.format(
+            Locale.ROOT,
+            "%02d-%02d",
+            month,
+            day,
+        )
     }
 
     /**

@@ -204,7 +204,7 @@ class NotificationHelper private constructor(private val context: Context) {
             .addAction(
                 NotificationCompat.Action.Builder(
                     R.drawable.ic_heart_24,
-                    context.getString(R.string.settings_support_title),
+                    context.getString(R.string.settings_support_action),
                     donatePending,
                 ).build(),
             )
