@@ -87,7 +87,19 @@ jobs:
           set -euo pipefail
           case "$MODE" in
             sync)
-              python scripts/sync_apod.py sync
+              # Short transient network/API failures should not consume the whole scheduled
+              # window. Retry three times, then leave the last valid data intact for the next
+              # scheduled probe (05/08/11/14/17 UTC).
+              attempt=1
+              until python scripts/sync_apod.py sync; do
+                if [ "$attempt" -ge 3 ]; then
+                  echo "sync failed after 3 attempts; keeping last valid data" >&2
+                  exit 1
+                fi
+                echo "sync attempt $attempt failed; retrying in $((attempt * 30))s" >&2
+                sleep $((attempt * 30))
+                attempt=$((attempt + 1))
+              done
               ;;
             backfill)
               ARGS=(backfill)

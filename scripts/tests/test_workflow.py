@@ -72,6 +72,12 @@ def test_commit_message_contains_skip_netlify(workflow):
     assert "git commit -m" in run
 
 
+def test_sync_retries_transient_failures(workflow):
+    run = _run_text(workflow)
+    assert "until python scripts/sync_apod.py sync" in run
+    assert "sync failed after 3 attempts" in run
+
+
 def test_only_data_files_are_staged(workflow):
     run = _run_text(workflow)
     assert "git add data/" in run

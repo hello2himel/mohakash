@@ -51,13 +51,11 @@ class ApodSyncWorker(
             is SyncOutcome.Unchanged -> Result.success()
             is SyncOutcome.WallpaperUnavailable -> Result.success()
             is SyncOutcome.Failed -> {
-                // Retry a few times, but never more than a handful of times per period.
-                if (runAttemptCount < MAX_ATTEMPTS) Result.retry() else Result.success()
+                // Transient network/API failures stay pending. WorkManager applies the 15-minute
+                // exponential backoff and the CONNECTED constraint, so the attempt resumes when
+                // connectivity returns rather than waiting for the next 4-hour period.
+                Result.retry()
             }
         }
-    }
-
-    companion object {
-        const val MAX_ATTEMPTS = 3
     }
 }
