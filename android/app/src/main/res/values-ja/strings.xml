@@ -219,4 +219,8 @@
     <string name="settings_carousel_hint">過去の今日の画像を切り替えます。</string>
     <string name="settings_notifications">新しいAPODの通知</string>
     <string name="settings_notifications_hint">新しい通常のAPODが壁紙になったときだけ通知します。カルーセルの切り替えは通知しません。</string>
+    <string name="onboarding_rhythm_title">壁紙のリズムを選択</string>
+    <string name="onboarding_rhythm_hint">後で設定から変更できます。</string>
+    <string name="onboarding_one_a_day">1日1枚</string>
+    <string name="onboarding_one_a_day_hint">今日のAPODが1日1回壁紙になります。</string>
 </resources>

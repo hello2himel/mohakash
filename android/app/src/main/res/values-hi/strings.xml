@@ -221,4 +221,8 @@
     <string name="settings_carousel_hint">पिछले वर्षों की आज की तारीख की तस्वीरें बदलती रहें।</string>
     <string name="settings_notifications">नए APOD सूचनाएं</string>
     <string name="settings_notifications_hint">केवल तब सूचित करें जब नया नियमित APOD वॉलपेपर बने। कैरोसेल बदलाव शांत रहेंगे।</string>
+    <string name="onboarding_rhythm_title">अपने वॉलपेपर की लय चुनें</string>
+    <string name="onboarding_rhythm_hint">आप इसे बाद में सेटिंग्स में बदल सकते हैं।</string>
+    <string name="onboarding_one_a_day">एक दिन में एक तस्वीर</string>
+    <string name="onboarding_one_a_day_hint">आज का APOD दिन में एक बार आपका वॉलपेपर बनेगा।</string>
 </resources>

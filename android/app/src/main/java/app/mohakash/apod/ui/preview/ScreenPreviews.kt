@@ -167,8 +167,6 @@ private fun OnboardingPreview() {
         OnboardingContent(
             preview = WallpaperPreview(),
             isPreparing = false,
-            carouselMode = false,
-            onCarouselModeChange = {},
             onSetWallpaper = {},
             onSkip = {},
         )

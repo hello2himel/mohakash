@@ -221,4 +221,8 @@
     <string name="settings_carousel_hint">Wechsle durch Bilder des heutigen Datums aus früheren Jahren.</string>
     <string name="settings_notifications">Neue APOD-Benachrichtigungen</string>
     <string name="settings_notifications_hint">Nur benachrichtigen, wenn ein neues reguläres APOD zum Hintergrundbild wird. Karussellwechsel bleiben still.</string>
+    <string name="onboarding_rhythm_title">Wähle deinen Wallpaper-Rhythmus</string>
+    <string name="onboarding_rhythm_hint">Du kannst das später in den Einstellungen ändern.</string>
+    <string name="onboarding_one_a_day">Ein Bild pro Tag</string>
+    <string name="onboarding_one_a_day_hint">Das heutige APOD wird einmal täglich dein Hintergrundbild.</string>
 </resources>

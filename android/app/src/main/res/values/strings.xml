@@ -11,6 +11,10 @@
     <string name="onboarding_wallpaper_preview">Wallpaper preview</string>
     <string name="onboarding_headline">Today\'s sky, on your home screen</string>
     <string name="onboarding_subtitle">A new astronomy picture each day. No account needed.</string>
+    <string name="onboarding_rhythm_title">Choose your wallpaper rhythm</string>
+    <string name="onboarding_rhythm_hint">You can change this later in Settings.</string>
+    <string name="onboarding_one_a_day">One picture a day</string>
+    <string name="onboarding_one_a_day_hint">Today’s APOD becomes your wallpaper once a day.</string>
     <string name="onboarding_carousel_title">More pictures a day</string>
     <string name="onboarding_carousel_hint">Rotate through APOD photos from this date in past years.</string>
     <string name="settings_notifications">New APOD notifications</string>
