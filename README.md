@@ -252,7 +252,40 @@ cd android
 > (this machine has JDK 27), point `JAVA_HOME` at a 17 or 21 installation:
 > `export JAVA_HOME=/path/to/jdk-21`.
 
-The app uses a compact floating **Launch Cradle** for navigation: **Feed · mohakash mark · Archive**. The Archive tab contains the archive and Saved as a segmented pair. The feed starts
+### Version naming
+
+Android releases use a date-prefixed release series:
+
+```text
+versionName = YYYY.MM.DD.N
+tag         = vYYYY.MM.DD.N
+versionCode = independent monotonically increasing integer
+```
+
+- `YYYY.MM.DD` is the date the **current release series began**. It stays fixed for
+  later releases in the same series, so the series date is not necessarily the
+  calendar date of every build.
+- `N` is the release sequence within that series: `.1` for the first release,
+  `.2` for the next, and so on. It is not zero-padded, so `.9` is followed by `.10`.
+- `versionCode` is never derived from the version name. It must increase for every
+  Play/F-Droid upload and is never reused for the application ID.
+- Tags use the same name with a `v` prefix.
+
+Current example:
+
+```text
+versionName  2026.10.27.15
+versionCode  22
+git tag      v2026.10.27.15
+```
+
+The checked-in source of truth is [`android/app/version.properties`](android/app/version.properties).
+The same values are duplicated as literal defaults in
+[`android/app/build.gradle.kts`](android/app/build.gradle.kts) for F-Droid's
+update checker, and the latest release is mentioned in the README. Keep all three
+consistent when releasing.
+
+The app uses a compact floating **Launch Cradle** for navigation: **Feed · mohakash mark · Archive**. The Archive tab contains History, Archive and Favorites as tabs. The feed starts
 on the latest picture; swiping up goes to older pictures and down to newer ones (the
 list never wraps), and search sits in the top-left corner. Tapping a picture hides
 every overlay and the bottom bar; tapping again brings them back. Archive keeps the
