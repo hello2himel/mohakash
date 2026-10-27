@@ -1,0 +1,1 @@
+- Refreshed the Support Development card with a subtle gradient surface, a heart badge, and a prominent gradient Donate button with an icon.
