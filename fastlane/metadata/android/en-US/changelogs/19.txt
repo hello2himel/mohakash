@@ -1,0 +1,5 @@
+- Carousel wallpapers now start reliably; image validation and Bengali dates were fixed.
+- The carousel respects Update automatically and Wi-Fi only.
+- Hide videos no longer leaves an endless feed skeleton or leaks into search.
+- History shows a gradient next-wallpaper countdown from the real schedule.
+- The support prompt says Donate, uses icons, and respects donation reminders.
