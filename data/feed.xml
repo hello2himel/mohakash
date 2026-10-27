@@ -5,15 +5,22 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 26 Oct 2026 14:17:59 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 13:13:54 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Noctilucent Clouds over Sweden</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-october-27-noctilucent-clouds-over-sweden/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-27-noctilucent-clouds-over-sweden/</guid>
+      <pubDate>Tue, 27 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Sometimes it's night on the ground but day in the air. As the Earth rotates to eclipse the Sun, sunset rises upfrom the ground. Therefore, at sunset on the ground, sunlight still shines on clouds above. Under usual circumstances, a pretty sunset might be visible, but unusual noctilucent clouds float so high up they can be seen well after dark. Normally too dim to be seen, they may become visible just after sunset during the summer when illuminated by sunlight from below the horizon. Noctilucent clouds are the highest clouds and are known more technically as polar mesospheric clouds. Featured…<br/>Credit: V. Höfer, D. Večerník &amp; B. Večerníková</description>
+    </item>
     <item>
       <title>M42: The Great Nebula in Orion</title>
       <link>https://science.nasa.gov/image-article/apod/2026-october-26-m42-the-great-nebula-in-orion/</link>
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod/2026-october-26-m42-the-great-nebula-in-orion/</guid>
       <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The Great Nebula in Orion, an immense, nearby starbirth region, is one the most famous of all astronomical nebulas. Here, glowing gas surrounds hot young stars at the edge of an immense interstellar molecular cloud only 1500 light-years away. In the featured deep image in assigned colors highlighted by emission in hydrogen, wisps and sheets of dust and gas are particularly evident. The Great Nebula in Orion can be found with the unaided eye near the easily identifiable belt of three stars in the popular constellation Orion. In addition to housing a bright open cluster of stars known as the…<br/>Credit: Roberto Palaia</description>
+      <description>The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomical nebulas. Here, glowing gas surrounds hot young stars at the edge of an immense interstellar molecular cloud only 1500 light-years away. In the featured deep image in assigned colors highlighted by emission in hydrogen, wisps and sheets of dust and gas are particularly evident. The Great Nebula in Orion can be found with the unaided eye near the easily identifiable belt of three stars in the popular constellation Orion. In addition to housing a bright open cluster of stars known as the…<br/>Credit: Roberto Palaia</description>
     </item>
     <item>
       <title>Dark Matter in a Simulated Universe</title>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-28-cosmic-latte-the-average-color-of-the-universe/</guid>
       <pubDate>Mon, 28 Sep 2026 00:00:00 GMT</pubDate>
       <description>What color is the universe? More precisely, if the entire sky were smeared out, what color would the final mix be? This whimsical question came up when trying to determine what stars are commonplace in nearby galaxies. The answer, depicted here, is a conditionally perceived shade of beige. In computer parlance: #FFF8E7. To determine this, astronomers computationally averaged the light emitted by one of the larger samples of galaxies analyzed: the 200,000 galaxies of the 2dF Galaxy Redshift Survey. The resulting cosmic spectrum has some emission in all parts of the electromagnetic spectrum…<br/>Credit: Karl Glazebrook &amp; Ivan Baldry (JHU)</description>
-    </item>
-    <item>
-      <title>Andromeda Before Photoshop</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-september-27-andromeda-before-photoshop/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-27-andromeda-before-photoshop/</guid>
-      <pubDate>Sun, 27 Sep 2026 00:00:00 GMT</pubDate>
-      <description>What does the Andromeda galaxy really look like? The featured before image shows how our Milky Way Galaxy's closest major galactic neighbor really appears in a long exposure through Earth's busy skies and with a digital camera that introduces normal imperfections. The picture is a stack of 223 images, each a 300 second exposure, taken from a garden observatory in Portugal during 2019. Obvious image deficiencies include bright parallel airplane trails, long and continuous satellite trails, short cosmic ray streaks, and bad pixels. In the after image, these imperfections were actually not…<br/>Credit: Kees Scherer</description>
     </item>
   </channel>
 </rss>
