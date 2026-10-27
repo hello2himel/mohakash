@@ -304,9 +304,21 @@ class FeedViewModel(
         }
     }
 
-    /** Opens the search sheet. It shares the index and the filter type with the feed. */
+    /**
+     * Opens search with a clean slate. Search is a discovery surface, not a filtered view of
+     * whatever year/media/date the feed happened to be showing.
+     */
     fun openSearch() {
-        _state.update { it.copy(search = it.search.copy(filters = filters)) }
+        _state.update {
+            it.copy(
+                search = FeedSearchState(
+                    query = "",
+                    filters = FeedFilters(),
+                    results = emptyList(),
+                    isSearching = false,
+                ),
+            )
+        }
         ensureIndex()
         updateSearchResults()
     }

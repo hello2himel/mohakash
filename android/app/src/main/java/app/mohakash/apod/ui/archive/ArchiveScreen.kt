@@ -23,8 +23,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,6 +41,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +57,7 @@ import app.mohakash.apod.domain.model.ArchiveIndexEntry
 import app.mohakash.apod.ui.components.EllipsizedText
 import app.mohakash.apod.ui.components.FilterChipItem
 import app.mohakash.apod.ui.components.IconActionButton
+import app.mohakash.apod.ui.components.isoFromMillis
 import app.mohakash.apod.ui.components.MohakashTopBar
 import app.mohakash.apod.ui.components.PictureFrame
 import app.mohakash.apod.ui.components.SecondaryButton
@@ -93,8 +100,10 @@ fun ArchiveScreen(
     ArchiveContent(
         state = state,
         onQueryChange = viewModel::setQuery,
+        onBeginSearch = viewModel::beginSearch,
         onSelectYear = viewModel::selectYear,
         onOpenFilters = { showFilters = true },
+        onJumpToDate = viewModel::jumpToDate,
         onOpenEntry = onOpenEntry,
         onOpenSettings = onOpenSettings,
         onClearFilters = viewModel::reset,
@@ -111,7 +120,7 @@ fun ArchiveScreen(
             onDismiss = { showFilters = false },
             onYearSelected = viewModel::selectYear,
             onTypeSelected = viewModel::setTypeFilter,
-            onJumpToDate = viewModel::jumpToDate,
+            onDateRangeChange = viewModel::setDateRange,
             onReset = viewModel::reset,
             onApply = { showFilters = false },
         )
@@ -119,12 +128,15 @@ fun ArchiveScreen(
 }
 
 /** The stateless archive screen, used by the previews as well. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArchiveContent(
     state: ArchiveUiState,
     onQueryChange: (String) -> Unit,
+    onBeginSearch: () -> Unit,
     onSelectYear: (Int) -> Unit,
     onOpenFilters: () -> Unit,
+    onJumpToDate: (String) -> Unit,
     onOpenEntry: (String) -> Unit,
     onOpenSettings: () -> Unit,
     onClearFilters: () -> Unit,
@@ -135,6 +147,8 @@ internal fun ArchiveContent(
     bottomContentPadding: Dp = 0.dp,
 ) {
     val listState = rememberLazyListState()
+    var showGoToDatePicker by rememberSaveable { mutableStateOf(false) }
+    val searchMode = state.searchActive || state.query.isNotBlank()
 
     LaunchedEffect(listState, state.visible.size, state.query, state.selectedYear, state.typeFilter) {
         snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
@@ -167,9 +181,55 @@ internal fun ArchiveContent(
         SearchField(
             query = state.query,
             onQueryChange = onQueryChange,
+            onFocus = onBeginSearch,
             modifier = Modifier.padding(horizontal = MohakashDimens.SidePadding),
         )
 
+        if (searchMode) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MohakashDimens.SidePadding, vertical = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .heightIn(min = 54.dp)
+                        .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                        .background(MohakashColors.Accent.copy(alpha = 0.12f))
+                        .border(
+                            1.dp,
+                            MohakashColors.Accent.copy(alpha = 0.55f),
+                            RoundedCornerShape(MohakashDimens.CardRadius),
+                        )
+                        .clickable { showGoToDatePicker = true }
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_calendar_24),
+                        contentDescription = null,
+                        tint = MohakashColors.Accent,
+                        modifier = Modifier.size(20.dp),
+                    )
+                    Text(
+                        text = stringResource(R.string.filter_jump_to_date),
+                        style = MohakashTextStyles.UiSmallSemiBold,
+                        color = MohakashColors.Text,
+                    )
+                }
+                FilterChipItem(
+                    text = stringResource(R.string.archive_filters),
+                    selected = state.typeFilter != MediaFilter.ALL ||
+                        state.fromDate != null ||
+                        state.toDate != null,
+                    onClick = onOpenFilters,
+                )
+            }
+        } else {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -190,11 +250,14 @@ internal fun ArchiveContent(
                     text = stringResource(R.string.archive_filters),
                     selected = state.selectedYear !in state.availableYears.take(QUICK_YEAR_COUNT) ||
                         state.typeFilter != MediaFilter.ALL ||
+                        state.fromDate != null ||
+                        state.toDate != null ||
                         state.query.isNotBlank() ||
                         state.jumpToDate != null,
                     onClick = onOpenFilters,
                 )
             }
+        }
         }
 
         when {
@@ -236,6 +299,26 @@ internal fun ArchiveContent(
             }
         }
     }
+
+    if (showGoToDatePicker) {
+        val pickerState = rememberDatePickerState(initialSelectedDateMillis = null)
+        DatePickerDialog(
+            onDismissRequest = { showGoToDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    pickerState.selectedDateMillis?.let { onJumpToDate(isoFromMillis(it)) }
+                    showGoToDatePicker = false
+                }) { Text(stringResource(R.string.filter_confirm)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showGoToDatePicker = false }) {
+                    Text(stringResource(R.string.clear_cache_cancel))
+                }
+            },
+        ) {
+            DatePicker(state = pickerState)
+        }
+    }
 }
 
 /** The search pill above the archive list. */
@@ -243,6 +326,7 @@ internal fun ArchiveContent(
 private fun SearchField(
     query: String,
     onQueryChange: (String) -> Unit,
+    onFocus: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(MohakashDimens.PillRadius)
@@ -255,7 +339,8 @@ private fun SearchField(
         cursorBrush = SolidColor(MohakashColors.Accent),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .onFocusChanged { if (it.isFocused) onFocus() },
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier

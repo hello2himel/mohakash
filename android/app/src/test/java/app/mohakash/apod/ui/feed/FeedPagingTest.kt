@@ -260,6 +260,39 @@ class FeedPagingTest {
     }
 
     @Test
+    fun `search combines an inclusive date range with the query`() {
+        val items = FeedPaging.buildDateItems(
+            index = listOf(
+                index("2026-10-23", title = "The Orion Nebula"),
+                index("2026-10-22", title = "Orion over the Sea"),
+                index("2026-10-21", title = "Another Orion"),
+                index("2026-10-20", title = "Orion at Dawn"),
+            ),
+            latest = null,
+            yearRecords = emptyMap(),
+        )
+
+        val range = FeedFilters(fromDate = "2026-10-21", toDate = "2026-10-22")
+        assertEquals(
+            listOf("2026-10-22", "2026-10-21"),
+            FeedPaging.search(items, "orion", range).map { it.date },
+        )
+        assertEquals(
+            listOf("2026-10-22", "2026-10-21"),
+            FeedPaging.search(items, "", range).map { it.date },
+        )
+        // The same date is a one-day range.
+        assertEquals(
+            listOf("2026-10-22"),
+            FeedPaging.search(
+                items,
+                "",
+                FeedFilters(fromDate = "2026-10-22", toDate = "2026-10-22"),
+            ).map { it.date },
+        )
+    }
+
+    @Test
     fun `available years are unique and newest first`() {
         val items = FeedPaging.buildDateItems(
             index = listOf(

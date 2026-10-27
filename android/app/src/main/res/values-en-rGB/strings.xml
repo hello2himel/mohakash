@@ -211,4 +211,8 @@
     <string name="archive_error_title">The archive isn\'t available</string>
     <string name="archive_error_body">Check your connection and try again.</string>
     <string name="archive_retry">Try again</string>
+    <string name="date_picker_single">Specific date</string>
+    <string name="date_picker_range">Date range</string>
+    <string name="date_picker_any">Any date</string>
+    <string name="date_picker_title">Choose a date</string>
 </resources>
