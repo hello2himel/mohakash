@@ -144,7 +144,7 @@ that, the app recognises that its service is the active wallpaper and swaps new 
   same Fill/Fit mode, and the engine observes the setting, so changing it in the sheet or in
   *Settings → Display → Image scaling* updates an already-active wallpaper and the feed
   immediately.
-* A `WorkManager` job checks for a new APOD **four times a day** (every 6 hours) instead of once,
+* A `WorkManager` job checks for a new APOD **six times a day** (every 4 hours) instead of once,
   so an early or delayed run cannot skip a day. Only the tiny metadata document is fetched each
   time; the picture is downloaded only when the date or URL actually changed, then swapped in
   **atomically**. It runs without opening or refreshing the app, as long as the user has
@@ -294,10 +294,11 @@ and applies its own inset to the top chrome; the other screens pad the system ba
   what clears it.
 * ***Hide videos* only affects the wallpaper.** The feed always shows video entries; use the
   feed's Videos filter instead.
-* **Background updates are deferred by Android.** `PeriodicWorkRequest` checks every 6 hours, but
+* **Background updates are deferred by Android.** `PeriodicWorkRequest` checks every 4 hours, but
   Android decides when the job actually runs. It can be delayed by battery optimisation, Doze or
-  the app being swiped away. The exact update time is **not** guaranteed; four daily checks give
-  the next APOD several chances to arrive the same day.
+  the app being swiped away. The exact update time is **not** guaranteed; six daily checks give
+  the next APOD several chances to arrive the same day. Opening/resuming the app and a successful
+  pull-to-refresh also reconcile the wallpaper immediately when Android allows the process to run.
 * The first picture is only downloaded when the device is online; until then the wallpaper stays
   empty (or keeps the previous picture).
 * `MediaStore` writes need a few seconds on some devices; the app reports success or failure

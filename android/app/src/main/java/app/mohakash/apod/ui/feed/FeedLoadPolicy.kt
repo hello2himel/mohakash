@@ -1,6 +1,5 @@
 package app.mohakash.apod.ui.feed
 
-import app.mohakash.apod.core.TimeFormatting
 
 /**
  * The network policy of the feed, kept away from the ViewModel so it can be tested with plain
@@ -49,9 +48,21 @@ object FeedLoadPolicy {
         return !isMetered || userRequested
     }
 
+    /**
+     * The small `latest.json` is refreshed after an hour on resume, and always on pull. This is
+     * deliberately shorter than the archive-index and 6-hour general sync thresholds: a stale
+     * first page is the most visible failure, while the payload is only a few KiB.
+     */
+    const val LATEST_STALE_AFTER_MILLIS: Long = 60L * 60L * 1000L
+
     /** True when `latest.json` should be refreshed on open / pull-to-refresh. */
-    fun shouldRefreshLatest(lastSyncAt: Long?, now: Long, force: Boolean = false): Boolean =
-        force || TimeFormatting.isStale(lastSyncAt, now)
+    fun shouldRefreshLatest(lastSyncAt: Long?, now: Long, force: Boolean = false): Boolean {
+        if (force || lastSyncAt == null) return true
+        val age = now - lastSyncAt
+        // A clock that jumped backwards must not trigger an endless refresh loop.
+        if (age < 0) return false
+        return age > LATEST_STALE_AFTER_MILLIS
+    }
 
     /**
      * The years that should be fetched for the prefetch window around [currentPage].

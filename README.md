@@ -319,10 +319,11 @@ time; afterwards the app applies a chosen picture or a new APOD directly to the
 active live wallpaper without re-opening the system picker.
 
 The wallpaper is a genuine `WallpaperService` (not a static bitmap set through
-`WallpaperManager`). A `WorkManager` job checks for a new APOD every 6 hours,
+`WallpaperManager`). A `WorkManager` job checks for a new APOD every 4 hours,
 downloads the picture only when the date or image URL changed and swaps it in
 atomically; it works without opening or refreshing the app, subject to Android's
-battery/Doze delays. Fill/Fit is honoured by the feed, the sheet preview and by
+battery/Doze delays. Opening or resuming the app, and every successful
+pull-to-refresh, also reconcile the wallpaper from the same latest record. Fill/Fit is honoured by the feed, the sheet preview and by
 the engine, Wi-Fi only is off by default, and *Hide videos* / *Image scaling* /
 *Prefer HD* are in Settings.
 
@@ -599,8 +600,12 @@ does not break the website.
 
 `.github/workflows/update-apod.yml`
 
-* **Schedule:** `17 7,13 * * *` (UTC) — twice a day. GitHub delays scheduled
-  workflows, so the exact execution time is never guaranteed.
+* **Schedule:** `17 5,8,11,14,17 * * *` (UTC) — five probes across the likely
+  APOD publication window (11:17–23:17 Asia/Dhaka). NASA does not guarantee a
+  fixed publication minute: APOD dates follow US Eastern time, the API can
+  briefly return the previous day after UTC midnight, and GitHub also delays
+  scheduled workflows. This is a best-effort window, not an exact time. Runs
+  with no data change do not commit or redeploy Pages.
 * **Manual runs:** *Actions → Update APOD data → Run workflow* with the mode
   `sync`, `backfill`, `build` or `validate`, optional `start_year` /
   `end_year` for a backfill, `refresh` to re-fetch stored records and
@@ -711,7 +716,7 @@ a well-formed SHA-256 certificate fingerprint.
 | The workflow fails at the push step | Branch protection blocks the bot commit | See §9.4. |
 | The workflow fails with `400` on the date-range request | NASA's `date_from`/`date_to` are broken upstream | Nothing to do — the adapter falls back to pagination automatically. |
 | The Android app shows "You're offline" | The API base URL does not match your Pages site | Fix `android.api_base_url_fallbacks` in `config/site.json` and rebuild the app. |
-| The wallpaper does not change | Android deferred the background work, or the wallpaper is not active | The worker checks every 6 hours; open the app to force a foreground refresh, check *Update automatically* in Settings and make sure Mohakash is the selected live wallpaper, then check *Settings → Apps → Mohakash → Battery* is not *Restricted*. |
+| The wallpaper does not change | Android deferred the background work, or the wallpaper is not active | The worker checks every 4 hours; opening/resuming the app and pull-to-refresh also sync the wallpaper. Check *Update automatically* in Settings and make sure Mohakash is the selected live wallpaper, then check *Settings → Apps → Mohakash → Battery* is not *Restricted*. |
 | The live wallpaper is not in the picker | The service is not registered | Rebuild and reinstall the APK; check `AndroidManifest.xml` for the `WallpaperService` and `res/xml/wallpaper.xml`. |
 | `python3 scripts/sync_apod.py validate` fails | The archive or the generated files are inconsistent | Re-run `python3 scripts/sync_apod.py build` and commit the result. |
 

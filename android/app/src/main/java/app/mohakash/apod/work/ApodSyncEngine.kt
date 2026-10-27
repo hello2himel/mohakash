@@ -91,11 +91,23 @@ class ApodSyncEngine(
         networkAvailable: Boolean = true,
     ): SyncOutcome {
         val entry = try {
-            apodRepository.fetchLatest()
+            apodRepository.fetchLatest(forceNetwork = true)
         } catch (error: Exception) {
             return SyncOutcome.Failed(error)
         }
+        return syncEntry(entry, updateWallpaper, networkAvailable)
+    }
 
+    /**
+     * Applies a latest entry that the caller already fetched (for example after a feed refresh).
+     * This avoids a second `/latest.json` request and makes the feed and wallpaper converge on
+     * exactly the same record.
+     */
+    suspend fun syncEntry(
+        entry: ApodEntry,
+        updateWallpaper: Boolean = true,
+        networkAvailable: Boolean = true,
+    ): SyncOutcome {
         if (!updateWallpaper) {
             return SyncOutcome.Unchanged(entry)
         }

@@ -22,9 +22,14 @@ interface ApodService {
      * [maxBytes] bounds the *decompressed* response size. Implementations must reject a larger
      * document with an [java.io.IOException] before buffering it whole, so a misbehaving or
      * compromised endpoint cannot exhaust the heap. The parameter is defaulted so existing call
-     * sites remain source-compatible.
+     * sites remain source-compatible. [forceNetwork] bypasses OkHttp's disk cache for explicit
+     * refresh actions.
      */
-    suspend fun getString(path: String, maxBytes: Long = DEFAULT_MAX_RESPONSE_BYTES): String
+    suspend fun getString(
+        path: String,
+        maxBytes: Long = DEFAULT_MAX_RESPONSE_BYTES,
+        forceNetwork: Boolean = false,
+    ): String
 
     companion object {
         /** 16 MiB: roughly three times the largest document the app serves today. */

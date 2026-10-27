@@ -158,8 +158,12 @@ class FakeLatestEntrySource(
     var callCount: Int = 0
         private set
 
-    override suspend fun fetchLatest(): ApodEntry {
+    var lastForceNetwork: Boolean? = null
+        private set
+
+    override suspend fun fetchLatest(forceNetwork: Boolean): ApodEntry {
         callCount++
+        lastForceNetwork = forceNetwork
         error?.let { throw it }
         return entry ?: throw IOException("No entry configured")
     }
@@ -175,6 +179,7 @@ class FakeApodService(
 
     val requestedPaths = mutableListOf<String>()
     val requestedMaxBytes = mutableListOf<Long>()
+    val requestedForceNetwork = mutableListOf<Boolean>()
 
     /** Completed when `archive-index.json` is requested, before [archiveIndexGate] is awaited. */
     var archiveIndexStarted: CompletableDeferred<Unit>? = null
@@ -186,9 +191,10 @@ class FakeApodService(
 
     override suspend fun archiveIndex(): List<ArchiveIndexEntry> = throw UnsupportedOperationException()
 
-    override suspend fun getString(path: String, maxBytes: Long): String {
+    override suspend fun getString(path: String, maxBytes: Long, forceNetwork: Boolean): String {
         requestedPaths += path
         requestedMaxBytes += maxBytes
+        requestedForceNetwork += forceNetwork
         if (path == "/archive-index.json") {
             archiveIndexStarted?.complete(Unit)
             archiveIndexGate?.await()

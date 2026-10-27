@@ -13,10 +13,12 @@ import java.util.concurrent.TimeUnit
 /**
  * Schedules the background synchronisation.
  *
- * The periodic job checks for a new APOD several times a day. A single 24-hour job can run
- * before NASA publishes the next picture and then miss it for a whole day, so the worker gets
- * four chances per day instead. The metadata request is tiny; the picture itself is only
- * downloaded when the date or URL actually changed, and only while the live wallpaper is active.
+ * APOD itself has no fixed publication minute. A single 24-hour job can run before NASA
+ * publishes and then miss the picture for a whole day. The worker checks every four hours
+ * instead; the metadata request is tiny, the picture is only downloaded when the date or URL
+ * changed, and only while the live wallpaper is active. WorkManager may defer any run because
+ * of Doze, battery restrictions or process death, so the app also syncs on launch, resume and
+ * pull-to-refresh.
  *
  * The worker respects the "Wi-Fi only" setting; the network constraint only requires *some*
  * connection so the metadata can refresh even on mobile data.
@@ -26,8 +28,8 @@ object SyncScheduler {
     const val PERIODIC_WORK_NAME = "mohakash-periodic-sync"
     const val ONE_TIME_WORK_NAME = "mohakash-one-time-sync"
 
-    /** Check four times a day so a delayed or early run cannot skip a day. */
-    const val SYNC_INTERVAL_HOURS = 6L
+    /** Six checks a day: enough to converge without battery-heavy polling. */
+    const val SYNC_INTERVAL_HOURS = 4L
 
     /** Schedules (or updates) the periodic job. */
     fun schedulePeriodic(context: Context) {

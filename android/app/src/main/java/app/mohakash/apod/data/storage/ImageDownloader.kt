@@ -30,7 +30,12 @@ class ImageDownloader(private val httpClient: OkHttpClient) : PictureDownloader 
             return@withContext Result.failure(IOException("Refusing to download a non-image URL: $url"))
         }
         try {
-            val request = Request.Builder().url(url).get().build()
+            val request = Request.Builder()
+                .url(url)
+                .get()
+                // A changed picture must never be masked by an older cached response.
+                .header("Cache-Control", "no-cache")
+                .build()
             httpClient.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) {
                     throw IOException("HTTP ${response.code} while downloading $url")

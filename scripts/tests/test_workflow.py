@@ -41,10 +41,10 @@ def test_workflow_file_exists():
     assert (WORKFLOW_DIR / "update-apod.yml").is_file()
 
 
-def test_schedule_runs_twice_a_day(workflow):
+def test_schedule_probes_the_publication_window(workflow):
     # PyYAML parses the unquoted cron value as a string.
     crons = [entry["cron"] for entry in workflow[True]["schedule"] if isinstance(entry, dict)]
-    assert "17 7,13 * * *" in crons
+    assert "17 5,8,11,14,17 * * *" in crons
 
 
 def test_manual_runs_are_supported(workflow):
