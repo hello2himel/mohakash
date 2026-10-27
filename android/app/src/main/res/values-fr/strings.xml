@@ -251,4 +251,5 @@
     <string name="history_next_wallpaper">Prochain fond d’écran dans %1$s</string>
     <string name="history_next_wallpaper_preparing">Préparation du prochain fond d’écran…</string>
     <string name="history_next_wallpaper_updating">Mise à jour du fond d’écran…</string>
+    <string name="history_skip_wallpaper">Passer</string>
 </resources>

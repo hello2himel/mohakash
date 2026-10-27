@@ -44,6 +44,7 @@ import app.mohakash.apod.history.HistoryItem
 import app.mohakash.apod.history.HistorySource
 import app.mohakash.apod.ui.components.EllipsizedText
 import app.mohakash.apod.ui.components.PictureFrame
+import app.mohakash.apod.ui.components.TextAction
 import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
@@ -67,6 +68,7 @@ fun HistoryScreen(
             settingsStore = container.settingsStore,
             selectionStore = container.carouselSelectionStore,
             nextRunStore = container.carouselNextRunStore,
+            carouselController = container.carouselController,
             isWallpaperActive = { WallpaperStatus.isActive(appContext) },
         )
     }
@@ -76,6 +78,7 @@ fun HistoryScreen(
     HistoryContent(
         items = items,
         nextWallpaper = nextWallpaper,
+        onSkipWallpaper = viewModel::skipWallpaper,
         onOpenEntry = onOpenEntry,
         onBrowseFeed = onBrowseFeed,
         modifier = modifier,
@@ -87,6 +90,7 @@ fun HistoryScreen(
 internal fun HistoryContent(
     items: List<HistoryItem>,
     nextWallpaper: NextWallpaperUi? = null,
+    onSkipWallpaper: () -> Unit = {},
     onOpenEntry: (String) -> Unit,
     onBrowseFeed: () -> Unit,
     modifier: Modifier = Modifier,
@@ -96,6 +100,7 @@ internal fun HistoryContent(
         if (nextWallpaper != null) {
             NextWallpaperHeader(
                 state = nextWallpaper,
+                onSkip = onSkipWallpaper,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = MohakashDimens.SidePadding)
@@ -233,7 +238,11 @@ private fun HistoryEmptyState(onBrowseFeed: () -> Unit, modifier: Modifier = Mod
 
 /** A compact countdown/progress header for the active carousel. */
 @Composable
-private fun NextWallpaperHeader(state: NextWallpaperUi, modifier: Modifier = Modifier) {
+private fun NextWallpaperHeader(
+    state: NextWallpaperUi,
+    onSkip: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val shape = RoundedCornerShape(16.dp)
     val progress = state.progress
     val countdown = when {
@@ -252,11 +261,23 @@ private fun NextWallpaperHeader(state: NextWallpaperUi, modifier: Modifier = Mod
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(9.dp),
     ) {
-        Text(
-            text = stringResource(R.string.history_next_wallpaper_label),
-            style = MohakashTextStyles.UiSmallSemiBold,
-            color = MohakashColors.Text,
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(R.string.history_next_wallpaper_label),
+                style = MohakashTextStyles.UiSmallSemiBold,
+                color = MohakashColors.Text,
+                modifier = Modifier.weight(1f),
+            )
+            TextAction(
+                text = stringResource(R.string.history_skip_wallpaper),
+                onClick = onSkip,
+                minHeight = 40.dp,
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+            )
+        }
         Text(
             text = countdown,
             style = MohakashTextStyles.Helper,

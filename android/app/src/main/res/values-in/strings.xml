@@ -247,4 +247,5 @@
     <string name="history_next_wallpaper">Wallpaper berikutnya dalam %1$s</string>
     <string name="history_next_wallpaper_preparing">Menyiapkan wallpaper berikutnya…</string>
     <string name="history_next_wallpaper_updating">Memperbarui wallpaper…</string>
+    <string name="history_skip_wallpaper">Lewati</string>
 </resources>

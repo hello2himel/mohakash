@@ -84,6 +84,7 @@
     <!-- Archive -->
     <string name="history_title">History</string>
     <string name="history_next_wallpaper_label">Next wallpaper</string>
+    <string name="history_skip_wallpaper">Skip</string>
     <string name="history_next_wallpaper">Next wallpaper in %1$s</string>
     <string name="history_next_wallpaper_preparing">Preparing next wallpaper…</string>
     <string name="history_next_wallpaper_updating">Updating wallpaper…</string>

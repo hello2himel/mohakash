@@ -247,4 +247,5 @@
     <string name="history_next_wallpaper">Hình nền tiếp theo sau %1$s</string>
     <string name="history_next_wallpaper_preparing">Đang chuẩn bị hình nền tiếp theo…</string>
     <string name="history_next_wallpaper_updating">Đang cập nhật hình nền…</string>
+    <string name="history_skip_wallpaper">Bỏ qua</string>
 </resources>
