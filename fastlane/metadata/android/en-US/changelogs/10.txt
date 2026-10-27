@@ -1,0 +1,6 @@
+- Search starts clean: no year, type or date filter is applied by default from Feed or Archive.
+- A prominent Jump to date action and a flexible single-date or date-range picker replace the old buried filter controls.
+- Archive search now searches all years until you explicitly choose a filter.
+- Pull-to-refresh returns the feed to the newest APOD after the data is applied, even from an older page.
+- The live wallpaper now syncs from the same latest record on pull-to-refresh, app launch and resume.
+- Background wallpaper checks run every four hours and bypass stale HTTP caches; the backend workflow probes the APOD publication window more often.
