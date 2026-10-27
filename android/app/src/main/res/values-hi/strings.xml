@@ -144,7 +144,7 @@
     <string name="settings_prefer_hd_hint">बड़े डाउनलोड</string>
     <string name="settings_wifi_only">सिर्फ़ Wi-Fi</string>
     <string name="settings_hide_videos">वीडियो छिपाएँ</string>
-    <string name="settings_hide_videos_hint">वॉलपेपर की तस्वीर चुनते समय वीडियो प्रविष्टियाँ छोड़ दें।</string>
+    <string name="settings_hide_videos_hint">फ़ीड से वीडियो प्रविष्टियाँ छिपाएं और वॉलपेपर चुनते समय उन्हें छोड़ें।</string>
     <string name="settings_image_scaling">तस्वीर की स्केलिंग</string>
     <string name="settings_section_storage">स्टोरेज</string>
     <string name="settings_image_cache">तस्वीर कैश</string>

@@ -146,7 +146,7 @@
     <string name="settings_prefer_hd_hint">Téléchargements plus volumineux</string>
     <string name="settings_wifi_only">Wi-Fi uniquement</string>
     <string name="settings_hide_videos">Masquer les vidéos</string>
-    <string name="settings_hide_videos_hint">Ignorer les entrées vidéo lors du choix de l\'image du fond d\'écran.</string>
+    <string name="settings_hide_videos_hint">Masquez les vidéos du fil et ignorez-les lors du choix du fond d’écran.</string>
     <string name="settings_image_scaling">Mise à l\'échelle</string>
     <string name="settings_section_storage">Stockage</string>
     <string name="settings_image_cache">Cache d\'images</string>

@@ -144,7 +144,7 @@
     <string name="settings_prefer_hd_hint">বড় ফাইল ডাউনলোড হবে</string>
     <string name="settings_wifi_only">শুধু Wi-Fi</string>
     <string name="settings_hide_videos">ভিডিও লুকান</string>
-    <string name="settings_hide_videos_hint">ওয়ালপেপারের ছবি বাছাই করার সময় ভিডিও এন্ট্রি বাদ দিন।</string>
+    <string name="settings_hide_videos_hint">ফিড থেকে ভিডিও এন্ট্রি লুকান এবং ওয়ালপেপার বেছে নেওয়ার সময় সেগুলো এড়িয়ে যান।</string>
     <string name="settings_image_scaling">ছবির স্কেলিং</string>
     <string name="settings_section_storage">স্টোরেজ</string>
     <string name="settings_image_cache">ছবির ক্যাশে</string>

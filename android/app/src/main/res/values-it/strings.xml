@@ -146,7 +146,7 @@
     <string name="settings_prefer_hd_hint">Download più grandi</string>
     <string name="settings_wifi_only">Solo Wi-Fi</string>
     <string name="settings_hide_videos">Nascondi video</string>
-    <string name="settings_hide_videos_hint">Ignora le voci video quando scegli l\'immagine dello sfondo.</string>
+    <string name="settings_hide_videos_hint">Nascondi i video dal feed e saltali quando scegli lo sfondo.</string>
     <string name="settings_image_scaling">Scala immagine</string>
     <string name="settings_section_storage">Archiviazione</string>
     <string name="settings_image_cache">Cache immagini</string>

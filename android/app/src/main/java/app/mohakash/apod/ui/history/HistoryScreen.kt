@@ -65,6 +65,7 @@ fun HistoryScreen(
             historyRepository = container.historyRepository,
             settingsStore = container.settingsStore,
             selectionStore = container.carouselSelectionStore,
+            nextRunStore = container.carouselNextRunStore,
             isWallpaperActive = { WallpaperStatus.isActive(appContext) },
         )
     }
@@ -234,15 +235,13 @@ private fun HistoryEmptyState(onBrowseFeed: () -> Unit, modifier: Modifier = Mod
 private fun NextWallpaperHeader(state: NextWallpaperUi, modifier: Modifier = Modifier) {
     val shape = RoundedCornerShape(16.dp)
     val progress = state.progress
-    val countdown = if (progress == null) {
-        stringResource(R.string.history_next_wallpaper_preparing)
-    } else if (state.remainingMillis <= 0L) {
-        stringResource(R.string.history_next_wallpaper_updating)
-    } else {
-        stringResource(
+    val countdown = when {
+        state.remainingMillis > 0L -> stringResource(
             R.string.history_next_wallpaper,
             formatCountdown(state.remainingMillis),
         )
+        progress == null -> stringResource(R.string.history_next_wallpaper_preparing)
+        else -> stringResource(R.string.history_next_wallpaper_updating)
     }
     Column(
         modifier = modifier

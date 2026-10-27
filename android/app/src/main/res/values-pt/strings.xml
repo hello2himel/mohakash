@@ -146,7 +146,7 @@
     <string name="settings_prefer_hd_hint">Downloads maiores</string>
     <string name="settings_wifi_only">Somente Wi-Fi</string>
     <string name="settings_hide_videos">Ocultar vídeos</string>
-    <string name="settings_hide_videos_hint">Ignorar entradas em vídeo ao escolher a imagem do papel de parede.</string>
+    <string name="settings_hide_videos_hint">Oculte entradas de vídeo do feed e ignore-as ao escolher o papel de parede.</string>
     <string name="settings_image_scaling">Escala da imagem</string>
     <string name="settings_section_storage">Armazenamento</string>
     <string name="settings_image_cache">Cache de imagens</string>

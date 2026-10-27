@@ -142,7 +142,7 @@
     <string name="settings_prefer_hd_hint">Tải xuống dung lượng lớn hơn</string>
     <string name="settings_wifi_only">Chỉ Wi-Fi</string>
     <string name="settings_hide_videos">Ẩn video</string>
-    <string name="settings_hide_videos_hint">Bỏ qua mục video khi chọn ảnh hình nền.</string>
+    <string name="settings_hide_videos_hint">Ẩn mục video khỏi bảng tin và bỏ qua khi chọn hình nền.</string>
     <string name="settings_image_scaling">Tỷ lệ ảnh</string>
     <string name="settings_section_storage">Bộ nhớ</string>
     <string name="settings_image_cache">Bộ nhớ đệm ảnh</string>

@@ -144,7 +144,7 @@
     <string name="settings_prefer_hd_hint">Larger downloads</string>
     <string name="settings_wifi_only">Wi-Fi only</string>
     <string name="settings_hide_videos">Hide videos</string>
-    <string name="settings_hide_videos_hint">Skip video entries when picking the wallpaper picture.</string>
+    <string name="settings_hide_videos_hint">Hide video entries from the feed and when picking the wallpaper picture.</string>
     <string name="settings_image_scaling">Image scaling</string>
     <string name="settings_section_storage">Storage</string>
     <string name="settings_image_cache">Image cache</string>

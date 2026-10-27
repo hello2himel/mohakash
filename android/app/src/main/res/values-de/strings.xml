@@ -144,7 +144,7 @@
     <string name="settings_prefer_hd_hint">Größere Downloads</string>
     <string name="settings_wifi_only">Nur WLAN</string>
     <string name="settings_hide_videos">Videos ausblenden</string>
-    <string name="settings_hide_videos_hint">Video-Einträge beim Auswählen des Hintergrundbilds überspringen.</string>
+    <string name="settings_hide_videos_hint">Videoeinträge aus dem Feed ausblenden und beim Auswählen des Hintergrundbilds überspringen.</string>
     <string name="settings_image_scaling">Bildskalierung</string>
     <string name="settings_section_storage">Speicher</string>
     <string name="settings_image_cache">Bildcache</string>

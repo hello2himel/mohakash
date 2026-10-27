@@ -142,7 +142,7 @@
     <string name="settings_prefer_hd_hint">Unduhan lebih besar</string>
     <string name="settings_wifi_only">Hanya Wi-Fi</string>
     <string name="settings_hide_videos">Sembunyikan video</string>
-    <string name="settings_hide_videos_hint">Lewati entri video saat memilih gambar wallpaper.</string>
+    <string name="settings_hide_videos_hint">Sembunyikan entri video dari feed dan lewati saat memilih wallpaper.</string>
     <string name="settings_image_scaling">Penskalaan gambar</string>
     <string name="settings_section_storage">Penyimpanan</string>
     <string name="settings_image_cache">Cache gambar</string>

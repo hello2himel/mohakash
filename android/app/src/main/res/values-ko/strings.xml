@@ -142,7 +142,7 @@
     <string name="settings_prefer_hd_hint">다운로드 용량이 커집니다</string>
     <string name="settings_wifi_only">Wi-Fi에서만</string>
     <string name="settings_hide_videos">동영상 숨기기</string>
-    <string name="settings_hide_videos_hint">배경화면 사진을 고를 때 동영상 항목을 제외합니다.</string>
+    <string name="settings_hide_videos_hint">피드에서 동영상 항목을 숨기고 배경화면 선택 시 건너뜁니다.</string>
     <string name="settings_image_scaling">이미지 배율</string>
     <string name="settings_section_storage">저장공간</string>
     <string name="settings_image_cache">이미지 캐시</string>
