@@ -219,4 +219,8 @@
     <string name="settings_carousel_hint">轮换往年今天的图片。</string>
     <string name="settings_notifications">新 APOD 通知</string>
     <string name="settings_notifications_hint">仅当新的常规 APOD 成为壁纸时通知。轮播切换保持静默。</string>
+    <string name="onboarding_rhythm_title">选择壁纸节奏</string>
+    <string name="onboarding_rhythm_hint">之后可在设置中更改。</string>
+    <string name="onboarding_one_a_day">每天一张图片</string>
+    <string name="onboarding_one_a_day_hint">当天的 APOD 每天作为壁纸更新一次。</string>
 </resources>

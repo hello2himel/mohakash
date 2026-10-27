@@ -219,4 +219,8 @@
     <string name="settings_carousel_hint">Bergantian foto tanggal hari ini di tahun-tahun sebelumnya.</string>
     <string name="settings_notifications">Notifikasi APOD baru</string>
     <string name="settings_notifications_hint">Beri tahu hanya saat APOD reguler baru menjadi wallpaper. Pergantian korsel tetap senyap.</string>
+    <string name="onboarding_rhythm_title">Pilih ritme wallpaper</string>
+    <string name="onboarding_rhythm_hint">Anda dapat mengubahnya nanti di Pengaturan.</string>
+    <string name="onboarding_one_a_day">Satu foto sehari</string>
+    <string name="onboarding_one_a_day_hint">APOD hari ini menjadi wallpaper sekali sehari.</string>
 </resources>

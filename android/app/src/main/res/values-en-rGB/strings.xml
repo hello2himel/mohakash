@@ -221,4 +221,8 @@
     <string name="settings_carousel_hint">Rotate through photos from today’s date in past years.</string>
     <string name="settings_notifications">New APOD notifications</string>
     <string name="settings_notifications_hint">Notify only when a new regular APOD becomes the wallpaper. Carousel rotations stay silent.</string>
+    <string name="onboarding_rhythm_title">Choose your wallpaper rhythm</string>
+    <string name="onboarding_rhythm_hint">You can change this later in Settings.</string>
+    <string name="onboarding_one_a_day">One picture a day</string>
+    <string name="onboarding_one_a_day_hint">Today’s APOD becomes your wallpaper once a day.</string>
 </resources>

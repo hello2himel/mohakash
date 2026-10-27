@@ -223,4 +223,8 @@
     <string name="settings_carousel_hint">Alterne entre fotos de hoje em anos anteriores.</string>
     <string name="settings_notifications">Notificações de novo APOD</string>
     <string name="settings_notifications_hint">Notifique apenas quando um novo APOD regular se tornar o papel de parede. As rotações do carrossel ficam silenciosas.</string>
+    <string name="onboarding_rhythm_title">Escolha o ritmo do papel de parede</string>
+    <string name="onboarding_rhythm_hint">Você pode alterar isso depois nas Configurações.</string>
+    <string name="onboarding_one_a_day">Uma foto por dia</string>
+    <string name="onboarding_one_a_day_hint">O APOD de hoje vira seu papel de parede uma vez ao dia.</string>
 </resources>

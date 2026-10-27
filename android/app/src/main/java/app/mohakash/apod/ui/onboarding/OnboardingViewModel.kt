@@ -147,12 +147,13 @@ class OnboardingViewModel(
             when (syncEngine.install(entry, settings.preferHd, settings.hideVideos)) {
                 InstallOutcome.INSTALLED, InstallOutcome.UNCHANGED -> {
                     val path = wallpaperStorage.currentImageFile()?.absolutePath
-                    _state.value = OnboardingUiState(
+                    _state.value = _state.value.copy(
                         preview = if (path != null) {
                             WallpaperPreview(localPath = path)
                         } else {
                             _state.value.preview
                         },
+                        isPreparing = false,
                     )
                     settingsStore.setOnboardingCompleted(true)
                     // From now on the background job keeps the active wallpaper up to date.

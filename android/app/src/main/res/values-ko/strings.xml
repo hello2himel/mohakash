@@ -219,4 +219,8 @@
     <string name="settings_carousel_hint">지난해 오늘 날짜의 사진을 번갈아 보여줍니다.</string>
     <string name="settings_notifications">새 APOD 알림</string>
     <string name="settings_notifications_hint">새 일반 APOD가 배경화면이 될 때만 알립니다. 캐러셀 전환은 조용합니다.</string>
+    <string name="onboarding_rhythm_title">배경화면 리듬 선택</string>
+    <string name="onboarding_rhythm_hint">나중에 설정에서 변경할 수 있습니다.</string>
+    <string name="onboarding_one_a_day">하루에 한 장</string>
+    <string name="onboarding_one_a_day_hint">오늘의 APOD가 하루에 한 번 배경화면이 됩니다.</string>
 </resources>

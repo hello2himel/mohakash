@@ -223,4 +223,8 @@
     <string name="settings_carousel_hint">Alternez les photos d’aujourd’hui les années précédentes.</string>
     <string name="settings_notifications">Notifications des nouveaux APOD</string>
     <string name="settings_notifications_hint">Notifier uniquement lorsqu’un nouvel APOD régulier devient le fond d’écran. Les rotations du carrousel restent silencieuses.</string>
+    <string name="onboarding_rhythm_title">Choisissez le rythme de votre fond d’écran</string>
+    <string name="onboarding_rhythm_hint">Vous pourrez le modifier plus tard dans les Paramètres.</string>
+    <string name="onboarding_one_a_day">Une photo par jour</string>
+    <string name="onboarding_one_a_day_hint">L’APOD du jour devient votre fond d’écran une fois par jour.</string>
 </resources>

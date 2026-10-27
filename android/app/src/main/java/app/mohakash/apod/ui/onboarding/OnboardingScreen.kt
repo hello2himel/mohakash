@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,13 +30,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.components.PrimaryButton
+import app.mohakash.apod.ui.components.TextAction
 import app.mohakash.apod.ui.components.QuietButton
-import app.mohakash.apod.ui.components.SwitchRow
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
@@ -71,15 +76,27 @@ fun OnboardingScreen(
         }
     }
 
-    OnboardingContent(
-        preview = state.preview,
-        isPreparing = state.isPreparing,
-        carouselMode = state.carouselMode,
-        onCarouselModeChange = viewModel::setCarouselMode,
-        onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
-        onSkip = { viewModel.complete(openWallpaperPicker = false) },
-        modifier = modifier,
-    )
+    var showRhythm by rememberSaveable { mutableStateOf(false) }
+
+    if (showRhythm) {
+        OnboardingRhythmContent(
+            carouselMode = state.carouselMode,
+            isPreparing = state.isPreparing,
+            onCarouselModeChange = viewModel::setCarouselMode,
+            onBack = { if (!state.isPreparing) showRhythm = false },
+            onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
+            onSkip = { viewModel.complete(openWallpaperPicker = false) },
+            modifier = modifier,
+        )
+    } else {
+        OnboardingContent(
+            preview = state.preview,
+            isPreparing = state.isPreparing,
+            onSetWallpaper = { showRhythm = true },
+            onSkip = { viewModel.complete(openWallpaperPicker = false) },
+            modifier = modifier,
+        )
+    }
 }
 
 /** The stateless onboarding screen, used by the previews as well. */
@@ -87,8 +104,6 @@ fun OnboardingScreen(
 internal fun OnboardingContent(
     preview: WallpaperPreview,
     isPreparing: Boolean,
-    carouselMode: Boolean,
-    onCarouselModeChange: (Boolean) -> Unit,
     onSetWallpaper: () -> Unit,
     onSkip: () -> Unit,
     modifier: Modifier = Modifier,
@@ -158,14 +173,6 @@ internal fun OnboardingContent(
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            SwitchRow(
-                title = stringResource(R.string.onboarding_carousel_title),
-                subtitle = stringResource(R.string.onboarding_carousel_hint),
-                checked = carouselMode,
-                onCheckedChange = onCarouselModeChange,
-                showDivider = false,
-                minHeight = 56.dp,
-            )
             PrimaryButton(
                 text = stringResource(R.string.onboarding_set_wallpaper),
                 onClick = onSetWallpaper,
@@ -193,5 +200,117 @@ internal fun OnboardingContent(
                     .padding(top = 4.dp),
             )
         }
+    }
+}
+
+
+/** The second onboarding slide: choose the wallpaper rhythm before opening the picker. */
+@Composable
+internal fun OnboardingRhythmContent(
+    carouselMode: Boolean,
+    isPreparing: Boolean,
+    onCarouselModeChange: (Boolean) -> Unit,
+    onBack: () -> Unit,
+    onSetWallpaper: () -> Unit,
+    onSkip: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MohakashColors.Background)
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 32.dp),
+    ) {
+        TextAction(
+            text = stringResource(R.string.detail_back),
+            onClick = onBack,
+            modifier = Modifier.align(Alignment.Start),
+        )
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(top = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(18.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.onboarding_rhythm_title),
+                style = MohakashTextStyles.OnboardingTitle,
+                color = MohakashColors.Text,
+            )
+            Text(
+                text = stringResource(R.string.onboarding_rhythm_hint),
+                style = MohakashTextStyles.BodyBase,
+                color = MohakashColors.TextMuted,
+            )
+            RhythmOption(
+                selected = !carouselMode,
+                title = stringResource(R.string.onboarding_one_a_day),
+                hint = stringResource(R.string.onboarding_one_a_day_hint),
+                onClick = { onCarouselModeChange(false) },
+            )
+            RhythmOption(
+                selected = carouselMode,
+                title = stringResource(R.string.onboarding_carousel_title),
+                hint = stringResource(R.string.onboarding_carousel_hint),
+                onClick = { onCarouselModeChange(true) },
+            )
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            PrimaryButton(
+                text = stringResource(R.string.onboarding_set_wallpaper),
+                onClick = onSetWallpaper,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isPreparing,
+                height = 52.dp,
+                textStyle = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
+            )
+            QuietButton(
+                text = stringResource(R.string.onboarding_skip),
+                onClick = onSkip,
+                modifier = Modifier.fillMaxWidth(),
+                minHeight = 52.dp,
+                style = MohakashTextStyles.UiMedium,
+                color = MohakashColors.Text,
+            )
+        }
+    }
+}
+
+@Composable
+private fun RhythmOption(
+    selected: Boolean,
+    title: String,
+    hint: String,
+    onClick: () -> Unit,
+) {
+    val shape = RoundedCornerShape(18.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(if (selected) MohakashColors.Accent.copy(alpha = 0.12f) else MohakashColors.Surface)
+            .border(
+                width = if (selected) 1.5.dp else 1.dp,
+                color = if (selected) MohakashColors.Accent else MohakashColors.Border,
+                shape = shape,
+            )
+            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
+        Text(
+            text = title,
+            style = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
+            color = MohakashColors.Text,
+        )
+        Text(
+            text = hint,
+            style = MohakashTextStyles.Helper,
+            color = MohakashColors.TextMuted,
+        )
     }
 }
