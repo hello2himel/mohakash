@@ -177,12 +177,12 @@ internal fun FeedSearchSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                .clip(RoundedCornerShape(percent = 50))
                 .background(MohakashColors.Accent.copy(alpha = 0.12f))
                 .border(
                     1.dp,
                     MohakashColors.Accent.copy(alpha = 0.55f),
-                    RoundedCornerShape(MohakashDimens.CardRadius),
+                    RoundedCornerShape(percent = 50),
                 )
                 .clickable { showGoToDatePicker = true }
                 .padding(horizontal = 16.dp, vertical = 14.dp),
