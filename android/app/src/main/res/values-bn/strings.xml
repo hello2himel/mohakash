@@ -221,4 +221,8 @@
     <string name="settings_carousel_hint">আগের বছরের আজকের তারিখের ছবি পাল্টে দেখুন।</string>
     <string name="settings_notifications">নতুন APOD বিজ্ঞপ্তি</string>
     <string name="settings_notifications_hint">শুধু নতুন নিয়মিত APOD ওয়ালপেপার হলে জানান। ক্যারোসেল পরিবর্তন নীরব থাকবে।</string>
+    <string name="onboarding_rhythm_title">আপনার ওয়ালপেপারের ছন্দ বেছে নিন</string>
+    <string name="onboarding_rhythm_hint">পরে সেটিংসে এটি বদলাতে পারবেন।</string>
+    <string name="onboarding_one_a_day">দিনে একটি ছবি</string>
+    <string name="onboarding_one_a_day_hint">আজকের APOD দিনে একবার আপনার ওয়ালপেপার হবে।</string>
 </resources>

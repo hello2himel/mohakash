@@ -219,4 +219,8 @@
     <string name="settings_carousel_hint">Luân phiên ảnh của hôm nay các năm trước.</string>
     <string name="settings_notifications">Thông báo APOD mới</string>
     <string name="settings_notifications_hint">Chỉ thông báo khi APOD thường mới trở thành hình nền. Vòng xoay không gửi thông báo.</string>
+    <string name="onboarding_rhythm_title">Chọn nhịp hình nền</string>
+    <string name="onboarding_rhythm_hint">Bạn có thể thay đổi sau trong Cài đặt.</string>
+    <string name="onboarding_one_a_day">Một ảnh mỗi ngày</string>
+    <string name="onboarding_one_a_day_hint">APOD hôm nay trở thành hình nền mỗi ngày một lần.</string>
 </resources>

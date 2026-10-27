@@ -221,4 +221,8 @@
     <string name="settings_carousel_hint">Geçmiş yılların bugünkü fotoğraflarını döndürür.</string>
     <string name="settings_notifications">Yeni APOD bildirimleri</string>
     <string name="settings_notifications_hint">Yalnızca yeni normal bir APOD duvar kağıdı olduğunda bildir. Karusel dönüşleri sessiz kalır.</string>
+    <string name="onboarding_rhythm_title">Duvar kağıdı ritmini seç</string>
+    <string name="onboarding_rhythm_hint">Bunu daha sonra Ayarlar’dan değiştirebilirsin.</string>
+    <string name="onboarding_one_a_day">Günde bir fotoğraf</string>
+    <string name="onboarding_one_a_day_hint">Bugünün APOD’u günde bir kez duvar kağıdın olur.</string>
 </resources>
