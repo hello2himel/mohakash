@@ -18,6 +18,11 @@ import app.mohakash.apod.data.storage.ImageDownloader
 import app.mohakash.apod.data.storage.NotificationHelper
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
+import app.mohakash.apod.carousel.CarouselCollectionStore
+import app.mohakash.apod.carousel.CarouselController
+import app.mohakash.apod.carousel.CarouselDiscovery
+import app.mohakash.apod.carousel.CarouselSelectionStore
+import app.mohakash.apod.carousel.HttpCarouselImageValidator
 import app.mohakash.apod.work.ApodSyncEngine
 import app.mohakash.apod.work.SyncController
 import kotlinx.serialization.json.Json
@@ -25,6 +30,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
+import java.io.File
 
 /**
  * The dependency container.
@@ -118,6 +124,30 @@ class AppContainer(context: Context) {
 
     val imageRepository: ImageRepository by lazy {
         ImageRepository(appContext, imageDownloader, gallerySaver)
+    }
+
+    val carouselCollectionStore: CarouselCollectionStore by lazy {
+        CarouselCollectionStore(File(appContext.filesDir, "carousel/collection.json"))
+    }
+
+    val carouselSelectionStore: CarouselSelectionStore by lazy {
+        CarouselSelectionStore(File(appContext.filesDir, "carousel/selection.json"))
+    }
+
+    val carouselController: CarouselController by lazy {
+        CarouselController(
+            context = appContext,
+            settingsStore = settingsStore,
+            discovery = CarouselDiscovery(
+                archiveIndexRepository = archiveIndexRepository,
+                validator = HttpCarouselImageValidator(httpClient),
+                collectionStore = carouselCollectionStore,
+                latestSource = apodRepository,
+            ),
+            selectionStore = carouselSelectionStore,
+            syncEngine = syncEngine,
+            wallpaperStorage = wallpaperStorage,
+        )
     }
 
     val syncEngine: ApodSyncEngine by lazy {

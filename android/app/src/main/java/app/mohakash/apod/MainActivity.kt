@@ -53,6 +53,7 @@ class MainActivity : ComponentActivity() {
             // Keep the background job in sync with the preferences and refresh stale metadata.
             val settings = container.settingsStore.current()
             container.syncController.apply(settings)
+            if (settings.carouselMode) container.carouselController.ensureScheduled()
             if (TimeFormatting.isStale(settings.lastSyncAt, System.currentTimeMillis())) {
                 container.syncController.runOnce()
             }
@@ -79,6 +80,18 @@ class MainActivity : ComponentActivity() {
                     val settings = container.settingsStore.current()
                     startDestination = if (settings.onboardingCompleted) Routes.TODAY else Routes.ONBOARDING
                 }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val container = (application as MohakashApplication).container
+        lifecycleScope.launch {
+            if (container.settingsStore.current().carouselMode) {
+                // Recover a missing/deferred carousel job after a reboot, process death or a
+                // wallpaper-picker return. Existing queued work is kept rather than reset.
+                container.carouselController.ensureScheduled()
             }
         }
     }

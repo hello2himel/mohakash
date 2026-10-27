@@ -213,4 +213,8 @@
     <string name="date_picker_range">Khoảng ngày</string>
     <string name="date_picker_any">Mọi ngày</string>
     <string name="date_picker_title">Chọn ngày</string>
+    <string name="onboarding_carousel_title">Nhiều ảnh mỗi ngày</string>
+    <string name="onboarding_carousel_hint">Luân phiên ảnh APOD của ngày này các năm trước.</string>
+    <string name="settings_carousel">Chế độ xoay vòng</string>
+    <string name="settings_carousel_hint">Luân phiên ảnh của hôm nay các năm trước.</string>
 </resources>

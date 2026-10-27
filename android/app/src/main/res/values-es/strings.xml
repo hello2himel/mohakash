@@ -217,4 +217,8 @@
     <string name="date_picker_range">Intervalo de fechas</string>
     <string name="date_picker_any">Cualquier fecha</string>
     <string name="date_picker_title">Elegir una fecha</string>
+    <string name="onboarding_carousel_title">Más fotos al día</string>
+    <string name="onboarding_carousel_hint">Alterna fotos de APOD de esta fecha en años anteriores.</string>
+    <string name="settings_carousel">Modo carrusel</string>
+    <string name="settings_carousel_hint">Alterna fotos de hoy en años anteriores.</string>
 </resources>

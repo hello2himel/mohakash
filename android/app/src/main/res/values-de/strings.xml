@@ -215,4 +215,8 @@
     <string name="date_picker_range">Datumsbereich</string>
     <string name="date_picker_any">Beliebiges Datum</string>
     <string name="date_picker_title">Datum auswählen</string>
+    <string name="onboarding_carousel_title">Mehrere Bilder pro Tag</string>
+    <string name="onboarding_carousel_hint">Wechsle durch APOD-Bilder dieses Datums aus früheren Jahren.</string>
+    <string name="settings_carousel">Karussellmodus</string>
+    <string name="settings_carousel_hint">Wechsle durch Bilder des heutigen Datums aus früheren Jahren.</string>
 </resources>

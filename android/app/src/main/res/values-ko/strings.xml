@@ -213,4 +213,8 @@
     <string name="date_picker_range">날짜 범위</string>
     <string name="date_picker_any">모든 날짜</string>
     <string name="date_picker_title">날짜 선택</string>
+    <string name="onboarding_carousel_title">하루에 여러 장</string>
+    <string name="onboarding_carousel_hint">지난해 같은 날짜의 APOD 사진을 번갈아 보여줍니다.</string>
+    <string name="settings_carousel">캐러셀 모드</string>
+    <string name="settings_carousel_hint">지난해 오늘 날짜의 사진을 번갈아 보여줍니다.</string>
 </resources>
