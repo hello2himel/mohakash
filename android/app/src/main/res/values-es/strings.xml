@@ -146,7 +146,7 @@
     <string name="settings_prefer_hd_hint">Descargas más grandes</string>
     <string name="settings_wifi_only">Solo Wi-Fi</string>
     <string name="settings_hide_videos">Ocultar vídeos</string>
-    <string name="settings_hide_videos_hint">Omite las entradas de vídeo al elegir la imagen del fondo.</string>
+    <string name="settings_hide_videos_hint">Oculta las entradas de vídeo del feed y omítelas al elegir el fondo de pantalla.</string>
     <string name="settings_image_scaling">Escala de imagen</string>
     <string name="settings_section_storage">Almacenamiento</string>
     <string name="settings_image_cache">Caché de imágenes</string>

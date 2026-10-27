@@ -34,6 +34,7 @@ class CarouselController(
     private val settingsStore: SettingsStore,
     private val discovery: CarouselDiscovery,
     private val selectionStore: CarouselSelectionStore,
+    private val nextRunStore: CarouselNextRunStore,
     private val syncEngine: ApodSyncEngine,
     private val wallpaperStorage: WallpaperStorage,
     private val historyRepository: HistoryRepository,
@@ -49,22 +50,23 @@ class CarouselController(
         val settings = settingsStore.current()
         if (!settings.carouselMode) {
             CarouselScheduler.cancel(context)
+            nextRunStore.clear()
             return CarouselOutcome.Disabled
         }
         if (!isWallpaperActive()) {
-            CarouselScheduler.scheduleAfter(context, INACTIVE_RETRY_MILLIS)
+            scheduleNext(INACTIVE_RETRY_MILLIS)
             return CarouselOutcome.InactiveWallpaper
         }
         if (!isConnected()) {
             // The queued worker has a CONNECTED constraint: it stays pending without spinning
             // and runs as soon as a network becomes available.
-            CarouselScheduler.scheduleAfter(context, 0L)
+            scheduleNext(0L)
             return CarouselOutcome.Failed
         }
 
         val collection = discovery.load()
         if (collection == null || collection.items.isEmpty()) {
-            CarouselScheduler.scheduleAfter(context, EMPTY_RETRY_MILLIS)
+            scheduleNext(EMPTY_RETRY_MILLIS)
             return CarouselOutcome.NoImages
         }
 
@@ -101,27 +103,30 @@ class CarouselController(
                 )
                 historyRepository.recordCarousel(item)
                 if (interval != null && interval > 0L) {
-                    CarouselScheduler.scheduleAfter(context, interval)
+                    scheduleNext(interval, interval)
                 } else {
                     CarouselScheduler.cancel(context)
+                    nextRunStore.clear()
                 }
                 return CarouselOutcome.Updated(item)
             }
             remaining = remaining.filterNot { it.date == item.date }
         }
 
-        CarouselScheduler.scheduleAfter(context, FAILED_RETRY_MILLIS)
+        scheduleNext(FAILED_RETRY_MILLIS)
         return CarouselOutcome.Failed
     }
 
     /** Called when the user enables the mode: start a rotation as soon as WorkManager allows. */
     fun enable() {
         CarouselScheduler.scheduleNow(context)
+        nextRunStore.write(CarouselNextRun(nextAt = now(), intervalMillis = 0L))
     }
 
     /** Called when the user disables the mode: remove the carousel-only job. */
     fun disable() {
         CarouselScheduler.cancel(context)
+        nextRunStore.clear()
     }
 
     /** Called on app launch/resume; keeps an existing queued rotation instead of resetting it. */
@@ -134,7 +139,13 @@ class CarouselController(
      * whether Mohakash is actually the active wallpaper.
      */
     fun scheduleFirstRotation() {
-        CarouselScheduler.scheduleAfter(context, FIRST_ROTATION_DELAY_MILLIS)
+        scheduleNext(FIRST_ROTATION_DELAY_MILLIS)
+    }
+
+    private fun scheduleNext(delayMillis: Long, intervalMillis: Long = 0L) {
+        val delay = delayMillis.coerceAtLeast(0L)
+        CarouselScheduler.scheduleAfter(context, delay)
+        nextRunStore.write(CarouselNextRun(nextAt = now() + delay, intervalMillis = intervalMillis))
     }
 
     /** Tests can use this to check settings without touching Android storage. */

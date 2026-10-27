@@ -3,6 +3,8 @@ package app.mohakash.apod.ui.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.mohakash.apod.carousel.CarouselMath
+import app.mohakash.apod.carousel.CarouselNextRun
+import app.mohakash.apod.carousel.CarouselNextRunStore
 import app.mohakash.apod.carousel.CarouselSelection
 import app.mohakash.apod.carousel.CarouselSelectionStore
 import app.mohakash.apod.data.local.prefs.SettingsStore
@@ -29,6 +31,7 @@ class HistoryViewModel(
     historyRepository: HistoryRepository,
     private val settingsStore: SettingsStore,
     private val selectionStore: CarouselSelectionStore,
+    private val nextRunStore: CarouselNextRunStore,
     private val isWallpaperActive: () -> Boolean = { true },
     private val now: () -> Long = System::currentTimeMillis,
     private val timeZone: () -> TimeZone = { TimeZone.getDefault() },
@@ -41,6 +44,7 @@ class HistoryViewModel(
 
     private var carouselEnabled = false
     private var selection: CarouselSelection? = null
+    private var nextRun: CarouselNextRun? = null
 
     init {
         viewModelScope.launch {
@@ -54,6 +58,7 @@ class HistoryViewModel(
             while (currentCoroutineContext().isActive) {
                 if (tick % REFRESH_SELECTION_EVERY_TICKS == 0) {
                     selection = runCatching { selectionStore.read() }.getOrNull()
+                    nextRun = runCatching { nextRunStore.read() }.getOrNull()
                 }
                 publish()
                 tick += 1
@@ -70,11 +75,13 @@ class HistoryViewModel(
         val current = selection
         val total = current?.intervalMillis ?: 0L
         val last = current?.lastRotationAt
+        val timestamp = now()
         if (total <= 0L || last == null) {
-            _nextWallpaper.value = NextWallpaperUi(progress = null, remainingMillis = 0L)
+            // Before the first carousel pick, show the scheduled retry/first-rotation countdown.
+            val scheduled = nextRun?.nextAt?.let { (it - timestamp).coerceAtLeast(0L) } ?: 0L
+            _nextWallpaper.value = NextWallpaperUi(progress = null, remainingMillis = scheduled)
             return
         }
-        val timestamp = now()
         val today = CarouselMath.monthDay(timestamp, timeZone())
         if (current?.monthDay != today) {
             // The date changed; the worker will rebuild the collection and interval.

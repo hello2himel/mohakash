@@ -142,7 +142,7 @@
     <string name="settings_prefer_hd_hint">ダウンロードサイズが大きくなります</string>
     <string name="settings_wifi_only">Wi-Fiのみ</string>
     <string name="settings_hide_videos">動画を隠す</string>
-    <string name="settings_hide_videos_hint">壁紙用の画像を選ぶときに、動画の項目を除きます。</string>
+    <string name="settings_hide_videos_hint">フィードで動画項目を非表示にし、壁紙選択時にもスキップします。</string>
     <string name="settings_image_scaling">画像の表示方法</string>
     <string name="settings_section_storage">ストレージ</string>
     <string name="settings_image_cache">画像キャッシュ</string>
