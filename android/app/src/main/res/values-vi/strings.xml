@@ -236,4 +236,15 @@
     <string name="onboarding_multiple_daily">Nhiều lần mỗi ngày</string>
     <string name="onboarding_multiple_daily_hint">Ảnh mới vài giờ một lần.</string>
     <string name="onboarding_frequency_continue">Tiếp tục</string>
+    <string name="history_title">Lịch sử</string>
+    <string name="history_empty_title">Chưa có lịch sử</string>
+    <string name="history_empty_body">Những khám phá ngẫu nhiên và hình nền vòng xoay sẽ xuất hiện ở đây.</string>
+    <string name="history_browse_feed">Xem bảng tin</string>
+    <string name="history_source_random">Khám phá ngẫu nhiên</string>
+    <string name="history_source_carousel">Hình nền vòng xoay</string>
+    <string name="favorites_title">Yêu thích</string>
+    <string name="history_next_wallpaper_label">Hình nền tiếp theo</string>
+    <string name="history_next_wallpaper">Hình nền tiếp theo sau %1$s</string>
+    <string name="history_next_wallpaper_preparing">Đang chuẩn bị hình nền tiếp theo…</string>
+    <string name="history_next_wallpaper_updating">Đang cập nhật hình nền…</string>
 </resources>

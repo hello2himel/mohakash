@@ -240,4 +240,15 @@
     <string name="onboarding_multiple_daily">Varias veces al día</string>
     <string name="onboarding_multiple_daily_hint">Una foto nueva cada pocas horas.</string>
     <string name="onboarding_frequency_continue">Continuar</string>
+    <string name="history_title">Historial</string>
+    <string name="history_empty_title">Aún no hay historial</string>
+    <string name="history_empty_body">Los descubrimientos aleatorios y los fondos del carrusel aparecerán aquí.</string>
+    <string name="history_browse_feed">Explorar el feed</string>
+    <string name="history_source_random">Descubrimiento aleatorio</string>
+    <string name="history_source_carousel">Fondo del carrusel</string>
+    <string name="favorites_title">Favoritos</string>
+    <string name="history_next_wallpaper_label">Próximo fondo de pantalla</string>
+    <string name="history_next_wallpaper">Próximo fondo de pantalla en %1$s</string>
+    <string name="history_next_wallpaper_preparing">Preparando el próximo fondo…</string>
+    <string name="history_next_wallpaper_updating">Actualizando el fondo…</string>
 </resources>

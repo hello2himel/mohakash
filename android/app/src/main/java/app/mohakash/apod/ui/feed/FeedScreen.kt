@@ -94,6 +94,7 @@ fun FeedScreen(
             isUnmetered = { container.networkMonitor.isUnmetered() },
             isConnected = { container.networkMonitor.isConnected() },
             donationTracker = container.donationTracker,
+            historyRepository = container.historyRepository,
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()

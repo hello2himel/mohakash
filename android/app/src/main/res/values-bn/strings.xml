@@ -238,4 +238,15 @@
     <string name="onboarding_multiple_daily">দিনে একাধিকবার</string>
     <string name="onboarding_multiple_daily_hint">প্রতি কয়েক ঘণ্টায় একটি নতুন ছবি।</string>
     <string name="onboarding_frequency_continue">চালিয়ে যান</string>
+    <string name="history_title">ইতিহাস</string>
+    <string name="history_empty_title">এখনো কোনো ইতিহাস নেই</string>
+    <string name="history_empty_body">এলোমেলো আবিষ্কার ও ক্যারোসেল ওয়ালপেপার এখানে দেখা যাবে।</string>
+    <string name="history_browse_feed">ফিড দেখুন</string>
+    <string name="history_source_random">এলোমেলো আবিষ্কার</string>
+    <string name="history_source_carousel">ক্যারোসেল ওয়ালপেপার</string>
+    <string name="favorites_title">প্রিয়</string>
+    <string name="history_next_wallpaper_label">পরবর্তী ওয়ালপেপার</string>
+    <string name="history_next_wallpaper">%1$s পরে পরবর্তী ওয়ালপেপার</string>
+    <string name="history_next_wallpaper_preparing">পরবর্তী ওয়ালপেপার প্রস্তুত হচ্ছে…</string>
+    <string name="history_next_wallpaper_updating">ওয়ালপেপার হালনাগাদ হচ্ছে…</string>
 </resources>

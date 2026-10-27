@@ -5,6 +5,7 @@ import app.mohakash.apod.core.NetworkMonitor
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.domain.model.AppSettings
+import app.mohakash.apod.history.HistoryRepository
 import app.mohakash.apod.wallpaper.WallpaperStatus
 import app.mohakash.apod.work.ApodSyncEngine
 import app.mohakash.apod.work.CarouselScheduler
@@ -35,6 +36,7 @@ class CarouselController(
     private val selectionStore: CarouselSelectionStore,
     private val syncEngine: ApodSyncEngine,
     private val wallpaperStorage: WallpaperStorage,
+    private val historyRepository: HistoryRepository,
     private val isWallpaperActive: () -> Boolean = { WallpaperStatus.isActive(context) },
     private val isConnected: () -> Boolean = { NetworkMonitor(context).isConnected() },
     private val now: () -> Long = System::currentTimeMillis,
@@ -97,6 +99,7 @@ class CarouselController(
                         intervalMillis = interval ?: 0L,
                     ),
                 )
+                historyRepository.recordCarousel(item)
                 if (interval != null && interval > 0L) {
                     CarouselScheduler.scheduleAfter(context, interval)
                 } else {

@@ -236,4 +236,15 @@
     <string name="onboarding_multiple_daily">Berulang kali sehari</string>
     <string name="onboarding_multiple_daily_hint">Foto baru setiap beberapa jam.</string>
     <string name="onboarding_frequency_continue">Lanjutkan</string>
+    <string name="history_title">Riwayat</string>
+    <string name="history_empty_title">Belum ada riwayat</string>
+    <string name="history_empty_body">Penemuan acak dan wallpaper korsel akan muncul di sini.</string>
+    <string name="history_browse_feed">Jelajahi feed</string>
+    <string name="history_source_random">Penemuan acak</string>
+    <string name="history_source_carousel">Wallpaper korsel</string>
+    <string name="favorites_title">Favorit</string>
+    <string name="history_next_wallpaper_label">Wallpaper berikutnya</string>
+    <string name="history_next_wallpaper">Wallpaper berikutnya dalam %1$s</string>
+    <string name="history_next_wallpaper_preparing">Menyiapkan wallpaper berikutnya…</string>
+    <string name="history_next_wallpaper_updating">Memperbarui wallpaper…</string>
 </resources>

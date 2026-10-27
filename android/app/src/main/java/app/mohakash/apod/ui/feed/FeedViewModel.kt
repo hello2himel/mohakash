@@ -10,6 +10,7 @@ import app.mohakash.apod.data.repository.ImageRepository
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.donation.DonationTracker
+import app.mohakash.apod.history.HistoryRepository
 import app.mohakash.apod.core.ImageUrlValidator
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
@@ -61,6 +62,7 @@ class FeedViewModel(
     private val syncEngine: ApodSyncEngine,
     private val syncController: SyncController,
     private val donationTracker: DonationTracker,
+    private val historyRepository: HistoryRepository,
     /** Reports whether Mohakash is already the selected live wallpaper. */
     private val isWallpaperActive: () -> Boolean = { false },
     /** Reports whether the active connection is unmetered (Wi-Fi/ethernet). */
@@ -179,6 +181,7 @@ class FeedViewModel(
                     }
                 }
                 if (picked != null) {
+                    historyRepository.recordRandom(picked)
                     jumpToDate(picked.date)
                 } else {
                     _events.trySend(FeedEvent.ShowMessage(MESSAGE_RANDOM_UNAVAILABLE))

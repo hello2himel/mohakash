@@ -20,6 +20,8 @@ import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.donation.DonationStateStore
 import app.mohakash.apod.donation.DonationTracker
+import app.mohakash.apod.history.HistoryRepository
+import app.mohakash.apod.history.HistoryStore
 import app.mohakash.apod.carousel.CarouselCollectionStore
 import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.carousel.CarouselDiscovery
@@ -130,6 +132,12 @@ class AppContainer(context: Context) {
 
     val donationTracker: DonationTracker by lazy { DonationTracker(donationStateStore) }
 
+    val historyStore: HistoryStore by lazy {
+        HistoryStore(File(appContext.filesDir, "history/discoveries.json"), json)
+    }
+
+    val historyRepository: HistoryRepository by lazy { HistoryRepository(historyStore) }
+
     val imageRepository: ImageRepository by lazy {
         ImageRepository(appContext, imageDownloader, gallerySaver)
     }
@@ -155,6 +163,7 @@ class AppContainer(context: Context) {
             selectionStore = carouselSelectionStore,
             syncEngine = syncEngine,
             wallpaperStorage = wallpaperStorage,
+            historyRepository = historyRepository,
         )
     }
 

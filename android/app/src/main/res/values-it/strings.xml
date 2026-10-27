@@ -240,4 +240,15 @@
     <string name="onboarding_multiple_daily">Più volte al giorno</string>
     <string name="onboarding_multiple_daily_hint">Una nuova foto ogni poche ore.</string>
     <string name="onboarding_frequency_continue">Continua</string>
+    <string name="history_title">Cronologia</string>
+    <string name="history_empty_title">Ancora nessuna cronologia</string>
+    <string name="history_empty_body">Scoperte casuali e sfondi del carosello appariranno qui.</string>
+    <string name="history_browse_feed">Sfoglia il feed</string>
+    <string name="history_source_random">Scoperta casuale</string>
+    <string name="history_source_carousel">Sfondo del carosello</string>
+    <string name="favorites_title">Preferiti</string>
+    <string name="history_next_wallpaper_label">Prossimo sfondo</string>
+    <string name="history_next_wallpaper">Prossimo sfondo tra %1$s</string>
+    <string name="history_next_wallpaper_preparing">Preparazione del prossimo sfondo…</string>
+    <string name="history_next_wallpaper_updating">Aggiornamento dello sfondo…</string>
 </resources>
