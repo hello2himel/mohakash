@@ -41,7 +41,11 @@ class HttpCarouselImageValidator(private val httpClient: OkHttpClient) : Carouse
             ).execute().use { response ->
                 when {
                     response.isSuccessful && isImageType(response.header("Content-Type")) -> {
-                        if (response.body?.contentLength() == 0L) CarouselValidation.Invalid
+                        // HEAD responses always have a zero-byte body. Use the declared
+                        // Content-Length header instead, otherwise every valid CDN image is
+                        // incorrectly rejected.
+                        val declaredLength = response.header("Content-Length")?.toLongOrNull()
+                        if (declaredLength == 0L) CarouselValidation.Invalid
                         else CarouselValidation.Valid
                     }
 

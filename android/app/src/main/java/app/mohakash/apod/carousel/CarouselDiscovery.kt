@@ -42,7 +42,7 @@ class CarouselDiscovery(
         }
 
         val index = archiveIndexRepository.ensureLoaded(allowNetwork = true)
-            ?: return cachedForToday
+        if (index == null) return cachedForToday
         // The archive index is cached for a day; add the latest record explicitly so today's
         // newly published APOD can join the carousel even before the index is refreshed.
         val latest = runCatching {
