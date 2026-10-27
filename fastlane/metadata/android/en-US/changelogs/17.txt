@@ -1,0 +1,3 @@
+- Hide videos now removes video entries from the feed when the setting is on.
+- History shows a live countdown to the next carousel wallpaper, including before the first pick.
+- Small reliability and copy fixes for the archive history and carousel schedule.
