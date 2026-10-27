@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-26T14:17:59Z",
-  "count": 11447,
+  "generated_at": "2026-10-27T13:13:54Z",
+  "count": 11448,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-10-27",
+      "title": "Noctilucent Clouds over Sweden",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NocClouds_Hofer_6048.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-27-noctilucent-clouds-over-sweden/",
+      "copyright": "V. Höfer, D. Večerník & B. Večerníková",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-10-26",
       "title": "M42: The Great Nebula in Orion",

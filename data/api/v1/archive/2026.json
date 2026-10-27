@@ -1,14 +1,33 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "generated_at": "2026-10-26T14:17:59Z",
-  "count": 299,
+  "generated_at": "2026-10-27T13:13:54Z",
+  "count": 300,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-10-27",
+      "title": "Noctilucent Clouds over Sweden",
+      "explanation": "Sometimes it's night on the ground but day in the air. As the Earth rotates to eclipse the Sun, sunset rises upfrom the ground. Therefore, at sunset on the ground, sunlight still shines on clouds above. Under usual circumstances, a pretty sunset might be visible, but unusual noctilucent clouds float so high up they can be seen well after dark. Normally too dim to be seen, they may become visible just after sunset during the summer when illuminated by sunlight from below the horizon. Noctilucent clouds are the highest clouds and are known more technically as polar mesospheric clouds. Featured here as they appeared in early August, a network of blue noctilucent clouds was captured in the distant sky above a field of green grass near Linköping, Sweden, with trees in stark silhouette across the horizon. Much about noctilucent clouds has been discovered only in the past two decades, while how they form and evolve remains a topic of active research.\n\nTomorrow's picture: round and round",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NocClouds_Hofer_6048.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NocClouds_Hofer_6048.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NocClouds_Hofer_6048.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-27-noctilucent-clouds-over-sweden/",
+      "copyright": "V. Höfer, D. Večerník & B. Večerníková",
+      "credit": "V. Höfer, D. Večerník & B. Večerníková",
+      "alt_text": "A dark night sky is pictured over a green field bounded by trees in silhouette. Across the image middle are blue filamentary glows -- noctilucent clouds. Dark clouds are seen across the top of the image. Please see the explanation for more detailed information.",
+      "source": "NASA APOD",
+      "source_id": "1504085",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-10-27T13:13:54Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-10-26",
       "title": "M42: The Great Nebula in Orion",
-      "explanation": "The Great Nebula in Orion, an immense, nearby starbirth region, is one the most famous of all astronomical nebulas. Here, glowing gas surrounds hot young stars at the edge of an immense interstellar molecular cloud only 1500 light-years away. In the featured deep image in assigned colors highlighted by emission in hydrogen, wisps and sheets of dust and gas are particularly evident. The Great Nebula in Orion can be found with the unaided eye near the easily identifiable belt of three stars in the popular constellation Orion. In addition to housing a bright open cluster of stars known as the Trapezium, the Orion Nebula contains many stellar nurseries. These nurseries contain much hydrogen gas, hot young stars, proplyds, and stellar jets spewing material at high speeds. Also known as M42, the Orion Nebula spans about 40 light years and is located in the same spiral arm of our Galaxy as the Sun.\n\nTomorrow's picture: open space",
+      "explanation": "The Great Nebula in Orion, an immense, nearby starbirth region, is one of the most famous of all astronomical nebulas. Here, glowing gas surrounds hot young stars at the edge of an immense interstellar molecular cloud only 1500 light-years away. In the featured deep image in assigned colors highlighted by emission in hydrogen, wisps and sheets of dust and gas are particularly evident. The Great Nebula in Orion can be found with the unaided eye near the easily identifiable belt of three stars in the popular constellation Orion. In addition to housing a bright open cluster of stars known as the Trapezium, the Orion Nebula contains many stellar nurseries. These nurseries contain much hydrogen gas, hot young stars, proplyds, and stellar jets spewing material at high speeds. Also known as M42, the Orion Nebula spans about 40 light years and is located in the same spiral arm of our Galaxy as the Sun.\n\nTomorrow's picture: open space",
       "media_type": "image",
       "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/OrionSword_Palaia_2000.jpg?w=1600",
       "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/OrionSword_Palaia_2000.jpg?w=2400",
@@ -21,7 +40,7 @@
       "source_id": "1500112",
       "source_media_type": "image",
       "image_status": "ok",
-      "updated_at": "2026-10-26T14:17:59Z"
+      "updated_at": "2026-10-27T13:13:54Z"
     },
     {
       "schema_version": "1.0.0",
