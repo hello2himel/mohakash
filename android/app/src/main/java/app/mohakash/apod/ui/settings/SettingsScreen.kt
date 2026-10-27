@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -354,11 +355,18 @@ internal fun SettingsContent(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp, bottom = 8.dp),
+                    .heightIn(min = 48.dp)
+                    .clickable(role = Role.Button) {
+                        onOpenLink(DEVELOPER_WEBSITE_URL)
+                    }
+                    .padding(top = 16.dp, bottom = 8.dp),
             )
         }
     }
 }
+
+/** The developer's public site, linked from the final attribution. */
+private const val DEVELOPER_WEBSITE_URL = "https://hello2himel.netlify.app"
 
 /** A compact, understated support card. It is not a promotional banner. */
 @Composable
