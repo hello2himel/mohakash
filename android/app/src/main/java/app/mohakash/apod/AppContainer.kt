@@ -18,6 +18,8 @@ import app.mohakash.apod.data.storage.ImageDownloader
 import app.mohakash.apod.data.storage.NotificationHelper
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
+import app.mohakash.apod.donation.DonationStateStore
+import app.mohakash.apod.donation.DonationTracker
 import app.mohakash.apod.carousel.CarouselCollectionStore
 import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.carousel.CarouselDiscovery
@@ -121,6 +123,12 @@ class AppContainer(context: Context) {
     val shareHelper: ShareHelper by lazy { ShareHelper(appContext) }
 
     val notificationHelper: NotificationHelper by lazy { NotificationHelper.get(appContext) }
+
+    val donationStateStore: DonationStateStore by lazy {
+        DonationStateStore(File(appContext.filesDir, "support/donation-state.json"), json)
+    }
+
+    val donationTracker: DonationTracker by lazy { DonationTracker(donationStateStore) }
 
     val imageRepository: ImageRepository by lazy {
         ImageRepository(appContext, imageDownloader, gallerySaver)

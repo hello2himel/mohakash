@@ -53,6 +53,11 @@ class MainActivity : ComponentActivity() {
             // Keep the background job in sync with the preferences and refresh stale metadata.
             val settings = container.settingsStore.current()
             container.syncController.apply(settings)
+            if (settings.donationRemindersEnabled) {
+                app.mohakash.apod.work.DonationReminderScheduler.schedule(this@MainActivity)
+            } else {
+                app.mohakash.apod.work.DonationReminderScheduler.cancel(this@MainActivity)
+            }
             if (settings.carouselMode) container.carouselController.ensureScheduled()
             if (TimeFormatting.isStale(settings.lastSyncAt, System.currentTimeMillis())) {
                 container.syncController.runOnce()

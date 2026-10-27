@@ -130,6 +130,7 @@ private fun SettingsPreview() {
             onOpenAdvanced = {},
             onUpdateAutomaticallyChange = {},
             onNotificationsEnabledChange = {},
+            onDonationRemindersChange = {},
             onCarouselModeChange = {},
             onPreferHdChange = {},
             onWifiOnlyChange = {},

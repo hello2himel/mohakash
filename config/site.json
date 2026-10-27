@@ -10,7 +10,8 @@
     "custom_domain": null
   },
   "website": {
-    "base_url": "https://mohakash.netlify.app"
+    "base_url": "https://mohakash.netlify.app",
+    "donation_url": "https://hello2himel.netlify.app/donate?source=Mohakash"
   },
   "api": {
     "version": "v1",

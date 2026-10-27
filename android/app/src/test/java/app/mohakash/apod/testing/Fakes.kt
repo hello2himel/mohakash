@@ -65,6 +65,9 @@ class FakeSettingsStore(initial: AppSettings = AppSettings()) : SettingsStore {
 
     override suspend fun setNotificationsEnabled(enabled: Boolean) =
         state.update { it.copy(notificationsEnabled = enabled) }
+
+    override suspend fun setDonationRemindersEnabled(enabled: Boolean) =
+        state.update { it.copy(donationRemindersEnabled = enabled) }
 }
 
 /** An in-memory [FavouriteDao] that behaves like the Room implementation. */

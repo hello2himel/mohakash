@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import app.mohakash.apod.BuildConfig
 import app.mohakash.apod.MainActivity
 import app.mohakash.apod.R
 import app.mohakash.apod.domain.model.ApodEntry
@@ -28,6 +29,7 @@ class NotificationHelper private constructor(private val context: Context) {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     private val channelId = "mohakash_wallpaper"
+    private val supportChannelId = "mohakash_support"
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -41,6 +43,17 @@ class NotificationHelper private constructor(private val context: Context) {
                 enableVibration(false)
             }
             manager.createNotificationChannel(channel)
+            manager.createNotificationChannel(
+                NotificationChannel(
+                    supportChannelId,
+                    context.getString(R.string.notification_channel_support_name),
+                    NotificationManager.IMPORTANCE_LOW,
+                ).apply {
+                    description = context.getString(R.string.notification_channel_support_description)
+                    enableLights(false)
+                    enableVibration(false)
+                },
+            )
         }
     }
 
@@ -51,6 +64,7 @@ class NotificationHelper private constructor(private val context: Context) {
         @Volatile private var instance: NotificationHelper? = null
 
         const val NOTIFICATION_ID = 1001
+        const val DONATION_NOTIFICATION_ID = 1002
 
         fun get(context: Context): NotificationHelper =
             instance ?: synchronized(this) {
@@ -155,5 +169,46 @@ class NotificationHelper private constructor(private val context: Context) {
         if (!uri.scheme.equals("https", ignoreCase = true)) return null
         if (uri.host.isNullOrBlank()) return null
         return uri
+    }
+
+    fun areNotificationsEnabled(): Boolean =
+        NotificationManagerCompat.from(context).areNotificationsEnabled()
+
+    /**
+     * A rare, optional support reminder. Never auto-opens the browser; the user must tap the
+     * notification or its "Support Development" action.
+     */
+    fun notifyDonation() {
+        if (!areNotificationsEnabled()) return
+        val uri = validHttpsUri(BuildConfig.DONATE_URL) ?: return
+        val donateIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        val donatePending = PendingIntent.getActivity(
+            context,
+            3,
+            donateIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val notification = NotificationCompat.Builder(context, supportChannelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(context.getString(R.string.notification_donation_title))
+            .setContentText(context.getString(R.string.notification_donation_body))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(context.getString(R.string.notification_donation_body)),
+            )
+            .setContentIntent(donatePending)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .addAction(
+                NotificationCompat.Action.Builder(
+                    R.drawable.ic_heart_24,
+                    context.getString(R.string.settings_support_title),
+                    donatePending,
+                ).build(),
+            )
+            .build()
+        manager.notify(DONATION_NOTIFICATION_ID, notification)
     }
 }

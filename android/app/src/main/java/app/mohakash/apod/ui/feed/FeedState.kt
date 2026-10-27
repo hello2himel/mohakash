@@ -147,4 +147,5 @@ data class FeedUiState(
 sealed interface FeedEvent {
     data class ShowMessage(val text: String) : FeedEvent
     data object OpenWallpaperPicker : FeedEvent
+    data class ShowDonationPrompt(val fromRandom: Boolean) : FeedEvent
 }

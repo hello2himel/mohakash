@@ -1,0 +1,4 @@
+- Simplified onboarding: set the live wallpaper first, then choose how often it changes.
+- Choose “Once daily” or “Multiple times daily” after the system wallpaper picker returns.
+- Added an optional Support Development card in Settings and a rare, dismissible support prompt in the feed.
+- Added an opt-out donation reminder setting and a developer attribution line.

@@ -9,6 +9,7 @@ import app.mohakash.apod.data.repository.FavouritesRepository
 import app.mohakash.apod.data.repository.ImageRepository
 import app.mohakash.apod.data.storage.ShareHelper
 import app.mohakash.apod.data.storage.WallpaperStorage
+import app.mohakash.apod.donation.DonationTracker
 import app.mohakash.apod.core.ImageUrlValidator
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.ArchiveIndexEntry
@@ -59,6 +60,7 @@ class FeedViewModel(
     private val wallpaperStorage: WallpaperStorage,
     private val syncEngine: ApodSyncEngine,
     private val syncController: SyncController,
+    private val donationTracker: DonationTracker,
     /** Reports whether Mohakash is already the selected live wallpaper. */
     private val isWallpaperActive: () -> Boolean = { false },
     /** Reports whether the active connection is unmetered (Wi-Fi/ethernet). */
@@ -112,6 +114,7 @@ class FeedViewModel(
         _state.value = _state.value.copy(isOffline = !isConnected())
         observeSettings()
         observeFavourites()
+        viewModelScope.launch { donationTracker.recordSession() }
         // A fresh process may have last synced hours ago; the latest document is tiny, so force
         // one network read on launch and bypass a stale HTTP cache.
         loadLatest(force = true)
@@ -143,6 +146,14 @@ class FeedViewModel(
     fun pickRandom() {
         if (randomJob?.isActive == true) return
         randomJob = viewModelScope.launch {
+            donationTracker.recordRandomUse()
+            // The rare support card takes the place of this one random result. It is only
+            // offered after sustained use and a long cooldown; dismissal immediately retries
+            // the random action, so the tap is never silently discarded.
+            if (donationTracker.offerFeedPrompt()) {
+                _events.trySend(FeedEvent.ShowDonationPrompt(fromRandom = true))
+                return@launch
+            }
             _state.update { it.copy(isPickingRandom = true) }
             try {
                 val index = archiveIndexRepository.ensureLoaded(allowNetwork = true).orEmpty()
@@ -178,6 +189,11 @@ class FeedViewModel(
         }
     }
 
+    /** Records a dismissed support card so it is not shown again during the cooldown. */
+    fun dismissDonationPrompt() {
+        donationTracker.dismissPrompt()
+    }
+
     /** Cancels an in-flight random pick and closes its overlay. */
     fun cancelRandomPick() {
         randomJob?.cancel()
@@ -193,6 +209,7 @@ class FeedViewModel(
                 currentDate = target.date
                 currentPageKey = target.date
                 _state.update { it.copy(currentDate = target.date, currentPageKey = target.date) }
+                viewModelScope.launch { donationTracker.recordPage(target.date) }
                 hydrate(target.date)
                 // Years are appended by the prefetcher as the user approaches the tail; the big
                 // index is only fetched on an explicit action (search, filter, end of archive).
@@ -507,6 +524,7 @@ class FeedViewModel(
     /** Called on every resume: re-reads the wallpaper state and refreshes stale metadata. */
     fun onResume() {
         viewModelScope.launch {
+            donationTracker.recordSession()
             updateWallpaperState()
             _state.update { it.copy(isOffline = !isConnected()) }
             val settings = settingsStore.current()

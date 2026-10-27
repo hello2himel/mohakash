@@ -93,6 +93,7 @@ fun FeedScreen(
             isWallpaperActive = { WallpaperStatus.isActive(appContext) },
             isUnmetered = { container.networkMonitor.isUnmetered() },
             isConnected = { container.networkMonitor.isConnected() },
+            donationTracker = container.donationTracker,
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -100,6 +101,8 @@ fun FeedScreen(
 
     var systemWallpaperActive by remember { mutableStateOf(WallpaperStatus.isActive(appContext)) }
     var showSearch by rememberSaveable { mutableStateOf(false) }
+    var showDonationPrompt by rememberSaveable { mutableStateOf(false) }
+    var donationFromRandom by rememberSaveable { mutableStateOf(false) }
     var pendingSaveDate by rememberSaveable { mutableStateOf<String?>(null) }
     // A tap on the picture hides every overlay and the bottom bar; a second tap brings them back.
     var chromeVisible by rememberSaveable { mutableStateOf(true) }
@@ -139,6 +142,10 @@ fun FeedScreen(
             when (event) {
                 is FeedEvent.ShowMessage -> snackbarHostState.showSnackbar(event.text)
                 FeedEvent.OpenWallpaperPicker -> openWallpaperPicker(context)
+                is FeedEvent.ShowDonationPrompt -> {
+                    donationFromRandom = event.fromRandom
+                    showDonationPrompt = true
+                }
             }
         }
     }
@@ -255,6 +262,22 @@ fun FeedScreen(
 
     if (state.isPickingRandom) {
         FeedRandomPickOverlay(onCancel = viewModel::cancelRandomPick)
+    }
+
+    if (showDonationPrompt) {
+        DonationPromptOverlay(
+            onSupport = {
+                showDonationPrompt = false
+                viewModel.dismissDonationPrompt()
+                onOpenLink(app.mohakash.apod.BuildConfig.DONATE_URL)
+            },
+            onDismiss = {
+                val retryRandom = donationFromRandom
+                showDonationPrompt = false
+                viewModel.dismissDonationPrompt()
+                if (retryRandom) viewModel.pickRandom()
+            },
+        )
     }
 }
 
