@@ -1,0 +1,1 @@
+- Updated the developer attribution and made it open the developer’s public website.
