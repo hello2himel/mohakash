@@ -97,23 +97,25 @@ workflow.
 The checked-in source of truth is `android/app/version.properties`:
 
 ```properties
-VERSION_CODE=2
-VERSION_NAME=1.0.1
+VERSION_CODE=22
+VERSION_NAME=2026.10.27.15
 ```
 
-Rules:
+The version name is `YYYY.MM.DD.N`:
 
-- `VERSION_CODE` must increase for every upload to Play, even a re-upload.
-- The tag must be exactly `v` + `VERSION_NAME`, for example `v1.0.1`.
-- `v1.0.0` already exists and contains the old debug-signed package. Do not
-  reuse it.
+- `YYYY.MM.DD` is the start date of the current release series.
+- `N` increments for every release in that series (`.1`, `.2`, … `.9`, `.10`).
+- The Git tag is exactly `v` + `VERSION_NAME`, for example `v2026.10.27.15`.
+- `VERSION_CODE` is an independent, monotonically increasing integer. It must
+  increase for every upload to Play/F-Droid, even a re-upload, and is never
+  reused for the application ID.
 - Keep the literal `versionCode`/`versionName` defaults at the top of
   `defaultConfig` in `android/app/build.gradle.kts` in sync with
   `version.properties`. fdroidserver's `checkupdates` parser reads those
   literals, while the build still uses the checked-in/env values below them.
 
-To prepare the next release, update the values in both files, commit them, then
-create the matching tag.
+To prepare the next release, update both files, commit them, tag the release
+commit, and keep the README/F-Droid metadata latest-release values in sync.
 
 ---
 
@@ -151,8 +153,8 @@ jarsigner -verify app/build/outputs/bundle/release/app-release.aab
 Expected:
 
 - package `mohakash.stargzr.space`
-- version code `2`
-- version name `1.0.1`
+- version code `22`
+- version name `2026.10.27.15`
 - one signer whose SHA-256 certificate digest matches the fingerprint above
 - `jar verified` for the AAB
 
@@ -170,18 +172,18 @@ creates `SHA256SUMS.txt`, and publishes a GitHub release.
 
 ```bash
 git add .
-git commit -m "chore(release): prepare Android 1.0.1"
+git commit -m "release: 2026.10.27.15 (code 22)"
 git push origin main
 
-git tag -a v1.0.1 -m "Mohakash Android 1.0.1"
-git push origin v1.0.1
+git tag -a v2026.10.27.15 -m "Mohakash Android 2026.10.27.15"
+git push origin v2026.10.27.15
 ```
 
 The release assets are:
 
 ```text
 mohakash.apk
-mohakash-1.0.1.aab
+mohakash-2026.10.27.15.aab
 SHA256SUMS.txt
 ```
 
@@ -199,6 +201,16 @@ artifacts to the workflow run but does **not** create a release.
 The AAB is Play-ready, but the Play Console account, app record and store
 assets are owner actions.
 
+### Donation policy note
+
+All support/donation actions open an external page in the browser. The app has no
+Play Billing dependency and no digital benefits are unlocked by donating. Google
+Play's Payments policy and recent enforcement around external donation links are
+account- and jurisdiction-dependent; confirm the current policy in Play Console
+before submitting this build. If needed, ship a Play-specific flavor that hides
+the support card, feed prompt and donation-reminder worker while keeping
+donations available on F-Droid/GitHub.
+
 ### One-time setup
 
 1. Create a Google Play developer account.
@@ -214,9 +226,8 @@ assets are owner actions.
      astronomy content, not directed to children under 13.
    - Ads: no.
    - App access: all functionality is available without login.
-6. Add at least two phone screenshots. The current listing assets live in
-   `fastlane/metadata/android/en-US/`; the icon and feature graphic are there,
-   but screenshots must be captured from a real device or emulator.
+6. Upload the existing store assets from `fastlane/metadata/android/en-US/`:
+   icon, feature graphic and six phone screenshots.
 7. Review and roll out.
 
 ### Later uploads from CI (optional)
@@ -250,7 +261,8 @@ fdroid/metadata/mohakash.stargzr.space.yml
 
 Before opening a merge request:
 
-1. Push the `v1.0.1` tag.
+1. Push the current release tag (currently `v2026.10.27.15`; use the latest
+   `vYYYY.MM.DD.N` tag).
 2. Replace the `Builds.commit` tag in the metadata with the full commit hash of
    the tagged release (F-Droid prefers full hashes).
 3. Submit the metadata to
@@ -269,7 +281,7 @@ F-Droid listing.
 ## 7. What is already done
 
 - Package name changed to `mohakash.stargzr.space`.
-- Version moved to `android/app/version.properties` (`1.0.1`, code `2`).
+- Version moved to `android/app/version.properties` (currently `2026.10.27.15`, code `22`).
 - Release signing reads environment variables or `android/keystore.properties`.
 - Unsigned release builds still work for F-Droid-style builders.
 - Signed APK/AAB built and signature-verified locally.
@@ -280,6 +292,6 @@ F-Droid listing.
 - Back up the keystore and password file off-machine.
 - Approve adding the signing key to GitHub Actions secrets (or publish locally).
 - Create the Play Console app and complete the listing/policy forms.
-- Capture at least two phone screenshots.
+- Keep the Play listing screenshots current with each major UI release.
 - Create a GitLab account and submit the F-Droid merge request.
 - Confirm the final store listing wording, target audience and content rating.

@@ -1,12 +1,14 @@
 Mohakash brings the Astronomy Picture of the Day to your phone.
 
-Read today's picture and the full explanation, browse the archive, keep favourites for offline reading, and put the newest picture on your home screen with a genuine Android live wallpaper.
+Read today's picture and the full explanation, browse the complete archive, keep favourites for offline reading, and put astronomy pictures on your home screen with a genuine Android live wallpaper.
 
 Features:
 - Today's APOD with the date, credit, title and explanation.
-- Searchable archive with year and media-type filters.
-- Save pictures and read them offline.
-- A real WallpaperService: automatic daily updates, Fill or Fit, optional Wi-Fi-only downloads.
+- Searchable archive with year, media and date filters.
+- Favourites, offline-friendly metadata and a private History of random discoveries and carousel wallpaper choices.
+- One-picture-a-day wallpaper or a carousel that rotates through valid APODs from the same date in past years, with a next-wallpaper countdown and a Skip action.
+- A real WallpaperService with Fill or Fit, optional Wi-Fi-only downloads and optional notifications for new APOD pictures.
+- Hide videos in the feed and wallpaper experience.
 - HD image option and a clean, dark, Material 3 interface.
 - No account, no ads, no analytics and no tracking.
 

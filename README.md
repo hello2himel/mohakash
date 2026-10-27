@@ -230,13 +230,18 @@ The Today description is a readable preview ending on a sentence (up to six
 lines on desktop); **Read full explanation** opens the complete text in the
 existing drawer.
 
-**Today support card.** Under that preview sits a quiet dismissible card. Most
+**Today support card.** Under the preview sits a quiet support card. Most
 sessions show the Android invitation — a compact real-app screenshot, a short
 “update your wallpaper with astronomy pictures daily” line and one **Download
-for Android** button (direct APK). Occasionally it becomes a polite donation
-note instead. It is chosen once per session, can be dismissed for 14 days, and
-is never a footer ribbon or an auto-opening modal. The
-[About page](web/src/pages/about.astro) explains the app in more detail.
+for Android** button (direct APK). Some sessions instead show a polite donation
+note. The variant is chosen once per browser session and is not an
+auto-opening modal.
+
+A separate, smaller donation prompt can appear after sustained reading. It
+requires repeated use over multiple days, has a **30-day cooldown**, is
+dismissible with **Not now**, and records a **180-day grace period** after a
+donation link is opened. The [About page](web/src/pages/about.astro) explains
+the app in more detail.
 
 ---
 
@@ -284,6 +289,22 @@ The same values are duplicated as literal defaults in
 [`android/app/build.gradle.kts`](android/app/build.gradle.kts) for F-Droid's
 update checker, and the latest release is mentioned in the README. Keep all three
 consistent when releasing.
+
+Current Android features include:
+
+- First-run onboarding with a one-picture-a-day or multiple-times-daily wallpaper
+  choice; carousel mode rotates through valid historical APODs from today’s
+  month/day.
+- A vertical APOD feed with search, year/media filters, jump-to-date, full-screen
+  viewing, sharing, saving, favorites and optional video hiding.
+- An Archive hub with **History**, **Archive** and **Favorites** tabs. History
+  records only random discoveries and carousel wallpaper choices, never ordinary
+  feed browsing, and shows a live **next wallpaper** countdown plus a **Skip**
+  action.
+- A real Android live wallpaper with metadata-only background sync, validation,
+  atomic image replacement and optional APOD notifications.
+- Optional, infrequent donation support prompts and reminders, both locally
+  controlled and disabled from Settings.
 
 The app uses a compact floating **Launch Cradle** for navigation: **Feed · mohakash mark · Archive**. The Archive tab contains History, Archive and Favorites as tabs. The feed starts
 on the latest picture; swiping up goes to older pictures and down to newer ones (the
@@ -442,7 +463,7 @@ python3 -m pytest scripts/tests -q
 ```json
 {
   "schema_version": "1.0.0",
-  "date": "2026-10-22",
+  "date": "2026-10-27",
   "title": "The First Green Star, WD J1330+6435",
   "explanation": "Plain text. Paragraphs are separated by a blank line.",
   "media_type": "image",
@@ -457,7 +478,7 @@ python3 -m pytest scripts/tests -q
   "source_id": "1497603",
   "source_media_type": "image",
   "image_status": "ok",
-  "updated_at": "2026-10-22T12:17:44Z"
+  "updated_at": "2026-10-27T21:22:35Z"
 }
 ```
 
@@ -704,7 +725,8 @@ Mohakash is an independent project. It is **not affiliated with, sponsored
 by, reviewed by or endorsed by NASA**.
 
 Interface icons use [Remix Icon](https://remixicon.com) under the Remix Icon
-License v1.0; the font files are bundled with the website. The mohakash brand
+License v1.0. The Android app bundles Inter and Newsreader under the SIL Open
+Font License 1.1; the website loads those families from Google Fonts. The mohakash brand
 mark, launcher icon, favicon and social cards come from the project's brand
 kit, and the brand wordmark is always lowercase.
 
@@ -722,9 +744,9 @@ Current result:
 
 | Suite | Tests | Command |
 |---|---|---|
-| Data pipeline | **102 passed** | `python3 -m pytest scripts/tests -q` |
+| Data pipeline | **103 passed** | `python3 -m pytest scripts/tests -q` |
 | Website | **99 passed** | `cd web && npm test` |
-| Android | **202 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
+| Android | **226 passed** | `cd android && ./gradlew :app:testDebugUnitTest` |
 | Website type check | 0 errors, 0 warnings | `cd web && npx astro check` |
 | Archive validation | ok | `python3 scripts/sync_apod.py validate` |
 
@@ -772,16 +794,16 @@ a well-formed SHA-256 certificate fingerprint.
 
 - [x] Verified the current NASA endpoint, its parameters and its response fields against the live service.
 - [x] Data pipeline with a dedicated NASA adapter, a normalized versioned schema, upsert/dedupe, resumable backfill, bounded retries and validation.
-- [x] The complete archive: **11 443 records** from 1995-06-16 to 2026-10-22, backfilled from the live endpoint. NASA publishes 11 444 posts; one date (2007-07-16) has two posts and the newer one is kept.
+- [x] The complete archive: **11 448 records** from 1995-06-16 to 2026-10-27, backfilled from the live endpoint. NASA publishes additional posts on some dates; the newest record for each date is kept.
 - [x] Public API generator for `latest.json`, `archive-index.json`, `archive/YYYY.json`, `status.json` and `feed.xml`.
 - [x] GitHub Actions workflow: schedule, manual runs, concurrency, minimal permissions, `[skip netlify]` commit, Pages deployment in the same workflow.
 - [x] Astro website with all seven routes, all data states and a runtime-only data fetch.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
-- [x] Automated tests: 102 pipeline, 99 website, 202 Android — all green. The debug APK builds.
+- [x] Automated tests: 103 pipeline, 99 website, 226 Android — all green. The debug APK builds.
 - [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v2026.10.27.15**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
-- [x] Wallpaper audit on the Android 15 emulator: the system picker is shown only on first activation; choosing an archive picture updates the active wallpaper in place without a dialog; the background worker replaced that archive picture with the latest APOD without opening the app; a 6-hour periodic job is scheduled; Fill/Fit matches in the sheet preview and on the live wallpaper and changes while active; Wi-Fi only is off by default and Hide videos is in Settings.
+- [x] Wallpaper audit on the Android 15 emulator: the system picker is shown only on first activation; choosing an archive picture updates the active wallpaper in place without a dialog; the background worker replaced that archive picture with the latest APOD without opening the app; a 4-hour periodic job is scheduled; Fill/Fit matches in the sheet preview and on the live wallpaper and changes while active; Wi-Fi only is off by default and Hide videos is in Settings.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 - [x] App Links and archive-URL sharing verified on an Android 15 emulator: root, archive and archive-entry links open the right screen, query strings/fragments are ignored, a link that arrives during onboarding opens after it finishes, and the share button opens a text share sheet with the archive URL. The signed release APK was verified against the deployed `assetlinks.json` (`pm get-app-links` reports `verified`).
 

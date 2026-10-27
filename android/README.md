@@ -119,8 +119,11 @@ Every owner-specific URL is read from **`config/site.json`** in the repository r
 |---|---|
 | `API_BASE_URL_FALLBACKS` | `android.api_base_url_fallbacks` (comma separated) |
 | `REPOSITORY_URL` | `github.owner` + `github.repo` |
-| `CONTENT_RIGHTS_URL` | `REPOSITORY_URL` + `/blob/master/CONTENT_RIGHTS.md` |
+| `CONTENT_RIGHTS_URL` | `REPOSITORY_URL` + `/blob/<default_branch>/CONTENT_RIGHTS.md` |
+| `PRIVACY_URL` | `website.base_url` + `/privacy` |
+| `THIRD_PARTY_NOTICES_URL` | `REPOSITORY_URL` + `/blob/<default_branch>/THIRD_PARTY_NOTICES.md` |
 | `WEBSITE_BASE_URL` | `website.base_url` |
+| `DONATE_URL` | `website.donation_url` |
 
 The app tries the candidate base URLs in order until one answers and remembers the winner in
 DataStore; the next request starts with the remembered one and falls back to the others if it
@@ -168,22 +171,22 @@ that, the app recognises that its service is the active wallpaper and swaps new 
 
 | Screen | What it does |
 |---|---|
-| **Onboarding** | Shown once. Phone preview, headline, *Set live wallpaper* / *Skip for now*, download note. Triggers the first synchronisation. |
+| **Onboarding** | Shown once. Page 1: phone preview, headline, *Set live wallpaper* / *Skip for now*. After the system picker returns, page 2 asks **Once a day** or **Multiple times a day** (default) and finishes with *Continue*. Finishing requests notification permission on Android 13+. |
 | **Top chrome** | Search (left), lowercase **mohakash** wordmark (centre), Settings (right), over a black-to-transparent top scrim. Tapping the picture hides this chrome and the dock; tapping again restores them. |
 | **Feed** | Full-screen vertical pager with one APOD per page. Page 0 is the latest picture; swiping up goes to older pictures, swiping down to newer ones, and the list never wraps. On a first visit a one-time **Swipe up / to see more pictures** cue appears with two small feed bounces and fades after six seconds or on the first drag. Top chrome has **search on the left, the mohakash wordmark in the centre and Settings on the right**. A black-to-transparent bottom gradient carries the credit, title and two-line teaser; the APOD date runs vertically on the left with a short accent line. A labelled right-hand rail holds **Favorite**, **Download** (image entries) and **Share**. Next to the text is a compact **Set wallpaper** pill and a text **Learn more** link. Tapping the picture fades out the gradient and the bottom bar for a clean full-screen view; tapping again (or Back) restores them. Fill/Fit follows the shared image-scaling setting. |
 | **Feed (video)** | Poster with the play glyph and *Video* chip, *Watch on APOD* instead of save / wallpaper. Videos play on the APOD page, not in the app. |
 | **Feed (offline)** | Pages render from the on-disk index and cached years with an *Offline copy* chip; the teaser is hidden until a page is hydrated, and *Retry* re-attempts the network. |
-| **Archive** | Dedicated tab between Feed and Saved. Search titles, quick year chips, *Filters*, and a newest-first list of the selected year. The shared disk-cached index opens instantly; the filter sheet has all years, media types and jump-to-date. |
+| **Archive hub** | Three equal-width tabs: **History**, **Archive** and **Favorites**. History contains only random discoveries and carousel wallpaper choices, with a live next-wallpaper countdown and a **Skip** action. Archive keeps search, quick year chips, *Filters* and jump-to-date. Favorites is the saved-picture grid. |
 | **End card** | The real last page of the feed: *Beginning of the archive* (the first picture is from 16 June 1995), *Back to latest* and *Open Saved*. A filtered feed shows *No older pictures match this filter* instead. |
 | **Wallpaper sheet** | Fill/Fit preview that matches the engine, current image (date · title), Fill/Fit selector, *Update daily* switch, *Set live wallpaper* (first time) or *Apply now* (already active), helper text. |
 | **Full entry** | Back / heart / share (and the settings gear), the **uncropped** picture inset with page padding and rounded corners, at its true aspect ratio with pinch and double-tap zoom (1×–4×, clamped panning; double-tap resets). Zoomed content is hard-clipped to the picture area. The picture is capped at 62% of the viewport: tall images keep that height and narrow their width; short images take the full content width. Below it: human date · credit, title, *Save image* + *Set as wallpaper* for pictures (the existing permission and sheet flows) or *Watch on original page* and the wallpaper note for videos, the full explanation, and a **Details** section with Date, Media type, Credit, Updated and Source rows plus *Original APOD page* / *HD image* links. |
 | **Search sheet** | Full-height sheet over the feed: *Search titles or dates* field (150 ms debounce), year chips, All / Images / Videos, and result rows (thumbnail, ISO date, title, credit, video glyph). Tapping a result closes the sheet and moves the feed to that date; with a cached index it works offline. |
 | **Filter sheet** | All years as a wrapped chip grid, All / Images / Videos, and a jump-to-date picker bounded to the archive range. A gap date resolves to the newest existing earlier date and says so. *Reset* and *Show N pictures*. |
-| **Saved** | The second segment inside the Archive hub: two-column square grid; tiles open the full entry view. |
-| **Saved (empty)** | The Saved segment shows heart glyph, *Nothing saved yet*, hint, *Browse the feed*. |
-| **Settings** | Display section (image scaling for the feed and the live wallpaper), wallpaper section (update automatically, prefer HD, Wi-Fi only, hide videos), storage section (image cache + clear), advanced section (API endpoint), about section (last synced, content rights, source code, version). It has a root tab variant without a back arrow and a stack variant with one. |
+| **Favorites** | The Favorites tab of the Archive hub: two-column square grid; tiles open the full entry view. |
+| **Favorites (empty)** | Shows a heart glyph, *Nothing saved yet*, hint and *Browse the feed*. |
+| **Settings** | Display scaling; wallpaper controls (update automatically, new APOD notifications, donation reminders, carousel mode, prefer HD, Wi-Fi only, hide videos); image cache; advanced API endpoint; about links (content rights, privacy, source code, third-party notices, version); a support card with **Donate**; and the developer attribution. |
 | **Clear cache dialog** | *Clear image cache?* with the exact size, *Cancel* / *Clear*. |
-| **Bottom navigation** | **Launch Cradle**: one smooth floating plate instead of a full-width tab bar. Feed and Archive are full-height cells with a small accent underline for the selected one. A 64 dp blue-gradient key sits centred over the plate, carrying the black mohakash mark; it is the only accent surface in the dock. The plate grows at 1.3×/1.6×/2.0× font scale so labels never clip. The bar is transparent, so feed imagery and archive rows continue beneath it; lists reserve extra bottom padding. Archive is a combined hub with **Archive / Saved** segments; Settings remains the top-right gear on Feed and Archive. |
+| **Bottom navigation** | **Launch Cradle**: one smooth floating plate instead of a full-width tab bar. Feed and Archive are full-height cells with a small accent underline for the selected one. A 64 dp blue-gradient key sits centred over the plate, carrying the black mohakash mark; it is the only accent surface in the dock. The plate grows at 1.3×/1.6×/2.0× font scale so labels never clip. The bar is transparent, so feed imagery and archive rows continue beneath it; lists reserve extra bottom padding. Archive is a combined hub with **History / Archive / Favorites** tabs; Settings remains the top-right gear on Feed and Archive. |
 
 ---
 
@@ -272,9 +275,9 @@ what makes the periodic update survive a reboot.
 
 `android:usesCleartextTraffic="false"` — only HTTPS is used.
 
-The 1.0.6 UI adds no permission. The feed draws its picture edge to edge under the status bar
-and applies its own inset to the top chrome; the other screens pad the system bars
-(`statusBarsPadding()` / `navigationBarsPadding()`) and the bottom bar stays solid.
+The feed draws its picture edge to edge under the status bar and applies its own inset to
+the top chrome; the other screens pad the system bars (`statusBarsPadding()` /
+`navigationBarsPadding()`) and the bottom bar stays solid.
 
 ---
 
@@ -297,8 +300,9 @@ and applies its own inset to the top chrome; the other screens pad the system ba
 * **Clearing the image cache does not remove the archive index.** *Clear image cache* deletes the
   Coil / HTTP image files only; the index file is metadata and is kept. An API endpoint change is
   what clears it.
-* ***Hide videos* only affects the wallpaper.** The feed always shows video entries; use the
-  feed's Videos filter instead.
+* ***Hide videos* affects the feed and wallpaper.** Video entries are removed from the feed,
+  search results and wallpaper selection while the setting is on. The archive/favorites lists
+  keep their own media filters.
 * **Background updates are deferred by Android.** `PeriodicWorkRequest` checks every 4 hours, but
   Android decides when the job actually runs. It can be delayed by battery optimisation, Doze or
   the app being swiped away. The exact update time is **not** guaranteed; six daily checks give
@@ -319,7 +323,7 @@ and applies its own inset to the top chrome; the other screens pad the system ba
 
 ## 9. Tests
 
-`./gradlew :app:testDebugUnitTest` runs 202 pure-JVM unit tests (no emulator needed):
+`./gradlew :app:testDebugUnitTest` runs 226 pure-JVM unit tests (no emulator needed):
 
 | Test file | Covers |
 |---|---|
@@ -338,6 +342,9 @@ and applies its own inset to the top chrome; the other screens pad the system ba
 | `FeedPagingTest` | Newest-first date list, merge/dedupe, the nine missing dates, year/media filters, gap-safe nearest date, end card last, prefetch window. |
 | `FeedLoadPolicyTest` | Index refresh only when stale / missing the latest date and never on a metered connection without an explicit request; year prefetch and adjacent-year decisions. |
 | `FeedWallpaperPreviewTest` | The wallpaper preview of the feed: the selected entry instead of the installed wallpaper, the local file for an installed entry, the caption, the human date and the missing-credit line. |
+| `CarouselTest` | Date matching, leap day, ASCII dates under Bengali locale, 24h/N interval, candidate filtering, random non-repeat and empty collections. |
+| `DonationPolicyTest` | Engagement thresholds, 30-day cooldowns and the once-per-session gate. |
+| `HistoryRepositoryTest` | Random/carousel source separation, dedupe, ordering and JSON persistence. |
 | `EntryImageSizingTest` | Uncropped box at any aspect ratio, the viewport height cap, zoom clamp 1×–4×, pan clamp, double-tap target. |
 | `EntryDetailFormattingTest` | Display date and ISO fallback, credit/media labels, metadata rows with omitted empty values, placeholder/missing notes, offline-note condition. |
 | `SyncPolicyTest` | Automatic updates only while the wallpaper is active; Wi-Fi only off by default and honoured on metered connections. |

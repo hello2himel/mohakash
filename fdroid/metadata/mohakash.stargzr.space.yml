@@ -2,7 +2,7 @@
 # https://gitlab.com/fdroid/fdroiddata. The file submitted to fdroiddata has
 # no comments; this copy keeps the context.
 #
-# The build commit below is the v2026.10.27.1 release.
+# The build commit below is the v2026.10.27.15 release.
 #
 # F-Droid builds and signs its own APK; the release key in android/keystore/
 # is only for GitHub and Play uploads.

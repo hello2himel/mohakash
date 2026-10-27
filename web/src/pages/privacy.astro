@@ -51,6 +51,7 @@ import { SITE } from '../lib/site';
         <li><a href={SITE.publicApiBase}>GitHub Pages</a>, which serves this project's public API.</li>
         <li><a href="https://science.nasa.gov/">NASA Science</a>, which serves APOD metadata and images.</li>
         <li><a href={SITE.githubRepo}>GitHub</a>, when you open the source, issue tracker or a release link.</li>
+        <li>Google Fonts, which serves the website's Inter and Newsreader font files.</li>
       </ul>
       <p class="muted-block">
         Those providers process requests under their own privacy policies. Mohakash does not add
@@ -62,7 +63,7 @@ import { SITE } from '../lib/site';
       <h2 class="section-title" id="permissions">Android permissions</h2>
       <ul style="color: var(--text-body); display: flex; flex-direction: column; gap: 4px;">
         <li><strong>Internet</strong> and <strong>network state</strong> — fetch the picture and API data, and respect Wi-Fi-only mode.</li>
-        <li><strong>Notifications</strong> (optional) — tell you when the live wallpaper picture changes.</li>
+        <li><strong>Notifications</strong> (optional) — tell you when a new APOD becomes the wallpaper or, if enabled, send very occasional support reminders.</li>
         <li><strong>Storage</strong> (Android 7–9 only) — save a picture to your gallery. Android 10 and later use the system photo picker and need no storage permission.</li>
       </ul>
     </section>
@@ -70,9 +71,9 @@ import { SITE } from '../lib/site';
     <section class="section" aria-labelledby="donate" style="max-width: 68ch;">
       <h2 class="section-title" id="donate">Donations</h2>
       <p class="page-lead" style="font-size: 15px;">
-        The optional Donate link opens an external page and adds only a <code>source=Mohakash</code>
-        query parameter so the project can see where a visit came from. No personal information is
-        sent by Mohakash.
+        The optional Donate link opens an external donation page in your browser. Payment details
+        are handled entirely by that external page; Mohakash does not collect, store or transmit
+        any payment information. Donations are always optional and unlock no app features.
       </p>
     </section>
 
