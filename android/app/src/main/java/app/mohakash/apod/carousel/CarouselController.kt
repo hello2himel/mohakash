@@ -54,8 +54,9 @@ class CarouselController(
             return CarouselOutcome.InactiveWallpaper
         }
         if (!isConnected()) {
-            // Keep the current picture and avoid a 30-minute failure loop while offline.
-            CarouselScheduler.scheduleAfter(context, OFFLINE_RETRY_MILLIS)
+            // The queued worker has a CONNECTED constraint: it stays pending without spinning
+            // and runs as soon as a network becomes available.
+            CarouselScheduler.scheduleAfter(context, 0L)
             return CarouselOutcome.Failed
         }
 
@@ -141,7 +142,6 @@ class CarouselController(
         const val INACTIVE_RETRY_MILLIS: Long = 6L * 60L * 60L * 1000L
         const val EMPTY_RETRY_MILLIS: Long = 6L * 60L * 60L * 1000L
         const val FAILED_RETRY_MILLIS: Long = 30L * 60L * 1000L
-        const val OFFLINE_RETRY_MILLIS: Long = 6L * 60L * 60L * 1000L
         const val FIRST_ROTATION_DELAY_MILLIS: Long = 60L * 1000L
     }
 }
