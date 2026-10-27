@@ -21,13 +21,16 @@ https://github.com/hello2himel/mohakash/tree/main/fastlane/metadata/android/en-U
 ### Why this app is useful and distinct
 
 - It is a live wallpaper, not only an APOD viewer. The wallpaper is drawn by a
-  native `WallpaperService`, can refresh daily, and can avoid mobile data.
-- It ships a searchable archive from 1995 to today, with year and media-type
-  filters and offline favourites.
+  native `WallpaperService`, can refresh daily or rotate through valid
+  historical APODs from today’s date, and can avoid mobile data.
+- It ships a searchable archive from 1995 to today, with year/media filters,
+  offline favourites and a local History of random discoveries and carousel
+  wallpaper choices.
 - The API endpoint is configurable. The default API is generated from this
   repository and can be self-hosted; the app is not tied to a proprietary
   service.
-- No account, ads, analytics, tracking, or crash reporting.
+- No account, ads, analytics, tracking, or crash reporting. Donation support is
+  optional, external and disabled by a single setting; it unlocks nothing.
 - The UI is a dark Material 3 interface designed for phones and tablets.
 
 ### Maintenance window
@@ -65,7 +68,7 @@ requested. The app is actively maintained.
 * [x] The metadata is valid YAML and uses LF line endings.
 * [x] I did not add summary, description, changelog, or images to fdroiddata. They are provided by the upstream Fastlane metadata.
 * [x] The release is tagged. For the final submission I will use the latest tag and enable `UpdateCheckMode: Tags ^v[0-9.]+$` / `AutoUpdateMode: Version`.
-  - The 1.0.4 tag predates the literal version defaults in `build.gradle.kts`; that branch uses `UpdateCheckMode: None` with an explanation in `MaintainerNotes`. The next tagged release enables automatic checks.
+  - The current tag is `v2026.10.27.15`; the metadata uses `UpdateCheckMode: Tags` with the full tagged commit in `Builds.commit`.
 * [x] The issue tracker and contact information are available at https://github.com/hello2himel/mohakash/issues.
 * [x] `AuthorName` is set.
 * [x] No external repositories or srclibs are needed.

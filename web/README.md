@@ -40,13 +40,16 @@ shows a short "Copied" state.
 The Today description is a sentence-bounded preview that fills up to six lines;
 **Read full explanation** opens the complete text in the existing drawer.
 
-The support card sits inline in the Today column, in the space left by that
-preview. Most sessions show the compact Android invitation (real app
-screenshot, one line about the daily wallpaper, one **Download for Android**
-button); occasionally it is a polite donation note instead. The variant is
-chosen once per browser session, and either card can be dismissed for 14 days.
-It is not a footer ribbon or a modal, so the footer stays limited to the rights
-note and secondary links. The About page explains the app in more detail.
+The support card sits inline in the Today column. Most sessions show the
+compact Android invitation (real app screenshot, one line about the daily
+wallpaper, one **Download for Android** button); some sessions show a polite
+donation note instead. The variant is chosen once per browser session and is
+not a dismissible banner or a modal.
+
+A separate, smaller donation prompt can appear after sustained reading: it
+requires repeated use over multiple days, has a **30-day cooldown**, is
+dismissed with **Not now**, and honours a **180-day donation grace period**.
+The About page explains the app in more detail.
 
 ## Data
 
