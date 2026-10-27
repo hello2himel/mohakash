@@ -1,0 +1,3 @@
+- Carousel choice now has its own onboarding slide: “One picture a day” or “More pictures a day”.
+- The welcome screen no longer overflows on short or landscape displays.
+- The selected wallpaper rhythm is preserved through wallpaper setup and can be changed later in Settings.
