@@ -18,7 +18,7 @@
     <string name="settings_support_action">Donate</string>
     <string name="settings_donation_reminders">Donation reminders</string>
     <string name="settings_donation_reminders_hint">Very occasional, optional reminders after you have used the app for a while.</string>
-    <string name="settings_developer_attribution" translatable="false">Made with ❤️ by @hello to Himel from 🇧🇩</string>
+    <string name="settings_developer_attribution" translatable="false">Made with ❤️ by @hello2himel (hello2himel.netlify.app) from 🇧🇩</string>
     <string name="settings_carousel">Carousel mode</string>
     <string name="settings_carousel_hint">Rotate through photos from today’s date in past years.</string>
     <string name="notification_channel_support_name">Support reminders</string>
