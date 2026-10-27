@@ -25,6 +25,7 @@ import app.mohakash.apod.history.HistoryStore
 import app.mohakash.apod.carousel.CarouselCollectionStore
 import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.carousel.CarouselDiscovery
+import app.mohakash.apod.carousel.CarouselNextRunStore
 import app.mohakash.apod.carousel.CarouselSelectionStore
 import app.mohakash.apod.carousel.HttpCarouselImageValidator
 import app.mohakash.apod.work.ApodSyncEngine
@@ -150,6 +151,10 @@ class AppContainer(context: Context) {
         CarouselSelectionStore(File(appContext.filesDir, "carousel/selection.json"))
     }
 
+    val carouselNextRunStore: CarouselNextRunStore by lazy {
+        CarouselNextRunStore(File(appContext.filesDir, "carousel/next-run.json"), json)
+    }
+
     val carouselController: CarouselController by lazy {
         CarouselController(
             context = appContext,
@@ -161,6 +166,7 @@ class AppContainer(context: Context) {
                 latestSource = apodRepository,
             ),
             selectionStore = carouselSelectionStore,
+            nextRunStore = carouselNextRunStore,
             syncEngine = syncEngine,
             wallpaperStorage = wallpaperStorage,
             historyRepository = historyRepository,

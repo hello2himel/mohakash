@@ -144,7 +144,7 @@
     <string name="settings_prefer_hd_hint">Daha büyük indirmeler</string>
     <string name="settings_wifi_only">Yalnızca Wi-Fi</string>
     <string name="settings_hide_videos">Videoları gizle</string>
-    <string name="settings_hide_videos_hint">Duvar kağıdı fotoğrafı seçilirken video kayıtlarını atla.</string>
+    <string name="settings_hide_videos_hint">Video girişlerini akışta gizle ve duvar kağıdı seçerken atla.</string>
     <string name="settings_image_scaling">Fotoğraf ölçekleme</string>
     <string name="settings_section_storage">Depolama</string>
     <string name="settings_image_cache">Fotoğraf önbelleği</string>

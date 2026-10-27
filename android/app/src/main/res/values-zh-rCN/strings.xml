@@ -142,7 +142,7 @@
     <string name="settings_prefer_hd_hint">下载量会更大</string>
     <string name="settings_wifi_only">仅在 Wi-Fi 下</string>
     <string name="settings_hide_videos">隐藏视频</string>
-    <string name="settings_hide_videos_hint">挑选壁纸图片时跳过视频条目。</string>
+    <string name="settings_hide_videos_hint">在信息流中隐藏视频条目，并在选择壁纸时跳过它们。</string>
     <string name="settings_image_scaling">图片缩放</string>
     <string name="settings_section_storage">存储</string>
     <string name="settings_image_cache">图片缓存</string>

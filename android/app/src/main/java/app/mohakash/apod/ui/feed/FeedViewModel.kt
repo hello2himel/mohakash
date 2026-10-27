@@ -84,6 +84,8 @@ class FeedViewModel(
     private var latestRecord: ApodEntry? = null
     private var latestDate: String? = null
     private var filters = FeedFilters()
+    /** When true, video/other playable entries are omitted from the feed itself. */
+    private var hideVideos = true
 
     /** Full records of recently visited pages (LRU, bounded by [HYDRATED_LIMIT]). */
     private val hydrated = LinkedHashMap<String, ApodEntry>()
@@ -726,7 +728,9 @@ class FeedViewModel(
         FeedPaging.buildDateItems(indexEntries, latestRecord, yearRecords)
 
     private fun rebuildPages(bumpListVersion: Boolean) {
-        val items = allDateItems()
+        val items = allDateItems().filterNot {
+            hideVideos && it.indexEntry?.mediaType?.isPlayable == true
+        }
         val filtered = FeedPaging.filtered(items, filters)
         val pages = when {
             items.isEmpty() -> emptyList()
@@ -966,6 +970,8 @@ class FeedViewModel(
     private fun observeSettings() {
         viewModelScope.launch {
             settingsStore.settings.collect { settings ->
+                val hideVideosChanged = hideVideos != settings.hideVideos
+                hideVideos = settings.hideVideos
                 _state.update {
                     it.copy(
                         scaling = settings.wallpaperScaling,
@@ -977,6 +983,10 @@ class FeedViewModel(
                             else -> true
                         },
                     )
+                }
+                if (hideVideosChanged) {
+                    // Removing a currently visible video page should collapse it immediately.
+                    rebuildPages(bumpListVersion = true)
                 }
             }
         }
