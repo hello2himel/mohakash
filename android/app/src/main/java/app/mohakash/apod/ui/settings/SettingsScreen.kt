@@ -86,9 +86,10 @@ fun SettingsScreen(
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { granted ->
-        if (granted) viewModel.setUpdateAutomatically(true)
+        if (granted) viewModel.setNotificationsEnabled(true)
     }
-    val updateAutomatically: (Boolean) -> Unit = { enabled ->
+    val updateAutomatically: (Boolean) -> Unit = viewModel::setUpdateAutomatically
+    val notificationsEnabled: (Boolean) -> Unit = { enabled ->
         val needsPermission = enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(
                 context,
@@ -97,7 +98,7 @@ fun SettingsScreen(
         if (needsPermission) {
             notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
-            viewModel.setUpdateAutomatically(enabled)
+            viewModel.setNotificationsEnabled(enabled)
         }
     }
 
@@ -116,6 +117,7 @@ fun SettingsScreen(
         onOpenLink = onOpenLink,
         onOpenAdvanced = onOpenAdvanced,
         onUpdateAutomaticallyChange = updateAutomatically,
+        onNotificationsEnabledChange = notificationsEnabled,
         onCarouselModeChange = viewModel::setCarouselMode,
         onPreferHdChange = viewModel::setPreferHd,
         onWifiOnlyChange = viewModel::setWifiOnly,
@@ -150,6 +152,7 @@ internal fun SettingsContent(
     onOpenLink: (String) -> Unit,
     onOpenAdvanced: () -> Unit,
     onUpdateAutomaticallyChange: (Boolean) -> Unit,
+    onNotificationsEnabledChange: (Boolean) -> Unit,
     onCarouselModeChange: (Boolean) -> Unit,
     onPreferHdChange: (Boolean) -> Unit,
     onWifiOnlyChange: (Boolean) -> Unit,
@@ -201,6 +204,12 @@ internal fun SettingsContent(
                 checked = state.updateAutomatically,
                 onCheckedChange = onUpdateAutomaticallyChange,
                 showDivider = false,
+            )
+            SwitchRow(
+                title = stringResource(R.string.settings_notifications),
+                subtitle = stringResource(R.string.settings_notifications_hint),
+                checked = state.notificationsEnabled,
+                onCheckedChange = onNotificationsEnabledChange,
             )
             SwitchRow(
                 title = stringResource(R.string.settings_carousel),

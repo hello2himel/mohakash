@@ -50,4 +50,7 @@ interface SettingsStore {
 
     /** Enables or disables the historical date-matched wallpaper carousel. */
     suspend fun setCarouselMode(enabled: Boolean)
+
+    /** Enables or disables notifications for new regular APOD pictures. */
+    suspend fun setNotificationsEnabled(enabled: Boolean)
 }

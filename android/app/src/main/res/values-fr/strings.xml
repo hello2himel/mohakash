@@ -221,4 +221,6 @@
     <string name="onboarding_carousel_hint">Alternez les photos APOD de cette date les années précédentes.</string>
     <string name="settings_carousel">Mode carrousel</string>
     <string name="settings_carousel_hint">Alternez les photos d’aujourd’hui les années précédentes.</string>
+    <string name="settings_notifications">Notifications des nouveaux APOD</string>
+    <string name="settings_notifications_hint">Notifier uniquement lorsqu’un nouvel APOD régulier devient le fond d’écran. Les rotations du carrousel restent silencieuses.</string>
 </resources>

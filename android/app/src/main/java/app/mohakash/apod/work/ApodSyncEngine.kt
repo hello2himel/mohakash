@@ -9,6 +9,7 @@ import app.mohakash.apod.data.storage.WallpaperMeta
 import app.mohakash.apod.data.storage.WallpaperPictureStore
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.domain.model.ApodEntry
+import app.mohakash.apod.domain.model.AppSettings
 import app.mohakash.apod.domain.wallpaper.WallpaperChoice
 import app.mohakash.apod.domain.wallpaper.WallpaperImageSelector
 import app.mohakash.apod.wallpaper.WallpaperSignal
@@ -95,7 +96,13 @@ class ApodSyncEngine(
         } catch (error: Exception) {
             return SyncOutcome.Failed(error)
         }
-        return syncEntry(entry, updateWallpaper, networkAvailable)
+        val settings = runCatching { settingsStore.current() }.getOrDefault(AppSettings())
+        return syncEntry(
+            entry = entry,
+            updateWallpaper = updateWallpaper,
+            networkAvailable = networkAvailable,
+            notify = settings.notificationsEnabled,
+        )
     }
 
     /**
@@ -107,6 +114,7 @@ class ApodSyncEngine(
         entry: ApodEntry,
         updateWallpaper: Boolean = true,
         networkAvailable: Boolean = true,
+        notify: Boolean = false,
     ): SyncOutcome {
         if (!updateWallpaper) {
             return SyncOutcome.Unchanged(entry)
@@ -129,7 +137,7 @@ class ApodSyncEngine(
             return SyncOutcome.WallpaperUnavailable(entry, "No usable connection for the picture.")
         }
 
-        return when (install(entry, settings.preferHd, settings.hideVideos, choice.url)) {
+        return when (install(entry, settings.preferHd, settings.hideVideos, choice.url, notify = notify)) {
             InstallOutcome.INSTALLED -> SyncOutcome.Updated(entry)
             InstallOutcome.UNCHANGED -> SyncOutcome.Unchanged(entry)
             InstallOutcome.NOT_USABLE -> SyncOutcome.WallpaperUnavailable(entry, "The new entry has no picture that can be used as wallpaper.")
@@ -148,7 +156,7 @@ class ApodSyncEngine(
         preferHd: Boolean,
         hideVideos: Boolean = true,
         imageUrl: String? = null,
-        notify: Boolean = true,
+        notify: Boolean = false,
     ): InstallOutcome = installMutex.withLock {
         val choice = WallpaperImageSelector.select(entry, preferHd, hideVideos)
         val url = imageUrl ?: (choice as? WallpaperChoice.Use)?.url

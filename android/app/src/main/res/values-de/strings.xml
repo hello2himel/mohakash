@@ -219,4 +219,6 @@
     <string name="onboarding_carousel_hint">Wechsle durch APOD-Bilder dieses Datums aus früheren Jahren.</string>
     <string name="settings_carousel">Karussellmodus</string>
     <string name="settings_carousel_hint">Wechsle durch Bilder des heutigen Datums aus früheren Jahren.</string>
+    <string name="settings_notifications">Neue APOD-Benachrichtigungen</string>
+    <string name="settings_notifications_hint">Nur benachrichtigen, wenn ein neues reguläres APOD zum Hintergrundbild wird. Karussellwechsel bleiben still.</string>
 </resources>

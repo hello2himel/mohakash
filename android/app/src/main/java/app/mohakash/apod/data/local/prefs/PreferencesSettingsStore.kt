@@ -81,6 +81,9 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
 
     override suspend fun setCarouselMode(enabled: Boolean) = edit { it[Keys.CAROUSEL_MODE] = enabled }
 
+    override suspend fun setNotificationsEnabled(enabled: Boolean) =
+        edit { it[Keys.NOTIFICATIONS_ENABLED] = enabled }
+
     /**
      * Applies an edit, swallowing storage failures.
      *
@@ -113,6 +116,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         lastSyncDate = this[Keys.LAST_SYNC_DATE],
         feedSwipeHintSeen = this[Keys.FEED_SWIPE_HINT_SEEN] ?: false,
         carouselMode = this[Keys.CAROUSEL_MODE] ?: false,
+        notificationsEnabled = this[Keys.NOTIFICATIONS_ENABLED] ?: true,
     )
 
     private object Keys {
@@ -128,5 +132,6 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         val LAST_SYNC_DATE = stringPreferencesKey("last_sync_date")
         val FEED_SWIPE_HINT_SEEN = booleanPreferencesKey("feed_swipe_hint_seen")
         val CAROUSEL_MODE = booleanPreferencesKey("carousel_mode")
+        val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
     }
 }

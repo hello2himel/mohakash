@@ -13,6 +13,8 @@
     <string name="onboarding_subtitle">A new astronomy picture each day. No account needed.</string>
     <string name="onboarding_carousel_title">More pictures a day</string>
     <string name="onboarding_carousel_hint">Rotate through APOD photos from this date in past years.</string>
+    <string name="settings_notifications">New APOD notifications</string>
+    <string name="settings_notifications_hint">Notify only when a new regular APOD becomes the wallpaper. Carousel rotations stay silent.</string>
     <string name="settings_carousel">Carousel mode</string>
     <string name="settings_carousel_hint">Rotate through photos from today’s date in past years.</string>
     <string name="onboarding_set_wallpaper">Set live wallpaper</string>
