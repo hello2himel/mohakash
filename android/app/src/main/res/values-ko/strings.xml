@@ -236,4 +236,15 @@
     <string name="onboarding_multiple_daily">하루에 여러 번</string>
     <string name="onboarding_multiple_daily_hint">몇 시간마다 새로운 사진.</string>
     <string name="onboarding_frequency_continue">계속</string>
+    <string name="history_title">기록</string>
+    <string name="history_empty_title">아직 기록이 없습니다</string>
+    <string name="history_empty_body">무작위 발견과 캐러셀 배경화면이 여기에 표시됩니다.</string>
+    <string name="history_browse_feed">피드 둘러보기</string>
+    <string name="history_source_random">무작위 발견</string>
+    <string name="history_source_carousel">캐러셀 배경화면</string>
+    <string name="favorites_title">즐겨찾기</string>
+    <string name="history_next_wallpaper_label">다음 배경화면</string>
+    <string name="history_next_wallpaper">%1$s 후 다음 배경화면</string>
+    <string name="history_next_wallpaper_preparing">다음 배경화면 준비 중…</string>
+    <string name="history_next_wallpaper_updating">배경화면 업데이트 중…</string>
 </resources>

@@ -82,6 +82,17 @@
     <string name="feed_error_try_again">Try again</string>
 
     <!-- Archive -->
+    <string name="history_title">History</string>
+    <string name="history_next_wallpaper_label">Next wallpaper</string>
+    <string name="history_next_wallpaper">Next wallpaper in %1$s</string>
+    <string name="history_next_wallpaper_preparing">Preparing next wallpaper…</string>
+    <string name="history_next_wallpaper_updating">Updating wallpaper…</string>
+    <string name="history_empty_title">No history yet</string>
+    <string name="history_empty_body">Random discoveries and carousel wallpapers will appear here.</string>
+    <string name="history_browse_feed">Browse the feed</string>
+    <string name="history_source_random">Random discovery</string>
+    <string name="history_source_carousel">Carousel wallpaper</string>
+    <string name="favorites_title">Favorites</string>
     <string name="archive_title">Archive</string>
     <string name="archive_search_hint">Search titles</string>
     <string name="archive_filters">Filters</string>
