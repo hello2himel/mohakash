@@ -1,0 +1,4 @@
+- Fixed carousel image validation so carousel wallpapers start reliably.
+- Hide videos now removes videos from the feed.
+- History shows random discoveries, carousel wallpapers and a live next-wallpaper countdown.
+- Donation prompt now says Donate, with icons and a softer Not now action.
