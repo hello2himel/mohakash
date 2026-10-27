@@ -29,10 +29,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -371,52 +373,100 @@ private const val DEVELOPER_WEBSITE_URL = "https://hello2himel.netlify.app"
 /** A compact, understated support card. It is not a promotional banner. */
 @Composable
 private fun SupportSection(onDonate: () -> Unit, modifier: Modifier = Modifier) {
-    val shape = RoundedCornerShape(18.dp)
+    val shape = RoundedCornerShape(20.dp)
+    val buttonShape = RoundedCornerShape(16.dp)
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clip(shape)
-            .background(MohakashColors.Accent.copy(alpha = 0.06f))
-            .border(1.dp, MohakashColors.Accent.copy(alpha = 0.22f), shape)
-            .padding(16.dp),
+            .background(
+                Brush.linearGradient(
+                    listOf(MohakashColors.SurfaceStrong, MohakashColors.Surface),
+                ),
+            )
+            .border(
+                width = 1.dp,
+                brush = Brush.linearGradient(
+                    listOf(
+                        MohakashColors.Accent.copy(alpha = 0.45f),
+                        MohakashColors.AccentDeep.copy(alpha = 0.15f),
+                    ),
+                ),
+                shape = shape,
+            )
+            .padding(18.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_heart_24),
-                contentDescription = null,
-                tint = MohakashColors.Accent,
-                modifier = Modifier.size(18.dp),
-            )
-            Text(
-                text = stringResource(R.string.settings_support_title),
-                style = MohakashTextStyles.UiMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold),
-                color = MohakashColors.Text,
-            )
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(
+                        Brush.linearGradient(
+                            listOf(MohakashColors.AccentLight, MohakashColors.AccentDeep),
+                        ),
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_heart_24),
+                    contentDescription = null,
+                    tint = MohakashColors.OnAccent,
+                    modifier = Modifier.size(22.dp),
+                )
+            }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.settings_support_title),
+                    style = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
+                    color = MohakashColors.Text,
+                )
+                Text(
+                    text = stringResource(R.string.settings_support_body),
+                    style = MohakashTextStyles.Helper,
+                    color = MohakashColors.TextMuted,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
         }
-        Text(
-            text = stringResource(R.string.settings_support_body),
-            style = MohakashTextStyles.Helper,
-            color = MohakashColors.TextMuted,
-            modifier = Modifier.padding(top = 6.dp),
-        )
-        androidx.compose.material3.TextButton(
-            onClick = onDonate,
+
+        Box(
             modifier = Modifier
-                .padding(top = 2.dp)
-                .heightIn(min = 48.dp),
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+                .heightIn(min = 52.dp)
+                .clip(buttonShape)
+                .background(
+                    Brush.horizontalGradient(
+                        listOf(MohakashColors.AccentLight, MohakashColors.AccentDeep),
+                    ),
+                )
+                .clickable(role = Role.Button, onClick = onDonate)
+                .padding(horizontal = 20.dp, vertical = 14.dp),
+            contentAlignment = Alignment.Center,
         ) {
-            Text(
-                text = stringResource(R.string.settings_support_action),
-                style = MohakashTextStyles.UiSmallSemiBold,
-                color = MohakashColors.Accent,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_heart_24),
+                    contentDescription = null,
+                    tint = MohakashColors.OnAccent,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    text = stringResource(R.string.settings_support_action),
+                    style = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
+                    color = MohakashColors.OnAccent,
+                )
+            }
         }
     }
 }
-
 /** The *Image scaling* row of the settings screen. */
 @Composable
 private fun ScalingRow(
