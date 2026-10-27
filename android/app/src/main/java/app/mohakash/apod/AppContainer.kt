@@ -170,6 +170,7 @@ class AppContainer(context: Context) {
             syncEngine = syncEngine,
             wallpaperStorage = wallpaperStorage,
             historyRepository = historyRepository,
+            isUnmetered = { networkMonitor.isUnmetered() },
         )
     }
 

@@ -2,6 +2,7 @@ package app.mohakash.apod.donation
 
 import kotlinx.serialization.Serializable
 import java.util.Calendar
+import java.util.Locale
 import java.util.TimeZone
 
 /**
@@ -61,7 +62,9 @@ object DonationPolicy {
 
     fun localDay(epochMillis: Long, timeZone: TimeZone): String {
         val calendar = Calendar.getInstance(timeZone).apply { timeInMillis = epochMillis }
-        return "%04d-%02d-%02d".format(
+        return String.format(
+            Locale.ROOT,
+            "%04d-%02d-%02d",
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) + 1,
             calendar.get(Calendar.DAY_OF_MONTH),

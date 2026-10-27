@@ -114,7 +114,7 @@ private fun DonationButton(
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(14.dp)
-    val contentColor = if (primary) MohakashColors.OnAccent else MohakashColors.TextMuted.copy(alpha = 0.62f)
+    val contentColor = if (primary) MohakashColors.OnAccent else MohakashColors.TextMuted
     Row(
         modifier = modifier
             .heightIn(min = 48.dp)

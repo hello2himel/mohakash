@@ -51,6 +51,21 @@ class CarouselTest {
     }
 
     @Test
+    fun `month-day uses ASCII digits even in a Bengali locale`() {
+        val previous = java.util.Locale.getDefault()
+        try {
+            java.util.Locale.setDefault(java.util.Locale.forLanguageTag("bn"))
+            val calendar = Calendar.getInstance(utc).apply {
+                clear()
+                set(2026, Calendar.OCTOBER, 28, 12, 0, 0)
+            }
+            assertEquals("10-28", CarouselMath.monthDay(calendar.timeInMillis, utc))
+        } finally {
+            java.util.Locale.setDefault(previous)
+        }
+    }
+
+    @Test
     fun `interval is exactly 24 hours divided by the valid count`() {
         assertEquals(CarouselMath.DAY_MILLIS / 6, CarouselMath.intervalMillis(6))
         assertEquals(CarouselMath.DAY_MILLIS / 24, CarouselMath.intervalMillis(24))

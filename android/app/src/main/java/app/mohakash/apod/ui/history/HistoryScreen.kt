@@ -35,6 +35,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.CircleShape
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -284,7 +285,11 @@ private fun NextWallpaperHeader(state: NextWallpaperUi, modifier: Modifier = Mod
                     modifier = Modifier
                         .fillMaxWidth(progress)
                         .fillMaxHeight()
-                        .background(MohakashColors.Accent),
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(MohakashColors.AccentLight, MohakashColors.AccentDeep),
+                            ),
+                        ),
                 )
             }
         }
