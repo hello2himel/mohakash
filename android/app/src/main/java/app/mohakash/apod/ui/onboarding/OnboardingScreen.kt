@@ -1,5 +1,10 @@
 package app.mohakash.apod.ui.onboarding
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +48,7 @@ import androidx.compose.ui.res.painterResource
 import app.mohakash.apod.wallpaper.WallpaperStatus
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -83,7 +89,22 @@ fun OnboardingScreen(
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = LocalSnackbarHostState.current
-    val appContext = LocalContext.current.applicationContext
+    val context = LocalContext.current
+    val appContext = context.applicationContext
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { /* The Settings screen reflects the OS state; denial is not a blocker. */ }
+
+    fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
 
     var showFrequency by rememberSaveable { mutableStateOf(false) }
     var awaitingPickerReturn by rememberSaveable { mutableStateOf(false) }
@@ -94,7 +115,10 @@ fun OnboardingScreen(
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                OnboardingEvent.Finished -> onFinished()
+                OnboardingEvent.Finished -> {
+                    requestNotificationPermissionIfNeeded()
+                    onFinished()
+                }
                 OnboardingEvent.OpenWallpaperPicker -> {
                     awaitingPickerReturn = true
                     onOpenWallpaperPicker()

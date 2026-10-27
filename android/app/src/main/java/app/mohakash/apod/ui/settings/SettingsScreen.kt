@@ -92,6 +92,14 @@ fun SettingsScreen(
     ) { granted ->
         if (granted) viewModel.setNotificationsEnabled(true)
     }
+    val donationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        if (granted) {
+            viewModel.setDonationRemindersEnabled(true)
+            DonationReminderScheduler.schedule(context, replace = true)
+        }
+    }
     val updateAutomatically: (Boolean) -> Unit = viewModel::setUpdateAutomatically
     val notificationsEnabled: (Boolean) -> Unit = { enabled ->
         val needsPermission = enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
@@ -123,11 +131,20 @@ fun SettingsScreen(
         onUpdateAutomaticallyChange = updateAutomatically,
         onNotificationsEnabledChange = notificationsEnabled,
         onDonationRemindersChange = { enabled ->
-            viewModel.setDonationRemindersEnabled(enabled)
-            if (enabled) {
-                DonationReminderScheduler.schedule(context, replace = true)
+            val needsPermission = enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) != PackageManager.PERMISSION_GRANTED
+            if (needsPermission) {
+                donationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             } else {
-                DonationReminderScheduler.cancel(context)
+                viewModel.setDonationRemindersEnabled(enabled)
+                if (enabled) {
+                    DonationReminderScheduler.schedule(context, replace = true)
+                } else {
+                    DonationReminderScheduler.cancel(context)
+                }
             }
         },
         onCarouselModeChange = viewModel::setCarouselMode,
