@@ -247,4 +247,5 @@
     <string name="history_next_wallpaper">%1$s 후 다음 배경화면</string>
     <string name="history_next_wallpaper_preparing">다음 배경화면 준비 중…</string>
     <string name="history_next_wallpaper_updating">배경화면 업데이트 중…</string>
+    <string name="history_skip_wallpaper">건너뛰기</string>
 </resources>

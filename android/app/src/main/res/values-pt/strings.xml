@@ -251,4 +251,5 @@
     <string name="history_next_wallpaper">Próximo papel de parede em %1$s</string>
     <string name="history_next_wallpaper_preparing">Preparando o próximo papel de parede…</string>
     <string name="history_next_wallpaper_updating">Atualizando o papel de parede…</string>
+    <string name="history_skip_wallpaper">Pular</string>
 </resources>

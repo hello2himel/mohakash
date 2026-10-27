@@ -249,4 +249,5 @@
     <string name="history_next_wallpaper">%1$s sonra sonraki duvar kağıdı</string>
     <string name="history_next_wallpaper_preparing">Sonraki duvar kağıdı hazırlanıyor…</string>
     <string name="history_next_wallpaper_updating">Duvar kağıdı güncelleniyor…</string>
+    <string name="history_skip_wallpaper">Atla</string>
 </resources>

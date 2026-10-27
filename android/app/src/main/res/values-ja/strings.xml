@@ -247,4 +247,5 @@
     <string name="history_next_wallpaper">%1$s後に次の壁紙</string>
     <string name="history_next_wallpaper_preparing">次の壁紙を準備中…</string>
     <string name="history_next_wallpaper_updating">壁紙を更新中…</string>
+    <string name="history_skip_wallpaper">スキップ</string>
 </resources>

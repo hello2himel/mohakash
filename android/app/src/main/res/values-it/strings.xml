@@ -251,4 +251,5 @@
     <string name="history_next_wallpaper">Prossimo sfondo tra %1$s</string>
     <string name="history_next_wallpaper_preparing">Preparazione del prossimo sfondo…</string>
     <string name="history_next_wallpaper_updating">Aggiornamento dello sfondo…</string>
+    <string name="history_skip_wallpaper">Salta</string>
 </resources>

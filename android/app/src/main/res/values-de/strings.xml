@@ -249,4 +249,5 @@
     <string name="history_next_wallpaper">Nächstes Hintergrundbild in %1$s</string>
     <string name="history_next_wallpaper_preparing">Nächstes Hintergrundbild wird vorbereitet…</string>
     <string name="history_next_wallpaper_updating">Hintergrundbild wird aktualisiert…</string>
+    <string name="history_skip_wallpaper">Überspringen</string>
 </resources>
