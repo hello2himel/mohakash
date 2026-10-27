@@ -86,6 +86,7 @@ class FeedViewModel(
     private var filters = FeedFilters()
     /** When true, video/other playable entries are omitted from the feed itself. */
     private var hideVideos = true
+    private var donationRemindersEnabled = true
 
     /** Full records of recently visited pages (LRU, bounded by [HYDRATED_LIMIT]). */
     private val hydrated = LinkedHashMap<String, ApodEntry>()
@@ -152,9 +153,9 @@ class FeedViewModel(
         randomJob = viewModelScope.launch {
             donationTracker.recordRandomUse()
             // The rare support card takes the place of this one random result. It is only
-            // offered after sustained use and a long cooldown; dismissal immediately retries
-            // the random action, so the tap is never silently discarded.
-            if (donationTracker.offerFeedPrompt()) {
+            // offered after sustained use and a long cooldown, and only when donation reminders
+            // are enabled in Settings; dismissal immediately retries the random action.
+            if (donationRemindersEnabled && donationTracker.offerFeedPrompt()) {
                 _events.trySend(FeedEvent.ShowDonationPrompt(fromRandom = true))
                 return@launch
             }
@@ -728,12 +729,16 @@ class FeedViewModel(
         FeedPaging.buildDateItems(indexEntries, latestRecord, yearRecords)
 
     private fun rebuildPages(bumpListVersion: Boolean) {
-        val items = allDateItems().filterNot {
+        val rawItems = allDateItems()
+        val items = rawItems.filterNot {
             hideVideos && it.indexEntry?.mediaType?.isPlayable == true
         }
         val filtered = FeedPaging.filtered(items, filters)
         val pages = when {
-            items.isEmpty() -> emptyList()
+            // No data at all is a fatal/loading state; all entries hidden by a preference is a
+            // normal empty result, not an endless skeleton.
+            rawItems.isEmpty() -> emptyList()
+            items.isEmpty() -> listOf(FeedPaging.endOnlyPage())
             filtered.isEmpty() -> listOf(FeedPaging.endOnlyPage())
             else -> FeedPaging.buildPages(filtered, hydrated, hydrationStatus, latestDate)
         }
@@ -947,7 +952,11 @@ class FeedViewModel(
 
     private fun updateSearchResults() {
         val search = _state.value.search
-        val items = allDateItems()
+        // Search must obey the same hidden-video preference as the pager. Using allDateItems()
+        // here used to surface videos that were not reachable in the feed.
+        val items = _state.value.allItems.ifEmpty {
+            allDateItems().filterNot { hideVideos && it.indexEntry?.mediaType?.isPlayable == true }
+        }
         val results = FeedPaging.search(items, search.query, search.filters)
         _state.update {
             it.copy(
@@ -984,6 +993,7 @@ class FeedViewModel(
                         },
                     )
                 }
+                donationRemindersEnabled = settings.donationRemindersEnabled
                 if (hideVideosChanged) {
                     // Removing a currently visible video page should collapse it immediately.
                     rebuildPages(bumpListVersion = true)
