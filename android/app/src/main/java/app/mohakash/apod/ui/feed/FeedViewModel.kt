@@ -17,6 +17,7 @@ import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.work.ApodSyncEngine
 import app.mohakash.apod.work.InstallOutcome
 import app.mohakash.apod.work.SyncController
+import app.mohakash.apod.work.SyncPolicy
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -102,6 +103,7 @@ class FeedViewModel(
     private var indexJob: Job? = null
     private var refreshJob: Job? = null
     private var searchJob: Job? = null
+    private var wallpaperSyncJob: Job? = null
 
     private val latestMutex = Mutex()
     private val yearMutex = Mutex()
@@ -110,7 +112,9 @@ class FeedViewModel(
         _state.value = _state.value.copy(isOffline = !isConnected())
         observeSettings()
         observeFavourites()
-        loadLatest()
+        // A fresh process may have last synced hours ago; the latest document is tiny, so force
+        // one network read on launch and bypass a stale HTTP cache.
+        loadLatest(force = true)
         loadIndex(userRequested = false)
     }
 
@@ -205,17 +209,28 @@ class FeedViewModel(
         }
     }
 
-    /** Pull-to-refresh, and the tappable latest chip. Keeps the current page on screen. */
+    /**
+     * Pull-to-refresh. A successful refresh always returns the feed to the newest APOD — even
+     * when the reader was several pages down — and then synchronises the live wallpaper from the
+     * same record. Failures leave the current page and the installed wallpaper untouched.
+     */
     fun refreshLatest() {
         if (refreshJob?.isActive == true) return
         _state.value = _state.value.copy(isRefreshing = true)
         refreshJob = viewModelScope.launch {
-            val previousKey = currentPageKey
             try {
-                loadLatestInternal(force = true)
-                // A new APOD may have been inserted at the head: the page list changes and the
-                // UI reconciles to currentPageKey. On a first load there is no current page yet.
-                if (previousKey == null) latestDate?.let { emitJump(it, animate = false) }
+                val refreshed = loadLatestInternal(force = true)
+                if (refreshed) {
+                    // A filter can hide the newest APOD. An explicit refresh is a request to
+                    // see the latest picture, so make it visible before jumping.
+                    if (filters.isActive) {
+                        filters = FeedFilters()
+                        rebuildPages(bumpListVersion = true)
+                    }
+                    // Wait until adoptLatest()/rebuildPages() has applied the new list.
+                    latestDate?.let { emitJump(it, animate = false) }
+                    syncWallpaperFromLatest()
+                }
             } finally {
                 _state.update { it.copy(isRefreshing = false) }
                 refreshIndexAfterLatestChange()
@@ -506,6 +521,9 @@ class FeedViewModel(
                 FeedLoadPolicy.shouldRefreshLatest(settings.lastSyncAt, now())
             ) {
                 loadLatest(force = false)
+            } else {
+                // The feed may already be fresh while the wallpaper worker was deferred by Doze.
+                syncWallpaperFromLatest()
             }
         }
     }
@@ -516,48 +534,78 @@ class FeedViewModel(
 
     private fun loadLatest(force: Boolean = false) {
         if (latestJob?.isActive == true) return
-        latestJob = viewModelScope.launch { loadLatestInternal(force) }
+        latestJob = viewModelScope.launch {
+            if (loadLatestInternal(force)) syncWallpaperFromLatest()
+        }
     }
 
-    private suspend fun loadLatestInternal(force: Boolean) {
-        latestMutex.withLock {
-            val cached = apodRepository.cachedLatest()
-            if (cached != null) adoptLatest(cached)
-            val settings = settingsStore.current()
-            val needsRefresh = FeedLoadPolicy.shouldRefreshLatest(settings.lastSyncAt, now(), force)
-            if (!needsRefresh && cached != null) {
-                _state.update { it.copy(isLoadingLatest = false) }
-                return@withLock
+    private suspend fun loadLatestInternal(force: Boolean): Boolean = latestMutex.withLock {
+        val cached = apodRepository.cachedLatest()
+        if (cached != null) adoptLatest(cached)
+        val settings = settingsStore.current()
+        val needsRefresh = FeedLoadPolicy.shouldRefreshLatest(settings.lastSyncAt, now(), force)
+        if (!needsRefresh && cached != null) {
+            _state.update { it.copy(isLoadingLatest = false) }
+            return@withLock true
+        }
+        if (cached == null) _state.update { it.copy(isLoadingLatest = true) }
+        try {
+            // Explicit refresh bypasses OkHttp's GitHub Pages cache. Otherwise a pull-to-refresh
+            // can return a cached latest.json for several minutes after the backend changed.
+            val fresh = apodRepository.fetchLatest(forceNetwork = force)
+            adoptLatest(fresh)
+            val updated = settingsStore.current()
+            _state.update {
+                it.copy(
+                    isLoadingLatest = false,
+                    isOffline = false,
+                    hasFatalError = false,
+                    syncedAt = updated.lastSyncAt ?: it.syncedAt,
+                    scaling = updated.wallpaperScaling,
+                    updateDaily = updated.updateAutomatically,
+                    wallpaperMeta = wallpaperStorage.readMeta(),
+                    wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
+                )
             }
-            if (cached == null) _state.update { it.copy(isLoadingLatest = true) }
-            try {
-                val fresh = apodRepository.fetchLatest()
-                adoptLatest(fresh)
-                val updated = settingsStore.current()
-                _state.update {
-                    it.copy(
-                        isLoadingLatest = false,
-                        isOffline = false,
-                        hasFatalError = false,
-                        syncedAt = updated.lastSyncAt ?: it.syncedAt,
-                        scaling = updated.wallpaperScaling,
-                        updateDaily = updated.updateAutomatically,
-                        wallpaperMeta = wallpaperStorage.readMeta(),
-                        wallpaperPreviewPath = wallpaperStorage.currentImageFile()?.absolutePath,
-                    )
-                }
-            } catch (cancellation: CancellationException) {
-                throw cancellation
-            } catch (error: Exception) {
-                _state.update {
-                    it.copy(
-                        isLoadingLatest = false,
-                        isOffline = true,
-                        hasFatalError = it.pages.isEmpty() && indexEntries.isEmpty(),
-                    )
-                }
-                if (force) _events.trySend(FeedEvent.ShowMessage(MESSAGE_REFRESH_FAILED))
+            true
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (error: Exception) {
+            _state.update {
+                it.copy(
+                    isLoadingLatest = false,
+                    isOffline = true,
+                    hasFatalError = it.pages.isEmpty() && indexEntries.isEmpty(),
+                )
             }
+            if (force) _events.trySend(FeedEvent.ShowMessage(MESSAGE_REFRESH_FAILED))
+            false
+        }
+    }
+
+    /**
+     * Keeps the live wallpaper on the same record as the feed.
+     *
+     * This is deliberately silent: it runs after a pull-to-refresh, a startup refresh, or a
+     * resume when the periodic worker may have been deferred. If the wallpaper is not selected,
+     * automatic updates are off, or the connection is metered under "Wi-Fi only", it does
+     * nothing. The sync engine re-checks the current metadata before downloading anything.
+     */
+    private fun syncWallpaperFromLatest() {
+        val entry = latestRecord ?: return
+        if (!isWallpaperActive()) return
+        if (wallpaperSyncJob?.isActive == true) return
+        wallpaperSyncJob = viewModelScope.launch {
+            val settings = runCatching { settingsStore.current() }.getOrNull() ?: return@launch
+            if (!settings.updateAutomatically) return@launch
+            if (!isConnected()) return@launch
+            if (!SyncPolicy.pictureDownloadAllowed(settings, connected = true, unmetered = isUnmetered())) {
+                return@launch
+            }
+            runCatching {
+                syncEngine.syncEntry(entry, updateWallpaper = true, networkAvailable = true)
+            }
+            updateWallpaperState()
         }
     }
 

@@ -71,9 +71,23 @@ class ApodSyncEngineTest {
         val outcome = engine(source, store = store, downloader = downloader).sync()
 
         assertTrue(outcome is SyncOutcome.Updated)
+        assertEquals(true, source.lastForceNetwork)
         assertEquals(listOf("https://example.org/photo.jpg?w=1600"), downloader.downloadedUrls)
         assertEquals("2026-10-22", store.meta?.date)
         assertEquals("https://example.org/photo.jpg?w=1600", store.meta?.sourceUrl)
+    }
+
+    @Test
+    fun `a known latest entry can be installed without fetching metadata again`() = runTest {
+        val source = FakeLatestEntrySource(entry())
+        val store = FakeWallpaperPictureStore()
+        val downloader = FakePictureDownloader()
+
+        val outcome = engine(source, store = store, downloader = downloader).syncEntry(entry())
+
+        assertTrue(outcome is SyncOutcome.Updated)
+        assertEquals(0, source.callCount)
+        assertEquals("2026-10-22", store.meta?.date)
     }
 
     @Test

@@ -10,5 +10,5 @@ import app.mohakash.apod.domain.model.ApodEntry
 interface LatestEntrySource {
 
     /** Fetches the latest entry and caches it. */
-    suspend fun fetchLatest(): ApodEntry
+    suspend fun fetchLatest(forceNetwork: Boolean = false): ApodEntry
 }

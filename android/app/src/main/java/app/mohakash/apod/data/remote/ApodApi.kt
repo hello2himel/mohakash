@@ -8,6 +8,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import okhttp3.CacheControl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
@@ -42,14 +43,24 @@ class ApodApi(
      * The decompressed body is capped at [maxBytes] while it is being read, so an endless or
      * unexpectedly huge response is rejected with an [IOException] before it can be buffered whole.
      */
-    override suspend fun getString(path: String, maxBytes: Long): String = withContext(Dispatchers.IO) {
+    override suspend fun getString(
+        path: String,
+        maxBytes: Long,
+        forceNetwork: Boolean,
+    ): String = withContext(Dispatchers.IO) {
         require(maxBytes > 0L) { "maxBytes must be positive" }
         var lastError: Throwable? = null
         val candidates = baseUrlResolver.orderedCandidates()
         for (baseUrl in candidates) {
             val url = baseUrl.trimEnd('/') + path
             try {
-                val request = Request.Builder().url(url).get().build()
+                val request = Request.Builder()
+                    .url(url)
+                    .get()
+                    .apply {
+                        if (forceNetwork) cacheControl(CacheControl.FORCE_NETWORK)
+                    }
+                    .build()
                 httpClient.newCall(request).execute().use { response ->
                     if (!response.isSuccessful) {
                         throw IOException("HTTP ${response.code} for $url")
