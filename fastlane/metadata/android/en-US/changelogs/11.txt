@@ -1,0 +1,5 @@
+- New optional Carousel mode: rotate the live wallpaper through valid APOD photos from today’s date in past years.
+- Carousel interval is calculated from the number of verified photos; unavailable or broken images are skipped.
+- Choose “More pictures a day” during onboarding or change it later in Settings.
+- New APOD notifications toggle: notify only for a newly installed regular APOD, never for carousel rotations.
+- Background APOD and carousel work now waits for connectivity and retries transient failures automatically.
