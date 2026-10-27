@@ -1,0 +1,4 @@
+- The Archive page now has three tabs: History, Archive and Favorites.
+- History shows your random discoveries and carousel wallpapers, never ordinary APOD browsing.
+- History includes a live countdown and progress bar for the next carousel wallpaper.
+- Added an empty state with a Browse the feed action.
