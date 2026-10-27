@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import app.mohakash.apod.R
-import app.mohakash.apod.ui.components.PrimaryButton
-import app.mohakash.apod.ui.components.QuietButton
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.text.font.FontWeight
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
 
@@ -82,22 +83,59 @@ internal fun DonationPromptOverlay(
                     .padding(top = 6.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                PrimaryButton(
-                    text = stringResource(R.string.settings_support_title),
+                DonationButton(
+                    text = stringResource(R.string.settings_support_action),
+                    icon = R.drawable.ic_heart_24,
+                    primary = true,
                     onClick = onSupport,
                     modifier = Modifier.weight(1f),
-                    height = 48.dp,
                 )
-                QuietButton(
+                DonationButton(
                     text = stringResource(R.string.donation_feed_not_now),
+                    icon = R.drawable.ic_close_24,
+                    primary = false,
                     onClick = onDismiss,
                     modifier = Modifier.weight(1f),
-                    minHeight = 48.dp,
-                    color = MohakashColors.TextMuted,
-                    style = MohakashTextStyles.UiSmallSemiBold,
                 )
             }
         }
     }
 }
+}
+
+
+/** A compact icon+label action used by the support card. */
+@Composable
+private fun DonationButton(
+    text: String,
+    icon: Int,
+    primary: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val shape = RoundedCornerShape(14.dp)
+    val contentColor = if (primary) MohakashColors.OnAccent else MohakashColors.TextMuted.copy(alpha = 0.62f)
+    Row(
+        modifier = modifier
+            .heightIn(min = 48.dp)
+            .clip(shape)
+            .background(if (primary) MohakashColors.Accent else Color.Transparent)
+            .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = null,
+            tint = contentColor,
+            modifier = Modifier.size(17.dp),
+        )
+        Text(
+            text = text,
+            style = MohakashTextStyles.UiSmallSemiBold.copy(fontWeight = FontWeight.SemiBold),
+            color = contentColor,
+            modifier = Modifier.padding(start = 7.dp),
+        )
+    }
 }
