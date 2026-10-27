@@ -1,0 +1,4 @@
+- Onboarding’s wallpaper-frequency page is clearer: choose Once a day or Multiple times a day.
+- Multiple times a day is selected by default.
+- Tapping an option only selects it; a large Continue button finishes setup.
+- Larger radio cards, clearer labels and simple visuals make the choice easier to understand.
