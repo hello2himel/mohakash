@@ -219,12 +219,6 @@
     <string name="settings_carousel_hint">Geçmiş yılların bugünkü fotoğraflarını döndürür.</string>
     <string name="settings_notifications">Yeni APOD bildirimleri</string>
     <string name="settings_notifications_hint">Yalnızca yeni normal bir APOD duvar kağıdı olduğunda bildir. Karusel dönüşleri sessiz kalır.</string>
-    <string name="onboarding_frequency_title">Yeni duvar kağıtlarını ne sıklıkla istersin?</string>
-    <string name="onboarding_frequency_hint">Bunu daha sonra Ayarlar’dan değiştirebilirsin.</string>
-    <string name="onboarding_once_daily">Günde bir kez</string>
-    <string name="onboarding_once_daily_hint">Bugünün APOD’u duvar kağıdını günde bir kez değiştirir.</string>
-    <string name="onboarding_multiple_daily">Günde birkaç kez</string>
-    <string name="onboarding_multiple_daily_hint">Geçmiş yılların bu tarihindeki fotoğraflarını döndür.</string>
     <string name="settings_support_title">Geliştirmeyi Destekle</string>
     <string name="settings_support_body">Bağışlar Mohakash’ı ücretsiz, açık kaynak ve bakımlı tutmaya yardımcı olur. Her zaman isteğe bağlıdır.</string>
     <string name="settings_support_action">Bağış Yap</string>
@@ -237,4 +231,11 @@
     <string name="notification_channel_support_description">Mohakash’ı desteklemeyle ilgili çok seyrek, isteğe bağlı hatırlatmalar.</string>
     <string name="notification_donation_title">Uygulamayı beğendin mi?</string>
     <string name="notification_donation_body">İsteğe bağlı bir bağışla sürekli gelişimini destekle.</string>
+    <string name="onboarding_frequency_title">Duvar kağıdınız ne sıklıkla değişsin?</string>
+    <string name="onboarding_frequency_hint">Bunu istediğiniz zaman Ayarlar’dan değiştirebilirsiniz.</string>
+    <string name="onboarding_once_daily">Günde bir kez</string>
+    <string name="onboarding_once_daily_hint">Her gün yeni bir fotoğraf.</string>
+    <string name="onboarding_multiple_daily">Günde birkaç kez</string>
+    <string name="onboarding_multiple_daily_hint">Birkaç saatte bir yeni bir fotoğraf.</string>
+    <string name="onboarding_frequency_continue">Devam</string>
 </resources>

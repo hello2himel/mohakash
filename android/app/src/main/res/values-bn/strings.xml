@@ -219,12 +219,6 @@
     <string name="settings_carousel_hint">আগের বছরের আজকের তারিখের ছবি পাল্টে দেখুন।</string>
     <string name="settings_notifications">নতুন APOD বিজ্ঞপ্তি</string>
     <string name="settings_notifications_hint">শুধু নতুন নিয়মিত APOD ওয়ালপেপার হলে জানান। ক্যারোসেল পরিবর্তন নীরব থাকবে।</string>
-    <string name="onboarding_frequency_title">আপনি কতবার নতুন ওয়ালপেপার চান?</string>
-    <string name="onboarding_frequency_hint">পরে সেটিংসে এটি বদলাতে পারবেন।</string>
-    <string name="onboarding_once_daily">দিনে একবার</string>
-    <string name="onboarding_once_daily_hint">আজকের APOD দিনে একবার আপনার ওয়ালপেপার বদলাবে।</string>
-    <string name="onboarding_multiple_daily">দিনে একাধিকবার</string>
-    <string name="onboarding_multiple_daily_hint">আগের বছরের এই তারিখের ছবি পাল্টে দেখুন।</string>
     <string name="settings_support_title">উন্নয়নে সহায়তা করুন</string>
     <string name="settings_support_body">অনুদান মোহাকাশকে বিনামূল্যে, ওপেন সোর্স ও সচল রাখতে সাহায্য করে। এগুলো সবসময় ঐচ্ছিক।</string>
     <string name="settings_support_action">অনুদান করুন</string>
@@ -237,4 +231,11 @@
     <string name="notification_channel_support_description">মোহাকাশকে সহায়তা করার খুব কদাচিৎ, ঐচ্ছিক স্মরণিকা।</string>
     <string name="notification_donation_title">অ্যাপটি ভালো লাগছে?</string>
     <string name="notification_donation_body">ঐচ্ছিক অনুদানে এর উন্নয়নে সহায়তা করুন।</string>
+    <string name="onboarding_frequency_title">আপনার ওয়ালপেপার কতবার বদলানো উচিত?</string>
+    <string name="onboarding_frequency_hint">আপনি যেকোনো সময় সেটিংসে এটি বদলাতে পারবেন।</string>
+    <string name="onboarding_once_daily">দিনে একবার</string>
+    <string name="onboarding_once_daily_hint">প্রতিদিন একটি নতুন ছবি।</string>
+    <string name="onboarding_multiple_daily">দিনে কয়েকবার</string>
+    <string name="onboarding_multiple_daily_hint">প্রতি কয়েক ঘণ্টায় একটি নতুন ছবি।</string>
+    <string name="onboarding_frequency_continue">চালিয়ে যান</string>
 </resources>

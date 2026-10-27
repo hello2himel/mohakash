@@ -219,12 +219,6 @@
     <string name="settings_carousel_hint">Wechsle durch Bilder des heutigen Datums aus früheren Jahren.</string>
     <string name="settings_notifications">Neue APOD-Benachrichtigungen</string>
     <string name="settings_notifications_hint">Nur benachrichtigen, wenn ein neues reguläres APOD zum Hintergrundbild wird. Karussellwechsel bleiben still.</string>
-    <string name="onboarding_frequency_title">Wie oft möchtest du neue Hintergrundbilder?</string>
-    <string name="onboarding_frequency_hint">Du kannst das später in den Einstellungen ändern.</string>
-    <string name="onboarding_once_daily">Einmal täglich</string>
-    <string name="onboarding_once_daily_hint">Das heutige APOD ersetzt dein Hintergrundbild einmal täglich.</string>
-    <string name="onboarding_multiple_daily">Mehrmals täglich</string>
-    <string name="onboarding_multiple_daily_hint">Wechsle durch Fotos dieses Datums aus früheren Jahren.</string>
     <string name="settings_support_title">Entwicklung unterstützen</string>
     <string name="settings_support_body">Spenden helfen, Mohakash kostenlos, quelloffen und gepflegt zu halten. Sie sind immer freiwillig.</string>
     <string name="settings_support_action">Spenden</string>
@@ -237,4 +231,11 @@
     <string name="notification_channel_support_description">Sehr seltene, freiwillige Erinnerungen zur Unterstützung von Mohakash.</string>
     <string name="notification_donation_title">Genießt du die App?</string>
     <string name="notification_donation_body">Hilf mit einer freiwilligen Spende, ihre Weiterentwicklung zu unterstützen.</string>
+    <string name="onboarding_frequency_title">Wie oft soll sich dein Hintergrund ändern?</string>
+    <string name="onboarding_frequency_hint">Du kannst das jederzeit in den Einstellungen ändern.</string>
+    <string name="onboarding_once_daily">Einmal am Tag</string>
+    <string name="onboarding_once_daily_hint">Jeden Tag ein neues Bild.</string>
+    <string name="onboarding_multiple_daily">Mehrmals am Tag</string>
+    <string name="onboarding_multiple_daily_hint">Alle paar Stunden ein neues Bild.</string>
+    <string name="onboarding_frequency_continue">Weiter</string>
 </resources>

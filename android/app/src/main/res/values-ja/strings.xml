@@ -217,12 +217,6 @@
     <string name="settings_carousel_hint">過去の今日の画像を切り替えます。</string>
     <string name="settings_notifications">新しいAPODの通知</string>
     <string name="settings_notifications_hint">新しい通常のAPODが壁紙になったときだけ通知します。カルーセルの切り替えは通知しません。</string>
-    <string name="onboarding_frequency_title">新しい壁紙をどのくらいの頻度で欲しいですか？</string>
-    <string name="onboarding_frequency_hint">後で設定から変更できます。</string>
-    <string name="onboarding_once_daily">1日1回</string>
-    <string name="onboarding_once_daily_hint">今日のAPODが1日1回壁紙を置き換えます。</string>
-    <string name="onboarding_multiple_daily">1日に複数回</string>
-    <string name="onboarding_multiple_daily_hint">過去の同じ日の画像を切り替えます。</string>
     <string name="settings_support_title">開発を支援</string>
     <string name="settings_support_body">寄付はMohakashを無料・オープンソースで維持するために役立ちます。寄付はいつでも任意です。</string>
     <string name="settings_support_action">寄付する</string>
@@ -235,4 +229,11 @@
     <string name="notification_channel_support_description">Mohakashの支援に関する、ごくたまの任意のリマインダーです。</string>
     <string name="notification_donation_title">アプリを気に入っていますか？</string>
     <string name="notification_donation_body">任意の寄付で継続的な開発を支援してください。</string>
+    <string name="onboarding_frequency_title">壁紙はどのくらいの頻度で変更しますか？</string>
+    <string name="onboarding_frequency_hint">設定からいつでも変更できます。</string>
+    <string name="onboarding_once_daily">1日1回</string>
+    <string name="onboarding_once_daily_hint">毎日新しい写真。</string>
+    <string name="onboarding_multiple_daily">1日に数回</string>
+    <string name="onboarding_multiple_daily_hint">数時間ごとに新しい写真。</string>
+    <string name="onboarding_frequency_continue">続ける</string>
 </resources>

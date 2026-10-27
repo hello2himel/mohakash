@@ -217,12 +217,6 @@
     <string name="settings_carousel_hint">Bergantian foto tanggal hari ini di tahun-tahun sebelumnya.</string>
     <string name="settings_notifications">Notifikasi APOD baru</string>
     <string name="settings_notifications_hint">Beri tahu hanya saat APOD reguler baru menjadi wallpaper. Pergantian korsel tetap senyap.</string>
-    <string name="onboarding_frequency_title">Seberapa sering Anda ingin wallpaper baru?</string>
-    <string name="onboarding_frequency_hint">Anda dapat mengubahnya nanti di Pengaturan.</string>
-    <string name="onboarding_once_daily">Sekali sehari</string>
-    <string name="onboarding_once_daily_hint">APOD hari ini mengganti wallpaper sekali sehari.</string>
-    <string name="onboarding_multiple_daily">Beberapa kali sehari</string>
-    <string name="onboarding_multiple_daily_hint">Bergantian foto tanggal ini di tahun-tahun sebelumnya.</string>
     <string name="settings_support_title">Dukung Pengembangan</string>
     <string name="settings_support_body">Donasi membantu menjaga Mohakash tetap gratis, open source, dan terkelola. Donasi selalu opsional.</string>
     <string name="settings_support_action">Donasi</string>
@@ -235,4 +229,11 @@
     <string name="notification_channel_support_description">Pengingat opsional yang sangat jarang untuk mendukung Mohakash.</string>
     <string name="notification_donation_title">Menikmati aplikasinya?</string>
     <string name="notification_donation_body">Bantu dukung pengembangannya dengan donasi opsional.</string>
+    <string name="onboarding_frequency_title">Seberapa sering wallpaper Anda harus berganti?</string>
+    <string name="onboarding_frequency_hint">Anda dapat mengubahnya kapan saja di Pengaturan.</string>
+    <string name="onboarding_once_daily">Sekali sehari</string>
+    <string name="onboarding_once_daily_hint">Foto baru setiap hari.</string>
+    <string name="onboarding_multiple_daily">Beberapa kali sehari</string>
+    <string name="onboarding_multiple_daily_hint">Foto baru setiap beberapa jam.</string>
+    <string name="onboarding_frequency_continue">Lanjutkan</string>
 </resources>

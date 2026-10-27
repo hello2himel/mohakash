@@ -221,12 +221,6 @@
     <string name="settings_carousel_hint">Alterna le foto di oggi negli anni precedenti.</string>
     <string name="settings_notifications">Notifiche nuovi APOD</string>
     <string name="settings_notifications_hint">Avvisa solo quando un nuovo APOD regolare diventa lo sfondo. Le rotazioni del carosello restano silenziose.</string>
-    <string name="onboarding_frequency_title">Quante volte vuoi nuovi sfondi?</string>
-    <string name="onboarding_frequency_hint">Puoi cambiarlo in seguito nelle Impostazioni.</string>
-    <string name="onboarding_once_daily">Una volta al giorno</string>
-    <string name="onboarding_once_daily_hint">L’APOD di oggi sostituisce lo sfondo una volta al giorno.</string>
-    <string name="onboarding_multiple_daily">Più volte al giorno</string>
-    <string name="onboarding_multiple_daily_hint">Alterna le foto di questa data negli anni precedenti.</string>
     <string name="settings_support_title">Sostieni lo sviluppo</string>
     <string name="settings_support_body">Le donazioni aiutano a mantenere Mohakash gratuito, open source e curato. Sono sempre facoltative.</string>
     <string name="settings_support_action">Dona</string>
@@ -239,4 +233,11 @@
     <string name="notification_channel_support_description">Promemoria molto occasionali e facoltativi per sostenere Mohakash.</string>
     <string name="notification_donation_title">Ti piace l’app?</string>
     <string name="notification_donation_body">Aiuta a sostenerne lo sviluppo con una donazione facoltativa.</string>
+    <string name="onboarding_frequency_title">Quanto spesso deve cambiare lo sfondo?</string>
+    <string name="onboarding_frequency_hint">Puoi modificarlo in qualsiasi momento nelle Impostazioni.</string>
+    <string name="onboarding_once_daily">Una volta al giorno</string>
+    <string name="onboarding_once_daily_hint">Una nuova foto ogni giorno.</string>
+    <string name="onboarding_multiple_daily">Più volte al giorno</string>
+    <string name="onboarding_multiple_daily_hint">Una nuova foto ogni poche ore.</string>
+    <string name="onboarding_frequency_continue">Continua</string>
 </resources>

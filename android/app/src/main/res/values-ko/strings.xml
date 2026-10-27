@@ -217,12 +217,6 @@
     <string name="settings_carousel_hint">지난해 오늘 날짜의 사진을 번갈아 보여줍니다.</string>
     <string name="settings_notifications">새 APOD 알림</string>
     <string name="settings_notifications_hint">새 일반 APOD가 배경화면이 될 때만 알립니다. 캐러셀 전환은 조용합니다.</string>
-    <string name="onboarding_frequency_title">새 배경화면을 얼마나 자주 원하시나요?</string>
-    <string name="onboarding_frequency_hint">나중에 설정에서 변경할 수 있습니다.</string>
-    <string name="onboarding_once_daily">하루 한 번</string>
-    <string name="onboarding_once_daily_hint">오늘의 APOD가 하루에 한 번 배경화면을 바꿉니다.</string>
-    <string name="onboarding_multiple_daily">하루 여러 번</string>
-    <string name="onboarding_multiple_daily_hint">지난해 같은 날짜의 사진을 번갈아 보여줍니다.</string>
     <string name="settings_support_title">개발 후원</string>
     <string name="settings_support_body">후원은 Mohakash를 무료 오픈 소스로 유지하고 관리하는 데 도움이 됩니다. 후원은 항상 선택 사항입니다.</string>
     <string name="settings_support_action">후원하기</string>
@@ -235,4 +229,11 @@
     <string name="notification_channel_support_description">Mohakash 후원에 관한 매우 드문 선택적 알림입니다.</string>
     <string name="notification_donation_title">앱이 마음에 드시나요?</string>
     <string name="notification_donation_body">선택적 후원으로 지속적인 개발을 도와주세요.</string>
+    <string name="onboarding_frequency_title">배경화면을 얼마나 자주 바꿀까요?</string>
+    <string name="onboarding_frequency_hint">설정에서 언제든 변경할 수 있습니다.</string>
+    <string name="onboarding_once_daily">하루에 한 번</string>
+    <string name="onboarding_once_daily_hint">매일 새로운 사진.</string>
+    <string name="onboarding_multiple_daily">하루에 여러 번</string>
+    <string name="onboarding_multiple_daily_hint">몇 시간마다 새로운 사진.</string>
+    <string name="onboarding_frequency_continue">계속</string>
 </resources>

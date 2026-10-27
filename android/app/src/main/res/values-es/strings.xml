@@ -221,12 +221,6 @@
     <string name="settings_carousel_hint">Alterna fotos de hoy en años anteriores.</string>
     <string name="settings_notifications">Notificaciones de nuevos APOD</string>
     <string name="settings_notifications_hint">Notificar solo cuando un nuevo APOD normal se convierta en fondo de pantalla. Las rotaciones del carrusel permanecen silenciosas.</string>
-    <string name="onboarding_frequency_title">¿Con qué frecuencia quieres nuevos fondos?</string>
-    <string name="onboarding_frequency_hint">Puedes cambiarlo más tarde en Ajustes.</string>
-    <string name="onboarding_once_daily">Una vez al día</string>
-    <string name="onboarding_once_daily_hint">El APOD de hoy reemplaza tu fondo una vez al día.</string>
-    <string name="onboarding_multiple_daily">Varias veces al día</string>
-    <string name="onboarding_multiple_daily_hint">Alterna fotos de esta fecha en años anteriores.</string>
     <string name="settings_support_title">Apoyar el desarrollo</string>
     <string name="settings_support_body">Las donaciones ayudan a mantener Mohakash gratuito, de código abierto y actualizado. Siempre son opcionales.</string>
     <string name="settings_support_action">Donar</string>
@@ -239,4 +233,11 @@
     <string name="notification_channel_support_description">Recordatorios muy ocasionales y opcionales sobre apoyar Mohakash.</string>
     <string name="notification_donation_title">¿Te gusta la app?</string>
     <string name="notification_donation_body">Ayuda a apoyar su desarrollo continuo con una donación opcional.</string>
+    <string name="onboarding_frequency_title">¿Con qué frecuencia debe cambiar tu fondo de pantalla?</string>
+    <string name="onboarding_frequency_hint">Puedes cambiarlo en Ajustes en cualquier momento.</string>
+    <string name="onboarding_once_daily">Una vez al día</string>
+    <string name="onboarding_once_daily_hint">Una foto nueva cada día.</string>
+    <string name="onboarding_multiple_daily">Varias veces al día</string>
+    <string name="onboarding_multiple_daily_hint">Una foto nueva cada pocas horas.</string>
+    <string name="onboarding_frequency_continue">Continuar</string>
 </resources>

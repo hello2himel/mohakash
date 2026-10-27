@@ -217,12 +217,6 @@
     <string name="settings_carousel_hint">Luân phiên ảnh của hôm nay các năm trước.</string>
     <string name="settings_notifications">Thông báo APOD mới</string>
     <string name="settings_notifications_hint">Chỉ thông báo khi APOD thường mới trở thành hình nền. Vòng xoay không gửi thông báo.</string>
-    <string name="onboarding_frequency_title">Bạn muốn hình nền mới bao lâu một lần?</string>
-    <string name="onboarding_frequency_hint">Bạn có thể thay đổi sau trong Cài đặt.</string>
-    <string name="onboarding_once_daily">Mỗi ngày một lần</string>
-    <string name="onboarding_once_daily_hint">APOD hôm nay thay hình nền mỗi ngày một lần.</string>
-    <string name="onboarding_multiple_daily">Nhiều lần mỗi ngày</string>
-    <string name="onboarding_multiple_daily_hint">Luân phiên ảnh của ngày này các năm trước.</string>
     <string name="settings_support_title">Hỗ trợ phát triển</string>
     <string name="settings_support_body">Quyên góp giúp Mohakash miễn phí, mã nguồn mở và được duy trì. Việc quyên góp luôn tự nguyện.</string>
     <string name="settings_support_action">Quyên góp</string>
@@ -235,4 +229,11 @@
     <string name="notification_channel_support_description">Nhắc nhở rất thỉnh thoảng và tự nguyện về việc hỗ trợ Mohakash.</string>
     <string name="notification_donation_title">Bạn thích ứng dụng chứ?</string>
     <string name="notification_donation_body">Hãy hỗ trợ phát triển lâu dài bằng một khoản quyên góp tự nguyện.</string>
+    <string name="onboarding_frequency_title">Bạn muốn hình nền thay đổi bao lâu một lần?</string>
+    <string name="onboarding_frequency_hint">Bạn có thể thay đổi bất cứ lúc nào trong Cài đặt.</string>
+    <string name="onboarding_once_daily">Mỗi ngày một lần</string>
+    <string name="onboarding_once_daily_hint">Mỗi ngày một ảnh mới.</string>
+    <string name="onboarding_multiple_daily">Nhiều lần mỗi ngày</string>
+    <string name="onboarding_multiple_daily_hint">Ảnh mới vài giờ một lần.</string>
+    <string name="onboarding_frequency_continue">Tiếp tục</string>
 </resources>
