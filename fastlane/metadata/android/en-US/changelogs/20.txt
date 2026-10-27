@@ -1,0 +1,3 @@
+- Android now asks for notification permission when onboarding finishes.
+- Donation reminders request permission when enabled from Settings.
+- Keeps the existing in-app support, history and carousel fixes.
