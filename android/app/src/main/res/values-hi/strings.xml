@@ -219,12 +219,6 @@
     <string name="settings_carousel_hint">पिछले वर्षों की आज की तारीख की तस्वीरें बदलती रहें।</string>
     <string name="settings_notifications">नए APOD सूचनाएं</string>
     <string name="settings_notifications_hint">केवल तब सूचित करें जब नया नियमित APOD वॉलपेपर बने। कैरोसेल बदलाव शांत रहेंगे।</string>
-    <string name="onboarding_frequency_title">आप कितनी बार नए वॉलपेपर चाहते हैं?</string>
-    <string name="onboarding_frequency_hint">आप इसे बाद में सेटिंग्स में बदल सकते हैं।</string>
-    <string name="onboarding_once_daily">दिन में एक बार</string>
-    <string name="onboarding_once_daily_hint">आज का APOD दिन में एक बार आपका वॉलपेपर बदलेगा।</string>
-    <string name="onboarding_multiple_daily">दिन में कई बार</string>
-    <string name="onboarding_multiple_daily_hint">पिछले वर्षों की इस तारीख की तस्वीरें बदलती रहें।</string>
     <string name="settings_support_title">विकास में सहयोग करें</string>
     <string name="settings_support_body">दान मोहाकाश को मुफ़्त, ओपन सोर्स और बनाए रखने में मदद करते हैं। ये पूरी तरह वैकल्पिक हैं।</string>
     <string name="settings_support_action">दान करें</string>
@@ -237,4 +231,11 @@
     <string name="notification_channel_support_description">मोहाकाश का सहयोग करने के लिए बहुत कभी-कभार, वैकल्पिक अनुस्मारक।</string>
     <string name="notification_donation_title">क्या आपको ऐप पसंद आ रहा है?</string>
     <string name="notification_donation_body">वैकल्पिक दान के साथ इसके विकास में सहयोग करें।</string>
+    <string name="onboarding_frequency_title">आपका वॉलपेपर कितनी बार बदलना चाहिए?</string>
+    <string name="onboarding_frequency_hint">आप इसे कभी भी सेटिंग्स में बदल सकते हैं।</string>
+    <string name="onboarding_once_daily">दिन में एक बार</string>
+    <string name="onboarding_once_daily_hint">हर दिन एक नई तस्वीर।</string>
+    <string name="onboarding_multiple_daily">दिन में कई बार</string>
+    <string name="onboarding_multiple_daily_hint">हर कुछ घंटों में एक नई तस्वीर।</string>
+    <string name="onboarding_frequency_continue">जारी रखें</string>
 </resources>

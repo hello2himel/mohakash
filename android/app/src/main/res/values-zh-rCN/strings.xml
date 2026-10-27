@@ -217,12 +217,6 @@
     <string name="settings_carousel_hint">轮换往年今天的图片。</string>
     <string name="settings_notifications">新 APOD 通知</string>
     <string name="settings_notifications_hint">仅当新的常规 APOD 成为壁纸时通知。轮播切换保持静默。</string>
-    <string name="onboarding_frequency_title">你希望多久更换一次壁纸？</string>
-    <string name="onboarding_frequency_hint">之后可在设置中更改。</string>
-    <string name="onboarding_once_daily">每天一次</string>
-    <string name="onboarding_once_daily_hint">当天的 APOD 每天替换一次壁纸。</string>
-    <string name="onboarding_multiple_daily">每天多次</string>
-    <string name="onboarding_multiple_daily_hint">轮换往年同一天的图片。</string>
     <string name="settings_support_title">支持开发</string>
     <string name="settings_support_body">捐赠有助于让 Mohakash 保持免费、开源并持续维护。捐赠始终是自愿的。</string>
     <string name="settings_support_action">捐赠</string>
@@ -235,4 +229,11 @@
     <string name="notification_channel_support_description">关于支持 Mohakash 的偶尔、自愿提醒。</string>
     <string name="notification_donation_title">喜欢这个应用吗？</string>
     <string name="notification_donation_body">可通过自愿捐赠支持它的持续开发。</string>
+    <string name="onboarding_frequency_title">壁纸应该多久更换一次？</string>
+    <string name="onboarding_frequency_hint">你可以随时在设置中更改。</string>
+    <string name="onboarding_once_daily">每天一次</string>
+    <string name="onboarding_once_daily_hint">每天一张新图片。</string>
+    <string name="onboarding_multiple_daily">每天几次</string>
+    <string name="onboarding_multiple_daily_hint">每隔几小时换一张新图片。</string>
+    <string name="onboarding_frequency_continue">继续</string>
 </resources>

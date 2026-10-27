@@ -13,6 +13,7 @@ import app.mohakash.apod.domain.model.ImageStatus
 import app.mohakash.apod.domain.model.MediaType
 import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.ui.onboarding.OnboardingContent
+import app.mohakash.apod.ui.onboarding.OnboardingFrequencyContent
 import app.mohakash.apod.ui.saved.SavedContent
 import app.mohakash.apod.ui.saved.SavedUiState
 import app.mohakash.apod.ui.settings.AdvancedContent
@@ -171,6 +172,42 @@ private fun OnboardingPreview() {
             onSetWallpaper = {},
             onSkip = {},
         )
+    }
+}
+
+@Preview(name = "Onboarding · frequency", widthDp = 390, heightDp = 844, showBackground = true)
+@Composable
+private fun OnboardingFrequencyPreview() {
+    PreviewSurface {
+        OnboardingFrequencyContent(onContinue = {})
+    }
+}
+
+@Preview(
+    name = "Onboarding · frequency · 320dp at 2x",
+    widthDp = 320,
+    heightDp = 640,
+    fontScale = 2f,
+    showBackground = true,
+)
+@Composable
+private fun OnboardingFrequencyNarrowPreview() {
+    PreviewSurface {
+        OnboardingFrequencyContent(onContinue = {})
+    }
+}
+
+@Preview(
+    name = "Onboarding · frequency · landscape at 2x",
+    widthDp = 480,
+    heightDp = 320,
+    fontScale = 2f,
+    showBackground = true,
+)
+@Composable
+private fun OnboardingFrequencyLandscapePreview() {
+    PreviewSurface {
+        OnboardingFrequencyContent(onContinue = {})
     }
 }
 

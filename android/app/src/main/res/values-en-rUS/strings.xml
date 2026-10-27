@@ -219,12 +219,6 @@
     <string name="settings_carousel_hint">Rotate through photos from today’s date in past years.</string>
     <string name="settings_notifications">New APOD notifications</string>
     <string name="settings_notifications_hint">Notify only when a new regular APOD becomes the wallpaper. Carousel rotations stay silent.</string>
-    <string name="onboarding_frequency_title">How often do you want new wallpapers?</string>
-    <string name="onboarding_frequency_hint">You can change this later in Settings.</string>
-    <string name="onboarding_once_daily">Once daily</string>
-    <string name="onboarding_once_daily_hint">Today’s APOD replaces your wallpaper once a day.</string>
-    <string name="onboarding_multiple_daily">Multiple times daily</string>
-    <string name="onboarding_multiple_daily_hint">Rotate through photos from this date in past years.</string>
     <string name="settings_support_title">Support Development</string>
     <string name="settings_support_body">Donations help keep Mohakash free, open source and maintained. They are always optional.</string>
     <string name="settings_support_action">Donate</string>
@@ -237,4 +231,11 @@
     <string name="notification_channel_support_description">Very occasional, optional reminders about supporting Mohakash.</string>
     <string name="notification_donation_title">Enjoying the app?</string>
     <string name="notification_donation_body">Help support its continued development with an optional donation.</string>
+    <string name="onboarding_frequency_title">How often should your wallpaper change?</string>
+    <string name="onboarding_frequency_hint">You can change this in Settings anytime.</string>
+    <string name="onboarding_once_daily">Once a day</string>
+    <string name="onboarding_once_daily_hint">A new picture every day.</string>
+    <string name="onboarding_multiple_daily">A few times a day</string>
+    <string name="onboarding_multiple_daily_hint">A new picture every few hours.</string>
+    <string name="onboarding_frequency_continue">Continue</string>
 </resources>
