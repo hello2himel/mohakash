@@ -213,4 +213,8 @@
     <string name="date_picker_range">Rentang tanggal</string>
     <string name="date_picker_any">Tanggal apa pun</string>
     <string name="date_picker_title">Pilih tanggal</string>
+    <string name="onboarding_carousel_title">Lebih banyak foto sehari</string>
+    <string name="onboarding_carousel_hint">Bergantian foto APOD dari tanggal ini di tahun-tahun sebelumnya.</string>
+    <string name="settings_carousel">Mode korsel</string>
+    <string name="settings_carousel_hint">Bergantian foto tanggal hari ini di tahun-tahun sebelumnya.</string>
 </resources>

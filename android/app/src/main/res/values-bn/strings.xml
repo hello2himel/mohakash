@@ -215,4 +215,8 @@
     <string name="date_picker_range">তারিখের পরিসর</string>
     <string name="date_picker_any">যেকোনো তারিখ</string>
     <string name="date_picker_title">তারিখ নির্বাচন করুন</string>
+    <string name="onboarding_carousel_title">দিনে একাধিক ছবি</string>
+    <string name="onboarding_carousel_hint">আগের বছরের এই তারিখের APOD ছবি পাল্টে দেখুন।</string>
+    <string name="settings_carousel">ক্যারোসেল মোড</string>
+    <string name="settings_carousel_hint">আগের বছরের আজকের তারিখের ছবি পাল্টে দেখুন।</string>
 </resources>

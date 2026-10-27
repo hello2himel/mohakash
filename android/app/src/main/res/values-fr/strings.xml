@@ -217,4 +217,8 @@
     <string name="date_picker_range">Plage de dates</string>
     <string name="date_picker_any">Toute date</string>
     <string name="date_picker_title">Choisir une date</string>
+    <string name="onboarding_carousel_title">Plusieurs photos par jour</string>
+    <string name="onboarding_carousel_hint">Alternez les photos APOD de cette date les années précédentes.</string>
+    <string name="settings_carousel">Mode carrousel</string>
+    <string name="settings_carousel_hint">Alternez les photos d’aujourd’hui les années précédentes.</string>
 </resources>

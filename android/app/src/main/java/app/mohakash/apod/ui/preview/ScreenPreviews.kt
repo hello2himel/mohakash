@@ -129,6 +129,7 @@ private fun SettingsPreview() {
             onOpenLink = {},
             onOpenAdvanced = {},
             onUpdateAutomaticallyChange = {},
+            onCarouselModeChange = {},
             onPreferHdChange = {},
             onWifiOnlyChange = {},
             onHideVideosChange = {},
@@ -165,6 +166,8 @@ private fun OnboardingPreview() {
         OnboardingContent(
             preview = WallpaperPreview(),
             isPreparing = false,
+            carouselMode = false,
+            onCarouselModeChange = {},
             onSetWallpaper = {},
             onSkip = {},
         )

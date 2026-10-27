@@ -79,6 +79,8 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
 
     override suspend fun setFeedSwipeHintSeen(value: Boolean) = edit { it[Keys.FEED_SWIPE_HINT_SEEN] = value }
 
+    override suspend fun setCarouselMode(enabled: Boolean) = edit { it[Keys.CAROUSEL_MODE] = enabled }
+
     /**
      * Applies an edit, swallowing storage failures.
      *
@@ -110,6 +112,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         lastSyncAt = this[Keys.LAST_SYNC_AT],
         lastSyncDate = this[Keys.LAST_SYNC_DATE],
         feedSwipeHintSeen = this[Keys.FEED_SWIPE_HINT_SEEN] ?: false,
+        carouselMode = this[Keys.CAROUSEL_MODE] ?: false,
     )
 
     private object Keys {
@@ -124,5 +127,6 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         val LAST_SYNC_AT = longPreferencesKey("last_sync_at")
         val LAST_SYNC_DATE = stringPreferencesKey("last_sync_date")
         val FEED_SWIPE_HINT_SEEN = booleanPreferencesKey("feed_swipe_hint_seen")
+        val CAROUSEL_MODE = booleanPreferencesKey("carousel_mode")
     }
 }

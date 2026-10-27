@@ -32,6 +32,7 @@ import app.mohakash.apod.R
 import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.components.PrimaryButton
 import app.mohakash.apod.ui.components.QuietButton
+import app.mohakash.apod.ui.components.SwitchRow
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
@@ -54,6 +55,7 @@ fun OnboardingScreen(
             wallpaperStorage = container.wallpaperStorage,
             apodRepository = container.apodRepository,
             syncEngine = container.syncEngine,
+            carouselController = container.carouselController,
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -72,6 +74,8 @@ fun OnboardingScreen(
     OnboardingContent(
         preview = state.preview,
         isPreparing = state.isPreparing,
+        carouselMode = state.carouselMode,
+        onCarouselModeChange = viewModel::setCarouselMode,
         onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
         onSkip = { viewModel.complete(openWallpaperPicker = false) },
         modifier = modifier,
@@ -83,6 +87,8 @@ fun OnboardingScreen(
 internal fun OnboardingContent(
     preview: WallpaperPreview,
     isPreparing: Boolean,
+    carouselMode: Boolean,
+    onCarouselModeChange: (Boolean) -> Unit,
     onSetWallpaper: () -> Unit,
     onSkip: () -> Unit,
     modifier: Modifier = Modifier,
@@ -152,6 +158,14 @@ internal fun OnboardingContent(
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            SwitchRow(
+                title = stringResource(R.string.onboarding_carousel_title),
+                subtitle = stringResource(R.string.onboarding_carousel_hint),
+                checked = carouselMode,
+                onCheckedChange = onCarouselModeChange,
+                showDivider = false,
+                minHeight = 56.dp,
+            )
             PrimaryButton(
                 text = stringResource(R.string.onboarding_set_wallpaper),
                 onClick = onSetWallpaper,

@@ -70,7 +70,7 @@ class ApodRepository(
     }
 
     /** Reads the cached `latest.json` document, if any. */
-    suspend fun cachedLatest(): ApodEntry? = withContext(Dispatchers.IO) {
+    override suspend fun cachedLatest(): ApodEntry? = withContext(Dispatchers.IO) {
         val raw = readDocument(CacheDocumentEntity.KEY_LATEST) ?: return@withContext null
         runCatching { ApiMapper.toDomain(json.decodeFromString<ApodRecordDto>(raw)) }
             .getOrNull()

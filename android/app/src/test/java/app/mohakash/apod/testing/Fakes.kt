@@ -59,6 +59,9 @@ class FakeSettingsStore(initial: AppSettings = AppSettings()) : SettingsStore {
 
     override suspend fun setFeedSwipeHintSeen(value: Boolean) =
         state.update { it.copy(feedSwipeHintSeen = value) }
+
+    override suspend fun setCarouselMode(enabled: Boolean) =
+        state.update { it.copy(carouselMode = enabled) }
 }
 
 /** An in-memory [FavouriteDao] that behaves like the Room implementation. */

@@ -11,6 +11,10 @@
     <string name="onboarding_wallpaper_preview">Wallpaper preview</string>
     <string name="onboarding_headline">Today\'s sky, on your home screen</string>
     <string name="onboarding_subtitle">A new astronomy picture each day. No account needed.</string>
+    <string name="onboarding_carousel_title">More pictures a day</string>
+    <string name="onboarding_carousel_hint">Rotate through APOD photos from this date in past years.</string>
+    <string name="settings_carousel">Carousel mode</string>
+    <string name="settings_carousel_hint">Rotate through photos from today’s date in past years.</string>
     <string name="onboarding_set_wallpaper">Set live wallpaper</string>
     <string name="onboarding_skip">Skip for now</string>
     <string name="onboarding_wifi_note">Pictures download automatically. You can switch on Wi-Fi only downloads in Settings.</string>

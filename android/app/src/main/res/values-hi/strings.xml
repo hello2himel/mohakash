@@ -215,4 +215,8 @@
     <string name="date_picker_range">तिथि सीमा</string>
     <string name="date_picker_any">कोई भी तिथि</string>
     <string name="date_picker_title">तिथि चुनें</string>
+    <string name="onboarding_carousel_title">एक दिन में कई तस्वीरें</string>
+    <string name="onboarding_carousel_hint">पिछले वर्षों की इस तारीख की APOD तस्वीरें बदलती रहें।</string>
+    <string name="settings_carousel">कैरोसेल मोड</string>
+    <string name="settings_carousel_hint">पिछले वर्षों की आज की तारीख की तस्वीरें बदलती रहें।</string>
 </resources>

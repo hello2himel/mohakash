@@ -11,4 +11,7 @@ interface LatestEntrySource {
 
     /** Fetches the latest entry and caches it. */
     suspend fun fetchLatest(forceNetwork: Boolean = false): ApodEntry
+
+    /** The last cached latest entry, if any. Implementations may return null. */
+    suspend fun cachedLatest(): ApodEntry? = null
 }

@@ -16,7 +16,9 @@ object SyncPolicy {
      * choosing another wallpaper must not silently install a picture.
      */
     fun shouldUpdateWallpaper(settings: AppSettings?, isWallpaperActive: Boolean): Boolean =
-        (settings?.updateAutomatically ?: true) && isWallpaperActive
+        (settings?.updateAutomatically ?: true) &&
+            isWallpaperActive &&
+            settings?.carouselMode != true
 
     /**
      * Whether a picture may be downloaded with the current connection.

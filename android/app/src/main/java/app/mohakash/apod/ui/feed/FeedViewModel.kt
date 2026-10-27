@@ -598,6 +598,7 @@ class FeedViewModel(
         wallpaperSyncJob = viewModelScope.launch {
             val settings = runCatching { settingsStore.current() }.getOrNull() ?: return@launch
             if (!settings.updateAutomatically) return@launch
+            if (settings.carouselMode) return@launch
             if (!isConnected()) return@launch
             if (!SyncPolicy.pictureDownloadAllowed(settings, connected = true, unmetered = isUnmetered())) {
                 return@launch

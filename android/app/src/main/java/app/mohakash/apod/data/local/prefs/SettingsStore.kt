@@ -47,4 +47,7 @@ interface SettingsStore {
 
     /** Remembers that the first-run feed swipe cue has been shown. */
     suspend fun setFeedSwipeHintSeen(value: Boolean)
+
+    /** Enables or disables the historical date-matched wallpaper carousel. */
+    suspend fun setCarouselMode(enabled: Boolean)
 }

@@ -75,6 +75,7 @@ fun SettingsScreen(
             settingsStore = container.settingsStore,
             cacheManager = container.cacheManager,
             syncController = container.syncController,
+            carouselController = container.carouselController,
         )
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -115,6 +116,7 @@ fun SettingsScreen(
         onOpenLink = onOpenLink,
         onOpenAdvanced = onOpenAdvanced,
         onUpdateAutomaticallyChange = updateAutomatically,
+        onCarouselModeChange = viewModel::setCarouselMode,
         onPreferHdChange = viewModel::setPreferHd,
         onWifiOnlyChange = viewModel::setWifiOnly,
         onHideVideosChange = viewModel::setHideVideos,
@@ -148,6 +150,7 @@ internal fun SettingsContent(
     onOpenLink: (String) -> Unit,
     onOpenAdvanced: () -> Unit,
     onUpdateAutomaticallyChange: (Boolean) -> Unit,
+    onCarouselModeChange: (Boolean) -> Unit,
     onPreferHdChange: (Boolean) -> Unit,
     onWifiOnlyChange: (Boolean) -> Unit,
     onHideVideosChange: (Boolean) -> Unit,
@@ -198,6 +201,12 @@ internal fun SettingsContent(
                 checked = state.updateAutomatically,
                 onCheckedChange = onUpdateAutomaticallyChange,
                 showDivider = false,
+            )
+            SwitchRow(
+                title = stringResource(R.string.settings_carousel),
+                subtitle = stringResource(R.string.settings_carousel_hint),
+                checked = state.carouselMode,
+                onCheckedChange = onCarouselModeChange,
             )
             SwitchRow(
                 title = stringResource(R.string.settings_prefer_hd),
