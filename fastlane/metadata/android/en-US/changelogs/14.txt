@@ -1,0 +1,3 @@
+- Donation actions now use the canonical donation page without a tracking query.
+- Added repository funding metadata and a short support section to the README.
+- Prepared the F-Droid donation field for the canonical page.
