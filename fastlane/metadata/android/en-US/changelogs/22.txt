@@ -1,0 +1,2 @@
+- Added Skip to the next-wallpaper card in History.
+- Skipping immediately changes the carousel picture while keeping the next scheduled rotation.
