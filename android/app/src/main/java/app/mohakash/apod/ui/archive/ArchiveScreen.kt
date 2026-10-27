@@ -197,12 +197,12 @@ internal fun ArchiveContent(
                     modifier = Modifier
                         .weight(1f)
                         .heightIn(min = 54.dp)
-                        .clip(RoundedCornerShape(MohakashDimens.CardRadius))
+                        .clip(RoundedCornerShape(percent = 50))
                         .background(MohakashColors.Accent.copy(alpha = 0.12f))
                         .border(
                             1.dp,
                             MohakashColors.Accent.copy(alpha = 0.55f),
-                            RoundedCornerShape(MohakashDimens.CardRadius),
+                            RoundedCornerShape(percent = 50),
                         )
                         .clickable { showGoToDatePicker = true }
                         .padding(horizontal = 14.dp, vertical = 10.dp),
