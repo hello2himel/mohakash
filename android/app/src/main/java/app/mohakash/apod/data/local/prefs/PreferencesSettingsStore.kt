@@ -84,6 +84,9 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
     override suspend fun setNotificationsEnabled(enabled: Boolean) =
         edit { it[Keys.NOTIFICATIONS_ENABLED] = enabled }
 
+    override suspend fun setDonationRemindersEnabled(enabled: Boolean) =
+        edit { it[Keys.DONATION_REMINDERS_ENABLED] = enabled }
+
     /**
      * Applies an edit, swallowing storage failures.
      *
@@ -117,6 +120,7 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         feedSwipeHintSeen = this[Keys.FEED_SWIPE_HINT_SEEN] ?: false,
         carouselMode = this[Keys.CAROUSEL_MODE] ?: false,
         notificationsEnabled = this[Keys.NOTIFICATIONS_ENABLED] ?: true,
+        donationRemindersEnabled = this[Keys.DONATION_REMINDERS_ENABLED] ?: true,
     )
 
     private object Keys {
@@ -133,5 +137,6 @@ class PreferencesSettingsStore(context: Context) : SettingsStore {
         val FEED_SWIPE_HINT_SEEN = booleanPreferencesKey("feed_swipe_hint_seen")
         val CAROUSEL_MODE = booleanPreferencesKey("carousel_mode")
         val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
+        val DONATION_REMINDERS_ENABLED = booleanPreferencesKey("donation_reminders_enabled")
     }
 }

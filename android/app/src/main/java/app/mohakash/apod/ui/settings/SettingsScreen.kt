@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,6 +47,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.BuildConfig
 import app.mohakash.apod.R
+import app.mohakash.apod.work.DonationReminderScheduler
 import app.mohakash.apod.core.ByteFormatting
 import app.mohakash.apod.domain.model.WallpaperScaling
 import app.mohakash.apod.ui.LocalSnackbarHostState
@@ -118,6 +122,14 @@ fun SettingsScreen(
         onOpenAdvanced = onOpenAdvanced,
         onUpdateAutomaticallyChange = updateAutomatically,
         onNotificationsEnabledChange = notificationsEnabled,
+        onDonationRemindersChange = { enabled ->
+            viewModel.setDonationRemindersEnabled(enabled)
+            if (enabled) {
+                DonationReminderScheduler.schedule(context, replace = true)
+            } else {
+                DonationReminderScheduler.cancel(context)
+            }
+        },
         onCarouselModeChange = viewModel::setCarouselMode,
         onPreferHdChange = viewModel::setPreferHd,
         onWifiOnlyChange = viewModel::setWifiOnly,
@@ -153,6 +165,7 @@ internal fun SettingsContent(
     onOpenAdvanced: () -> Unit,
     onUpdateAutomaticallyChange: (Boolean) -> Unit,
     onNotificationsEnabledChange: (Boolean) -> Unit,
+    onDonationRemindersChange: (Boolean) -> Unit,
     onCarouselModeChange: (Boolean) -> Unit,
     onPreferHdChange: (Boolean) -> Unit,
     onWifiOnlyChange: (Boolean) -> Unit,
@@ -210,6 +223,12 @@ internal fun SettingsContent(
                 subtitle = stringResource(R.string.settings_notifications_hint),
                 checked = state.notificationsEnabled,
                 onCheckedChange = onNotificationsEnabledChange,
+            )
+            SwitchRow(
+                title = stringResource(R.string.settings_donation_reminders),
+                subtitle = stringResource(R.string.settings_donation_reminders_hint),
+                checked = state.donationRemindersEnabled,
+                onCheckedChange = onDonationRemindersChange,
             )
             SwitchRow(
                 title = stringResource(R.string.settings_carousel),
@@ -304,6 +323,70 @@ internal fun SettingsContent(
                 style = MohakashTextStyles.Caption,
                 color = MohakashColors.TextMuted,
                 modifier = Modifier.padding(top = 24.dp),
+            )
+
+            SupportSection(
+                onDonate = { onOpenLink(BuildConfig.DONATE_URL) },
+                modifier = Modifier.padding(top = 24.dp),
+            )
+
+            Text(
+                text = stringResource(R.string.settings_developer_attribution),
+                style = MohakashTextStyles.Caption,
+                color = MohakashColors.TextMuted,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp, bottom = 8.dp),
+            )
+        }
+    }
+}
+
+/** A compact, understated support card. It is not a promotional banner. */
+@Composable
+private fun SupportSection(onDonate: () -> Unit, modifier: Modifier = Modifier) {
+    val shape = RoundedCornerShape(18.dp)
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(MohakashColors.Accent.copy(alpha = 0.06f))
+            .border(1.dp, MohakashColors.Accent.copy(alpha = 0.22f), shape)
+            .padding(16.dp),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_heart_24),
+                contentDescription = null,
+                tint = MohakashColors.Accent,
+                modifier = Modifier.size(18.dp),
+            )
+            Text(
+                text = stringResource(R.string.settings_support_title),
+                style = MohakashTextStyles.UiMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold),
+                color = MohakashColors.Text,
+            )
+        }
+        Text(
+            text = stringResource(R.string.settings_support_body),
+            style = MohakashTextStyles.Helper,
+            color = MohakashColors.TextMuted,
+            modifier = Modifier.padding(top = 6.dp),
+        )
+        androidx.compose.material3.TextButton(
+            onClick = onDonate,
+            modifier = Modifier
+                .padding(top = 2.dp)
+                .heightIn(min = 48.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.settings_support_action),
+                style = MohakashTextStyles.UiSmallSemiBold,
+                color = MohakashColors.Accent,
             )
         }
     }

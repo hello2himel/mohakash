@@ -31,4 +31,6 @@ data class AppSettings(
     val carouselMode: Boolean = false,
     /** Notify only when the regular latest-APOD sync installs a new picture. */
     val notificationsEnabled: Boolean = true,
+    /** Optional, infrequent reminders about supporting the app. */
+    val donationRemindersEnabled: Boolean = true,
 )

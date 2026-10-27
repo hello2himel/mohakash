@@ -29,6 +29,7 @@ data class SettingsUiState(
     val lastSyncAt: Long? = null,
     val carouselMode: Boolean = false,
     val notificationsEnabled: Boolean = true,
+    val donationRemindersEnabled: Boolean = true,
 )
 
 /** One-shot events of the settings screen. */
@@ -68,6 +69,7 @@ class SettingsViewModel(
                     lastSyncAt = settings.lastSyncAt,
                     carouselMode = settings.carouselMode,
                     notificationsEnabled = settings.notificationsEnabled,
+                    donationRemindersEnabled = settings.donationRemindersEnabled,
                 )
             }
         }
@@ -87,6 +89,7 @@ class SettingsViewModel(
                 lastSyncAt = settings.lastSyncAt,
                 carouselMode = settings.carouselMode,
                 notificationsEnabled = settings.notificationsEnabled,
+                donationRemindersEnabled = settings.donationRemindersEnabled,
                 cacheSizeBytes = cacheManager.cacheSizeBytes(),
             )
         }
@@ -148,6 +151,14 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsStore.setNotificationsEnabled(enabled)
             _state.value = _state.value.copy(notificationsEnabled = enabled)
+        }
+    }
+
+    /** Enables or disables optional donation reminders; callers also reschedule WorkManager. */
+    fun setDonationRemindersEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsStore.setDonationRemindersEnabled(enabled)
+            _state.value = _state.value.copy(donationRemindersEnabled = enabled)
         }
     }
 

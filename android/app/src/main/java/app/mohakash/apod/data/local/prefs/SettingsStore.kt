@@ -53,4 +53,7 @@ interface SettingsStore {
 
     /** Enables or disables notifications for new regular APOD pictures. */
     suspend fun setNotificationsEnabled(enabled: Boolean)
+
+    /** Enables or disables optional donation reminders. */
+    suspend fun setDonationRemindersEnabled(enabled: Boolean)
 }
