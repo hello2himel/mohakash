@@ -219,4 +219,6 @@
     <string name="onboarding_carousel_hint">Geçmiş yılların bu tarihindeki APOD fotoğraflarını döndürür.</string>
     <string name="settings_carousel">Atlıkarınca modu</string>
     <string name="settings_carousel_hint">Geçmiş yılların bugünkü fotoğraflarını döndürür.</string>
+    <string name="settings_notifications">Yeni APOD bildirimleri</string>
+    <string name="settings_notifications_hint">Yalnızca yeni normal bir APOD duvar kağıdı olduğunda bildir. Karusel dönüşleri sessiz kalır.</string>
 </resources>

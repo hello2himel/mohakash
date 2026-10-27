@@ -29,4 +29,6 @@ data class AppSettings(
     val feedSwipeHintSeen: Boolean = false,
     /** Rotate the live wallpaper through historical APODs from today's month/day. */
     val carouselMode: Boolean = false,
+    /** Notify only when the regular latest-APOD sync installs a new picture. */
+    val notificationsEnabled: Boolean = true,
 )

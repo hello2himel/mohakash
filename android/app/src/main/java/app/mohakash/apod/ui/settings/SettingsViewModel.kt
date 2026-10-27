@@ -28,6 +28,7 @@ data class SettingsUiState(
     val cacheSizeBytes: Long = 0L,
     val lastSyncAt: Long? = null,
     val carouselMode: Boolean = false,
+    val notificationsEnabled: Boolean = true,
 )
 
 /** One-shot events of the settings screen. */
@@ -66,6 +67,7 @@ class SettingsViewModel(
                     customApiBaseUrl = settings.customApiBaseUrl,
                     lastSyncAt = settings.lastSyncAt,
                     carouselMode = settings.carouselMode,
+                    notificationsEnabled = settings.notificationsEnabled,
                 )
             }
         }
@@ -84,6 +86,7 @@ class SettingsViewModel(
                 customApiBaseUrl = settings.customApiBaseUrl,
                 lastSyncAt = settings.lastSyncAt,
                 carouselMode = settings.carouselMode,
+                notificationsEnabled = settings.notificationsEnabled,
                 cacheSizeBytes = cacheManager.cacheSizeBytes(),
             )
         }
@@ -137,6 +140,14 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsStore.setWallpaperScaling(scaling)
             _state.value = _state.value.copy(scaling = scaling)
+        }
+    }
+
+    /** Enables or disables notifications for new regular APOD pictures. */
+    fun setNotificationsEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsStore.setNotificationsEnabled(enabled)
+            _state.value = _state.value.copy(notificationsEnabled = enabled)
         }
     }
 

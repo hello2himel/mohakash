@@ -91,6 +91,37 @@ class ApodSyncEngineTest {
     }
 
     @Test
+    fun `notifications are sent only when the new-picture setting is enabled`() = runTest {
+        var notified = 0
+        val source = FakeLatestEntrySource(entry())
+        val store = FakeWallpaperPictureStore()
+        val downloader = FakePictureDownloader()
+        val app = app.mohakash.apod.domain.model.AppSettings(notificationsEnabled = true)
+        val engine = ApodSyncEngine(
+            source,
+            FakeSettingsStore(app),
+            store,
+            downloader,
+            notifyWallpaperChanged = { notified++ },
+        ) { 5_000L }
+
+        engine.sync()
+        assertEquals(1, notified)
+
+        val secondStore = FakeWallpaperPictureStore()
+        var secondNotified = 0
+        val quiet = ApodSyncEngine(
+            source,
+            FakeSettingsStore(app.copy(notificationsEnabled = false)),
+            secondStore,
+            downloader,
+            notifyWallpaperChanged = { secondNotified++ },
+        ) { 5_000L }
+        quiet.sync()
+        assertEquals(0, secondNotified)
+    }
+
+    @Test
     fun `the hd picture is used when it is preferred`() = runTest {
         val downloader = FakePictureDownloader()
         val settings = FakeSettingsStore(app.mohakash.apod.domain.model.AppSettings(preferHd = true))

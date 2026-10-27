@@ -219,4 +219,6 @@
     <string name="onboarding_carousel_hint">আগের বছরের এই তারিখের APOD ছবি পাল্টে দেখুন।</string>
     <string name="settings_carousel">ক্যারোসেল মোড</string>
     <string name="settings_carousel_hint">আগের বছরের আজকের তারিখের ছবি পাল্টে দেখুন।</string>
+    <string name="settings_notifications">নতুন APOD বিজ্ঞপ্তি</string>
+    <string name="settings_notifications_hint">শুধু নতুন নিয়মিত APOD ওয়ালপেপার হলে জানান। ক্যারোসেল পরিবর্তন নীরব থাকবে।</string>
 </resources>
