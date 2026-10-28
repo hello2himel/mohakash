@@ -250,6 +250,6 @@
     <string name="onboarding_frequency_subtitle">Pilih seberapa sering Anda ingin menemukan pemandangan alam semesta yang baru.</string>
     <string name="onboarding_step">Langkah %1$d dari %2$d</string>
     <string name="onboarding_changes_once">1 perubahan / hari</string>
-    <string name="onboarding_changes_multiple">4 perubahan / hari</string>
+    <string name="onboarding_changes_multiple">Lebih sering</string>
     <string name="onboarding_multiple_daily_hint">Foto berbeda setiap kali.</string>
 </resources>
