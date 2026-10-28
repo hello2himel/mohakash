@@ -236,7 +236,6 @@
     <string name="onboarding_once_daily">দিনে একবার</string>
     <string name="onboarding_once_daily_hint">প্রতিদিন একটি নতুন ছবি।</string>
     <string name="onboarding_multiple_daily">দিনে একাধিকবার</string>
-    <string name="onboarding_multiple_daily_hint">প্রতি কয়েক ঘণ্টায় একটি নতুন ছবি।</string>
     <string name="onboarding_frequency_continue">চালিয়ে যান</string>
     <string name="history_title">ইতিহাস</string>
     <string name="history_empty_title">এখনো কোনো ইতিহাস নেই</string>
@@ -249,5 +248,10 @@
     <string name="history_next_wallpaper">%1$s পরে পরবর্তী ওয়ালপেপার</string>
     <string name="history_next_wallpaper_preparing">পরবর্তী ওয়ালপেপার প্রস্তুত হচ্ছে…</string>
     <string name="history_next_wallpaper_updating">ওয়ালপেপার হালনাগাদ হচ্ছে…</string>
-    <string name="history_skip_wallpaper">এড়িয়ে যান</string>
+    <string name="history_skip_wallpaper">পরেরটিতে যান</string>
+    <string name="onboarding_frequency_subtitle">আপনি কতবার মহাবিশ্বের নতুন দৃশ্য দেখতে চান তা বেছে নিন।</string>
+    <string name="onboarding_step">ধাপ %1$d / %2$d</string>
+    <string name="onboarding_changes_once">দিনে ১টি পরিবর্তন</string>
+    <string name="onboarding_changes_multiple">দিনে ৪টি পরিবর্তন</string>
+    <string name="onboarding_multiple_daily_hint">প্রতিবার একটি ভিন্ন ছবি।</string>
 </resources>

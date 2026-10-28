@@ -18,7 +18,7 @@
     <string name="settings_support_action">Donate</string>
     <string name="settings_donation_reminders">Donation reminders</string>
     <string name="settings_donation_reminders_hint">Very occasional, optional reminders after you have used the app for a while.</string>
-    <string name="settings_developer_attribution" translatable="false">Made with ❤️ by @hello2himel (hello2himel.netlify.app) from 🇧🇩</string>
+    <string name="settings_developer_attribution" translatable="false">Made with ❤️ by @hello2himel from 🇧🇩</string>
     <string name="settings_carousel">Carousel mode</string>
     <string name="settings_carousel_hint">Rotate through photos from today’s date in past years.</string>
     <string name="notification_channel_support_name">Support reminders</string>
@@ -29,11 +29,15 @@
     <string name="donation_feed_body">Your support helps keep Mohakash free, open source and maintained. Donations are entirely optional.</string>
     <string name="donation_feed_not_now">Not now</string>
     <string name="onboarding_frequency_title">How often should your wallpaper change?</string>
+    <string name="onboarding_frequency_subtitle">Choose how often you want to discover a new view of the universe.</string>
+    <string name="onboarding_step">Step %1$d of %2$d</string>
+    <string name="onboarding_changes_once">1 change / day</string>
+    <string name="onboarding_changes_multiple">4 changes / day</string>
     <string name="onboarding_frequency_hint">You can change this in Settings anytime.</string>
     <string name="onboarding_once_daily">Once a day</string>
     <string name="onboarding_once_daily_hint">A new picture every day.</string>
     <string name="onboarding_multiple_daily">Multiple times a day</string>
-    <string name="onboarding_multiple_daily_hint">A new picture every few hours.</string>
+    <string name="onboarding_multiple_daily_hint">A different picture each time.</string>
     <string name="onboarding_frequency_continue">Continue</string>
     <string name="onboarding_set_wallpaper">Set live wallpaper</string>
     <string name="onboarding_skip">Skip for now</string>
@@ -84,7 +88,7 @@
     <!-- Archive -->
     <string name="history_title">History</string>
     <string name="history_next_wallpaper_label">Next wallpaper</string>
-    <string name="history_skip_wallpaper">Skip</string>
+    <string name="history_skip_wallpaper">Skip to next</string>
     <string name="history_next_wallpaper">Next wallpaper in %1$s</string>
     <string name="history_next_wallpaper_preparing">Preparing next wallpaper…</string>
     <string name="history_next_wallpaper_updating">Updating wallpaper…</string>
