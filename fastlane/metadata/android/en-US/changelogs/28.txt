@@ -1,0 +1,4 @@
+- Onboarding frequency cards now use hand-drawn space wallpapers on phone mockups, with smooth fades between scenes and a full-card day-night sky.
+- Removed the fixed “4 changes / day” label in favour of “More often”.
+- The onboarding phone preview uses a decorative astronomy illustration while the wallpaper is still fetched in the background.
+- If the latest APOD is a video, the newest previous APOD photograph is used for onboarding and wallpaper sync.
