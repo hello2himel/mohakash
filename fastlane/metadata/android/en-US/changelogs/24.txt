@@ -1,0 +1,3 @@
+- Animated onboarding frequency cards now preview a full day-night cycle; Once a day changes the picture once, Multiple times a day changes it several times.
+- Added Back/step navigation and a clearer Skip-to-next wallpaper pill in History.
+- Notification permission is requested during onboarding.

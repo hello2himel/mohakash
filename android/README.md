@@ -8,7 +8,7 @@ genuine Android **live wallpaper**.
 * The app talks to the public JSON API that the repository publishes on GitHub Pages — there is no
   account, no analytics and no tracking.
 
-Current release: **2026.10.27.16** (version code **23**). Android releases use
+Current release: **2026.10.27.17** (version code **24**). Android releases use
 `YYYY.MM.DD.N` (`versionName`) with a separate monotonically increasing
 `versionCode`; the Git tag is `v` + `versionName`. The date is the start date of
 the current release series, and `N` increments for every release in it. See the
@@ -171,7 +171,7 @@ that, the app recognises that its service is the active wallpaper and swaps new 
 
 | Screen | What it does |
 |---|---|
-| **Onboarding** | Shown once. Page 1: phone preview, headline, *Set live wallpaper* / *Skip for now*. After the system picker returns, page 2 asks **Once a day** or **Multiple times a day** (default) and finishes with *Continue*. Finishing requests notification permission on Android 13+. |
+| **Onboarding** | Shown once. Page 1: phone preview, headline, *Set live wallpaper* / *Skip for now*. After the system picker returns, page 2 asks **Once a day** or **Multiple times a day** (default) through two animated day-night previews, then finishes with *Continue*. Finishing requests notification permission on Android 13+. |
 | **Top chrome** | Search (left), lowercase **mohakash** wordmark (centre), Settings (right), over a black-to-transparent top scrim. Tapping the picture hides this chrome and the dock; tapping again restores them. |
 | **Feed** | Full-screen vertical pager with one APOD per page. Page 0 is the latest picture; swiping up goes to older pictures, swiping down to newer ones, and the list never wraps. On a first visit a one-time **Swipe up / to see more pictures** cue appears with two small feed bounces and fades after six seconds or on the first drag. Top chrome has **search on the left, the mohakash wordmark in the centre and Settings on the right**. A black-to-transparent bottom gradient carries the credit, title and two-line teaser; the APOD date runs vertically on the left with a short accent line. A labelled right-hand rail holds **Favorite**, **Download** (image entries) and **Share**. Next to the text is a compact **Set wallpaper** pill and a text **Learn more** link. Tapping the picture fades out the gradient and the bottom bar for a clean full-screen view; tapping again (or Back) restores them. Fill/Fit follows the shared image-scaling setting. |
 | **Feed (video)** | Poster with the play glyph and *Video* chip, *Watch on APOD* instead of save / wallpaper. Videos play on the APOD page, not in the app. |
