@@ -10,7 +10,7 @@
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Xem trước hình nền</string>
     <string name="onboarding_headline">Bầu trời hôm nay trên màn hình chính</string>
-    <string name="onboarding_subtitle">Mỗi ngày một ảnh thiên văn mới. Không cần tài khoản.</string>
+    <string name="onboarding_subtitle">Hình nền thiên văn mới mỗi ngày</string>
     <string name="onboarding_set_wallpaper">Đặt hình nền động</string>
     <string name="onboarding_skip">Bỏ qua lúc này</string>
     <string name="onboarding_wifi_note">Ảnh được tải tự động. Bạn có thể giới hạn tải xuống chỉ qua Wi-Fi trong Cài đặt.</string>
