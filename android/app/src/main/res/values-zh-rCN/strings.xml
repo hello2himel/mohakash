@@ -9,8 +9,8 @@
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">壁纸预览</string>
-    <string name="onboarding_headline">今日的天空，就在主屏幕</string>
-    <string name="onboarding_subtitle">每天一张新的天文壁纸</string>
+    <string name="onboarding_headline">每天一张新的天文壁纸</string>
+    <string name="onboarding_subtitle">每天一张新的天文图片，无需账号。</string>
     <string name="onboarding_set_wallpaper">设为动态壁纸</string>
     <string name="onboarding_skip">暂时跳过</string>
     <string name="onboarding_wifi_note">图片会自动下载。你可以在设置中改为仅在 Wi-Fi 下下载。</string>

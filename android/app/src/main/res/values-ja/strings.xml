@@ -9,8 +9,8 @@
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">壁紙プレビュー</string>
-    <string name="onboarding_headline">今日の空を、ホーム画面に</string>
-    <string name="onboarding_subtitle">毎日新しい天文壁紙</string>
+    <string name="onboarding_headline">毎日新しい天文壁紙</string>
+    <string name="onboarding_subtitle">毎日新しい天文画像をお届けします。アカウントは不要です。</string>
     <string name="onboarding_set_wallpaper">ライブ壁紙に設定</string>
     <string name="onboarding_skip">今はスキップ</string>
     <string name="onboarding_wifi_note">画像は自動でダウンロードされます。設定でWi-Fi接続時のみのダウンロードに切り替えられます。</string>

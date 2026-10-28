@@ -9,8 +9,8 @@
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Vista previa del fondo</string>
-    <string name="onboarding_headline">El cielo de hoy, en tu pantalla de inicio</string>
-    <string name="onboarding_subtitle">Nuevo fondo de astronomía cada día</string>
+    <string name="onboarding_headline">Nuevo fondo de astronomía cada día</string>
+    <string name="onboarding_subtitle">Una nueva imagen astronómica cada día. No necesitas cuenta.</string>
     <string name="onboarding_set_wallpaper">Usar fondo animado</string>
     <string name="onboarding_skip">Omitir por ahora</string>
     <string name="onboarding_wifi_note">Las imágenes se descargan automáticamente. Puedes activar las descargas solo por Wi-Fi en Ajustes.</string>

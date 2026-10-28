@@ -9,8 +9,8 @@
 
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Duvar kağıdı önizlemesi</string>
-    <string name="onboarding_headline">Bugünün gökyüzü ana ekranında</string>
-    <string name="onboarding_subtitle">Her gün yeni astronomi duvar kağıdı</string>
+    <string name="onboarding_headline">Her gün yeni astronomi duvar kağıdı</string>
+    <string name="onboarding_subtitle">Her gün yeni bir astronomi fotoğrafı. Hesap gerekmez.</string>
     <string name="onboarding_set_wallpaper">Canlı duvar kağıdı ayarla</string>
     <string name="onboarding_skip">Şimdilik atla</string>
     <string name="onboarding_wifi_note">Fotoğraflar otomatik indirilir. Ayarlar\'dan yalnızca Wi-Fi ile indirmeyi açabilirsin.</string>
