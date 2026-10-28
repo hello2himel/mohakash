@@ -97,15 +97,15 @@ workflow.
 The checked-in source of truth is `android/app/version.properties`:
 
 ```properties
-VERSION_CODE=26
-VERSION_NAME=2026.10.27.19
+VERSION_CODE=27
+VERSION_NAME=2026.10.27.20
 ```
 
 The version name is `YYYY.MM.DD.N`:
 
 - `YYYY.MM.DD` is the start date of the current release series.
 - `N` increments for every release in that series (`.1`, `.2`, … `.9`, `.10`).
-- The Git tag is exactly `v` + `VERSION_NAME`, for example `v2026.10.27.19`.
+- The Git tag is exactly `v` + `VERSION_NAME`, for example `v2026.10.27.20`.
 - `VERSION_CODE` is an independent, monotonically increasing integer. It must
   increase for every upload to Play/F-Droid, even a re-upload, and is never
   reused for the application ID.
@@ -153,8 +153,8 @@ jarsigner -verify app/build/outputs/bundle/release/app-release.aab
 Expected:
 
 - package `mohakash.stargzr.space`
-- version code `26`
-- version name `2026.10.27.19`
+- version code `27`
+- version name `2026.10.27.20`
 - one signer whose SHA-256 certificate digest matches the fingerprint above
 - `jar verified` for the AAB
 
@@ -172,18 +172,18 @@ creates `SHA256SUMS.txt`, and publishes a GitHub release.
 
 ```bash
 git add .
-git commit -m "release: 2026.10.27.19 (code 26)"
+git commit -m "release: 2026.10.27.20 (code 27)"
 git push origin main
 
-git tag -a v2026.10.27.19 -m "Mohakash Android 2026.10.27.19"
-git push origin v2026.10.27.19
+git tag -a v2026.10.27.20 -m "Mohakash Android 2026.10.27.20"
+git push origin v2026.10.27.20
 ```
 
 The release assets are:
 
 ```text
 mohakash.apk
-mohakash-2026.10.27.19.aab
+mohakash-2026.10.27.20.aab
 SHA256SUMS.txt
 ```
 
@@ -261,7 +261,7 @@ fdroid/metadata/mohakash.stargzr.space.yml
 
 Before opening a merge request:
 
-1. Push the current release tag (currently `v2026.10.27.19`; use the latest
+1. Push the current release tag (currently `v2026.10.27.20`; use the latest
    `vYYYY.MM.DD.N` tag).
 2. Replace the `Builds.commit` tag in the metadata with the full commit hash of
    the tagged release (F-Droid prefers full hashes).
@@ -281,7 +281,7 @@ F-Droid listing.
 ## 7. What is already done
 
 - Package name changed to `mohakash.stargzr.space`.
-- Version moved to `android/app/version.properties` (currently `2026.10.27.19`, code `26`).
+- Version moved to `android/app/version.properties` (currently `2026.10.27.20`, code `27`).
 - Release signing reads environment variables or `android/keystore.properties`.
 - Unsigned release builds still work for F-Droid-style builders.
 - Signed APK/AAB built and signature-verified locally.

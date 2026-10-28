@@ -1,0 +1,1 @@
+- Onboarding’s phone preview now uses a decorative astronomy gradient and stars instead of waiting for an APOD image, while the latest picture is still fetched in the background for a fast wallpaper setup.
