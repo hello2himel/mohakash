@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -29,7 +30,11 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
@@ -42,8 +47,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import kotlinx.coroutines.isActive
 import kotlin.math.PI
 import kotlin.math.sin
@@ -123,7 +126,6 @@ internal fun rememberReducedMotion(): Boolean {
 internal fun DayNightPreview(
     clock: DayCycleClock,
     cadence: WallpaperCadence,
-    imageModel: Any?,
     modifier: Modifier = Modifier,
 ) {
     val target by remember(clock, cadence) {
@@ -141,7 +143,6 @@ internal fun DayNightPreview(
         AnimatedSkyBackground(clock = clock, modifier = Modifier.matchParentSize())
         PhonePreview(
             target = target,
-            imageModel = imageModel,
             modifier = Modifier
                 .width(92.dp)
                 .height(160.dp),
@@ -172,7 +173,6 @@ internal fun DayNightPreview(
 @Composable
 private fun PhonePreview(
     target: Int,
-    imageModel: Any?,
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(20.dp)
@@ -185,13 +185,13 @@ private fun PhonePreview(
     ) {
         Crossfade(
             targetState = target,
-            animationSpec = tween(700),
+            animationSpec = tween(900),
             label = "phone-wallpaper",
             modifier = Modifier
                 .matchParentSize()
                 .clip(RoundedCornerShape(16.dp)),
         ) { beat ->
-            WallpaperPlate(index = positiveMod(beat, PLATE_COUNT), model = imageModel)
+            WallpaperPlate(index = positiveMod(beat, PLATE_COUNT))
         }
         // Speaker slot, subtle enough not to read as content.
         Box(
@@ -221,68 +221,162 @@ private fun imageTarget(cycle: Long, phase: Float, cadence: WallpaperCadence): I
 private fun positiveMod(value: Int, modulus: Int): Int = ((value % modulus) + modulus) % modulus
 
 @Composable
-private fun WallpaperPlate(index: Int, model: Any?) {
-    if (index == 0 && model != null) {
-        val context = LocalContext.current
-        val request = remember(model) {
-            ImageRequest.Builder(context)
-                .data(model)
-                .size(720, 480)
-                .crossfade(false)
-                .build()
+private fun WallpaperPlate(index: Int) {
+    val scene = remember(index) { positiveMod(index, DEMO_SCENES.size) }
+    Canvas(Modifier.fillMaxSize()) {
+        when (DEMO_SCENES[scene]) {
+            DemoAstro.Moon -> drawMoon()
+            DemoAstro.Jupiter -> drawJupiter()
+            DemoAstro.Andromeda -> drawAndromeda()
+            DemoAstro.Nebula -> drawNebula()
+            DemoAstro.BlackHole -> drawBlackHole()
         }
-        AsyncImage(
-            model = request,
-            contentDescription = null,
-            contentScale = androidx.compose.ui.layout.ContentScale.Crop,
-            modifier = Modifier.fillMaxSize(),
-        )
-    } else {
-        GeneratedPlate(index)
     }
 }
 
-@Composable
-private fun GeneratedPlate(index: Int) {
-    val palette = remember(index) {
-        arrayOf(
-            listOf(Color(0xFF080B1C), Color(0xFF1B2B5B), Color(0xFF7FA8D8)),
-            listOf(Color(0xFF130D2B), Color(0xFF4B2D67), Color(0xFFE49A8A)),
-            listOf(Color(0xFF061B24), Color(0xFF174D63), Color(0xFFA8DDD7)),
-            listOf(Color(0xFF1A0E0C), Color(0xFF633428), Color(0xFFF2B36E)),
-            listOf(Color(0xFF090A18), Color(0xFF2B2350), Color(0xFF9388D6)),
-        )[positiveMod(index, 5)]
-    }
-    val stars = remember(index) {
-        val random = Random(0x5EED + index * 97)
-        List(26) {
-            Triple(random.nextFloat(), random.nextFloat(), 0.5f + random.nextFloat() * 1.1f)
-        }
-    }
-    Canvas(Modifier.fillMaxSize()) {
-        drawRect(
-            Brush.verticalGradient(palette, startY = 0f, endY = size.height),
-        )
-        stars.forEach { (x, y, radius) ->
-            drawCircle(
-                color = Color.White.copy(alpha = 0.35f + 0.5f * (1f - y)),
-                radius = radius.dp.toPx() * 0.55f,
-                center = Offset(x * size.width, y * size.height * 0.72f),
-            )
-        }
-        // A quiet planet/horizon silhouette gives each generated plate a distinct composition.
-        val horizon = size.height * (0.68f + (index % 3) * 0.04f)
+private enum class DemoAstro { Moon, Jupiter, Andromeda, Nebula, BlackHole }
+
+private val DEMO_SCENES = listOf(
+    DemoAstro.Moon,
+    DemoAstro.Jupiter,
+    DemoAstro.Andromeda,
+    DemoAstro.Nebula,
+    DemoAstro.BlackHole,
+)
+
+private fun DrawScope.drawStarfield(seed: Int, count: Int, maxY: Float = 0.9f) {
+    val random = Random(seed)
+    repeat(count) {
+        val x = random.nextFloat()
+        val y = random.nextFloat() * maxY
+        val radius = (0.35f + random.nextFloat() * 1.1f).dp.toPx()
         drawCircle(
-            color = Color(0xFF05070F).copy(alpha = 0.7f),
-            radius = size.width * (0.24f + (index % 2) * 0.05f),
-            center = Offset(size.width * (0.2f + (index % 3) * 0.3f), horizon),
-        )
-        drawRect(
-            color = Color(0xFF05070F).copy(alpha = 0.75f),
-            topLeft = Offset(0f, horizon),
-            size = Size(size.width, size.height - horizon),
+            color = Color.White.copy(alpha = 0.25f + random.nextFloat() * 0.65f),
+            radius = radius,
+            center = Offset(x * size.width, y * size.height),
         )
     }
+}
+
+private fun DrawScope.drawMoon() {
+    drawRect(Brush.verticalGradient(listOf(Color(0xFF060A1A), Color(0xFF151A35), Color(0xFF03040A))))
+    drawStarfield(seed = 17, count = 42)
+    val center = Offset(size.width * 0.54f, size.height * 0.48f)
+    val radius = size.width * 0.28f
+    drawCircle(
+        brush = Brush.radialGradient(
+            listOf(Color(0xFFFFF8E7), Color(0xFFBEB7A8)),
+            center = Offset(center.x - radius * 0.25f, center.y - radius * 0.3f),
+            radius = radius * 1.8f,
+        ),
+        radius = radius,
+        center = center,
+    )
+    // Craters and a soft shadow edge.
+    drawCircle(Color(0xFF8D877D).copy(alpha = 0.45f), radius * 0.10f, Offset(center.x - radius * 0.35f, center.y - radius * 0.25f))
+    drawCircle(Color(0xFF8D877D).copy(alpha = 0.35f), radius * 0.07f, Offset(center.x + radius * 0.28f, center.y - radius * 0.04f))
+    drawCircle(Color(0xFF6E685F).copy(alpha = 0.30f), radius * 0.12f, Offset(center.x + radius * 0.12f, center.y + radius * 0.38f))
+    drawCircle(Color(0xFF05070F).copy(alpha = 0.42f), radius = radius * 0.98f, center = Offset(center.x + radius * 0.72f, center.y - radius * 0.12f))
+}
+
+private fun DrawScope.drawJupiter() {
+    drawRect(Brush.verticalGradient(listOf(Color(0xFF070A16), Color(0xFF11162B), Color(0xFF03040A))))
+    drawStarfield(seed = 31, count = 34)
+    val center = Offset(size.width * 0.52f, size.height * 0.48f)
+    val radius = size.width * 0.30f
+    drawCircle(Color(0xFFD5B486), radius = radius, center = center)
+    val clip = Path().apply { addOval(androidx.compose.ui.geometry.Rect(center, radius)) }
+    clipPath(clip) {
+        drawRect(Color(0xFFE8D7B9).copy(alpha = 0.7f), topLeft = Offset(center.x - radius, center.y - radius * 0.62f), size = Size(radius * 2f, radius * 0.30f))
+        drawRect(Color(0xFF9E6F4E).copy(alpha = 0.65f), topLeft = Offset(center.x - radius, center.y + radius * 0.16f), size = Size(radius * 2f, radius * 0.22f))
+        drawRect(Color(0xFFC79062).copy(alpha = 0.5f), topLeft = Offset(center.x - radius, center.y + radius * 0.46f), size = Size(radius * 2f, radius * 0.18f))
+        drawOval(Color(0xFFB65B40).copy(alpha = 0.85f), topLeft = Offset(center.x + radius * 0.08f, center.y + radius * 0.10f), size = Size(radius * 0.42f, radius * 0.22f))
+    }
+    drawCircle(Color(0xFF05070F).copy(alpha = 0.35f), radius = radius * 0.98f, center = Offset(center.x + radius * 0.66f, center.y - radius * 0.06f))
+}
+
+private fun DrawScope.drawAndromeda() {
+    drawRect(Brush.verticalGradient(listOf(Color(0xFF050716), Color(0xFF11162E), Color(0xFF03040A))))
+    drawStarfield(seed = 47, count = 55)
+    val center = Offset(size.width * 0.55f, size.height * 0.46f)
+    rotate(degrees = -28f, pivot = center) {
+        drawOval(
+            brush = Brush.radialGradient(
+                listOf(Color(0xFFD6E5FF).copy(alpha = 0.8f), Color(0xFF809FE0).copy(alpha = 0.35f), Color.Transparent),
+                center = center,
+                radius = size.width * 0.48f,
+            ),
+            topLeft = Offset(center.x - size.width * 0.42f, center.y - size.width * 0.16f),
+            size = Size(size.width * 0.84f, size.width * 0.32f),
+        )
+        drawOval(
+            brush = Brush.radialGradient(listOf(Color(0xFFFFF4D0).copy(alpha = 0.55f), Color.Transparent), center = center, radius = size.width * 0.22f),
+            topLeft = Offset(center.x - size.width * 0.22f, center.y - size.width * 0.10f),
+            size = Size(size.width * 0.44f, size.width * 0.20f),
+        )
+    }
+    drawCircle(Color(0xFFFFF7DC).copy(alpha = 0.95f), radius = size.width * 0.045f, center = center)
+}
+
+private fun DrawScope.drawNebula() {
+    drawRect(Brush.verticalGradient(listOf(Color(0xFF080516), Color(0xFF1A0D2E), Color(0xFF03040A))))
+    drawCircle(
+        brush = Brush.radialGradient(listOf(Color(0xFFE48BB5).copy(alpha = 0.45f), Color.Transparent), center = Offset(size.width * 0.44f, size.height * 0.45f), radius = size.width * 0.55f),
+        radius = size.width * 0.55f,
+        center = Offset(size.width * 0.44f, size.height * 0.45f),
+    )
+    drawCircle(
+        brush = Brush.radialGradient(listOf(Color(0xFF8A9BFF).copy(alpha = 0.45f), Color.Transparent), center = Offset(size.width * 0.66f, size.height * 0.38f), radius = size.width * 0.42f),
+        radius = size.width * 0.42f,
+        center = Offset(size.width * 0.66f, size.height * 0.38f),
+    )
+    drawCircle(
+        brush = Brush.radialGradient(listOf(Color(0xFF7DE3D1).copy(alpha = 0.26f), Color.Transparent), center = Offset(size.width * 0.38f, size.height * 0.62f), radius = size.width * 0.38f),
+        radius = size.width * 0.38f,
+        center = Offset(size.width * 0.38f, size.height * 0.62f),
+    )
+    drawStarfield(seed = 61, count = 32)
+}
+
+private fun DrawScope.drawBlackHole() {
+    drawRect(Brush.verticalGradient(listOf(Color(0xFF03040A), Color(0xFF0A0D20), Color(0xFF020309))))
+    drawStarfield(seed = 83, count = 42)
+    val center = Offset(size.width * 0.51f, size.height * 0.48f)
+    val radius = size.width * 0.24f
+    drawCircle(
+        brush = Brush.radialGradient(
+            listOf(Color(0xFFB8C8FF).copy(alpha = 0.28f), Color.Transparent),
+            center = center,
+            radius = size.width * 0.62f,
+        ),
+        radius = size.width * 0.62f,
+        center = center,
+    )
+    // Accretion disk: a tilted, glowing ellipse around a pitch-black event horizon.
+    rotate(degrees = -22f, pivot = center) {
+        drawOval(
+            brush = Brush.linearGradient(
+                listOf(Color(0xFFFFD59A).copy(alpha = 0.85f), Color(0xFFF08B54).copy(alpha = 0.55f), Color(0xFF8A6BFF).copy(alpha = 0.35f)),
+                start = Offset(center.x - size.width * 0.55f, center.y),
+                end = Offset(center.x + size.width * 0.55f, center.y),
+            ),
+            topLeft = Offset(center.x - size.width * 0.48f, center.y - size.width * 0.12f),
+            size = Size(size.width * 0.96f, size.width * 0.24f),
+        )
+        drawOval(
+            color = Color(0xFFFFE7B8).copy(alpha = 0.7f),
+            topLeft = Offset(center.x - size.width * 0.38f, center.y - size.width * 0.075f),
+            size = Size(size.width * 0.76f, size.width * 0.15f),
+            style = Stroke(width = 0.8f.dp.toPx()),
+        )
+    }
+    drawCircle(Color(0xFF010207), radius = radius, center = center)
+    drawCircle(
+        color = Color(0xFFFFD7A0).copy(alpha = 0.55f),
+        radius = radius * 1.02f,
+        center = center,
+        style = Stroke(width = 0.7f.dp.toPx()),
+    )
 }
 
 @Composable
@@ -296,7 +390,7 @@ private fun AnimatedSkyBackground(clock: DayCycleClock, modifier: Modifier = Mod
     Canvas(modifier) {
         val phase = clock.phase
         val (top, bottom) = skyColors(phase)
-        drawRect(Brush.verticalGradient(listOf(top, bottom, Color(0xFF05070F)), 0f, size.height))
+        drawRect(Brush.verticalGradient(listOf(top, bottom), 0f, size.height))
         val starAlpha = starVisibility(phase)
         if (starAlpha > 0f) {
             stars.forEach { (x, y, radius) ->
@@ -310,12 +404,6 @@ private fun AnimatedSkyBackground(clock: DayCycleClock, modifier: Modifier = Mod
         val horizon = size.height * 0.55f
         drawSunAndMoon(phase, horizon)
         drawClouds(phase, horizon)
-        drawLine(
-            color = Color(0xFF05070F).copy(alpha = 0.55f),
-            start = Offset(0f, horizon),
-            end = Offset(size.width, horizon),
-            strokeWidth = 1.dp.toPx(),
-        )
     }
 }
 
