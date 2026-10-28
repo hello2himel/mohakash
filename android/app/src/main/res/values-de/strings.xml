@@ -10,7 +10,7 @@
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Hintergrundvorschau</string>
     <string name="onboarding_headline">Der Himmel von heute auf deinem Startbildschirm</string>
-    <string name="onboarding_subtitle">Jeden Tag ein neues Astronomiebild. Ganz ohne Konto.</string>
+    <string name="onboarding_subtitle">Jeden Tag ein neues Astronomie-Hintergrundbild</string>
     <string name="onboarding_set_wallpaper">Live-Hintergrund festlegen</string>
     <string name="onboarding_skip">Vorerst überspringen</string>
     <string name="onboarding_wifi_note">Bilder werden automatisch geladen. In den Einstellungen kannst du Downloads auf WLAN beschränken.</string>

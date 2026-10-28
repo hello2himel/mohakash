@@ -10,7 +10,7 @@
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">배경화면 미리보기</string>
     <string name="onboarding_headline">오늘의 하늘을 홈 화면에서</string>
-    <string name="onboarding_subtitle">매일 새로운 천체 사진을 만나보세요. 계정이 필요 없습니다.</string>
+    <string name="onboarding_subtitle">매일 새로운 천문학 배경화면</string>
     <string name="onboarding_set_wallpaper">라이브 배경화면 설정</string>
     <string name="onboarding_skip">나중에 하기</string>
     <string name="onboarding_wifi_note">사진은 자동으로 다운로드됩니다. 설정에서 Wi-Fi에서만 다운로드하도록 바꿀 수 있습니다.</string>

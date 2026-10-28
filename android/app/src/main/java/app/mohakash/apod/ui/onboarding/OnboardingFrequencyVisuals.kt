@@ -55,7 +55,7 @@ import androidx.compose.runtime.withFrameNanos
 
 internal enum class WallpaperCadence { OnceDaily, MultipleDaily }
 
-private const val CYCLE_MS = 20_000L
+private const val CYCLE_MS = 2_000L
 private const val START_PHASE_MS = 2_000L
 private const val REDUCED_PHASE_MS = 3_100L // ~03:43, a complete night frame
 private const val ONCE_CHANGE_PHASE = 0.19f
@@ -185,7 +185,7 @@ private fun PhonePreview(
     ) {
         Crossfade(
             targetState = target,
-            animationSpec = tween(900),
+            animationSpec = tween(320),
             label = "phone-wallpaper",
             modifier = Modifier
                 .matchParentSize()

@@ -10,7 +10,7 @@
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Aperçu du fond d\'écran</string>
     <string name="onboarding_headline">Le ciel du jour, sur votre écran d\'accueil</string>
-    <string name="onboarding_subtitle">Une nouvelle image astronomique chaque jour. Sans compte.</string>
+    <string name="onboarding_subtitle">Nouveau fond d’écran astronomique chaque jour</string>
     <string name="onboarding_set_wallpaper">Définir un fond animé</string>
     <string name="onboarding_skip">Passer pour l\'instant</string>
     <string name="onboarding_wifi_note">Les images se téléchargent automatiquement. Vous pouvez activer les téléchargements Wi-Fi uniquement dans les paramètres.</string>
