@@ -167,7 +167,6 @@ private fun AdvancedSettingsPreview() {
 private fun OnboardingPreview() {
     PreviewSurface {
         OnboardingContent(
-            preview = WallpaperPreview(),
             isPreparing = false,
             onSetWallpaper = {},
             onSkip = {},
