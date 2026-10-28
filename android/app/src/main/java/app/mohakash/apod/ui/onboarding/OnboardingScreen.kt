@@ -73,7 +73,6 @@ import app.mohakash.apod.ui.components.QuietButton
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
-import java.io.File
 
 /**
  * The screen that is shown once, right after the installation.
@@ -371,8 +370,6 @@ internal fun OnboardingFrequencyContent(
 ) {
     val reducedMotion = rememberReducedMotion()
     val clock = rememberDayCycleClock(animate = !reducedMotion && !isFinishing)
-    // Only a local installed file is used inside the previews: no network request is made here.
-    val imageModel = preview.localPath?.let(::File)
 
     Column(
         modifier = modifier
@@ -432,7 +429,6 @@ internal fun OnboardingFrequencyContent(
                     hint = stringResource(R.string.onboarding_once_daily_hint),
                     cadence = WallpaperCadence.OnceDaily,
                     clock = clock,
-                    imageModel = imageModel,
                     selected = selected == WallpaperCadence.OnceDaily,
                     onClick = { onSelect(WallpaperCadence.OnceDaily) },
                 )
@@ -441,7 +437,6 @@ internal fun OnboardingFrequencyContent(
                     hint = stringResource(R.string.onboarding_multiple_daily_hint),
                     cadence = WallpaperCadence.MultipleDaily,
                     clock = clock,
-                    imageModel = imageModel,
                     selected = selected == WallpaperCadence.MultipleDaily,
                     onClick = { onSelect(WallpaperCadence.MultipleDaily) },
                 )
@@ -466,7 +461,6 @@ private fun AnimatedFrequencyCard(
     hint: String,
     cadence: WallpaperCadence,
     clock: DayCycleClock,
-    imageModel: Any?,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -496,7 +490,6 @@ private fun AnimatedFrequencyCard(
         DayNightPreview(
             clock = clock,
             cadence = cadence,
-            imageModel = imageModel,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(180.dp),
