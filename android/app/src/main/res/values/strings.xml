@@ -10,7 +10,7 @@
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Wallpaper preview</string>
     <string name="onboarding_headline">New astronomy wallpaper every day</string>
-    <string name="onboarding_subtitle">A new astronomy picture each day. No account needed.</string>
+    <string name="onboarding_subtitle">Explore the cosmos from your home screen. No account needed.</string>
     <string name="settings_notifications">New APOD notifications</string>
     <string name="settings_notifications_hint">Notify only when a new regular APOD becomes the wallpaper. Carousel rotations stay silent.</string>
     <string name="settings_support_title">Support Development</string>

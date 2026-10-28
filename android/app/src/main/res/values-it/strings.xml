@@ -10,7 +10,7 @@
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Anteprima sfondo</string>
     <string name="onboarding_headline">Nuovo sfondo astronomico ogni giorno</string>
-    <string name="onboarding_subtitle">Una nuova immagine astronomica ogni giorno. Senza account.</string>
+    <string name="onboarding_subtitle">Esplora il cosmo dalla schermata Home. Senza account.</string>
     <string name="onboarding_set_wallpaper">Imposta sfondo animato</string>
     <string name="onboarding_skip">Salta per ora</string>
     <string name="onboarding_wifi_note">Le immagini si scaricano automaticamente. Puoi attivare i download solo Wi-Fi nelle Impostazioni.</string>
