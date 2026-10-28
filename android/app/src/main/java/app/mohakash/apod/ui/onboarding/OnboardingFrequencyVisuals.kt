@@ -402,33 +402,28 @@ private fun AnimatedSkyBackground(clock: DayCycleClock, modifier: Modifier = Mod
             }
         }
         val horizon = size.height * 0.55f
-        drawSunAndMoon(phase, horizon)
+        drawCelestialBody(phase, horizon)
         drawClouds(phase, horizon)
     }
 }
 
 
-private fun DrawScope.drawSunAndMoon(phase: Float, horizon: Float) {
-    if (phase in 0.24f..0.74f) {
-        val u = (phase - 0.24f) / 0.50f
-        val center = Offset(
-            x = size.width * (0.15f + 0.70f * u),
-            y = horizon * 0.88f - sin(PI.toFloat() * u) * horizon * 0.54f,
-        )
+private fun DrawScope.drawCelestialBody(phase: Float, horizon: Float) {
+    // Sun travels the first three quarters of the arc, from the left horizon to the zenith.
+    // The moon then continues from the zenith down to the right horizon.
+    val angle = if (phase < 0.75f) {
+        PI.toFloat() - (phase / 0.75f) * (PI.toFloat() / 2f)
+    } else {
+        (PI.toFloat() / 2f) - ((phase - 0.75f) / 0.25f) * (PI.toFloat() / 2f)
+    }
+    val center = Offset(
+        x = size.width / 2f + kotlin.math.cos(angle) * size.width * 0.38f,
+        y = horizon - kotlin.math.sin(angle) * horizon * 0.55f,
+    )
+    if (phase < 0.75f) {
         drawCircle(Color(0xFFFFD9A0).copy(alpha = 0.16f), radius = 12.dp.toPx(), center = center)
         drawCircle(Color(0xFFFFD9A0), radius = 3.8f.dp.toPx(), center = center)
-    }
-    val moonPhase = when {
-        phase >= 0.78f -> (phase - 0.78f) / 0.44f
-        phase <= 0.22f -> (phase + 0.22f) / 0.44f
-        else -> null
-    }
-    if (moonPhase != null) {
-        val u = moonPhase.coerceIn(0f, 1f)
-        val center = Offset(
-            x = size.width * (0.12f + 0.76f * u),
-            y = horizon * 0.90f - sin(PI.toFloat() * u) * horizon * 0.60f,
-        )
+    } else {
         drawCircle(Color(0xFFE8EAF0).copy(alpha = 0.10f), radius = 8.dp.toPx(), center = center)
         drawCircle(Color(0xFFE8EAF0).copy(alpha = 0.9f), radius = 3.4f.dp.toPx(), center = center)
     }
