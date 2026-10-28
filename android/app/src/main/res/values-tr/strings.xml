@@ -236,7 +236,6 @@
     <string name="onboarding_once_daily">Günde bir kez</string>
     <string name="onboarding_once_daily_hint">Her gün yeni bir fotoğraf.</string>
     <string name="onboarding_multiple_daily">Günde birden fazla kez</string>
-    <string name="onboarding_multiple_daily_hint">Birkaç saatte bir yeni bir fotoğraf.</string>
     <string name="onboarding_frequency_continue">Devam</string>
     <string name="history_title">Geçmiş</string>
     <string name="history_empty_title">Henüz geçmiş yok</string>
@@ -249,5 +248,10 @@
     <string name="history_next_wallpaper">%1$s sonra sonraki duvar kağıdı</string>
     <string name="history_next_wallpaper_preparing">Sonraki duvar kağıdı hazırlanıyor…</string>
     <string name="history_next_wallpaper_updating">Duvar kağıdı güncelleniyor…</string>
-    <string name="history_skip_wallpaper">Atla</string>
+    <string name="history_skip_wallpaper">Sonrakine geç</string>
+    <string name="onboarding_frequency_subtitle">Evrenin yeni bir görüntüsünü ne sıklıkla keşfetmek istediğini seç.</string>
+    <string name="onboarding_step">Adım %1$d / %2$d</string>
+    <string name="onboarding_changes_once">Günde 1 değişim</string>
+    <string name="onboarding_changes_multiple">Günde 4 değişim</string>
+    <string name="onboarding_multiple_daily_hint">Her seferinde farklı bir fotoğraf.</string>
 </resources>

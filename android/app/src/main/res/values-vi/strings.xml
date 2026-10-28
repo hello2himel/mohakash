@@ -234,7 +234,6 @@
     <string name="onboarding_once_daily">Mỗi ngày một lần</string>
     <string name="onboarding_once_daily_hint">Mỗi ngày một ảnh mới.</string>
     <string name="onboarding_multiple_daily">Nhiều lần mỗi ngày</string>
-    <string name="onboarding_multiple_daily_hint">Ảnh mới vài giờ một lần.</string>
     <string name="onboarding_frequency_continue">Tiếp tục</string>
     <string name="history_title">Lịch sử</string>
     <string name="history_empty_title">Chưa có lịch sử</string>
@@ -247,5 +246,10 @@
     <string name="history_next_wallpaper">Hình nền tiếp theo sau %1$s</string>
     <string name="history_next_wallpaper_preparing">Đang chuẩn bị hình nền tiếp theo…</string>
     <string name="history_next_wallpaper_updating">Đang cập nhật hình nền…</string>
-    <string name="history_skip_wallpaper">Bỏ qua</string>
+    <string name="history_skip_wallpaper">Chuyển sang ảnh tiếp theo</string>
+    <string name="onboarding_frequency_subtitle">Chọn tần suất bạn muốn khám phá một khung cảnh mới của vũ trụ.</string>
+    <string name="onboarding_step">Bước %1$d / %2$d</string>
+    <string name="onboarding_changes_once">1 lần thay đổi / ngày</string>
+    <string name="onboarding_changes_multiple">4 lần thay đổi / ngày</string>
+    <string name="onboarding_multiple_daily_hint">Mỗi lần một ảnh khác.</string>
 </resources>
