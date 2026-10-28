@@ -1,0 +1,4 @@
+- Onboarding’s day-night cycle now completes in 2 seconds, with a faster sun-to-moon arc and smooth wallpaper fades.
+- The animated backdrop is muted and vignetted so the glowing phone mockups stay the focal point.
+- Onboarding now uses hand-drawn space wallpapers: moon, Jupiter, Andromeda, nebula and black hole.
+- Updated onboarding tagline to “New astronomy wallpaper every day”.
