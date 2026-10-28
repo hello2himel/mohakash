@@ -68,7 +68,7 @@ requested. The app is actively maintained.
 * [x] The metadata is valid YAML and uses LF line endings.
 * [x] I did not add summary, description, changelog, or images to fdroiddata. They are provided by the upstream Fastlane metadata.
 * [x] The release is tagged. For the final submission I will use the latest tag and enable `UpdateCheckMode: Tags ^v[0-9.]+$` / `AutoUpdateMode: Version`.
-  - The current tag is `v2026.10.27.17`; the metadata uses `UpdateCheckMode: Tags` with the full tagged commit in `Builds.commit`.
+  - The current tag is `v2026.10.27.18`; the metadata uses `UpdateCheckMode: Tags` with the full tagged commit in `Builds.commit`.
 * [x] The issue tracker and contact information are available at https://github.com/hello2himel/mohakash/issues.
 * [x] `AuthorName` is set.
 * [x] No external repositories or srclibs are needed.
