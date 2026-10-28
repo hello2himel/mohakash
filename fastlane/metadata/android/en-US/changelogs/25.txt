@@ -1,0 +1,1 @@
+- If the latest APOD is a video, onboarding and wallpaper sync now use the most recent previous APOD photograph instead, avoiding a confusing unusable wallpaper preview.

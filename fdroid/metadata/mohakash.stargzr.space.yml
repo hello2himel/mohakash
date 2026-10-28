@@ -2,7 +2,7 @@
 # https://gitlab.com/fdroid/fdroiddata. The file submitted to fdroiddata has
 # no comments; this copy keeps the context.
 #
-# The build commit below is the v2026.10.27.17 release.
+# The build commit below is the v2026.10.27.18 release.
 #
 # F-Droid builds and signs its own APK; the release key in android/keystore/
 # is only for GitHub and Play uploads.
@@ -24,7 +24,7 @@ RepoType: git
 Repo: https://github.com/hello2himel/mohakash.git
 
 Builds:
-  - versionName: 2026.10.27.17
+  - versionName: 2026.10.27.18
     versionCode: 24
     commit: 64e34b257c8f57a0622320f3dadab20776fdbc10
     subdir: android
@@ -33,7 +33,7 @@ Builds:
     output: app/build/outputs/apk/release/app-release-unsigned.apk
 
 MaintainerNotes: |
-  The v2026.10.27.17 tag is 64e34b257c8f57a0622320f3dadab20776fdbc10. F-Droid
+  The v2026.10.27.18 tag is 64e34b257c8f57a0622320f3dadab20776fdbc10. F-Droid
   reads the icon, screenshots, summary and description from the Fastlane
   metadata in the source repository.
 
@@ -45,5 +45,5 @@ MaintainerNotes: |
 
 AutoUpdateMode: None
 UpdateCheckMode: Tags
-CurrentVersion: 2026.10.27.17
+CurrentVersion: 2026.10.27.18
 CurrentVersionCode: 24
