@@ -252,6 +252,6 @@
     <string name="onboarding_frequency_subtitle">चुनें कि आप कितनी बार ब्रह्मांड का नया नज़रिया देखना चाहते हैं।</string>
     <string name="onboarding_step">चरण %1$d / %2$d</string>
     <string name="onboarding_changes_once">1 बदलाव / दिन</string>
-    <string name="onboarding_changes_multiple">4 बदलाव / दिन</string>
+    <string name="onboarding_changes_multiple">अधिक बार</string>
     <string name="onboarding_multiple_daily_hint">हर बार एक अलग तस्वीर।</string>
 </resources>

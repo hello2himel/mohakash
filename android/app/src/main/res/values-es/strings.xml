@@ -254,6 +254,6 @@
     <string name="onboarding_frequency_subtitle">Elige con qué frecuencia quieres descubrir una nueva vista del universo.</string>
     <string name="onboarding_step">Paso %1$d de %2$d</string>
     <string name="onboarding_changes_once">1 cambio / día</string>
-    <string name="onboarding_changes_multiple">4 cambios / día</string>
+    <string name="onboarding_changes_multiple">Más a menudo</string>
     <string name="onboarding_multiple_daily_hint">Una foto diferente cada vez.</string>
 </resources>

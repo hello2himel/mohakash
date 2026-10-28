@@ -250,6 +250,6 @@
     <string name="onboarding_frequency_subtitle">选择你希望多久发现一次新的宇宙景象。</string>
     <string name="onboarding_step">第 %1$d 步，共 %2$d 步</string>
     <string name="onboarding_changes_once">每天 1 次更换</string>
-    <string name="onboarding_changes_multiple">每天 4 次更换</string>
+    <string name="onboarding_changes_multiple">更频繁</string>
     <string name="onboarding_multiple_daily_hint">每次都换一张不同的图片。</string>
 </resources>

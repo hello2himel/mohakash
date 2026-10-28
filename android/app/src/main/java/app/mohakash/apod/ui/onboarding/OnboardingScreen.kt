@@ -499,7 +499,7 @@ private fun AnimatedFrequencyCard(
             imageModel = imageModel,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(132.dp),
+                .height(180.dp),
         )
         Row(
             modifier = Modifier

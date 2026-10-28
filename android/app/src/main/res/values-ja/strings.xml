@@ -250,6 +250,6 @@
     <string name="onboarding_frequency_subtitle">宇宙の新しい景色をどのくらいの頻度で見たいか選択してください。</string>
     <string name="onboarding_step">ステップ %1$d / %2$d</string>
     <string name="onboarding_changes_once">1日1回変更</string>
-    <string name="onboarding_changes_multiple">1日4回変更</string>
+    <string name="onboarding_changes_multiple">もっと頻繁に</string>
     <string name="onboarding_multiple_daily_hint">毎回異なる画像。</string>
 </resources>

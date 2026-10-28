@@ -250,6 +250,6 @@
     <string name="onboarding_frequency_subtitle">Chọn tần suất bạn muốn khám phá một khung cảnh mới của vũ trụ.</string>
     <string name="onboarding_step">Bước %1$d / %2$d</string>
     <string name="onboarding_changes_once">1 lần thay đổi / ngày</string>
-    <string name="onboarding_changes_multiple">4 lần thay đổi / ngày</string>
+    <string name="onboarding_changes_multiple">Thường xuyên hơn</string>
     <string name="onboarding_multiple_daily_hint">Mỗi lần một ảnh khác.</string>
 </resources>
