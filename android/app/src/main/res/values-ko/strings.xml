@@ -250,6 +250,6 @@
     <string name="onboarding_frequency_subtitle">우주를 얼마나 자주 새롭게 만나고 싶은지 선택하세요.</string>
     <string name="onboarding_step">%1$d / %2$d 단계</string>
     <string name="onboarding_changes_once">하루 1회 변경</string>
-    <string name="onboarding_changes_multiple">하루 4회 변경</string>
+    <string name="onboarding_changes_multiple">더 자주</string>
     <string name="onboarding_multiple_daily_hint">매번 다른 사진.</string>
 </resources>

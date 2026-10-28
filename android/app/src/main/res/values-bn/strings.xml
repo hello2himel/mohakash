@@ -252,6 +252,6 @@
     <string name="onboarding_frequency_subtitle">আপনি কতবার মহাবিশ্বের নতুন দৃশ্য দেখতে চান তা বেছে নিন।</string>
     <string name="onboarding_step">ধাপ %1$d / %2$d</string>
     <string name="onboarding_changes_once">দিনে ১টি পরিবর্তন</string>
-    <string name="onboarding_changes_multiple">দিনে ৪টি পরিবর্তন</string>
+    <string name="onboarding_changes_multiple">আরও বার</string>
     <string name="onboarding_multiple_daily_hint">প্রতিবার একটি ভিন্ন ছবি।</string>
 </resources>

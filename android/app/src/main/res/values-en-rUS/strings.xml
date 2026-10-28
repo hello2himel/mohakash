@@ -252,6 +252,6 @@
     <string name="onboarding_frequency_subtitle">Choose how often you want to discover a new view of the universe.</string>
     <string name="onboarding_step">Step %1$d of %2$d</string>
     <string name="onboarding_changes_once">1 change / day</string>
-    <string name="onboarding_changes_multiple">4 changes / day</string>
+    <string name="onboarding_changes_multiple">More often</string>
     <string name="onboarding_multiple_daily_hint">A different picture each time.</string>
 </resources>

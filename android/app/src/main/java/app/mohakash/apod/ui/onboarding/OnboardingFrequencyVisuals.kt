@@ -5,9 +5,12 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -132,22 +135,23 @@ internal fun DayNightPreview(
             .clip(shape)
             .background(MohakashColors.Background)
             .clearAndSetSemantics { },
+        contentAlignment = Alignment.Center,
     ) {
-        Crossfade(
-            targetState = target,
-            animationSpec = tween(700),
-            label = "onboarding-wallpaper",
-            modifier = Modifier.matchParentSize(),
-        ) { beat ->
-            WallpaperPlate(index = positiveMod(beat, PLATE_COUNT), model = imageModel)
-        }
-        SkyOverlay(clock = clock, modifier = Modifier.matchParentSize())
+        // The day-night sky is the card's own background; the phone sits on top of it.
+        AnimatedSkyBackground(clock = clock, modifier = Modifier.matchParentSize())
+        PhonePreview(
+            target = target,
+            imageModel = imageModel,
+            modifier = Modifier
+                .width(92.dp)
+                .height(160.dp),
+        )
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(9.dp)
                 .clip(CircleShape)
-                .background(Color.Black.copy(alpha = 0.48f))
+                .background(Color.Black.copy(alpha = 0.52f))
                 .padding(horizontal = 8.dp, vertical = 3.dp),
         ) {
             Text(
@@ -163,6 +167,45 @@ internal fun DayNightPreview(
         }
     }
 }
+
+/** The phone mockup is the only place an astronomical image is shown. */
+@Composable
+private fun PhonePreview(
+    target: Int,
+    imageModel: Any?,
+    modifier: Modifier = Modifier,
+) {
+    val shape = RoundedCornerShape(20.dp)
+    Box(
+        modifier = modifier
+            .clip(shape)
+            .background(Color(0xFF05070F))
+            .border(2.dp, MohakashColors.Accent.copy(alpha = 0.72f), shape)
+            .padding(4.dp),
+    ) {
+        Crossfade(
+            targetState = target,
+            animationSpec = tween(700),
+            label = "phone-wallpaper",
+            modifier = Modifier
+                .matchParentSize()
+                .clip(RoundedCornerShape(16.dp)),
+        ) { beat ->
+            WallpaperPlate(index = positiveMod(beat, PLATE_COUNT), model = imageModel)
+        }
+        // Speaker slot, subtle enough not to read as content.
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 3.dp)
+                .width(24.dp)
+                .height(3.dp)
+                .clip(CircleShape)
+                .background(Color.Black.copy(alpha = 0.72f)),
+        )
+    }
+}
+
 
 private fun imageTarget(cycle: Long, phase: Float, cadence: WallpaperCadence): Int =
     when (cadence) {
@@ -243,7 +286,7 @@ private fun GeneratedPlate(index: Int) {
 }
 
 @Composable
-private fun SkyOverlay(clock: DayCycleClock, modifier: Modifier = Modifier) {
+private fun AnimatedSkyBackground(clock: DayCycleClock, modifier: Modifier = Modifier) {
     val stars = remember {
         val random = Random(0x5EED)
         List(22) {
@@ -251,35 +294,31 @@ private fun SkyOverlay(clock: DayCycleClock, modifier: Modifier = Modifier) {
         }
     }
     Canvas(modifier) {
-        // Reading state here keeps the animation in the draw phase, not the composition phase.
         val phase = clock.phase
-        val horizon = size.height * 0.48f
         val (top, bottom) = skyColors(phase)
-        drawRect(
-            brush = Brush.verticalGradient(listOf(top, bottom), 0f, horizon),
-            topLeft = Offset.Zero,
-            size = Size(size.width, horizon),
-        )
+        drawRect(Brush.verticalGradient(listOf(top, bottom, Color(0xFF05070F)), 0f, size.height))
         val starAlpha = starVisibility(phase)
         if (starAlpha > 0f) {
             stars.forEach { (x, y, radius) ->
                 drawCircle(
                     color = Color.White.copy(alpha = starAlpha * (0.4f + y * 0.55f)),
                     radius = radius.dp.toPx() * 0.45f,
-                    center = Offset(x * size.width, y * horizon * 0.9f),
+                    center = Offset(x * size.width, y * size.height * 0.82f),
                 )
             }
         }
+        val horizon = size.height * 0.55f
         drawSunAndMoon(phase, horizon)
         drawClouds(phase, horizon)
         drawLine(
-            color = Color(0xFF05070F).copy(alpha = 0.65f),
+            color = Color(0xFF05070F).copy(alpha = 0.55f),
             start = Offset(0f, horizon),
             end = Offset(size.width, horizon),
             strokeWidth = 1.dp.toPx(),
         )
     }
 }
+
 
 private fun DrawScope.drawSunAndMoon(phase: Float, horizon: Float) {
     if (phase in 0.24f..0.74f) {
