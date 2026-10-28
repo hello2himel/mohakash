@@ -71,8 +71,8 @@ class ApodSyncEngine(
     private val wallpaperStorage: WallpaperPictureStore,
     private val imageDownloader: PictureDownloader,
     private val notifyWallpaperChanged: (ApodEntry) -> Unit = {},
-    private val now: () -> Long = System::currentTimeMillis,
     private val imageFallback: LatestImageResolver? = null,
+    private val now: () -> Long = System::currentTimeMillis,
 ) {
 
     /**
