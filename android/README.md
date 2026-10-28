@@ -8,7 +8,7 @@ genuine Android **live wallpaper**.
 * The app talks to the public JSON API that the repository publishes on GitHub Pages — there is no
   account, no analytics and no tracking.
 
-Current release: **2026.10.27.18** (version code **25**). Android releases use
+Current release: **2026.10.27.19** (version code **26**). Android releases use
 `YYYY.MM.DD.N` (`versionName`) with a separate monotonically increasing
 `versionCode`; the Git tag is `v` + `versionName`. The date is the start date of
 the current release series, and `N` increments for every release in it. See the

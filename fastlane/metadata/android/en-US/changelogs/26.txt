@@ -1,0 +1,2 @@
+- When the latest APOD is a video, onboarding and wallpaper sync now use the most recent previous APOD photograph instead.
+- Includes the animated onboarding frequency cards and clearer Skip-to-next action.
