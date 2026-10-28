@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -43,8 +44,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -55,6 +57,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -70,7 +73,6 @@ import app.mohakash.apod.ui.components.QuietButton
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
-import coil.compose.AsyncImage
 import java.io.File
 
 /**
@@ -171,7 +173,6 @@ fun OnboardingScreen(
         )
     } else {
         OnboardingContent(
-            preview = state.preview,
             isPreparing = state.isPreparing,
             onSetWallpaper = { viewModel.complete(openWallpaperPicker = true) },
             onSkip = { viewModel.complete(openWallpaperPicker = false) },
@@ -183,7 +184,6 @@ fun OnboardingScreen(
 /** The stateless onboarding screen, used by the previews as well. */
 @Composable
 internal fun OnboardingContent(
-    preview: WallpaperPreview,
     isPreparing: Boolean,
     onSetWallpaper: () -> Unit,
     onSkip: () -> Unit,
@@ -192,6 +192,7 @@ internal fun OnboardingContent(
     val compactHeight = LocalConfiguration.current.screenHeightDp < 480
     val largeText = LocalDensity.current.fontScale >= 1.5f
     val hidePreview = compactHeight || (largeText && LocalConfiguration.current.screenHeightDp < 640)
+    val previewDescription = stringResource(R.string.onboarding_wallpaper_preview)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -209,30 +210,90 @@ internal fun OnboardingContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            if (!hidePreview) Box(
-                modifier = Modifier
-                    .width(180.dp)
-                    .aspectRatio(9f / 19f)
-                    .clip(RoundedCornerShape(28.dp))
-                    .background(MohakashColors.Surface)
-                    .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp)),
-                contentAlignment = Alignment.Center,
-            ) {
-                if (preview.model != null) {
-                    AsyncImage(
-                        model = preview.model,
-                        contentDescription = stringResource(R.string.onboarding_wallpaper_preview),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.matchParentSize(),
-                    )
-                } else {
-                    Text(
-                        text = stringResource(R.string.onboarding_wallpaper_preview),
-                        style = MohakashTextStyles.Caption,
-                        color = MohakashColors.TextMuted,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 12.dp),
-                    )
+            if (!hidePreview) {
+                val stars = remember {
+                    val random = kotlin.random.Random(0x0A5A)
+                    List(30) {
+                        Triple(
+                            random.nextFloat(),
+                            random.nextFloat(),
+                            0.5f + random.nextFloat() * 1.2f,
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .aspectRatio(9f / 19f)
+                        .clip(RoundedCornerShape(28.dp))
+                        .background(MohakashColors.Surface)
+                        .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp))
+                        .semantics {
+                            contentDescription = previewDescription
+                        },
+                ) {
+                    Canvas(Modifier.matchParentSize()) {
+                        drawRect(
+                            Brush.verticalGradient(
+                                listOf(
+                                    Color(0xFF080B1C),
+                                    Color(0xFF151D46),
+                                    Color(0xFF080A16),
+                                ),
+                            ),
+                        )
+                        // Soft nebula glow.
+                        drawCircle(
+                            brush = Brush.radialGradient(
+                                colors = listOf(
+                                    Color(0xFF8FB0FF).copy(alpha = 0.22f),
+                                    Color.Transparent,
+                                ),
+                                center = Offset(size.width * 0.24f, size.height * 0.36f),
+                                radius = size.width * 0.75f,
+                            ),
+                            radius = size.width * 0.75f,
+                            center = Offset(size.width * 0.24f, size.height * 0.36f),
+                        )
+                        drawCircle(
+                            brush = Brush.radialGradient(
+                                colors = listOf(
+                                    Color(0xFFE0A5C9).copy(alpha = 0.16f),
+                                    Color.Transparent,
+                                ),
+                                center = Offset(size.width * 0.78f, size.height * 0.52f),
+                                radius = size.width * 0.65f,
+                            ),
+                            radius = size.width * 0.65f,
+                            center = Offset(size.width * 0.78f, size.height * 0.52f),
+                        )
+                        stars.forEach { (x, y, radius) ->
+                            drawCircle(
+                                color = Color.White.copy(alpha = 0.30f + y * 0.60f),
+                                radius = radius.dp.toPx() * 0.55f,
+                                center = Offset(x * size.width, y * size.height * 0.82f),
+                            )
+                        }
+                        // A quiet crescent/planet at the bottom, suggesting a sky without
+                        // depending on a network image.
+                        drawCircle(
+                            brush = Brush.radialGradient(
+                                colors = listOf(
+                                    Color(0xFF9FBFFF),
+                                    Color(0xFF253366),
+                                ),
+                                center = Offset(size.width * 0.68f, size.height * 0.76f),
+                                radius = size.width * 0.24f,
+                            ),
+                            radius = size.width * 0.24f,
+                            center = Offset(size.width * 0.68f, size.height * 0.76f),
+                        )
+                        drawCircle(
+                            color = Color(0xFF080B1C),
+                            radius = size.width * 0.23f,
+                            center = Offset(size.width * 0.60f, size.height * 0.74f),
+                        )
+                    }
                 }
             }
 
