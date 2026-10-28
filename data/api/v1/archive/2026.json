@@ -1,9 +1,28 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "generated_at": "2026-10-27T21:22:35Z",
-  "count": 300,
+  "generated_at": "2026-10-28T11:23:23Z",
+  "count": 301,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-10-28",
+      "title": "The Mutual Occultation of Ganymede and Io",
+      "explanation": "Jupiter is one of the least lonely planets in the Solar System, at least when it comes to natural satellites. 115 moons have been discovered orbiting Jupiter so far! (Saturn has the most with 293, but who’s counting.) Ganymede and Io, two of Jupiter’s Galilean moons, met in the sky on October 20th, 2026. Today’s video captures the meeting, with Ganymede briefly blocking Io from view. This event, when an astronomical object passes in front of another and either completely or partially blocks it, is called a mutual occultation. The mutual occultations of Galilean moons are rare to witness because they require Earth’s edge-on view of their orbits. This occurs once every 6 years when Jupiter reaches its equinox and appears less “tilted”. Ganymede is also casting its shadow on Jupiter’s right side. Any fictional Jovian species within the shadow would experience a solar eclipse!\n\nTomorrow's picture: a planet grows horns",
+      "media_type": "video",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/occultation.jpeg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/occultation.jpeg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/occultation.jpeg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-28-the-mutual-occultation-of-ganymede-and-io/",
+      "copyright": "Michael Wong",
+      "credit": "Michael Wong",
+      "alt_text": "The disk of Jupiter sits to the right. The giant red spot rotates into view and the horizontal cloud streams swirl. To the left, Ganymede passes in front of Io. An inlet shows this zoomed in. Ganymede casts a shadow on Jupiter's disk.",
+      "source": "NASA APOD",
+      "source_id": "1503917",
+      "source_media_type": "video",
+      "image_status": "ok",
+      "updated_at": "2026-10-28T11:23:23Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-10-27",

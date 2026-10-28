@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-27T21:22:35Z",
-  "count": 11448,
+  "generated_at": "2026-10-28T11:23:23Z",
+  "count": 11449,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-10-28",
+      "title": "The Mutual Occultation of Ganymede and Io",
+      "media_type": "video",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/occultation.jpeg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-28-the-mutual-occultation-of-ganymede-and-io/",
+      "copyright": "Michael Wong",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-10-27",
       "title": "Noctilucent Clouds over Sweden",
