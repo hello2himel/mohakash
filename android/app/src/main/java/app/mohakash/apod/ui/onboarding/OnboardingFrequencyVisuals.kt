@@ -141,11 +141,27 @@ internal fun DayNightPreview(
     ) {
         // The day-night sky is the card's own background; the phone sits on top of it.
         AnimatedSkyBackground(clock = clock, modifier = Modifier.matchParentSize())
+        // A soft halo keeps the eye on the phone rather than the animated sky.
+        Box(
+            modifier = Modifier
+                .width(132.dp)
+                .height(198.dp)
+                .background(
+                    Brush.radialGradient(
+                        listOf(
+                            MohakashColors.Accent.copy(alpha = 0.22f),
+                            MohakashColors.Accent.copy(alpha = 0.08f),
+                            Color.Transparent,
+                        ),
+                    ),
+                    CircleShape,
+                ),
+        )
         PhonePreview(
             target = target,
             modifier = Modifier
-                .width(92.dp)
-                .height(160.dp),
+                .width(96.dp)
+                .height(166.dp),
         )
         Box(
             modifier = Modifier
@@ -404,6 +420,18 @@ private fun AnimatedSkyBackground(clock: DayCycleClock, modifier: Modifier = Mod
         val horizon = size.height * 0.55f
         drawCelestialBody(phase, horizon)
         drawClouds(phase, horizon)
+        // Mute the whole backdrop and add a vignette so the phone remains the focal point.
+        drawRect(Color(0xFF05070F).copy(alpha = 0.20f))
+        drawRect(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    Color.Transparent,
+                    Color(0xFF04060D).copy(alpha = 0.34f),
+                ),
+                center = Offset(size.width / 2f, size.height * 0.56f),
+                radius = size.maxDimension * 0.72f,
+            ),
+        )
     }
 }
 
