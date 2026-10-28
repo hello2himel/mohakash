@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 27 Oct 2026 21:22:35 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 28 Oct 2026 11:23:23 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>The Mutual Occultation of Ganymede and Io</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-october-28-the-mutual-occultation-of-ganymede-and-io/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-28-the-mutual-occultation-of-ganymede-and-io/</guid>
+      <pubDate>Wed, 28 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Jupiter is one of the least lonely planets in the Solar System, at least when it comes to natural satellites. 115 moons have been discovered orbiting Jupiter so far! (Saturn has the most with 293, but who’s counting.) Ganymede and Io, two of Jupiter’s Galilean moons, met in the sky on October 20th, 2026. Today’s video captures the meeting, with Ganymede briefly blocking Io from view. This event, when an astronomical object passes in front of another and either completely or partially blocks it, is called a mutual occultation. The mutual occultations of Galilean moons are rare to witness…<br/>Credit: Michael Wong</description>
+    </item>
     <item>
       <title>Noctilucent Clouds over Sweden</title>
       <link>https://science.nasa.gov/image-article/apod-2026-october-27-noctilucent-clouds-over-sweden/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-29-sh2-188-the-shrimp-nebula/</guid>
       <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
       <description>What causes the swirl in the Shrimp Nebula? Its high speed is likely. What is sure is that Sh2-188 is one of the larger planetary nebulas on the night sky, by angular size, spanning about half the diameter of the Moon. Moreover, the white-dwarf core -- leftover from the Sun-like star that shed its outer atmosphere -- is moving unusually fast through interstellar space, creating a bow shock most visible on the upper left that is similar to a boat plowing through water. Although faint, the Shrimp Nebula glows also by compressing and brightening gas on its leading edge. The featured image was…<br/>Credit: Pawel Piechnik</description>
-    </item>
-    <item>
-      <title>Cosmic Latte: The Average Color of the Universe</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-september-28-cosmic-latte-the-average-color-of-the-universe/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-28-cosmic-latte-the-average-color-of-the-universe/</guid>
-      <pubDate>Mon, 28 Sep 2026 00:00:00 GMT</pubDate>
-      <description>What color is the universe? More precisely, if the entire sky were smeared out, what color would the final mix be? This whimsical question came up when trying to determine what stars are commonplace in nearby galaxies. The answer, depicted here, is a conditionally perceived shade of beige. In computer parlance: #FFF8E7. To determine this, astronomers computationally averaged the light emitted by one of the larger samples of galaxies analyzed: the 200,000 galaxies of the 2dF Galaxy Redshift Survey. The resulting cosmic spectrum has some emission in all parts of the electromagnetic spectrum…<br/>Credit: Karl Glazebrook &amp; Ivan Baldry (JHU)</description>
     </item>
   </channel>
 </rss>
