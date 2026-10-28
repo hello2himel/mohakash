@@ -3,6 +3,7 @@ package app.mohakash.apod.work
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.data.repository.ApodRepository
 import app.mohakash.apod.data.repository.LatestEntrySource
+import app.mohakash.apod.data.repository.LatestImageResolver
 import app.mohakash.apod.data.storage.ImageDownloader
 import app.mohakash.apod.data.storage.PictureDownloader
 import app.mohakash.apod.data.storage.WallpaperMeta
@@ -71,6 +72,7 @@ class ApodSyncEngine(
     private val imageDownloader: PictureDownloader,
     private val notifyWallpaperChanged: (ApodEntry) -> Unit = {},
     private val now: () -> Long = System::currentTimeMillis,
+    private val imageFallback: LatestImageResolver? = null,
 ) {
 
     /**
@@ -96,12 +98,12 @@ class ApodSyncEngine(
         } catch (error: Exception) {
             return SyncOutcome.Failed(error)
         }
-        val settings = runCatching { settingsStore.current() }.getOrDefault(AppSettings())
         return syncEntry(
             entry = entry,
             updateWallpaper = updateWallpaper,
             networkAvailable = networkAvailable,
-            notify = settings.notificationsEnabled,
+            notify = runCatching { settingsStore.current().notificationsEnabled }
+                .getOrDefault(true),
         )
     }
 
@@ -121,14 +123,25 @@ class ApodSyncEngine(
         }
 
         val settings = settingsStore.current()
-        val choice = WallpaperImageSelector.select(entry, settings.preferHd, settings.hideVideos)
+        // A latest video is still valid feed content, but it cannot become the wallpaper. Fall
+        // back to the newest previous APOD picture so onboarding/sync never leaves the user
+        // looking at an unusable video entry.
+        val usableEntry = if (imageFallback?.isUsable(entry, settings) == false) {
+            imageFallback.resolve(entry, settings) ?: entry
+        } else {
+            entry
+        }
+        val choice = WallpaperImageSelector.select(usableEntry, settings.preferHd, settings.hideVideos)
         if (choice !is WallpaperChoice.Use) {
             // Video without a poster, a missing or placeholder picture: keep the old wallpaper.
-            return SyncOutcome.WallpaperUnavailable(entry, "The new entry has no picture that can be used as wallpaper.")
+            return SyncOutcome.WallpaperUnavailable(
+                usableEntry,
+                "The new entry has no picture that can be used as wallpaper.",
+            )
         }
 
         val current = wallpaperStorage.readMeta()
-        if (current != null && current.sourceUrl == choice.url && current.date == entry.date) {
+        if (current != null && current.sourceUrl == choice.url && current.date == usableEntry.date) {
             // Nothing changed: skip the download completely.
             return SyncOutcome.Unchanged(entry)
         }
@@ -137,10 +150,10 @@ class ApodSyncEngine(
             return SyncOutcome.WallpaperUnavailable(entry, "No usable connection for the picture.")
         }
 
-        return when (install(entry, settings.preferHd, settings.hideVideos, choice.url, notify = notify)) {
-            InstallOutcome.INSTALLED -> SyncOutcome.Updated(entry)
-            InstallOutcome.UNCHANGED -> SyncOutcome.Unchanged(entry)
-            InstallOutcome.NOT_USABLE -> SyncOutcome.WallpaperUnavailable(entry, "The new entry has no picture that can be used as wallpaper.")
+        return when (install(usableEntry, settings.preferHd, settings.hideVideos, choice.url, notify = notify)) {
+            InstallOutcome.INSTALLED -> SyncOutcome.Updated(usableEntry)
+            InstallOutcome.UNCHANGED -> SyncOutcome.Unchanged(usableEntry)
+            InstallOutcome.NOT_USABLE -> SyncOutcome.WallpaperUnavailable(usableEntry, "The new entry has no picture that can be used as wallpaper.")
             InstallOutcome.FAILED -> SyncOutcome.Failed(IllegalStateException("The picture could not be stored."))
         }
     }

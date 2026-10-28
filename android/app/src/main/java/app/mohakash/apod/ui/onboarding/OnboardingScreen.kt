@@ -88,6 +88,7 @@ fun OnboardingScreen(
             syncController = container.syncController,
             wallpaperStorage = container.wallpaperStorage,
             apodRepository = container.apodRepository,
+            latestImageResolver = container.latestImageResolver,
             syncEngine = container.syncEngine,
             carouselController = container.carouselController,
         )

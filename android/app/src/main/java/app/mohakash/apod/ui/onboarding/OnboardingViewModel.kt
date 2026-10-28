@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import app.mohakash.apod.data.local.prefs.SettingsStore
 import app.mohakash.apod.carousel.CarouselController
 import app.mohakash.apod.data.repository.ApodRepository
+import app.mohakash.apod.data.repository.LatestImageResolver
 import app.mohakash.apod.data.storage.WallpaperStorage
 import app.mohakash.apod.domain.model.ApodEntry
 import app.mohakash.apod.domain.model.AppSettings
@@ -46,6 +47,7 @@ class OnboardingViewModel(
     private val syncController: SyncController,
     private val wallpaperStorage: WallpaperStorage,
     private val apodRepository: ApodRepository,
+    private val latestImageResolver: LatestImageResolver,
     private val syncEngine: ApodSyncEngine,
     private val carouselController: CarouselController,
 ) : ViewModel() {
@@ -75,13 +77,15 @@ class OnboardingViewModel(
             // A cached entry is enough to show the preview while the network request runs.
             val cached = runCatching { apodRepository.cachedLatest() }.getOrNull()
             if (cached != null) {
-                previewEntry = cached
-                showPreview(cached, settings, meta?.date, meta?.sourceUrl, localPath)
+                val cachedImage = latestImageResolver.resolve(cached, settings) ?: cached
+                previewEntry = cachedImage
+                showPreview(cachedImage, settings, meta?.date, meta?.sourceUrl, localPath)
             }
 
             val latest = runCatching { apodRepository.fetchLatest() }.getOrNull() ?: return@launch
-            previewEntry = latest
-            showPreview(latest, settings, meta?.date, meta?.sourceUrl, localPath)
+            val latestImage = latestImageResolver.resolve(latest, settings) ?: latest
+            previewEntry = latestImage
+            showPreview(latestImage, settings, meta?.date, meta?.sourceUrl, localPath)
         }
     }
 
@@ -142,8 +146,9 @@ class OnboardingViewModel(
                 return@launch
             }
 
-            previewEntry = entry
-            when (syncEngine.install(entry, settings.preferHd, settings.hideVideos)) {
+            val usableEntry = latestImageResolver.resolve(entry, settings) ?: entry
+            previewEntry = usableEntry
+            when (syncEngine.install(usableEntry, settings.preferHd, settings.hideVideos)) {
                 InstallOutcome.INSTALLED, InstallOutcome.UNCHANGED -> {
                     val path = wallpaperStorage.currentImageFile()?.absolutePath
                     _state.value = _state.value.copy(
