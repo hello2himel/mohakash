@@ -12,6 +12,7 @@ import app.mohakash.apod.data.repository.ArchiveIndexRepository
 import app.mohakash.apod.data.repository.FileArchiveIndexRepository
 import app.mohakash.apod.data.repository.FavouritesRepository
 import app.mohakash.apod.data.repository.ImageRepository
+import app.mohakash.apod.data.repository.LatestImageResolver
 import app.mohakash.apod.data.storage.CacheManager
 import app.mohakash.apod.data.storage.GallerySaver
 import app.mohakash.apod.data.storage.ImageDownloader
@@ -139,6 +140,10 @@ class AppContainer(context: Context) {
 
     val historyRepository: HistoryRepository by lazy { HistoryRepository(historyStore) }
 
+    val latestImageResolver: LatestImageResolver by lazy {
+        LatestImageResolver(archiveIndexRepository, apodRepository)
+    }
+
     val imageRepository: ImageRepository by lazy {
         ImageRepository(appContext, imageDownloader, gallerySaver)
     }
@@ -181,6 +186,7 @@ class AppContainer(context: Context) {
             wallpaperStorage = wallpaperStorage,
             imageDownloader = imageDownloader,
             notifyWallpaperChanged = { entry -> notificationHelper.notifyWallpaperChanged(entry) },
+            imageFallback = latestImageResolver,
         )
     }
 
