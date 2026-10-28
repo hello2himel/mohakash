@@ -10,7 +10,7 @@
     <!-- Onboarding -->
     <string name="onboarding_wallpaper_preview">Prévia do papel de parede</string>
     <string name="onboarding_headline">Novo papel de parede de astronomia todos os dias</string>
-    <string name="onboarding_subtitle">Uma nova imagem astronômica por dia. Sem conta.</string>
+    <string name="onboarding_subtitle">Explore o cosmos na sua tela inicial. Sem conta.</string>
     <string name="onboarding_set_wallpaper">Usar papel de parede animado</string>
     <string name="onboarding_skip">Pular por enquanto</string>
     <string name="onboarding_wifi_note">As imagens são baixadas automaticamente. Você pode ativar downloads somente por Wi-Fi nas Configurações.</string>

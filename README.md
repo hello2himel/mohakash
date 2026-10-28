@@ -279,9 +279,9 @@ versionCode = independent monotonically increasing integer
 Current example:
 
 ```text
-versionName  2026.10.27.22
-versionCode  29
-git tag      v2026.10.27.22
+versionName  2026.10.27.23
+versionCode  30
+git tag      v2026.10.27.23
 ```
 
 The checked-in source of truth is [`android/app/version.properties`](android/app/version.properties).
@@ -801,7 +801,7 @@ a well-formed SHA-256 certificate fingerprint.
 - [x] Netlify configuration with the same-origin API proxy and freshness headers.
 - [x] Kotlin/Compose Android app with Room, DataStore, WorkManager, MediaStore save, Sharesheet sharing and a real `WallpaperService`.
 - [x] Automated tests: 103 pipeline, 99 website, 226 Android — all green. The debug APK builds.
-- [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v2026.10.27.22**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
+- [x] Signed Android releases published on GitHub with APK, AAB and `SHA256SUMS.txt`; latest is **v2026.10.27.23**, package `mohakash.stargzr.space`, certificate pinned in the release workflow.
 - [x] Live wallpaper verified on an Android 15 emulator: the picker opens, the wallpaper applies and `dumpsys wallpaper` reports the Mohakash service.
 - [x] Wallpaper audit on the Android 15 emulator: the system picker is shown only on first activation; choosing an archive picture updates the active wallpaper in place without a dialog; the background worker replaced that archive picture with the latest APOD without opening the app; a 4-hour periodic job is scheduled; Fill/Fit matches in the sheet preview and on the live wallpaper and changes while active; Wi-Fi only is off by default and Hide videos is in Settings.
 - [x] Play Store phone screenshots added under `fastlane/metadata/android/en-US/images/phoneScreenshots/`.

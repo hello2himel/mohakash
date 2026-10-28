@@ -1,0 +1,2 @@
+- Corrected onboarding page 1: the headline now reads “New astronomy wallpaper every day”.
+- Replaced the redundant supporting line with “Explore the cosmos from your home screen. No account needed.”
