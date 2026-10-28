@@ -1,5 +1,8 @@
 package app.mohakash.apod.ui.onboarding
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
@@ -46,6 +49,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import app.mohakash.apod.wallpaper.WallpaperStatus
+import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
@@ -61,12 +65,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mohakash.apod.R
 import app.mohakash.apod.ui.LocalSnackbarHostState
 import app.mohakash.apod.ui.components.PrimaryButton
+import app.mohakash.apod.ui.components.TextAction
 import app.mohakash.apod.ui.components.QuietButton
 import app.mohakash.apod.ui.containerViewModel
 import app.mohakash.apod.ui.theme.MohakashColors
 import app.mohakash.apod.ui.theme.MohakashTextStyles
-import app.mohakash.apod.ui.wallpaper.WallpaperPreview
 import coil.compose.AsyncImage
+import java.io.File
 
 /**
  * The screen that is shown once, right after the installation.
@@ -108,9 +113,12 @@ fun OnboardingScreen(
 
     var showFrequency by rememberSaveable { mutableStateOf(false) }
     var awaitingPickerReturn by rememberSaveable { mutableStateOf(false) }
+    var selectedCadence by rememberSaveable { mutableStateOf(WallpaperCadence.MultipleDaily) }
+
     // Local, transient guard: the ViewModel also refuses a second completion, this only keeps the
     // button from looking tappable while the finish is in flight.
     var isFinishing by remember { mutableStateOf(false) }
+    BackHandler(enabled = showFrequency && !isFinishing) { showFrequency = false }
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -145,10 +153,16 @@ fun OnboardingScreen(
 
     if (showFrequency) {
         OnboardingFrequencyContent(
-            onContinue = { multipleTimesDaily ->
+            preview = state.preview,
+            selected = selectedCadence,
+            onSelect = { selectedCadence = it },
+            onBack = { if (!isFinishing) showFrequency = false },
+            onContinue = {
                 if (!isFinishing) {
                     isFinishing = true
-                    viewModel.finishAfterWallpaper(multipleTimesDaily = multipleTimesDaily)
+                    viewModel.finishAfterWallpaper(
+                        multipleTimesDaily = it == WallpaperCadence.MultipleDaily,
+                    )
                 }
             },
             modifier = modifier,
@@ -285,11 +299,18 @@ internal fun OnboardingContent(
  */
 @Composable
 internal fun OnboardingFrequencyContent(
-    onContinue: (multipleTimesDaily: Boolean) -> Unit,
+    preview: WallpaperPreview = WallpaperPreview(),
+    selected: WallpaperCadence = WallpaperCadence.MultipleDaily,
+    onSelect: (WallpaperCadence) -> Unit = {},
+    onBack: () -> Unit = {},
+    onContinue: (WallpaperCadence) -> Unit,
     modifier: Modifier = Modifier,
     isFinishing: Boolean = false,
 ) {
-    var multipleTimesDaily by rememberSaveable { mutableStateOf(true) }
+    val reducedMotion = rememberReducedMotion()
+    val clock = rememberDayCycleClock(animate = !reducedMotion && !isFinishing)
+    // Only a local installed file is used inside the previews: no network request is made here.
+    val imageModel = preview.localPath?.let(::File)
 
     Column(
         modifier = modifier
@@ -297,14 +318,33 @@ internal fun OnboardingFrequencyContent(
             .background(MohakashColors.Background)
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 20.dp),
+            .padding(start = 24.dp, end = 24.dp, top = 12.dp, bottom = 20.dp),
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TextAction(
+                text = stringResource(R.string.detail_back),
+                onClick = onBack,
+                minHeight = 44.dp,
+                contentPadding = PaddingValues(horizontal = 2.dp, vertical = 8.dp),
+                color = MohakashColors.TextMuted,
+            )
+            androidx.compose.foundation.layout.Spacer(Modifier.weight(1f))
+            Text(
+                text = stringResource(R.string.onboarding_step, 2, 2),
+                style = MohakashTextStyles.Caption,
+                color = MohakashColors.TextMuted,
+            )
+        }
+
         Column(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 4.dp, bottom = 12.dp),
+                .padding(top = 2.dp, bottom = 12.dp),
         ) {
             Text(
                 text = stringResource(R.string.onboarding_frequency_title),
@@ -312,155 +352,116 @@ internal fun OnboardingFrequencyContent(
                 color = MohakashColors.Text,
                 modifier = Modifier.semantics { heading() },
             )
+            Text(
+                text = stringResource(R.string.onboarding_frequency_subtitle),
+                style = MohakashTextStyles.BodyBase,
+                color = MohakashColors.TextMuted,
+                modifier = Modifier.padding(top = 8.dp),
+            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp)
+                    .padding(top = 20.dp)
                     .selectableGroup(),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                FrequencyOption(
+                AnimatedFrequencyCard(
                     title = stringResource(R.string.onboarding_once_daily),
                     hint = stringResource(R.string.onboarding_once_daily_hint),
-                    visual = FrequencyVisual.Daily,
-                    selected = !multipleTimesDaily,
-                    onClick = { multipleTimesDaily = false },
+                    cadence = WallpaperCadence.OnceDaily,
+                    clock = clock,
+                    imageModel = imageModel,
+                    selected = selected == WallpaperCadence.OnceDaily,
+                    onClick = { onSelect(WallpaperCadence.OnceDaily) },
                 )
-                FrequencyOption(
+                AnimatedFrequencyCard(
                     title = stringResource(R.string.onboarding_multiple_daily),
                     hint = stringResource(R.string.onboarding_multiple_daily_hint),
-                    visual = FrequencyVisual.Rhythm,
-                    selected = multipleTimesDaily,
-                    onClick = { multipleTimesDaily = true },
+                    cadence = WallpaperCadence.MultipleDaily,
+                    clock = clock,
+                    imageModel = imageModel,
+                    selected = selected == WallpaperCadence.MultipleDaily,
+                    onClick = { onSelect(WallpaperCadence.MultipleDaily) },
                 )
             }
         }
 
         PrimaryButton(
             text = stringResource(R.string.onboarding_frequency_continue),
-            onClick = { onContinue(multipleTimesDaily) },
+            onClick = { onContinue(selected) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !isFinishing,
             height = 56.dp,
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
             textStyle = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
         )
-        Text(
-            text = stringResource(R.string.onboarding_frequency_hint),
-            style = MohakashTextStyles.Helper,
-            color = MohakashColors.TextMuted,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-        )
     }
 }
 
-/** The two pictograms of the frequency cards. Both are drawn from existing app resources. */
-private enum class FrequencyVisual { Daily, Rhythm }
-
-/**
- * A large, whole-card radio option.
- *
- * The card is the touch target (at least 88 dp high) and carries [Role.RadioButton] plus the
- * selected state, so TalkBack reads label + helper + selected in one announcement. The pictogram
- * and the radio marker are decorative; the marker is the visual counterpart of that semantics.
- */
 @Composable
-private fun FrequencyOption(
+private fun AnimatedFrequencyCard(
     title: String,
     hint: String,
-    visual: FrequencyVisual,
+    cadence: WallpaperCadence,
+    clock: DayCycleClock,
+    imageModel: Any?,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
     val shape = RoundedCornerShape(20.dp)
-    val contentColor = if (selected) MohakashColors.Accent else MohakashColors.TextMuted
-    Row(
+    val background by animateColorAsState(
+        targetValue = if (selected) MohakashColors.SurfaceStrong else MohakashColors.Surface,
+        animationSpec = tween(220),
+        label = "frequency-card-bg",
+    )
+    val borderColor by animateColorAsState(
+        targetValue = if (selected) MohakashColors.Accent else MohakashColors.BorderStrong,
+        animationSpec = tween(220),
+        label = "frequency-card-border",
+    )
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 88.dp)
             .clip(shape)
-            .background(if (selected) MohakashColors.SurfaceStrong else MohakashColors.Surface)
-            .border(
-                width = if (selected) 2.dp else 1.dp,
-                color = if (selected) MohakashColors.Accent else MohakashColors.Border,
-                shape = shape,
-            )
+            .background(background)
+            .border(if (selected) 2.dp else 1.dp, borderColor, shape)
             .selectable(
                 selected = selected,
                 role = Role.RadioButton,
                 onClick = onClick,
-            )
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
+            ),
     ) {
-        Box(
+        DayNightPreview(
+            clock = clock,
+            cadence = cadence,
+            imageModel = imageModel,
             modifier = Modifier
-                .size(48.dp)
-                .clip(RoundedCornerShape(14.dp))
-                .background(
-                    if (selected) {
-                        MohakashColors.Accent.copy(alpha = 0.14f)
-                    } else {
-                        MohakashColors.SurfaceStrong
-                    },
-                ),
-            contentAlignment = Alignment.Center,
+                .fillMaxWidth()
+                .height(132.dp),
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            when (visual) {
-                FrequencyVisual.Daily -> Icon(
-                    painter = painterResource(R.drawable.ic_today_24),
-                    contentDescription = null,
-                    tint = contentColor,
-                    modifier = Modifier.size(22.dp),
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(3.dp),
+            ) {
+                Text(
+                    text = title,
+                    style = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
+                    color = MohakashColors.Text,
                 )
-
-                FrequencyVisual.Rhythm -> RhythmGlyph(tint = contentColor)
-            }
-        }
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(3.dp),
-        ) {
-            Text(
-                text = title,
-                style = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = MohakashColors.Text,
-            )
-            Text(
-                text = hint,
-                style = MohakashTextStyles.Helper,
-                color = if (selected) MohakashColors.TextBody else MohakashColors.TextMuted,
-            )
-        }
-        SelectionMarker(selected = selected)
-    }
-}
-
-/** Three dots on a line — a small rhythm of changes across the day. */
-@Composable
-private fun RhythmGlyph(tint: Color) {
-    Row(
-        modifier = Modifier.width(26.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        repeat(3) { index ->
-            Box(
-                modifier = Modifier
-                    .size(6.dp)
-                    .background(tint, CircleShape),
-            )
-            if (index < 2) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(2.dp)
-                        .background(tint.copy(alpha = 0.45f)),
+                Text(
+                    text = hint,
+                    style = MohakashTextStyles.Helper,
+                    color = if (selected) MohakashColors.TextBody else MohakashColors.TextMuted,
                 )
             }
+            SelectionMarker(selected = selected)
         }
     }
 }

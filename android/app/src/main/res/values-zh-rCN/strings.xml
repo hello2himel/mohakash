@@ -234,7 +234,6 @@
     <string name="onboarding_once_daily">每天一次</string>
     <string name="onboarding_once_daily_hint">每天一张新图片。</string>
     <string name="onboarding_multiple_daily">每天多次</string>
-    <string name="onboarding_multiple_daily_hint">每隔几小时换一张新图片。</string>
     <string name="onboarding_frequency_continue">继续</string>
     <string name="history_title">历史</string>
     <string name="history_empty_title">暂无历史记录</string>
@@ -247,5 +246,10 @@
     <string name="history_next_wallpaper">%1$s 后更换下一张壁纸</string>
     <string name="history_next_wallpaper_preparing">正在准备下一张壁纸…</string>
     <string name="history_next_wallpaper_updating">正在更新壁纸…</string>
-    <string name="history_skip_wallpaper">跳过</string>
+    <string name="history_skip_wallpaper">跳到下一张</string>
+    <string name="onboarding_frequency_subtitle">选择你希望多久发现一次新的宇宙景象。</string>
+    <string name="onboarding_step">第 %1$d 步，共 %2$d 步</string>
+    <string name="onboarding_changes_once">每天 1 次更换</string>
+    <string name="onboarding_changes_multiple">每天 4 次更换</string>
+    <string name="onboarding_multiple_daily_hint">每次都换一张不同的图片。</string>
 </resources>

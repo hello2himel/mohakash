@@ -236,7 +236,6 @@
     <string name="onboarding_once_daily">Once a day</string>
     <string name="onboarding_once_daily_hint">A new picture every day.</string>
     <string name="onboarding_multiple_daily">Multiple times a day</string>
-    <string name="onboarding_multiple_daily_hint">A new picture every few hours.</string>
     <string name="onboarding_frequency_continue">Continue</string>
     <string name="history_title">History</string>
     <string name="history_empty_title">No history yet</string>
@@ -249,5 +248,10 @@
     <string name="history_next_wallpaper">Next wallpaper in %1$s</string>
     <string name="history_next_wallpaper_preparing">Preparing next wallpaper…</string>
     <string name="history_next_wallpaper_updating">Updating wallpaper…</string>
-    <string name="history_skip_wallpaper">Skip</string>
+    <string name="history_skip_wallpaper">Skip to next</string>
+    <string name="onboarding_frequency_subtitle">Choose how often you want to discover a new view of the universe.</string>
+    <string name="onboarding_step">Step %1$d of %2$d</string>
+    <string name="onboarding_changes_once">1 change / day</string>
+    <string name="onboarding_changes_multiple">4 changes / day</string>
+    <string name="onboarding_multiple_daily_hint">A different picture each time.</string>
 </resources>

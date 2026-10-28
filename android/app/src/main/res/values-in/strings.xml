@@ -234,7 +234,6 @@
     <string name="onboarding_once_daily">Sekali sehari</string>
     <string name="onboarding_once_daily_hint">Foto baru setiap hari.</string>
     <string name="onboarding_multiple_daily">Berulang kali sehari</string>
-    <string name="onboarding_multiple_daily_hint">Foto baru setiap beberapa jam.</string>
     <string name="onboarding_frequency_continue">Lanjutkan</string>
     <string name="history_title">Riwayat</string>
     <string name="history_empty_title">Belum ada riwayat</string>
@@ -247,5 +246,10 @@
     <string name="history_next_wallpaper">Wallpaper berikutnya dalam %1$s</string>
     <string name="history_next_wallpaper_preparing">Menyiapkan wallpaper berikutnya…</string>
     <string name="history_next_wallpaper_updating">Memperbarui wallpaper…</string>
-    <string name="history_skip_wallpaper">Lewati</string>
+    <string name="history_skip_wallpaper">Lewati ke berikutnya</string>
+    <string name="onboarding_frequency_subtitle">Pilih seberapa sering Anda ingin menemukan pemandangan alam semesta yang baru.</string>
+    <string name="onboarding_step">Langkah %1$d dari %2$d</string>
+    <string name="onboarding_changes_once">1 perubahan / hari</string>
+    <string name="onboarding_changes_multiple">4 perubahan / hari</string>
+    <string name="onboarding_multiple_daily_hint">Foto berbeda setiap kali.</string>
 </resources>

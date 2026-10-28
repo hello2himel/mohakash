@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
@@ -271,12 +272,6 @@ private fun NextWallpaperHeader(
                 color = MohakashColors.Text,
                 modifier = Modifier.weight(1f),
             )
-            TextAction(
-                text = stringResource(R.string.history_skip_wallpaper),
-                onClick = onSkip,
-                minHeight = 40.dp,
-                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-            )
         }
         Text(
             text = countdown,
@@ -313,6 +308,30 @@ private fun NextWallpaperHeader(
                         ),
                 )
             }
+        }
+
+        Row(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(MohakashColors.Accent.copy(alpha = 0.12f))
+                .border(1.dp, MohakashColors.Accent.copy(alpha = 0.32f), CircleShape)
+                .clickable(role = Role.Button, onClick = onSkip)
+                .heightIn(min = 48.dp)
+                .padding(horizontal = 14.dp, vertical = 9.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_chevron_right_24),
+                contentDescription = null,
+                tint = MohakashColors.Accent,
+                modifier = Modifier.size(16.dp),
+            )
+            Text(
+                text = stringResource(R.string.history_skip_wallpaper),
+                style = MohakashTextStyles.UiSmallSemiBold,
+                color = MohakashColors.Accent,
+            )
         }
     }
 }

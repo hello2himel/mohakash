@@ -234,7 +234,6 @@
     <string name="onboarding_once_daily">하루에 한 번</string>
     <string name="onboarding_once_daily_hint">매일 새로운 사진.</string>
     <string name="onboarding_multiple_daily">하루에 여러 번</string>
-    <string name="onboarding_multiple_daily_hint">몇 시간마다 새로운 사진.</string>
     <string name="onboarding_frequency_continue">계속</string>
     <string name="history_title">기록</string>
     <string name="history_empty_title">아직 기록이 없습니다</string>
@@ -247,5 +246,10 @@
     <string name="history_next_wallpaper">%1$s 후 다음 배경화면</string>
     <string name="history_next_wallpaper_preparing">다음 배경화면 준비 중…</string>
     <string name="history_next_wallpaper_updating">배경화면 업데이트 중…</string>
-    <string name="history_skip_wallpaper">건너뛰기</string>
+    <string name="history_skip_wallpaper">다음으로 건너뛰기</string>
+    <string name="onboarding_frequency_subtitle">우주를 얼마나 자주 새롭게 만나고 싶은지 선택하세요.</string>
+    <string name="onboarding_step">%1$d / %2$d 단계</string>
+    <string name="onboarding_changes_once">하루 1회 변경</string>
+    <string name="onboarding_changes_multiple">하루 4회 변경</string>
+    <string name="onboarding_multiple_daily_hint">매번 다른 사진.</string>
 </resources>

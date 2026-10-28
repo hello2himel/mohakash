@@ -234,7 +234,6 @@
     <string name="onboarding_once_daily">1日1回</string>
     <string name="onboarding_once_daily_hint">毎日新しい写真。</string>
     <string name="onboarding_multiple_daily">1日に複数回</string>
-    <string name="onboarding_multiple_daily_hint">数時間ごとに新しい写真。</string>
     <string name="onboarding_frequency_continue">続ける</string>
     <string name="history_title">履歴</string>
     <string name="history_empty_title">履歴はまだありません</string>
@@ -247,5 +246,10 @@
     <string name="history_next_wallpaper">%1$s後に次の壁紙</string>
     <string name="history_next_wallpaper_preparing">次の壁紙を準備中…</string>
     <string name="history_next_wallpaper_updating">壁紙を更新中…</string>
-    <string name="history_skip_wallpaper">スキップ</string>
+    <string name="history_skip_wallpaper">次へスキップ</string>
+    <string name="onboarding_frequency_subtitle">宇宙の新しい景色をどのくらいの頻度で見たいか選択してください。</string>
+    <string name="onboarding_step">ステップ %1$d / %2$d</string>
+    <string name="onboarding_changes_once">1日1回変更</string>
+    <string name="onboarding_changes_multiple">1日4回変更</string>
+    <string name="onboarding_multiple_daily_hint">毎回異なる画像。</string>
 </resources>

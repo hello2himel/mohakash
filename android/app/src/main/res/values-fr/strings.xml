@@ -238,7 +238,6 @@
     <string name="onboarding_once_daily">Une fois par jour</string>
     <string name="onboarding_once_daily_hint">Une nouvelle photo chaque jour.</string>
     <string name="onboarding_multiple_daily">Plusieurs fois par jour</string>
-    <string name="onboarding_multiple_daily_hint">Une nouvelle photo toutes les quelques heures.</string>
     <string name="onboarding_frequency_continue">Continuer</string>
     <string name="history_title">Historique</string>
     <string name="history_empty_title">Pas encore d’historique</string>
@@ -251,5 +250,10 @@
     <string name="history_next_wallpaper">Prochain fond d’écran dans %1$s</string>
     <string name="history_next_wallpaper_preparing">Préparation du prochain fond d’écran…</string>
     <string name="history_next_wallpaper_updating">Mise à jour du fond d’écran…</string>
-    <string name="history_skip_wallpaper">Passer</string>
+    <string name="history_skip_wallpaper">Passer au suivant</string>
+    <string name="onboarding_frequency_subtitle">Choisissez à quelle fréquence vous voulez découvrir une nouvelle vue de l’univers.</string>
+    <string name="onboarding_step">Étape %1$d sur %2$d</string>
+    <string name="onboarding_changes_once">1 changement / jour</string>
+    <string name="onboarding_changes_multiple">4 changements / jour</string>
+    <string name="onboarding_multiple_daily_hint">Une image différente à chaque fois.</string>
 </resources>
