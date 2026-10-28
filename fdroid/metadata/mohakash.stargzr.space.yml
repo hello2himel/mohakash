@@ -26,14 +26,14 @@ Repo: https://github.com/hello2himel/mohakash.git
 Builds:
   - versionName: 2026.10.27.20
     versionCode: 27
-    commit: 3b27de5db0bf70cfd72f8e44df46e7f19b452374
+    commit: e582103f83a9ab49e48e0dbf7f3fadfb5274e10e
     subdir: android
     gradle:
       - yes
     output: app/build/outputs/apk/release/app-release-unsigned.apk
 
 MaintainerNotes: |
-  The v2026.10.27.20 tag is 3b27de5db0bf70cfd72f8e44df46e7f19b452374. F-Droid
+  The v2026.10.27.20 tag is e582103f83a9ab49e48e0dbf7f3fadfb5274e10e. F-Droid
   reads the icon, screenshots, summary and description from the Fastlane
   metadata in the source repository.
 
