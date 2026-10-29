@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+        Edge-to-edge is enabled by MainActivity.enableEdgeToEdge(). Do not set
+        statusBarColor, navigationBarColor or light-bar attributes here: those
+        window APIs are deprecated on Android 15 and Play flags them.
+    -->
     <style name="Theme.Mohakash" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">@color/mohakash_background</item>
-        <item name="android:statusBarColor">@color/mohakash_background</item>
-        <item name="android:navigationBarColor">@color/mohakash_background</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="android:colorAccent">@color/mohakash_accent</item>
     </style>
 
