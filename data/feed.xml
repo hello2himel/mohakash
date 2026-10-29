@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 28 Oct 2026 11:23:23 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 11:34:12 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>The Horns of Venus</title>
+      <link>https://science.nasa.gov/image-article/apod-29-october-2026-the-horns-of-venus/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-29-october-2026-the-horns-of-venus/</guid>
+      <pubDate>Thu, 29 Oct 2026 00:00:00 GMT</pubDate>
+      <description>That's no moon. But you could be forgiven for thinking it was a crescent Moon in the sky. It is a lesser known fact that Venus also has phases. (What about other planets?) The featured image shows Venus seen almost directly between the Sun and the Earth. This happens once every year and a half, and it is like the alignment that happens every month during a new Moon. But the new Moon is dark, while Venus' backlit atmosphere refracts and scatters the sunlight, creating a glowing crescent arc that extends beyond 180 degrees: the tips of this arc are called the "horns". The crescent can be seen…<br/>Credit: Thierry Legault</description>
+    </item>
     <item>
       <title>The Mutual Occultation of Ganymede and Io</title>
       <link>https://science.nasa.gov/image-article/apod-2026-october-28-the-mutual-occultation-of-ganymede-and-io/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-30-arp-78-peculiar-galaxy-in-aries/</guid>
       <pubDate>Wed, 30 Sep 2026 00:00:00 GMT</pubDate>
       <description>Peculiar spiral galaxy Arp 78 is found within the boundaries of the head strong constellation Aries. Some 100 million light-years beyond the stars and nebulae of our Milky Way galaxy, the island universe is an enormous 200,000 light-years across. Also known as NGC 772, it sports a prominent, outer spiral arm in this detailed cosmic portrait. Tracking along sweeping dust lanes and lined with young blue star clusters, Arp 78's overdeveloped spiral arm is pumped-up by galactic-scale gravitational tides. Interactions with its brightest companion galaxy, the more compact NGC 770 seen directly…<br/>Credit: Robert Eder</description>
-    </item>
-    <item>
-      <title>Sh2-188: The Shrimp Nebula</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-september-29-sh2-188-the-shrimp-nebula/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-september-29-sh2-188-the-shrimp-nebula/</guid>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>What causes the swirl in the Shrimp Nebula? Its high speed is likely. What is sure is that Sh2-188 is one of the larger planetary nebulas on the night sky, by angular size, spanning about half the diameter of the Moon. Moreover, the white-dwarf core -- leftover from the Sun-like star that shed its outer atmosphere -- is moving unusually fast through interstellar space, creating a bow shock most visible on the upper left that is similar to a boat plowing through water. Although faint, the Shrimp Nebula glows also by compressing and brightening gas on its leading edge. The featured image was…<br/>Credit: Pawel Piechnik</description>
     </item>
   </channel>
 </rss>
