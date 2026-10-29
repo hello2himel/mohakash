@@ -13,6 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -190,8 +191,7 @@ internal fun OnboardingContent(
 ) {
     val compactHeight = LocalConfiguration.current.screenHeightDp < 480
     val largeText = LocalDensity.current.fontScale >= 1.5f
-    val hidePreview = compactHeight || (largeText && LocalConfiguration.current.screenHeightDp < 640)
-    val previewDescription = stringResource(R.string.onboarding_wallpaper_preview)
+    val hidePreview = compactHeight || largeText
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -200,119 +200,37 @@ internal fun OnboardingContent(
             .navigationBarsPadding()
             .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 32.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(vertical = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            if (!hidePreview) {
-                val stars = remember {
-                    val random = kotlin.random.Random(0x0A5A)
-                    List(30) {
-                        Triple(
-                            random.nextFloat(),
-                            random.nextFloat(),
-                            0.5f + random.nextFloat() * 1.2f,
-                        )
-                    }
-                }
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .aspectRatio(9f / 19f)
-                        .clip(RoundedCornerShape(28.dp))
-                        .background(MohakashColors.Surface)
-                        .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp))
-                        .semantics {
-                            contentDescription = previewDescription
-                        },
-                ) {
-                    Canvas(Modifier.matchParentSize()) {
-                        drawRect(
-                            Brush.verticalGradient(
-                                listOf(
-                                    Color(0xFF080B1C),
-                                    Color(0xFF151D46),
-                                    Color(0xFF080A16),
-                                ),
-                            ),
-                        )
-                        // Soft nebula glow.
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Color(0xFF8FB0FF).copy(alpha = 0.22f),
-                                    Color.Transparent,
-                                ),
-                                center = Offset(size.width * 0.24f, size.height * 0.36f),
-                                radius = size.width * 0.75f,
-                            ),
-                            radius = size.width * 0.75f,
-                            center = Offset(size.width * 0.24f, size.height * 0.36f),
-                        )
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Color(0xFFE0A5C9).copy(alpha = 0.16f),
-                                    Color.Transparent,
-                                ),
-                                center = Offset(size.width * 0.78f, size.height * 0.52f),
-                                radius = size.width * 0.65f,
-                            ),
-                            radius = size.width * 0.65f,
-                            center = Offset(size.width * 0.78f, size.height * 0.52f),
-                        )
-                        stars.forEach { (x, y, radius) ->
-                            drawCircle(
-                                color = Color.White.copy(alpha = 0.30f + y * 0.60f),
-                                radius = radius.dp.toPx() * 0.55f,
-                                center = Offset(x * size.width, y * size.height * 0.82f),
-                            )
-                        }
-                        // A quiet crescent/planet at the bottom, suggesting a sky without
-                        // depending on a network image.
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Color(0xFF9FBFFF),
-                                    Color(0xFF253366),
-                                ),
-                                center = Offset(size.width * 0.68f, size.height * 0.76f),
-                                radius = size.width * 0.24f,
-                            ),
-                            radius = size.width * 0.24f,
-                            center = Offset(size.width * 0.68f, size.height * 0.76f),
-                        )
-                        drawCircle(
-                            color = Color(0xFF080B1C),
-                            radius = size.width * 0.23f,
-                            center = Offset(size.width * 0.60f, size.height * 0.74f),
-                        )
-                    }
+        if (!hidePreview) {
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center,
+            ) {
+                // The phone gets exactly the height left after the copy and actions below.
+                // Its width follows the 9:19 phone ratio, so it never distorts or overflows.
+                val maxPhoneHeight = 180.dp * 19f / 9f
+                val phoneHeight = minOf(maxHeight, maxPhoneHeight)
+                if (phoneHeight >= 160.dp) {
+                    val phoneWidth = phoneHeight * 9f / 19f
+                    OnboardingPhoneMockup(
+                        modifier = Modifier
+                            .width(phoneWidth)
+                            .height(phoneHeight),
+                    )
                 }
             }
-
+            OnboardingCopy()
+        } else {
             Column(
-                modifier = Modifier.padding(top = 28.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.Center,
             ) {
-                Text(
-                    text = stringResource(R.string.onboarding_headline),
-                    style = MohakashTextStyles.OnboardingTitle,
-                    color = MohakashColors.Text,
-                    textAlign = TextAlign.Center,
-                )
-                Text(
-                    text = stringResource(R.string.onboarding_subtitle),
-                    style = MohakashTextStyles.BodyBase,
-                    color = MohakashColors.TextMuted,
-                    textAlign = TextAlign.Center,
-                )
+                OnboardingCopy()
             }
         }
 
@@ -325,7 +243,6 @@ internal fun OnboardingContent(
                 height = 52.dp,
                 textStyle = MohakashTextStyles.UiMedium.copy(fontWeight = FontWeight.SemiBold),
             )
-            // A text button: no border, no fill — exactly as on the first-launch design.
             QuietButton(
                 text = stringResource(R.string.onboarding_skip),
                 onClick = onSkip,
@@ -334,18 +251,116 @@ internal fun OnboardingContent(
                 style = MohakashTextStyles.UiMedium,
                 color = MohakashColors.Text,
             )
-            Text(
-                text = stringResource(R.string.onboarding_wifi_note),
-                style = MohakashTextStyles.Caption,
-                color = MohakashColors.TextMuted,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
+        }
+    }
+}
+
+@Composable
+private fun OnboardingCopy(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.padding(top = 28.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.onboarding_headline),
+            style = MohakashTextStyles.OnboardingTitle,
+            color = MohakashColors.Text,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = stringResource(R.string.onboarding_subtitle),
+            style = MohakashTextStyles.BodyBase,
+            color = MohakashColors.TextMuted,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun OnboardingPhoneMockup(modifier: Modifier = Modifier) {
+    val stars = remember {
+        val random = kotlin.random.Random(0x0A5A)
+        List(30) {
+            Triple(
+                random.nextFloat(),
+                random.nextFloat(),
+                0.5f + random.nextFloat() * 1.2f,
+            )
+        }
+    }
+    val previewDescription = stringResource(R.string.onboarding_wallpaper_preview)
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(28.dp))
+            .background(MohakashColors.Surface)
+            .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp))
+            .semantics {
+                contentDescription = previewDescription
+            },
+    ) {
+        Canvas(Modifier.matchParentSize()) {
+            drawRect(
+                Brush.verticalGradient(
+                    listOf(
+                        Color(0xFF080B1C),
+                        Color(0xFF151D46),
+                        Color(0xFF080A16),
+                    ),
+                ),
+            )
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        Color(0xFF8FB0FF).copy(alpha = 0.22f),
+                        Color.Transparent,
+                    ),
+                    center = Offset(size.width * 0.24f, size.height * 0.36f),
+                    radius = size.width * 0.75f,
+                ),
+                radius = size.width * 0.75f,
+                center = Offset(size.width * 0.24f, size.height * 0.36f),
+            )
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        Color(0xFFE0A5C9).copy(alpha = 0.16f),
+                        Color.Transparent,
+                    ),
+                    center = Offset(size.width * 0.78f, size.height * 0.52f),
+                    radius = size.width * 0.65f,
+                ),
+                radius = size.width * 0.65f,
+                center = Offset(size.width * 0.78f, size.height * 0.52f),
+            )
+            stars.forEach { (x, y, radius) ->
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.30f + y * 0.60f),
+                    radius = radius.dp.toPx() * 0.55f,
+                    center = Offset(x * size.width, y * size.height * 0.82f),
+                )
+            }
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        Color(0xFF9FBFFF),
+                        Color(0xFF253366),
+                    ),
+                    center = Offset(size.width * 0.68f, size.height * 0.76f),
+                    radius = size.width * 0.24f,
+                ),
+                radius = size.width * 0.24f,
+                center = Offset(size.width * 0.68f, size.height * 0.76f),
+            )
+            drawCircle(
+                color = Color(0xFF080B1C),
+                radius = size.width * 0.23f,
+                center = Offset(size.width * 0.60f, size.height * 0.74f),
             )
         }
     }
 }
+
 
 
 
