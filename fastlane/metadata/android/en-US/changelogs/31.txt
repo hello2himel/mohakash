@@ -1,0 +1,1 @@
+- Updated Android 15 edge-to-edge handling: removed deprecated status/navigation bar theme attributes and verified that content stays clear of system insets with both gesture and 3-button navigation.
