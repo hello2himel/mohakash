@@ -320,8 +320,9 @@ internal fun FeedPageContent(
                                     onClick = { actions.onOpenWallpaper(date) },
                                 )
                             }
-                            TextAction(
-                                text = stringResource(R.string.feed_full_entry),
+                            FeedGlassIconButton(
+                                painter = painterResource(R.drawable.ic_description_24),
+                                contentDescription = stringResource(R.string.feed_full_entry),
                                 onClick = { actions.onOpenEntry(date) },
                             )
                         }
