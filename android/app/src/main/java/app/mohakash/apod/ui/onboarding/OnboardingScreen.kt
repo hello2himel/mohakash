@@ -258,7 +258,7 @@ internal fun OnboardingContent(
 @Composable
 private fun OnboardingCopy(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(top = 28.dp),
+        modifier = modifier.padding(top = 28.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
