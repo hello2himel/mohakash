@@ -45,7 +45,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -281,87 +283,113 @@ private fun OnboardingCopy(modifier: Modifier = Modifier) {
 private fun OnboardingPhoneMockup(modifier: Modifier = Modifier) {
     val stars = remember {
         val random = kotlin.random.Random(0x0A5A)
-        List(30) {
+        List(52) {
             Triple(
                 random.nextFloat(),
                 random.nextFloat(),
-                0.5f + random.nextFloat() * 1.2f,
+                0.45f + random.nextFloat() * 1.35f,
             )
         }
     }
     val previewDescription = stringResource(R.string.onboarding_wallpaper_preview)
+    val phoneShape = RoundedCornerShape(30.dp)
+    val screenShape = RoundedCornerShape(26.dp)
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(28.dp))
-            .background(MohakashColors.Surface)
-            .border(1.dp, MohakashColors.BorderStrong, RoundedCornerShape(28.dp))
+            .shadow(
+                elevation = 20.dp,
+                shape = phoneShape,
+                clip = false,
+                ambientColor = MohakashColors.Accent.copy(alpha = 0.25f),
+                spotColor = MohakashColors.Accent.copy(alpha = 0.35f),
+            )
+            .clip(phoneShape)
+            .background(Color(0xFF070A12))
+            .border(1.5.dp, Color.White.copy(alpha = 0.18f), phoneShape)
             .semantics {
                 contentDescription = previewDescription
             },
     ) {
-        Canvas(Modifier.matchParentSize()) {
-            drawRect(
-                Brush.verticalGradient(
-                    listOf(
-                        Color(0xFF080B1C),
-                        Color(0xFF151D46),
-                        Color(0xFF080A16),
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(3.dp)
+                .clip(screenShape)
+                .background(Color(0xFF05070F))
+                .border(0.6.dp, Color.White.copy(alpha = 0.10f), screenShape),
+        ) {
+            Canvas(Modifier.matchParentSize()) {
+                drawRect(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color(0xFF070A1C),
+                            Color(0xFF141B4A),
+                            Color(0xFF070812),
+                        ),
                     ),
-                ),
-            )
-            drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(
-                        Color(0xFF8FB0FF).copy(alpha = 0.22f),
-                        Color.Transparent,
-                    ),
-                    center = Offset(size.width * 0.24f, size.height * 0.36f),
-                    radius = size.width * 0.75f,
-                ),
-                radius = size.width * 0.75f,
-                center = Offset(size.width * 0.24f, size.height * 0.36f),
-            )
-            drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(
-                        Color(0xFFE0A5C9).copy(alpha = 0.16f),
-                        Color.Transparent,
-                    ),
-                    center = Offset(size.width * 0.78f, size.height * 0.52f),
-                    radius = size.width * 0.65f,
-                ),
-                radius = size.width * 0.65f,
-                center = Offset(size.width * 0.78f, size.height * 0.52f),
-            )
-            stars.forEach { (x, y, radius) ->
+                )
                 drawCircle(
-                    color = Color.White.copy(alpha = 0.30f + y * 0.60f),
-                    radius = radius.dp.toPx() * 0.55f,
-                    center = Offset(x * size.width, y * size.height * 0.82f),
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Color(0xFF8FB0FF).copy(alpha = 0.32f),
+                            Color.Transparent,
+                        ),
+                        center = Offset(size.width * 0.26f, size.height * 0.32f),
+                        radius = size.width * 0.72f,
+                    ),
+                    radius = size.width * 0.72f,
+                    center = Offset(size.width * 0.26f, size.height * 0.32f),
+                )
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Color(0xFFE0A5C9).copy(alpha = 0.25f),
+                            Color.Transparent,
+                        ),
+                        center = Offset(size.width * 0.78f, size.height * 0.36f),
+                        radius = size.width * 0.58f,
+                    ),
+                    radius = size.width * 0.58f,
+                    center = Offset(size.width * 0.78f, size.height * 0.36f),
+                )
+                stars.forEach { (x, y, radius) ->
+                    drawCircle(
+                        color = Color.White.copy(alpha = 0.25f + y * 0.7f),
+                        radius = radius.dp.toPx() * 0.55f,
+                        center = Offset(x * size.width, y * size.height * 0.62f),
+                    )
+                }
+                val center = Offset(size.width * 0.56f, size.height * 0.27f)
+                val radius = size.width * 0.18f
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Color(0xFFF3D8A8),
+                            Color(0xFFB87C58),
+                            Color(0xFF3B2845),
+                        ),
+                        center = Offset(center.x - radius * 0.25f, center.y - radius * 0.30f),
+                        radius = radius * 1.8f,
+                    ),
+                    radius = radius,
+                    center = center,
+                )
+                drawOval(
+                    color = Color(0xFFE9C78B).copy(alpha = 0.68f),
+                    topLeft = Offset(center.x - radius * 1.55f, center.y - radius * 0.15f),
+                    size = Size(radius * 3.1f, radius * 0.30f),
+                    style = androidx.compose.ui.graphics.drawscope.Stroke(width = radius * 0.09f),
+                )
+                drawCircle(
+                    color = Color(0xFF05070F).copy(alpha = 0.30f),
+                    radius = radius * 0.92f,
+                    center = Offset(center.x + radius * 0.34f, center.y - radius * 0.16f),
                 )
             }
-            drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(
-                        Color(0xFF9FBFFF),
-                        Color(0xFF253366),
-                    ),
-                    center = Offset(size.width * 0.68f, size.height * 0.76f),
-                    radius = size.width * 0.24f,
-                ),
-                radius = size.width * 0.24f,
-                center = Offset(size.width * 0.68f, size.height * 0.76f),
-            )
-            drawCircle(
-                color = Color(0xFF080B1C),
-                radius = size.width * 0.23f,
-                center = Offset(size.width * 0.60f, size.height * 0.74f),
-            )
+            PhoneLauncherChrome(Modifier.matchParentSize())
         }
     }
 }
-
-
 
 
 /**

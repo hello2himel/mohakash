@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -25,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -191,37 +193,51 @@ private fun PhonePreview(
     target: Int,
     modifier: Modifier = Modifier,
 ) {
-    val shape = RoundedCornerShape(20.dp)
+    val shape = RoundedCornerShape(22.dp)
+    val screenShape = RoundedCornerShape(18.dp)
     Box(
         modifier = modifier
+            .shadow(
+                elevation = 12.dp,
+                shape = shape,
+                clip = false,
+                ambientColor = Color.Black.copy(alpha = 0.45f),
+                spotColor = Color.Black.copy(alpha = 0.55f),
+            )
             .clip(shape)
-            .background(Color(0xFF05070F))
-            .border(2.dp, MohakashColors.Accent.copy(alpha = 0.72f), shape)
-            .padding(4.dp),
+            .background(Color(0xFF070A12))
+            .border(1.5.dp, Color(0xFF252D3C), shape)
+            .padding(3.dp),
     ) {
-        Crossfade(
-            targetState = target,
-            animationSpec = tween(320),
-            label = "phone-wallpaper",
-            modifier = Modifier
-                .matchParentSize()
-                .clip(RoundedCornerShape(16.dp)),
-        ) { beat ->
-            WallpaperPlate(index = positiveMod(beat, PLATE_COUNT))
-        }
-        // Speaker slot, subtle enough not to read as content.
         Box(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 3.dp)
-                .width(24.dp)
-                .height(3.dp)
-                .clip(CircleShape)
-                .background(Color.Black.copy(alpha = 0.72f)),
-        )
+                .matchParentSize()
+                .clip(screenShape)
+                .border(0.6.dp, Color.White.copy(alpha = 0.12f), screenShape),
+        ) {
+            Crossfade(
+                targetState = target,
+                animationSpec = tween(320),
+                label = "phone-wallpaper",
+                modifier = Modifier.matchParentSize(),
+            ) { beat ->
+                WallpaperPlate(index = positiveMod(beat, PLATE_COUNT))
+            }
+            Box(
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .height(58.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(Color.Transparent, Color(0xFF03050B).copy(alpha = 0.62f)),
+                        ),
+                    ),
+            )
+            PhoneLauncherChrome(Modifier.matchParentSize())
+        }
     }
 }
-
 
 private fun imageTarget(cycle: Long, phase: Float, cadence: WallpaperCadence): Int =
     when (cadence) {
@@ -277,7 +293,7 @@ private fun DrawScope.drawStarfield(seed: Int, count: Int, maxY: Float = 0.9f) {
 private fun DrawScope.drawMoon() {
     drawRect(Brush.verticalGradient(listOf(Color(0xFF060A1A), Color(0xFF151A35), Color(0xFF03040A))))
     drawStarfield(seed = 17, count = 42)
-    val center = Offset(size.width * 0.54f, size.height * 0.48f)
+    val center = Offset(size.width * 0.54f, size.height * 0.29f)
     val radius = size.width * 0.28f
     drawCircle(
         brush = Brush.radialGradient(
@@ -298,7 +314,7 @@ private fun DrawScope.drawMoon() {
 private fun DrawScope.drawJupiter() {
     drawRect(Brush.verticalGradient(listOf(Color(0xFF070A16), Color(0xFF11162B), Color(0xFF03040A))))
     drawStarfield(seed = 31, count = 34)
-    val center = Offset(size.width * 0.52f, size.height * 0.48f)
+    val center = Offset(size.width * 0.52f, size.height * 0.29f)
     val radius = size.width * 0.30f
     drawCircle(Color(0xFFD5B486), radius = radius, center = center)
     val clip = Path().apply { addOval(androidx.compose.ui.geometry.Rect(center, radius)) }
@@ -314,7 +330,7 @@ private fun DrawScope.drawJupiter() {
 private fun DrawScope.drawAndromeda() {
     drawRect(Brush.verticalGradient(listOf(Color(0xFF050716), Color(0xFF11162E), Color(0xFF03040A))))
     drawStarfield(seed = 47, count = 55)
-    val center = Offset(size.width * 0.55f, size.height * 0.46f)
+    val center = Offset(size.width * 0.55f, size.height * 0.29f)
     rotate(degrees = -28f, pivot = center) {
         drawOval(
             brush = Brush.radialGradient(
@@ -357,7 +373,7 @@ private fun DrawScope.drawNebula() {
 private fun DrawScope.drawBlackHole() {
     drawRect(Brush.verticalGradient(listOf(Color(0xFF03040A), Color(0xFF0A0D20), Color(0xFF020309))))
     drawStarfield(seed = 83, count = 42)
-    val center = Offset(size.width * 0.51f, size.height * 0.48f)
+    val center = Offset(size.width * 0.51f, size.height * 0.29f)
     val radius = size.width * 0.24f
     drawCircle(
         brush = Brush.radialGradient(
