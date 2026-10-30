@@ -1,13 +1,32 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "count": 302,
+  "count": 303,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-10-30",
+      "title": "Haunting the Cepheus Flare",
+      "explanation": "Spooky shapes seem to haunt this dusty expanse, drifting through the night in the royal constellation Cepheus. Of course, the shapes are cosmic dust clouds visible in dimly reflected starlight. Far from your own neighborhood, they lurk above the plane of the Milky Way at the edge of the Cepheus Flare molecular cloud complex some 1,200 light-years away. Over 2 light-years across and brighter than most of the other ghostly apparitions, vdB 141 or Sh2-136 is also known as the Ghost Nebula. It lies at lower right in the starry field of view. Inside the Ghost Nebula are reddish telltale signs of dense cores collapsing in the early stages of star formation. With the eerie hue of interstellar dust reflecting bluish light from hot young stars of NGC 7023, the Iris Nebula stands out against the dark just left of center. In the broad telescopic frame, these fertile interstellar dust fields stretch almost six full moons across the sky.\n\nTomorrow's picture: night on a spooky planet",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/CepheusFlare_Tondinelli.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/CepheusFlare_Tondinelli.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/CepheusFlare_Tondinelli.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-30-haunting-the-cepheus-flare/",
+      "copyright": "Mirko Tondinelli",
+      "credit": "Mirko Tondinelli",
+      "alt_text": "Interstellar dust clouds and dark nebulae in the Cepheus molecular cloud.",
+      "source": "NASA APOD",
+      "source_id": "1506568",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-10-30T11:26:03Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-10-29",
       "title": "The Horns of Venus",
-      "explanation": "That's no moon. But you could be forgiven for thinking it was a crescent Moon in the sky. It is a lesser known fact that Venus also has phases. (What about other planets?) The featured image shows Venus seen almost directly between the Sun and the Earth. This happens once every year and a half, and it is like the alignment that happens every month during a new Moon. But the new Moon is dark, while Venus' backlit atmosphere refracts and scatters the sunlight, creating a glowing crescent arc that extends beyond 180 degrees: the tips of this arc are called the \"horns\". The crescent can be seen with a small telescope or binoculars during twilight, but those with exceptionally acute eyesight may be able to see it with the unaided eye. Ancient Babylonian astronomers may have been the first to study Venus' brightness changes, which are related to its phases. Many other cultures have similar astronomical records, including the oldest surviving Maya book.\n\nTomorrow's picture: What's next?",
+      "explanation": "That's no moon. But you could be forgiven for thinking it was a crescent Moon in the sky. It is a lesser known fact that Venus also has phases. (What about other planets?) The featured image shows Venus seen almost directly between the Sun and the Earth. This happens once every year and a half, and it is like the alignment that happens every month during a new Moon. But the new Moon is dark, while Venus' backlit atmosphere refracts and scatters the sunlight, creating a glowing crescent arc that extends beyond 180 degrees: the tips of this arc are called the \"horns\". The crescent can be seen with a small telescope or binoculars during twilight, but those with exceptionally acute eyesight may be able to see it with the unaided eye. Ancient Babylonian astronomers may have been the first to study Venus' brightness changes, which are related to its phases. Many other cultures have similar astronomical records, including the oldest surviving Maya book.\n\nTomorrow's picture: a cosmic haunting",
       "media_type": "image",
       "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/venus_20261024a.jpg?w=1600",
       "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/venus_20261024a.jpg?w=2400",
@@ -20,7 +39,7 @@
       "source_id": "1505211",
       "source_media_type": "image",
       "image_status": "ok",
-      "updated_at": "2026-10-29T11:34:12Z"
+      "updated_at": "2026-10-30T11:26:03Z"
     },
     {
       "schema_version": "1.0.0",
