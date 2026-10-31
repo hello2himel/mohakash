@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-30T11:26:03Z",
-  "count": 11451,
+  "generated_at": "2026-10-31T10:57:37Z",
+  "count": 11452,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-10-31",
+      "title": "Night on a Spooky Planet",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/Hverir_Vetter_1300.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-31-night-on-a-spooky-planet/",
+      "copyright": "Stéphane Vetter (Nuits sacrées)",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-10-30",
       "title": "Haunting the Cepheus Flare",
