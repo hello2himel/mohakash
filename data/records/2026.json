@@ -1,8 +1,27 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "count": 304,
+  "count": 305,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-11-01",
+      "title": "Colors of the Moon",
+      "explanation": "What color is the Moon? It depends on the night -- and the time. Outside of the Earth's atmosphere, the dark Moon, which shines by reflected sunlight, appears a magnificently brown-tinged gray. The featured image highlights a collection of apparent colors of the full moon on Earth, documented by one astrophotographer over 10 years from different locations across Italy. A red- or yellow-colored moon usually indicates a moon seen near the horizon. There, some of the blue light has been scattered away by a long path through the Earth's atmosphere, sometimes laden with fine dust. A blue-colored moon is more rare and can indicate an atmosphere carrying larger dust particles. What created the purple moon is unclear -- it may be a combination of several effects. The last image captures the total lunar eclipse of 2018 July -- where the moon, in Earth's shadow, appeared a faint red -- due to light refracted through air around the Earth. Have you ever seen an unusually colorful Moon?\n\nTomorrow's picture: open space",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MoonColors_Pace_960.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MoonColors_Pace_960.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MoonColors_Pace_960.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-1-colors-of-the-moon/",
+      "copyright": "Marcella Giulia Pace",
+      "credit": "Marcella Giulia Pace",
+      "alt_text": "Different colored images of the Moon are arranged in a spiral pattern.",
+      "source": "NASA APOD",
+      "source_id": "1507027",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-11-01T11:52:45Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-10-31",

@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 16:08:51 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 11:52:45 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Colors of the Moon</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-1-colors-of-the-moon/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-1-colors-of-the-moon/</guid>
+      <pubDate>Sun, 01 Nov 2026 00:00:00 GMT</pubDate>
+      <description>What color is the Moon? It depends on the night -- and the time. Outside of the Earth's atmosphere, the dark Moon, which shines by reflected sunlight, appears a magnificently brown-tinged gray. The featured image highlights a collection of apparent colors of the full moon on Earth, documented by one astrophotographer over 10 years from different locations across Italy. A red- or yellow-colored moon usually indicates a moon seen near the horizon. There, some of the blue light has been scattered away by a long path through the Earth's atmosphere, sometimes laden with fine dust. A blue-colored…<br/>Credit: Marcella Giulia Pace</description>
+    </item>
     <item>
       <title>Night on a Spooky Planet</title>
       <link>https://science.nasa.gov/image-article/apod-2026-october-31-night-on-a-spooky-planet/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-3-selfie-at-vera-rubin-ridge/</guid>
       <pubDate>Sat, 03 Oct 2026 00:00:00 GMT</pubDate>
       <description>On sol 1943 of its journey of exploration across the surface of Mars, the Curiosity Rover recorded this selfie at the south rim of Vera Rubin Ridge. Of course a sol is a Martian solar day, about 40 minutes longer than an Earth day. Curiosity's sol 1943 corresponds to Earth date January 23, 2018. Also composed as an interactive 360 degree VR, the mosaicked panorama combines 61 exposures taken by the small car-sized rover's Mars Hand Lens Imager (MAHLI). Frames containing the imager's arm have been edited out while the extended background used was taken by the rover's Mastcam on sol 1903. At…<br/>Credit: NASA, JPL-Caltech, MSSS - Panorama: Andrew Bodrov</description>
-    </item>
-    <item>
-      <title>The Complete Sharpless Catalog: 313 Nebulas</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-2-the-complete-sharpless-catalog-313-nebulae/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-2-the-complete-sharpless-catalog-313-nebulae/</guid>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>What does it take to image hundreds of nebulas? Today’s image contains the entire Sharpless Catalog of H II Regions, totaling 313 objects. Zoom in and explore! You may spot fan favorites like the Eagle (Sh2-49), Heart (Sh2-190), and Orion (Sh2-281) Nebulas. Despite its name, this catalog contains more than the glow of ionized hydrogen that makes up H II regions. There are planetary nebulas (the Medusa Nebula, Sh2-274) and supernova remnants (the Spaghetti Nebula, Sh2-240) as well. Astrophotographer Bing Xin traversed the dark skies of Eastern China and Inner Mongolia to catch them all…<br/>Credit: Bing Xin</description>
     </item>
   </channel>
 </rss>
