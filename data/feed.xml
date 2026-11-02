@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Nov 2026 11:52:45 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2026 13:34:50 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>A Long Cloud on Mars</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-2-a-long-cloud-on-mars/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-2-a-long-cloud-on-mars/</guid>
+      <pubDate>Mon, 02 Nov 2026 00:00:00 GMT</pubDate>
+      <description>What’s causing this unusually long cloud on Mars? Known as the Arsia Mons Elongated Cloud (AMEC) and first recorded by NASA’s Viking Orbiter 2 in 1977, the strange cloud has been imaged in greater detail more recently by ESA’s robotic Mars Express spacecraft. The featured image is from 2018. The cloud forms only during spring and summer seasons and then only during morning hours. Made of water-ice, the most familiar process that causes cloud crystals to form around bits of dust would fail due to the thinness and lack of dust high in the Martian atmosphere. Leading speculation holds that dust…<br/>Credit: ESA, DLR, FU Berlin; Processing &amp; License: J. Cowart</description>
+    </item>
     <item>
       <title>Colors of the Moon</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-1-colors-of-the-moon/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-4-supernumerary-rainbows-over-new-jersey/</guid>
       <pubDate>Sun, 04 Oct 2026 00:00:00 GMT</pubDate>
       <description>Yes, but can your rainbow do this? After the remnants of Hurricane Florence passed over the Jersey Shore, New Jersey, USA in 2018, the Sun came out in one direction but something quite unusual appeared in the opposite direction: a hall of rainbows. Over the course of the next half hour, to the delight of the photographer and his daughter, vibrant supernumerary rainbows faded in and out, with at least five captured in this featured single shot. Supernumerary rainbows only form when falling water droplets are all nearly the same size and typically less than a millimeter across. Then, sunlight…<br/>Credit: John Entwistle</description>
-    </item>
-    <item>
-      <title>Selfie at Vera Rubin Ridge</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-3-selfie-at-vera-rubin-ridge/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-3-selfie-at-vera-rubin-ridge/</guid>
-      <pubDate>Sat, 03 Oct 2026 00:00:00 GMT</pubDate>
-      <description>On sol 1943 of its journey of exploration across the surface of Mars, the Curiosity Rover recorded this selfie at the south rim of Vera Rubin Ridge. Of course a sol is a Martian solar day, about 40 minutes longer than an Earth day. Curiosity's sol 1943 corresponds to Earth date January 23, 2018. Also composed as an interactive 360 degree VR, the mosaicked panorama combines 61 exposures taken by the small car-sized rover's Mars Hand Lens Imager (MAHLI). Frames containing the imager's arm have been edited out while the extended background used was taken by the rover's Mastcam on sol 1903. At…<br/>Credit: NASA, JPL-Caltech, MSSS - Panorama: Andrew Bodrov</description>
     </item>
   </channel>
 </rss>

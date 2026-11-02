@@ -1,8 +1,27 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "count": 305,
+  "count": 306,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-11-02",
+      "title": "A Long Cloud on Mars",
+      "explanation": "What’s causing this unusually long cloud on Mars? Known as the Arsia Mons Elongated Cloud (AMEC) and first recorded by NASA’s Viking Orbiter 2 in 1977, the strange cloud has been imaged in greater detail more recently by ESA’s robotic Mars Express spacecraft. The featured image is from 2018. The cloud forms only during spring and summer seasons and then only during morning hours. Made of water-ice, the most familiar process that causes cloud crystals to form around bits of dust would fail due to the thinness and lack of dust high in the Martian atmosphere. Leading speculation holds that dust is not involved. After the cloud forms near the volcano Arsia Mons, wind blows the cloud downstream — creating a tail that can extend over 1500 kilometers. Efforts to better understand AMECs will continue, an understanding that may bolster a more complete view of cloud formation on Earth.\n\nTomorrow's picture: eyeing a cat",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MonsCloud_MarsExpress_1920.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MonsCloud_MarsExpress_1920.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MonsCloud_MarsExpress_1920.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-2-a-long-cloud-on-mars/",
+      "copyright": "ESA, DLR, FU Berlin; Processing & License: J. Cowart",
+      "credit": "ESA, DLR, FU Berlin; Processing & License: J. Cowart",
+      "alt_text": "Mars is seen from orbit with an orange landscape and two prominent volcanoes on the right. Extending horizontally from the nearer volcano is a very long white cloud.",
+      "source": "NASA APOD",
+      "source_id": "1507038",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-11-02T13:34:50Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-11-01",
