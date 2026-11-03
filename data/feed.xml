@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 02 Nov 2026 13:34:50 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 12:51:32 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Comet PanSTARRs and Rainbow Meteor</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-3-comet-panstarrs-and-rainbow-meteor/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-3-comet-panstarrs-and-rainbow-meteor/</guid>
+      <pubDate>Tue, 03 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Did this meteor come from that comet? Probably not. Although many meteors do originate from comets, there are thousands of comets that have visited the inner Solar System recently, and matching meteors to them can be tricky. And to be clear, the pictured comet is far behind the streaking meteor. Comet C/2025 R3 (PanSTARRS) was captured from Hautacam, France in April when the giant space iceberg sported impressive ion (blue) and dust tails. Sand-sized rocky debris that enters Earth’s atmosphere typically appears as meteors, while the colorful foreground streak here may indicate a complicated…<br/>Credit: Eddy Metais</description>
+    </item>
     <item>
       <title>A Long Cloud on Mars</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-2-a-long-cloud-on-mars/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-5-m104-the-sombrero-galaxys-tidal-streams/</guid>
       <pubDate>Mon, 05 Oct 2026 00:00:00 GMT</pubDate>
       <description>A deep image of the Sombrero galaxy reveals surprises. M104 is named the Sombrero galaxy because, on shorter exposures, it looks like a hat. A key defining feature of this huge galaxy is a dark brim of dust that circles the disk galaxy's center. A much longer exposure, however, brings up a hairy past where a bright, hazy halo is revealed that extends well past the central disk and contains many unresolved stars. Surprisingly, in this stellar haze, structures can be seen that include a diagonal ring. These structures and tidal streams provide fresh evidence that M104 had a violent past and is…<br/>Credit: Engelbert Vollmer</description>
-    </item>
-    <item>
-      <title>Supernumerary Rainbows over New Jersey</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-4-supernumerary-rainbows-over-new-jersey/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-4-supernumerary-rainbows-over-new-jersey/</guid>
-      <pubDate>Sun, 04 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Yes, but can your rainbow do this? After the remnants of Hurricane Florence passed over the Jersey Shore, New Jersey, USA in 2018, the Sun came out in one direction but something quite unusual appeared in the opposite direction: a hall of rainbows. Over the course of the next half hour, to the delight of the photographer and his daughter, vibrant supernumerary rainbows faded in and out, with at least five captured in this featured single shot. Supernumerary rainbows only form when falling water droplets are all nearly the same size and typically less than a millimeter across. Then, sunlight…<br/>Credit: John Entwistle</description>
     </item>
   </channel>
 </rss>
