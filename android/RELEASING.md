@@ -33,14 +33,26 @@ Certificate fingerprint (SHA-256):
 04:41:88:79:E6:5E:35:34:6F:C4:06:F5:70:85:8E:EE:D3:EE:21:B0:E5:F8:B5:8E:2A:0F:F3:7F:0A:14:C0:AB
 ```
 
-The same fingerprint is published in
+Play App Signing certificate (SHA-256), from Play Console → Test and release →
+App integrity → App signing → **App signing key certificate**:
+
+```text
+52:00:63:67:95:AC:42:71:24:EB:2A:10:97:D1:B9:F9:F0:B1:0C:23:A4:A2:76:FB:E5:08:6A:D2:CF:4A:61:3E
+```
+
+Both fingerprints are published in
 [`web/public/.well-known/assetlinks.json`](../web/public/.well-known/assetlinks.json)
 so Android can verify the App Links for `https://mohakash.netlify.app/...`.
-Update that file and redeploy the website whenever a signing certificate
-changes: the GitHub release key above, the Play App Signing certificate (if
-Google re-signs the bundle) and the F-Droid signing certificate. A missing or
-stale fingerprint makes those links open in the browser instead of the app; it
-does not break the app itself.
+Google re-signs every bundle uploaded to Play with its app signing key, so that
+certificate is the one App Links verification for the Play build uses; the
+release key above covers APKs downloaded from GitHub releases. Android accepts a
+match against any fingerprint in `sha256_cert_fingerprints`. Update that file and
+redeploy the website whenever a signing certificate changes: keep the old and
+new fingerprints together while users still have builds signed with the old key,
+and add the F-Droid signing certificate when that listing goes live. A missing or
+stale fingerprint makes those links open in the browser instead of the app and
+makes Play Console report "Failed domain checks"; it does not break the app
+itself.
 
 `android/keystore.properties` has this shape (the real values are not in git):
 

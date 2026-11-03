@@ -209,12 +209,16 @@ browser, and the intent filters only claim `/` and `/archive...`.
 
 Android verifies the links against
 [`web/public/.well-known/assetlinks.json`](../web/public/.well-known/assetlinks.json). The file
-contains the application ID and the SHA-256 certificate fingerprint of the build users install.
-It currently lists the GitHub release key; add the Play App Signing certificate (if Play re-signs
-the bundle) and the F-Droid certificate when those listings go live, then redeploy the website.
-The parser and manifest are covered by `DeepLinkParserTest` and `DeepLinkManifestTest`. With the
-signed release APK installed and `assetlinks.json` deployed, Android 15 reports
-`pm get-app-links mohakash.stargzr.space` as `verified` and opens the links without a chooser.
+contains the application ID and the SHA-256 fingerprints of every certificate users can install
+from: the GitHub release/upload key, the Play App Signing certificate(s) that Google re-signs
+every Play build with, and (once that listing is live) the F-Droid certificate. Android accepts
+a match against any fingerprint in the list, so after a key rotation copy the new fingerprint
+from Play Console → Test and release → App integrity → App signing, add it to the file, and
+redeploy the website. The parser and manifest are covered by `DeepLinkParserTest` and
+`DeepLinkManifestTest`. With the signed release APK installed and `assetlinks.json` deployed,
+`adb shell pm get-app-links mohakash.stargzr.space` reports `verified` and the links open without
+a chooser; Play Console's Grow users → Deep links page rechecks the same thing from the server
+side for the Play-signed closed-testing build.
 
 The share button (in the feed overlay and the full entry view) shares the public
 `/archive/YYYY-MM-DD` URL as `text/plain`, together with the title, date and credit. It does not
