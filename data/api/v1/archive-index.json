@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-02T13:34:50Z",
-  "count": 11454,
+  "generated_at": "2026-11-03T12:51:32Z",
+  "count": 11455,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-03",
+      "title": "Comet PanSTARRs and Rainbow Meteor",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/CometMeteor_Metais_1934.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-3-comet-panstarrs-and-rainbow-meteor/",
+      "copyright": "Eddy Metais",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-02",
       "title": "A Long Cloud on Mars",
