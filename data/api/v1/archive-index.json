@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-04T13:02:08Z",
-  "count": 11456,
+  "generated_at": "2026-11-05T13:15:38Z",
+  "count": 11457,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-05",
+      "title": "Enceladus in Silhouette",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/PIA17144EnceladusPandora.png?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-5-enceladus-in-silhouette/",
+      "copyright": "Cassini Imaging Team, SSI, JPL, ESA, NASA",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-04",
       "title": "The Not-So-Hidden Galaxy, IC 342",

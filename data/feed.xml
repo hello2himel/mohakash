@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 04 Nov 2026 13:02:08 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2026 13:15:38 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Enceladus in Silhouette</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-5-enceladus-in-silhouette/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-5-enceladus-in-silhouette/</guid>
+      <pubDate>Thu, 05 Nov 2026 00:00:00 GMT</pubDate>
+      <description>One of our Solar System's most tantalizing worlds, Enceladus is backlit by the Sun in this Cassini spacecraft image from November 1, 2009. The dramatic illumination reveals the plumes that continuously spew into space from the south pole of Saturn's 500 kilometer diameter moon. Discovered by Cassini in 2005, the icy plumes are likely connected to an ocean beneath the ice shell of Enceladus. They supply material directly to Saturn's outer, tenuous E ring and make the surface of Enceladus as reflective as snow. Across the scene, Saturn's icy rings scatter sunlight toward Cassini's cameras…<br/>Credit: Cassini Imaging Team, SSI, JPL, ESA, NASA</description>
+    </item>
     <item>
       <title>The Not-So-Hidden Galaxy, IC 342</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-4-the-not-so-hidden-galaxy-ic-342/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-7-supernova-remnant-pa-30/</guid>
       <pubDate>Wed, 07 Oct 2026 00:00:00 GMT</pubDate>
       <description>"Happy New Year!" No, wait, this is not a fireworks display. This image shows Nebula Pa 30, observed with the Gemini North Telescope in Hawai'i. It is likely the remnant of an old supernova explosion: separate historical records by Chinese, Japanese and Arabic astronomers tell of a "guest star" that appeared in the sky for 185 days in the year 1181. It is believed that this bright new point of light came from the supernova that caused the fireworks in Pa 30. Astronomers don't know exactly what happened in this unusual explosion, classified as a Type Iax supernova, but it is thought to be…<br/>Credit: International Gemini Observatory/NOIRLab/NSF/AURA. Acknowledgment: PI: T. Cunningham (Center for Astrophysics - Harvard &amp; Smithsonian). Image Processing: J. Miller &amp; M. Rodriguez (International Gemini Observatory/NSF NOIRLab), T.A. Rector (University of Alaska Anchorage/NSF NOIRLab), D. de Martin &amp; M. Zamani (NSF NOIRLab).</description>
-    </item>
-    <item>
-      <title>A Complete Auroral Oval from SMILE</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-6-a-complete-auroral-oval-from-smile/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-6-a-complete-auroral-oval-from-smile/</guid>
-      <pubDate>Tue, 06 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Have you ever seen a complete auroral oval? You can't see one from the ground because it makes too large a circle around one of Earth's magnetic poles. But spacecraft high above the Earth can see them. The featured video from ESA and CAS's robotic SMILE spacecraft shows not only a full auroral oval, but using ultraviolet light, one that occurred during the day. The time-lapse covers about an hour in late July and shows visually how variable and turbulent auroras really are. The points of light on the sides are distant stars that appear to move only because SMILE's camera view shifts as the…<br/>Credit: ESA, CAS, SMILE, UVI</description>
     </item>
   </channel>
 </rss>
