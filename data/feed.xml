@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Nov 2026 13:15:38 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 12:59:23 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>A Farewell to Swift</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-6-a-farewell-to-swift/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-6-a-farewell-to-swift/</guid>
+      <pubDate>Fri, 06 Nov 2026 00:00:00 GMT</pubDate>
+      <description>It is time to say goodbye to NASA's Neil Gehrels Swift Observatory. After nearly 22 years of service, the satellite re-entered Earth's atmosphere on November 4 at 7:39 EST over the North Sumatra region of Indonesia. The featured image is a mosaic created in 2018 using the first one million images captured by the satellite's Ultraviolet/Optical Telescope. Swift had a combination of instruments, including an X-ray telescope and a gamma-ray telescope, that worked together to enable humanity to study, in unprecedented detail, the fastest and most energetic explosions in the universe. The most…<br/>Credit: NASA/Swift and AndreaMosaic</description>
+    </item>
     <item>
       <title>Enceladus in Silhouette</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-5-enceladus-in-silhouette/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-8-the-saturn-system-smorgasbord/</guid>
       <pubDate>Thu, 08 Oct 2026 00:00:00 GMT</pubDate>
       <description>How was the Saturn system imaged so clearly? Astrophotographer Tom Williams captured such exquisite details due to one night of exceptional atmospheric conditions above the United Kingdom. This means more than a cloudless sky. Pockets of air at different temperatures and densities move around and bend light as it travels through Earth’s atmosphere, distorting astronomy images. This is called “seeing.” Less atmospheric turbulence means clearer images. The astrophotographer reduced the impact of seeing with the lucky imaging technique: thousands of short-exposure images are taken very quickly…<br/>Credit: Tom Williams</description>
-    </item>
-    <item>
-      <title>Supernova Remnant Pa 30</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-7-supernova-remnant-pa-30/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-7-supernova-remnant-pa-30/</guid>
-      <pubDate>Wed, 07 Oct 2026 00:00:00 GMT</pubDate>
-      <description>"Happy New Year!" No, wait, this is not a fireworks display. This image shows Nebula Pa 30, observed with the Gemini North Telescope in Hawai'i. It is likely the remnant of an old supernova explosion: separate historical records by Chinese, Japanese and Arabic astronomers tell of a "guest star" that appeared in the sky for 185 days in the year 1181. It is believed that this bright new point of light came from the supernova that caused the fireworks in Pa 30. Astronomers don't know exactly what happened in this unusual explosion, classified as a Type Iax supernova, but it is thought to be…<br/>Credit: International Gemini Observatory/NOIRLab/NSF/AURA. Acknowledgment: PI: T. Cunningham (Center for Astrophysics - Harvard &amp; Smithsonian). Image Processing: J. Miller &amp; M. Rodriguez (International Gemini Observatory/NSF NOIRLab), T.A. Rector (University of Alaska Anchorage/NSF NOIRLab), D. de Martin &amp; M. Zamani (NSF NOIRLab).</description>
     </item>
   </channel>
 </rss>
