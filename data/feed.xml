@@ -5,15 +5,22 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2026 20:28:24 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 11:46:41 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>De Gerlache-Kocher Massif</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-7-de-gerlache-kocher-massif/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-7-de-gerlache-kocher-massif/</guid>
+      <pubDate>Sat, 07 Nov 2026 00:00:00 GMT</pubDate>
+      <description>De Gerlache-Kocher massif looms on the visible horizon in this close-up of the edge of the Moon. The mountainous formation rises about 4 kilometers above its surroundings and is located very close to the lunar south pole. Boasting permanently shadowed crater floors that likely contain deposits of water ice and peaks that receive almost continuous sunlight for solar power generation, the south polar region is consider a prime location for the first human settlement on the Moon. In fact, De Gerlache-Kocher massif itself has been consider as a potential landing site for future crewed Artemis…<br/>Credit: Alejandro Sanz</description>
+    </item>
     <item>
       <title>A Farewell to Swift</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-6-a-farewell-to-swift/</link>
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-6-a-farewell-to-swift/</guid>
       <pubDate>Fri, 06 Nov 2026 00:00:00 GMT</pubDate>
-      <description>It is time to say goodbye to NASA's Neil Gehrels Swift Observatory. After nearly 22 years of service, the satellite re-entered Earth's atmosphere on November 4 at 7:39 EST over the North Sumatra region of Indonesia. The featured image is a mosaic created in 2018 using the first one million images captured by the satellite's Ultraviolet/Optical Telescope. Swift had a combination of instruments, including an X-ray telescope and a gamma-ray telescope, that worked together to enable humanity to study, in unprecedented detail, the fastest and most energetic explosions in the universe. The most…<br/>Credit: NASA/Swift and AndreaMosaic</description>
+      <description>It is time to say goodbye to NASA's Neil Gehrels Swift Observatory. After nearly 22 years of service, the satellite re-entered Earth's atmosphere on November 4 at 7:39 EST over the North Sumatra region of Indonesia. The featured image is a mosaic created in 2018 using some of the first million images captured by the satellite's Ultraviolet/Optical Telescope. Swift had a combination of instruments, including an X-ray telescope and a gamma-ray telescope, that worked together to enable humanity to study, in unprecedented detail, the fastest and most energetic explosions in the universe. The most…<br/>Credit: NASA/Swift and AndreaMosaic</description>
     </item>
     <item>
       <title>Enceladus in Silhouette</title>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-9-stickney-crater/</guid>
       <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
       <description>Stickney Crater, the largest crater on the martian moon Phobos, is named for Chloe Angeline Stickney Hall, mathematician and wife of astronomer Asaph Hall. Asaph Hall discovered both the Red Planet's moons in 1877. Over 9 kilometers across, Stickney is nearly half the diameter of Phobos itself, so large that the impact that blasted out the crater likely came close to shattering the tiny moon. This enhanced-color image of Stickney and surroundings was recorded by the HiRISE camera onboard the Mars Reconnaissance Orbiter as it passed within some six thousand kilometers of Phobos in March of…<br/>Credit: HiRISE, MRO, LPL (U. Arizona), NASA</description>
-    </item>
-    <item>
-      <title>The Saturn System Smörgåsbord</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-8-the-saturn-system-smorgasbord/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-8-the-saturn-system-smorgasbord/</guid>
-      <pubDate>Thu, 08 Oct 2026 00:00:00 GMT</pubDate>
-      <description>How was the Saturn system imaged so clearly? Astrophotographer Tom Williams captured such exquisite details due to one night of exceptional atmospheric conditions above the United Kingdom. This means more than a cloudless sky. Pockets of air at different temperatures and densities move around and bend light as it travels through Earth’s atmosphere, distorting astronomy images. This is called “seeing.” Less atmospheric turbulence means clearer images. The astrophotographer reduced the impact of seeing with the lucky imaging technique: thousands of short-exposure images are taken very quickly…<br/>Credit: Tom Williams</description>
     </item>
   </channel>
 </rss>
