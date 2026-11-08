@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 18:50:27 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 11:58:01 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Major Fireball Meteor</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-8-major-fireball-meteor/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-8-major-fireball-meteor/</guid>
+      <pubDate>Sun, 08 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The sky glows with soft pinkish colors of fading twilight in this serendipitous mountaintop vista. Taken in subfreezing temperatures, the thoughtfully composed photo shows snowy, rugged peaks seen from a mountain pass on 2017 November 14. Below lies the village of La Villa, Alta Badia in Italy's Dolomite Alps. Above the nestled village lights, the constellation Ursa Major hangs over the northern horizon. But most stunning is the intense fireball meteor. It was captured during the camera's exposure by chance as it flashed east to west across the northern horizon, under Ursa Major's familiar…<br/>Credit: Ollie Taylor</description>
+    </item>
     <item>
       <title>De Gerlache-Kocher Massif</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-7-de-gerlache-kocher-massif/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-10-lunar-farside/</guid>
       <pubDate>Sat, 10 Oct 2026 00:00:00 GMT</pubDate>
       <description>Tidally locked in synchronous rotation, the Moon always presents its familiar nearside to denizens of planet Earth. From lunar orbit, the Moon's farside can become familiar, though. In fact this sharp picture, a mosaic from the Lunar Reconnaissance Orbiter's wide angle camera, is centered on the lunar farside. Part of a global mosaic of over 15,000 images acquired between November 2009 and February 2011, the highest resolution version shows features at a scale of 100 meters per pixel. Surprisingly, the rough and battered surface of the farside looks very different from the nearside covered…<br/>Credit: NASA / GSFC / Arizona State Univ. / Lunar Reconnaissance Orbiter</description>
-    </item>
-    <item>
-      <title>Stickney Crater</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-9-stickney-crater/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-9-stickney-crater/</guid>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Stickney Crater, the largest crater on the martian moon Phobos, is named for Chloe Angeline Stickney Hall, mathematician and wife of astronomer Asaph Hall. Asaph Hall discovered both the Red Planet's moons in 1877. Over 9 kilometers across, Stickney is nearly half the diameter of Phobos itself, so large that the impact that blasted out the crater likely came close to shattering the tiny moon. This enhanced-color image of Stickney and surroundings was recorded by the HiRISE camera onboard the Mars Reconnaissance Orbiter as it passed within some six thousand kilometers of Phobos in March of…<br/>Credit: HiRISE, MRO, LPL (U. Arizona), NASA</description>
     </item>
   </channel>
 </rss>

@@ -1,8 +1,8 @@
 {
   "last_error": null,
-  "last_successful_sync": "2026-11-07T18:50:27Z",
-  "latest_available_date": "2026-11-07",
-  "record_count": 11459,
+  "last_successful_sync": "2026-11-08T11:58:01Z",
+  "latest_available_date": "2026-11-08",
+  "record_count": 11460,
   "source_endpoint": "https://science.nasa.gov/wp-json/wp/v2/apod-basic",
   "source_status": "ok"
 }
