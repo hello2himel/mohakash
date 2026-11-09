@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 08 Nov 2026 11:58:01 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 13:57:50 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Rigel and the Witch Head Nebula</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-9-rigel-and-the-witch-head-nebula/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-9-rigel-and-the-witch-head-nebula/</guid>
+      <pubDate>Mon, 09 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Does the blue nebula look like the head of a witch? The nebula is known popularly as the Witch Head Nebula because, it is said, the nebula's shape resembles a Halloween-style caricature of a witch's head. Exactly how, though, can be a topic of imaginative speculation. What is clear is that IC 2118 is about 50 light-years across and made of gas and dust that points to -- because it has been partly eroded by -- the nearby star Rigel. One of the brighter stars in the constellation Orion, Rigel lies just below the center of the featured image. The blue color of the Witch Head Nebula and is caused…<br/>Credit: Piotr Czerski</description>
+    </item>
     <item>
       <title>Major Fireball Meteor</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-8-major-fireball-meteor/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-11-ice-fishing-for-cosmic-neutrinos/</guid>
       <pubDate>Sun, 11 Oct 2026 00:00:00 GMT</pubDate>
       <description>Scientists are melting holes in the bottom of the world. In fact, almost 100 holes melted near the South Pole are now being used as an astronomical observatory. Astronomers with the IceCube Neutrino Observatory lowered a long string knotted with basketball-sized light detectors into each vertical lake. The water in each hole soon refreezes. The detectors attached to the strings are sensitive to blue light emitted in the surrounding clear ice. Such light results from fast-moving secondary particles liberated when high-energy neutrinos emitted by powerful processes out in the universe collide…<br/>Credit: NSF, B. Gudbjartsson, IceCube Collaboration</description>
-    </item>
-    <item>
-      <title>Lunar Farside</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-10-lunar-farside/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-10-lunar-farside/</guid>
-      <pubDate>Sat, 10 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Tidally locked in synchronous rotation, the Moon always presents its familiar nearside to denizens of planet Earth. From lunar orbit, the Moon's farside can become familiar, though. In fact this sharp picture, a mosaic from the Lunar Reconnaissance Orbiter's wide angle camera, is centered on the lunar farside. Part of a global mosaic of over 15,000 images acquired between November 2009 and February 2011, the highest resolution version shows features at a scale of 100 meters per pixel. Surprisingly, the rough and battered surface of the farside looks very different from the nearside covered…<br/>Credit: NASA / GSFC / Arizona State Univ. / Lunar Reconnaissance Orbiter</description>
     </item>
   </channel>
 </rss>
