@@ -1,9 +1,28 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "generated_at": "2026-11-09T23:27:25Z",
-  "count": 313,
+  "generated_at": "2026-11-10T13:31:18Z",
+  "count": 314,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-11-10",
+      "title": "Saturn Behind the Moon",
+      "explanation": "Sometimes Saturn disappears. It doesn't really go away, of course -- it just disappears from our view when Earth's Moon moves in front. Such a Saturnian eclipse, more formally called an occultation, was visible in early 2025 along a small swath of Earth -- from Greenland through central Europe and into northern Africa. The featured image is a digital fusion of three images, the first of just Saturn before it disappeared, and then two more of the Moon with different exposure lengths. The images were taken from Sardinia, Italy, after sunset. The bright dot near Saturn is not a moon of Saturn, but rather the star 85 Aquarii, which is further behind Saturn than Saturn is behind the Moon. The next time the Moon moves in front of Saturn, as visible from some place on Earth, will be in 2031.\n\nTomorrow's picture: small but mighty",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Moonsaturn6_Ortu_2124.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Moonsaturn6_Ortu_2124.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Moonsaturn6_Ortu_2124.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-10-saturn-behind-the-moon/",
+      "copyright": "Roberto Ortu",
+      "credit": "Roberto Ortu",
+      "alt_text": "The curving surface of the Moon occupies the lower half of the image. Just above center the planet Saturn appears, far in the distance.",
+      "source": "NASA APOD",
+      "source_id": "1509570",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-11-10T13:31:18Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-11-09",
