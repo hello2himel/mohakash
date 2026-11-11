@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-10T13:31:18Z",
-  "count": 11462,
+  "generated_at": "2026-11-11T12:45:58Z",
+  "count": 11463,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-11",
+      "title": "NGC 4449: Small Galaxy, Big Impact",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-11-ngc-4449-small-galaxy-big-impact/",
+      "copyright": "NASA, ESA, A. Aloisi (STScI/ESA), and the Hubble Heritage (STScI/AURA)-ESA/Hubble Collaboration",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-10",
       "title": "Saturn Behind the Moon",
