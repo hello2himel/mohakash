@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-11T12:45:58Z",
-  "count": 11463,
+  "generated_at": "2026-11-12T13:49:37Z",
+  "count": 11464,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-12",
+      "title": "Moon, Venus and Spica Meet",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/conjunction-bubak.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-12-moon-venus-and-spica-meet/",
+      "copyright": "Włodzimierz Bubak",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-11",
       "title": "NGC 4449: Small Galaxy, Big Impact",
