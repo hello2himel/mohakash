@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-12T13:49:37Z",
-  "count": 11464,
+  "generated_at": "2026-11-13T13:10:44Z",
+  "count": 11465,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-13",
+      "title": "NGC 206 and the Star Clouds of Andromeda",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Andromeda_closeupCruz4096.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-13-ngc-206-and-the-star-clouds-of-andromeda/",
+      "copyright": "David Cruz",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-12",
       "title": "Moon, Venus and Spica Meet",
