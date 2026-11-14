@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 20:55:05 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 12:14:33 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Apollo 12 and Surveyor 3</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-14-apollo-12-and-surveyor-3/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-14-apollo-12-and-surveyor-3/</guid>
+      <pubDate>Sat, 14 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Put on your red/blue glasses and gaze across the western Ocean of Storms on the surface of the Moon. The 3D anaglyph shows Apollo 12 astronaut Pete Conrad visiting the Surveyor 3 spacecraft in November of 1969. Surveyor 3 had landedat the site on the inside slope of a small crater about 2 1/2 years earlier in April of 1967. Visible on the horizon beyond the far crater wall, Apollo 12's Lunar Module Intrepid touched down less than 200 meters (650 feet) away, easy moonwalking distance from the robotic Surveyor spacecraft. This stereo image was carefully created from two separate pictures…<br/>Credit: Apollo 12, Alan Bean - Stereo Image Copyright: Kevin Frank</description>
+    </item>
     <item>
       <title>NGC 206 and the Star Clouds of Andromeda</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-13-ngc-206-and-the-star-clouds-of-andromeda/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-16-chasing-the-international-space-station/</guid>
       <pubDate>Fri, 16 Oct 2026 00:00:00 GMT</pubDate>
       <description>Blasting into the predawn sky on Tuesday, October 13, a Falcon 9 rocket and Dragon spacecraft are headed for low Earth orbit in this stunning timelapse video captured from Indian Harbour Beach, Florida. Starting with a launch from Space Launch Complex 40 at Cape Canaveral Space Force Station, Falcon and Dragon are chasing the International Space Station on NASA's 35th Commercial Resupply Services mission. On cue, the space station itself enters the frame from the top. Almost 8 seconds into the 30 second timelapse. the bright streak of the ISS appears heading "down" toward the horizon. The…<br/>Credit: Eric Holland</description>
-    </item>
-    <item>
-      <title>The Milky Way over Manhattan</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-15-the-milky-way-over-manhattan/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-15-the-milky-way-over-manhattan/</guid>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The city lights outshine the stars in the City That Never Sleeps. Who would have thought that the Milky Way could be visible in this sky? This image was taken with a filter that blocks most visible light, capturing instead only light in the near-infrared region of the electromagnetic spectrum (with lower energy than visible light). The astrophotographer's clever setup blocks most of the light pollution from the city: old incandescent light bulbs and some neon lights are still bright in the near-infrared, but fluorescent and LED light bulbs are not. Of course, stars are also bright in the…<br/>Credit: Jason Kurth, Ty Buckley</description>
     </item>
   </channel>
 </rss>
