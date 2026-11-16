@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-15T12:47:33Z",
-  "count": 11467,
+  "generated_at": "2026-11-16T13:43:24Z",
+  "count": 11468,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-16",
+      "title": "NGC 7129: Star Formation with Jets from Webb",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2026/10/weic2620a.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-16-ngc-7129-star-formation-with-jets-from-webb/",
+      "copyright": "NASA, ESA, CSA, STScI, JWST; Processing: A. Pagan (STScI)",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-15",
       "title": "Leonid Meteors Through Orion",
