@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Nov 2026 23:25:56 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2026 14:30:30 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Milky Way versus Aurora</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-17-milky-way-versus-aurora/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-17-milky-way-versus-aurora/</guid>
+      <pubDate>Tue, 17 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Are these two giant arches battling for control of the sky? No, but it sure looks like it! The arch on the left is the central band of our Milky Way Galaxy, an ancient system of stars, gas, and dust that predates our Earth and is very far away. The arch on the right, by contrast, is an auroral ribbon that is only hours old, composed of energized atoms and molecules, and is close by -- right in Earth's upper atmosphere. These chance-superposed titans have our Sun in common, a stellar member of the Milky Way that ejects energetic particles which create auroras. Far behind the middle of the…<br/>Credit: Guillaume Scheib</description>
+    </item>
     <item>
       <title>NGC 7129: Star Formation with Jets from Webb</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-16-ngc-7129-star-formation-with-jets-from-webb/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-19-treble-clef-unusual-x-ray-hot-radio-source/</guid>
       <pubDate>Mon, 19 Oct 2026 00:00:00 GMT</pubDate>
       <description>Explanation : What is Treble Clef? This unusual radio structure extends over 2 million light-years and resembles a common musical symbol -- but has its visible light hidden by our own Milky Way Galaxy. Examined in 2004, the nature of VLSS J0318.9+5755, dubbed Treble Clef, remained unknown. Recent observations by the Chandra X-ray Observatory and eROSITA, however, have led to the hypothesis that the Treble Clef central cloud of charged particles was originally expelled by a supermassive black hole at the center of a galaxy. After the radio emission from those particles faded, they may have…<br/>Credit: X-ray: NASA/CXC/INAF-IRA/A. Botteon et al.; Infrared: UKIDSS-GPS; Radio: ASTRONLOFAR; Image processing: NASA/CXC/SAO/N. Wolk</description>
-    </item>
-    <item>
-      <title>Sonified: Eagle Nebula Pillars</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-18-sonified-eagle-nebula-pillars/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-18-sonified-eagle-nebula-pillars/</guid>
-      <pubDate>Sun, 18 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Yes, but have you ever experienced the Eagle Nebula with your ears? The famous nebula M16 is best known for the feast it gives your eyes, highlighting bright young stars forming deep inside dark towering structures. These light-years long columns of cold gas and dust are some 6,500 light-years distant toward the constellation of the Serpent (Serpens). Sculpted and eroded by the energetic ultraviolet light and powerful winds from M16's cluster of massive stars, the cosmic pillars themselves are destined for destruction. But the turbulent environment of star formation within M16, whose…<br/>Credit: NASA, ESA, &amp; The Hubble Heritage Project (STScI/AURA); Sonification: NASA, CXC, SAO, K. Arcand, M. Russo &amp; A. Santaguida</description>
     </item>
   </channel>
 </rss>
