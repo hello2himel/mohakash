@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-17T14:30:30Z",
+  "generated_at": "2026-11-17T23:51:45Z",
   "count": 11469,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
@@ -17,7 +17,7 @@
       "date": "2026-11-16",
       "title": "NGC 7129: Star Formation with Jets from Webb",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2026/10/weic2620a.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2026/10/weic2620a.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-16-ngc-7129-star-formation-with-jets-from-webb/",
       "copyright": "NASA, ESA, CSA, STScI, JWST; Processing: A. Pagan (STScI)",
       "detail_path": "archive/2026.json"
@@ -35,7 +35,7 @@
       "date": "2026-11-14",
       "title": "Apollo 12 and Surveyor 3",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/KF-ApAn48-7133-4.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/KF-ApAn48-7133-4.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-14-apollo-12-and-surveyor-3/",
       "copyright": "Apollo 12, Alan Bean - Stereo Image Copyright: Kevin Frank",
       "detail_path": "archive/2026.json"
@@ -71,7 +71,7 @@
       "date": "2026-11-10",
       "title": "Saturn Behind the Moon",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Moonsaturn6_Ortu_2124.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Moonsaturn6_Ortu_2124.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-10-saturn-behind-the-moon/",
       "copyright": "Roberto Ortu",
       "detail_path": "archive/2026.json"
