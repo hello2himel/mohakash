@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-17T23:51:45Z",
-  "count": 11469,
+  "generated_at": "2026-11-18T14:06:24Z",
+  "count": 11470,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-18",
+      "title": "A Medium-Sized Solar Flare",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/solar_M_flare.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-18-an-m-class-solar-flare/",
+      "copyright": "Mario Cogo",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-17",
       "title": "Milky Way versus Aurora",
@@ -26,7 +35,7 @@
       "date": "2026-11-15",
       "title": "Leonid Meteors Through Orion",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Leonids2022_Hongyang_2880.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Leonids2022_Hongyang_2880.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-15-leonid-meteors-through-orion/",
       "copyright": "Luo Hongyang",
       "detail_path": "archive/2026.json"
@@ -53,7 +62,7 @@
       "date": "2026-11-12",
       "title": "Moon, Venus and Spica Meet",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/conjunction-bubak.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/conjunction-bubak.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-12-moon-venus-and-spica-meet/",
       "copyright": "Włodzimierz Bubak",
       "detail_path": "archive/2026.json"
@@ -62,7 +71,7 @@
       "date": "2026-11-11",
       "title": "NGC 4449: Small Galaxy, Big Impact",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/galaxies/irregular/NGC%204449.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-11-ngc-4449-small-galaxy-big-impact/",
       "copyright": "NASA, ESA, A. Aloisi (STScI/ESA), and the Hubble Heritage (STScI/AURA)-ESA/Hubble Collaboration",
       "detail_path": "archive/2026.json"
@@ -80,7 +89,7 @@
       "date": "2026-11-09",
       "title": "Rigel and the Witch Head Nebula",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/WitchHead_Czerski_3000.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/WitchHead_Czerski_3000.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-9-rigel-and-the-witch-head-nebula/",
       "copyright": "Piotr Czerski",
       "detail_path": "archive/2026.json"
@@ -125,7 +134,7 @@
       "date": "2026-11-04",
       "title": "The Not-So-Hidden Galaxy, IC 342",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/ic342.png/jcr:content/renditions/cq5dam.web.1280.1280.png?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/ic342.png?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-4-the-not-so-hidden-galaxy-ic-342/",
       "copyright": "Artem Mironov",
       "detail_path": "archive/2026.json"
@@ -152,7 +161,7 @@
       "date": "2026-11-01",
       "title": "Colors of the Moon",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MoonColors_Pace_960.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MoonColors_Pace_960.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-1-colors-of-the-moon/",
       "copyright": "Marcella Giulia Pace",
       "detail_path": "archive/2026.json"
@@ -161,7 +170,7 @@
       "date": "2026-10-31",
       "title": "Night on a Spooky Planet",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/Hverir_Vetter_1300.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/Hverir_Vetter_1300.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-31-night-on-a-spooky-planet/",
       "copyright": "Stéphane Vetter (Nuits sacrées)",
       "detail_path": "archive/2026.json"
@@ -197,7 +206,7 @@
       "date": "2026-10-27",
       "title": "Noctilucent Clouds over Sweden",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NocClouds_Hofer_6048.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/NocClouds_Hofer_6048.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-27-noctilucent-clouds-over-sweden/",
       "copyright": "V. Höfer, D. Večerník & B. Večerníková",
       "detail_path": "archive/2026.json"
@@ -206,7 +215,7 @@
       "date": "2026-10-26",
       "title": "M42: The Great Nebula in Orion",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/OrionSword_Palaia_2000.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/OrionSword_Palaia_2000.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod/2026-october-26-m42-the-great-nebula-in-orion/",
       "copyright": "Roberto Palaia",
       "detail_path": "archive/2026.json"

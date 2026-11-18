@@ -1,7 +1,7 @@
 {
-  "last_attempt": "2026-11-17T23:51:45Z",
+  "last_attempt": "2026-11-18T14:06:24Z",
   "last_error": null,
-  "last_successful_run": "2026-11-17T23:51:45Z",
+  "last_successful_run": "2026-11-18T14:06:24Z",
   "source_endpoint": "https://science.nasa.gov/wp-json/wp/v2/apod-basic",
   "source_status": "ok"
 }
