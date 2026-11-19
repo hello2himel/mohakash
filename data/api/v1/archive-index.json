@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-18T22:00:25Z",
-  "count": 11470,
+  "generated_at": "2026-11-19T14:28:50Z",
+  "count": 11471,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-19",
+      "title": "The Horsehead and Flame Nebulas",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Horsehead_Nebula_Killion.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-19-the-horsehead-and-flame-nebulas/",
+      "copyright": "Mark E. Killion",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-18",
       "title": "A Medium-Sized Solar Flare",
@@ -125,7 +134,7 @@
       "date": "2026-11-05",
       "title": "Enceladus in Silhouette",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/PIA17144EnceladusPandora.png/jcr:content/renditions/cq5dam.web.1280.1280.png?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/PIA17144EnceladusPandora.png?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-5-enceladus-in-silhouette/",
       "copyright": "Cassini Imaging Team, SSI, JPL, ESA, NASA",
       "detail_path": "archive/2026.json"
@@ -152,7 +161,7 @@
       "date": "2026-11-02",
       "title": "A Long Cloud on Mars",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MonsCloud_MarsExpress_1920.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/MonsCloud_MarsExpress_1920.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-2-a-long-cloud-on-mars/",
       "copyright": "ESA, DLR, FU Berlin; Processing & License: J. Cowart",
       "detail_path": "archive/2026.json"
@@ -188,7 +197,7 @@
       "date": "2026-10-29",
       "title": "The Horns of Venus",
       "media_type": "image",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/venus_20261024a.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/venus_20261024a.jpg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-29-october-2026-the-horns-of-venus/",
       "copyright": "Thierry Legault",
       "detail_path": "archive/2026.json"
@@ -197,7 +206,7 @@
       "date": "2026-10-28",
       "title": "The Mutual Occultation of Ganymede and Io",
       "media_type": "video",
-      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/occultation.jpeg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg?w=480",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/october/occultation.jpeg?w=480",
       "apod_url": "https://science.nasa.gov/image-article/apod-2026-october-28-the-mutual-occultation-of-ganymede-and-io/",
       "copyright": "Michael Wong",
       "detail_path": "archive/2026.json"
