@@ -1,9 +1,28 @@
 {
   "schema_version": "1.0.0",
   "year": 2026,
-  "generated_at": "2026-11-19T23:36:24Z",
-  "count": 323,
+  "generated_at": "2026-11-20T14:04:44Z",
+  "count": 324,
   "records": [
+    {
+      "schema_version": "1.0.0",
+      "date": "2026-11-20",
+      "title": "V-G-R",
+      "explanation": "On November 17, fans of interstellar spaceflight around planet Earth were invited to shine a message into the night sky. Traced by a flashlight beam switched on and off, the dashes and dots of a Morse code message captured in this time exposure from the Emirates Astronomical Observatory, are read V-G-R. That's a call sign for the Voyager 1 spacecraft currently in interstellar space some 26 billion kilometers away. How long did it take the message to reach humanity's most distant interstellar spacecraft? Traveling at the speed of light, the answer is one day. In fact, the Voyager 1 spacecraft was confirmed to reach its one light-day distance milestone on November 18, at 10:16:07 UTC, nearly 50 years after launch in 1977. For extra credit, fans of math can calculate that at one light-day per 50 years, Voyager 1 will reach its one light-year (365 light-days) distance milestone in about 18,250 years.\n\nTomorrow's picture: pixels in space",
+      "media_type": "image",
+      "image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/IMG_4364N_Kyriazis.jpg?w=1600",
+      "hd_image_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/IMG_4364N_Kyriazis.jpg?w=2400",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/IMG_4364N_Kyriazis.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-20-v-g-r/",
+      "copyright": "Apostolos Kyriazis",
+      "credit": "Apostolos Kyriazis",
+      "alt_text": "Time exposure of a flashlight beam tracing out Morse code for the letters V - G - R.",
+      "source": "NASA APOD",
+      "source_id": "1513767",
+      "source_media_type": "image",
+      "image_status": "ok",
+      "updated_at": "2026-11-20T14:04:44Z"
+    },
     {
       "schema_version": "1.0.0",
       "date": "2026-11-19",
