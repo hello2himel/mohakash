@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 20 Nov 2026 21:51:10 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2026 13:30:33 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Voyager's Neptune</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-21-voyagers-neptune/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-21-voyagers-neptune/</guid>
+      <pubDate>Sat, 21 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Cruising through the outer solar system, the Voyager 2 spacecraft made its closest approach to Neptune on August 25, 1989, the only spacecraft to visit the most distant ice giant planet. Based on the images recorded during its close encounter and in the following days, this inspired composited scene covers the dim outer planet, largest moon Triton, and faint system of rings. From just beyond Neptune's orbit, the interplanetary perspective looks back toward the Sun, capturing the planet and Triton as thin sunlit crescents. Cirrus clouds and a dark band circle Neptune's south polar region, with…<br/>Credit: Assembly/Processing - Rolf Olsen, Data - Voyager 2, NASA Planetary Data System</description>
+    </item>
     <item>
       <title>V-G-R</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-20-v-g-r/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-23-andromeda-in-southern-spring/</guid>
       <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
       <description>Looking toward the north from Mullion, New South Wales, Australia, the Andromeda Galaxy never gets more than a few degrees above the horizon. During the southern hemisphere spring, Andromeda is highest in the sky around midnight though. And in this telephoto scene from October 10/11, multiple exposures were used to reveal the spiral galaxy in tantalizing detail as it climbed above rolling Australian hills. Also known as M31, the Andromeda Galaxy is one of the brightest objects in the Messier catalog, but is only visible to the unaided eye as a small, faint, fuzzy patch. Digitally tracked and…<br/>Credit: Lucy Yunxi Hu</description>
-    </item>
-    <item>
-      <title>The First Green Star, WD J1330+6435</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-22-the-first-green-star-wd-j13306435/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-22-the-first-green-star-wd-j13306435/</guid>
-      <pubDate>Thu, 22 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Star light, star bright: is there a green star out tonight? Other than the Sun, all stars are so far from Earth that they appear as points in the sky. They are mostly white, but sometimes noticeably red or blue. This color typically relates to the temperature: blue stars are hotter than red stars. What about other colors? The featured image is an illustration showing WD J1330+6435, a white dwarf star, surrounded by an accretion disk with gas and rocks orbiting the star. White dwarfs are small, faint stars that are left over when a star like the Sun exhausts its nuclear fuel. Astronomers…<br/>Credit: Mark A. Garlick/University of Warwick</description>
     </item>
   </channel>
 </rss>
