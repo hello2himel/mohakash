@@ -5,9 +5,16 @@
     <link>https://mohakash.netlify.app</link>
     <description>Daily astronomy picture, archive and live wallpaper.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2026 20:33:46 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 13:24:38 GMT</lastBuildDate>
     <atom:link href="https://hello2himel.github.io/mohakash/feed.xml" rel="self" type="application/rss+xml" />
     <copyright>Image rights belong to their creators. Not affiliated with or endorsed by NASA.</copyright>
+    <item>
+      <title>Swirls and Colors on Jupiter from Juno</title>
+      <link>https://science.nasa.gov/image-article/apod-2026-november-22-swirls-and-colors-on-jupiter-from-juno/</link>
+      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-november-22-swirls-and-colors-on-jupiter-from-juno/</guid>
+      <pubDate>Sun, 22 Nov 2026 00:00:00 GMT</pubDate>
+      <description>What creates the colors in Jupiter's clouds? No one is sure. The thick atmosphere of Jupiter is mostly hydrogen and helium, elements which are colorless at the low temperatures of the Jovian cloud tops. Which trace molecules provide the colors remains a topic of research, although small amounts of ammonium hydrosulfide are one leading candidate. What is clear from the featured color-enhanced image -- and many similar images -- is that lighter clouds are typically higher up than darker ones. Pictured, light clouds swirl around reddish regions toward the lower right, while they appear to cover…<br/>Credit: NASA, Juno, SwRI, MSSS; Processing &amp; License: Matt Brealey, Seán Doran</description>
+    </item>
     <item>
       <title>Voyager's Neptune</title>
       <link>https://science.nasa.gov/image-article/apod-2026-november-21-voyagers-neptune/</link>
@@ -210,13 +217,6 @@
       <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-24-rosettas-selfie/</guid>
       <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
       <description>This Rosetta spacecraft selfie was snapped on October 7th, 2014. At the time the comet-chasing spacecraft was about 472 million kilometers from planet Earth, but only 16 kilometers from the surface of comet 67P/Churyumov-Gerasimenko. Looming beyond the spacecraft near the top of the frame, dust and gas stream away from the comet's curious double-lobed nucleus. Bright sunlight glints off one of Rosetta's 14 meter long solar arrays. In fact, two exposures, one short and one long, were combined to record the dramatic high contrast scene using the CIVA camera system on Rosetta's still-attached…<br/>Credit: ESA/Rosetta/Philae/CIVA</description>
-    </item>
-    <item>
-      <title>Andromeda in Southern Spring</title>
-      <link>https://science.nasa.gov/image-article/apod-2026-october-23-andromeda-in-southern-spring/</link>
-      <guid isPermaLink="false">https://science.nasa.gov/image-article/apod-2026-october-23-andromeda-in-southern-spring/</guid>
-      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Looking toward the north from Mullion, New South Wales, Australia, the Andromeda Galaxy never gets more than a few degrees above the horizon. During the southern hemisphere spring, Andromeda is highest in the sky around midnight though. And in this telephoto scene from October 10/11, multiple exposures were used to reveal the spiral galaxy in tantalizing detail as it climbed above rolling Australian hills. Also known as M31, the Andromeda Galaxy is one of the brightest objects in the Messier catalog, but is only visible to the unaided eye as a small, faint, fuzzy patch. Digitally tracked and…<br/>Credit: Lucy Yunxi Hu</description>
     </item>
   </channel>
 </rss>

@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-21T20:33:46Z",
-  "count": 11473,
+  "generated_at": "2026-11-22T13:24:38Z",
+  "count": 11474,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-22",
+      "title": "Swirls and Colors on Jupiter from Juno",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/JupiterSwirls_JunoBrealey_3709.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-22-swirls-and-colors-on-jupiter-from-juno/",
+      "copyright": "NASA, Juno, SwRI, MSSS; Processing & License: Matt Brealey, Seán Doran",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-21",
       "title": "Voyager's Neptune",
