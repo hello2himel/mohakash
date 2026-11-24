@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-23T16:03:41Z",
-  "count": 11475,
+  "generated_at": "2026-11-24T15:56:22Z",
+  "count": 11476,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-24",
+      "title": "Galaxies Battle in the NGC 7771 Group",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/NGC7771group_Marinoni_1179.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-24-galaxies-battle-in-the-ngc-7771-group/",
+      "copyright": "Roberto Marinoni",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-23",
       "title": "The Emergence of Dark Nebula Lynds 1251",
