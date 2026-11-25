@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-24T15:56:22Z",
-  "count": 11476,
+  "generated_at": "2026-11-25T15:41:11Z",
+  "count": 11477,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-25",
+      "title": "SPHEREx Seeing Through Dust",
+      "media_type": "video",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/spherex_1.2micron.png?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-25-spherex-seeing-through-dust/",
+      "copyright": "NASA/JPL-Caltech SPHEREx; data from NASA/IPAC IRSA. Processing: The Bright Nobles (Muhammet Mücahit Soylu, Serdar Aydın, Furkan Küpeli), ChronosphereX (chronospherex.com).",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-24",
       "title": "Galaxies Battle in the NGC 7771 Group",
