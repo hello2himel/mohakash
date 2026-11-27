@@ -1,9 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-26T15:22:40Z",
-  "count": 11478,
+  "generated_at": "2026-11-27T15:10:09Z",
+  "count": 11479,
   "api_base_url": "https://hello2himel.github.io/mohakash/api/v1",
   "entries": [
+    {
+      "date": "2026-11-27",
+      "title": "The Moon Watchers",
+      "media_type": "image",
+      "thumbnail_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/november/Plenilunio1_2048r.jpg?w=480",
+      "apod_url": "https://science.nasa.gov/image-article/apod-2026-november-27-the-moon-watchers/",
+      "copyright": "Marcella Pace",
+      "detail_path": "archive/2026.json"
+    },
     {
       "date": "2026-11-26",
       "title": "Eye in the Sky: The Milky Way over Lençóis",
